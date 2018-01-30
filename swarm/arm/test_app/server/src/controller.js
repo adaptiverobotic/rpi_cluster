@@ -136,27 +136,31 @@ function getAllData(req, res, next) {
   }
 
   let success = function (data) {
-    var array = [];
-
-    // Put all x,y data into array
-    for (var i in data) {
-      array.push({
-        x: parseInt(i),
-        y: data[i].temperature
-      })
-    }
 
     // NOTE - Temporary fix
-    array.reverse();
+    data.reverse();
 
-    res.status(200).send(array);
+    let response = {
+      message: "message",
+      device_id: req.query.device_id,
+      data: data
+    }
+
+    res.status(200).send(response);
   }
 
   let error = function (err) {
-    console.error("Could not get data for device: " + req.query.device_id)
-    console.error(err.detail);
+    let message = "Could not get data for device: " + req.query.device_id;
+    console.error(message);
+    console.error(err);
 
-    res.status(200).send([]);
+    let response = {
+      message: message,
+      device_id: req.query.device_id,
+      data: []
+    }
+
+    res.status(200).send(response);
   }
 
   db.getAllData(req.query.device_id,
@@ -282,7 +286,8 @@ function databaseInitialized(error) {
   // in the state that we need it for the API.
   }, function(err) {
 
-    console.error("Could not verify that database does not have the proper schema");
+    console.error("Could not verify that database has the proper schema");
+    console.error(err)
     error();
   });
 }

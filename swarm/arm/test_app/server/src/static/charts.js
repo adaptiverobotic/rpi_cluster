@@ -1,3 +1,40 @@
+var options = {
+  responsive: true,
+
+  animation: {
+        duration: 0
+  },
+
+  scales: {
+    xAxes: [{
+      ticks: {
+        autoSkip: true,
+        maxTicksLimit: 5
+      },
+      type:'time',
+      time: {
+          unit: 'second',
+          tooltipFormat: "MMM D, h:mm A",
+          displayFormats: {
+            second: 'MMM D, h:mm A'
+          }
+      }
+    }],
+    yAxes: [{
+      ticks: {
+        autoSkip: true,
+        maxTicksLimit: 5
+      },
+
+      scaleLabel: {
+        display: true,
+        labelString: "Temperature"
+      }
+    }]
+  }
+}
+
+//------------------------------------------------------------------------------
 
 /**
  * Draws a new chart
@@ -26,16 +63,10 @@ function drawChart(device) {
     data: {
       datasets: [{
          label: "Temperature vs Date",
-         data: getTemperatureData(device_id),
+         data: getTemperatureData(device_id).data,
       }]
    },
-   options : {
-     responsive: true,
-     animation : {
-       duration : 0
-     },
-     events: []
-   }
+   options : options
 
  });
 

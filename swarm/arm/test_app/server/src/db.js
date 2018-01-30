@@ -130,17 +130,6 @@ function insertData(body, success, error) {
     }
   }
 
-  // Get the last most recent one and send
-  // it back to the client so the client knows
-  // where it left off for the next time it submits data.
-  // NOTE - DOES NOT WORK, perhaps change the schema so that
-  // the devices table is automatically updated rather than
-  // manually doing this myself
-  query += "UPDATE devices SET last_record_time = (SELECT MAX(record_time) FROM "  +
-           "temperature WHERE device_id = 4) " +
-           "WHERE device_id = " + device_id + "; "
-           "SELECT * FROM devices WHERE device_id=" + device_id;
-
   console.log("Inserting " + data.length + ' record(s)');
 
   executeQuery(query, success, error);

@@ -12,3 +12,22 @@ CREATE TABLE IF NOT EXISTS temperature(
     REFERENCES devices (device_id) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+CREATE OR REPLACE FUNCTION update_last_record_time()
+	RETURNS trigger AS
+$$
+BEGIN
+	UPDATE devices
+    SET last_record_time = NEW.record_time
+    WHERE device_id = NEW.device_id;
+
+    RETURN NEW;
+END;
+
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER my_trigger
+AFTER INSERT
+ON temperature
+FOR EACH ROW
+EXECUTE PROCEDURE update_last_record_time();

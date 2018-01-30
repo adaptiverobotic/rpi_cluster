@@ -20,24 +20,40 @@ function getDevices() {
 //------------------------------------------------------------------------------
 
 /**
- * Provided device_id, corresponding
- * temperature data is returned.
+ * Gets temperature data for this device
  */
 function getTemperatureData(device_id) {
   return (function getConfig() {
 
-   return JSON.parse(
-     $.ajax({
-       url: window.location.href + "temperature",
-       type: "get",
-       dataType: 'json',
-       data : {
-         "device_id": device_id,
-         "num_records": 500
-       },
-       async: false
-     }).responseText
-   );
-  })();
+    // Get JSON data from server
+    let device = JSON.parse(
+      $.ajax({
+        url: window.location.href + "temperature",
+        type: "get",
+        dataType: 'json',
+        data : {
+          "device_id": device_id,
+          "num_records": 500
+        },
+        async: false
+      }).responseText
+    );
 
+    let data = [];
+
+    // Convert data to (x, y) format
+    for (i in device.data) {
+     data.push({
+       "x": device.data[i].record_time,
+       "y": device.data[i].temperature
+     });
+    }
+
+    // Replace old array with new one
+    delete device.data;
+    device.data = data;
+
+    // Return the modified data
+    return device;
+  })();
 }
