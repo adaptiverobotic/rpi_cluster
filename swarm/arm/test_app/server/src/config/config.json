@@ -1,0 +1,27 @@
+{
+  "postgres": {
+    "user":"postgres",
+    "password": "",
+    "hostname": "jabaridash.com",
+    "port": 5432,
+
+    "database": {
+      "name": "cluster_test",
+
+      "tables": {
+        "devices": "devices",
+        "temperature": "temperature"
+      }
+    }
+  },
+
+  "api": {
+    "port": 8085,
+    "endpoints": {
+      "temperature": "/temperature",
+      "devices": "/devices",
+      "mock": "/mock"
+    }
+  }
+
+}

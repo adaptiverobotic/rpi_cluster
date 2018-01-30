@@ -1,0 +1,29 @@
+version: '3.1'
+
+volumes:
+  mysql:
+
+secrets:
+  MYSQL_ROOT_PASSWORD:
+    external:
+      name: "MYSQL_ROOT_PASSWORD"
+
+services:
+  mysql:
+    image: mysql
+
+    ports:
+      - 3306:3306
+
+    volumes:
+      - mysql:/var/lib/mysql
+
+    secrets:
+    - source: "MYSQL_ROOT_PASSWORD"
+      target: "MYSQL_ROOT_PASSWORD"
+      uid: "0"
+      gid: "0"
+      mode: 0444
+
+    environment:
+     - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/MYSQL_ROOT_PASSWORD

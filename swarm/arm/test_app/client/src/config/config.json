@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "client_test",
+    "endpoints": {
+      "/":"/"
+    },
+    "record_interval":3,
+    "send_interval": 10
+  },
+  "database": {
+    "path":"../db/",
+    "name":"../db/temperature.db",
+    "tables": {
+      "temperature":"temperature",
+      "device":"device"
+    }
+  },
+
+  "server": {
+    "url":"http://127.0.01:8085",
+    "endpoints": {
+      "devices": "/devices",
+      "temperature": "/temperature",
+      "mock": "/mock"
+    }
+  }
+}

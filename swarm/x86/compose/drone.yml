@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  drone_data:
+
+services:
+  drone-server:
+    image: drone/drone:0.8
+
+    ports:
+      - 8000:8000
+      - 9000
+    volumes:
+      - drone:/var/lib/drone/
+    restart: always
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_HOST=http://drone.jabaridash.com:8000
+      - DRONE_GITHUB=true
+      - DRONE_GITHUB_CLIENT=40dfd8051c5389bdfeb6
+      - DRONE_GITHUB_SECRET=8312e6fa225394211860053982c164f925137bdc
+      - DRONE_SECRET=secret
+
+  drone-agent:
+    image: drone/agent:0.8
+
+    command: agent
+    restart: always
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_SERVER=drone-server:9000
+      - DRONE_SECRET=secret

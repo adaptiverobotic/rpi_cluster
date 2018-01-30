@@ -1,0 +1,19 @@
+version: '3.1'
+
+networks:
+  cluster_test:
+
+services:
+  redis:
+    image: "redis:alpine"
+
+  client:
+    build: client
+    ports:
+     - 5000:5000
+
+  server:
+    build: server
+
+    ports:
+      - 8085:8085

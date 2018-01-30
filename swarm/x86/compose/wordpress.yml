@@ -1,0 +1,50 @@
+version: '3.1'
+
+volumes:
+  mysql:
+
+secrets:
+  DEFAULT_PASSWORD:
+    external:
+      name: "DEFAULT_PASSWORD"
+
+services:
+  mysql:
+    image: mysql
+
+    volumes:
+      - mysql:/var/lib/mysql
+
+    secrets:
+    - source: "DEFAULT_PASSWORD"
+      target: "DEFAULT_PASSWORD"
+      uid: "0"
+      gid: "0"
+      mode: 0444
+
+    environment:
+     - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/DEFAULT_PASSWORD
+     - MYSQL_DATABASE=wordpress
+     - MYSQL_USER=wordpress
+     - MYSQL_PASSWORD_FILE=/run/secrets/DEFAULT_PASSWORD
+
+  wordpress:
+    depends_on:
+       - mysql
+
+    image: wordpress
+    restart: always
+    ports:
+      - 9090:80
+
+    secrets:
+    - source: "DEFAULT_PASSWORD"
+      target: "DEFAULT_PASSWORD"
+      uid: "0"
+      gid: "0"
+      mode: 0444
+
+    environment:
+     - WORDPRESS_DB_HOST=mysql:3306
+     - WORDPRESS_DB_USER=wordpress
+     - WORDPRESS_DB_PASSWORD_FILE=/run/secrets/DEFAULT_PASSWORD

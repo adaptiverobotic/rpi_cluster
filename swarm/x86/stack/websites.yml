@@ -1,0 +1,28 @@
+version: '3.2'
+
+services:
+  blog:
+    image: jabaridash/blog
+
+    ports:
+      - target: 80
+        published: 8080
+        mode: host
+
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == blog
+
+  personal_site:
+    image: jabaridash/personal_site
+
+    ports:
+      - target: 8080
+        published: 80
+        mode: host
+
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == jabari-digital-ocean-server
