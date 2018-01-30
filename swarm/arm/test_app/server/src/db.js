@@ -130,7 +130,9 @@ function insertData(body, success, error) {
     }
   }
 
-  console.log("Inserting " + data.length + ' record(s)');
+  query += "SELECT * FROM devices WHERE device_id=" + device_id + " LIMIT 1";
+
+  console.log("Inserting " + data.length + ' record(s) from device_id: ' + device_id);
 
   executeQuery(query, success, error);
 }

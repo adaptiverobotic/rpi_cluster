@@ -106,7 +106,7 @@ def send_temperature(device_id):
     # But for now this works.
     record_time = db.get_last_backup()[0][0]
 
-    data = {
+    payload = {
         'device_id': device_id,
         'data': get_temperature(record_time)
     }
@@ -117,7 +117,7 @@ def send_temperature(device_id):
         url      = app.config['server']['url'] + endpoint
 
         # Make REST call and store the device_id
-        resp = requests.post(url=url, json=data)
+        resp = requests.post(url=url, json=payload)
         data = json.loads(resp.text)
 
         log.info(data)
@@ -125,7 +125,7 @@ def send_temperature(device_id):
         # Store the the most recent record_time that the server
         # has for this device. That way, the next time we send,
         # we only send records newer than this one.
-        success = db.update_last_backup(data['record_time'])
+        success = db.update_last_backup(data['last_record_time'])
 
     except:
         log.error(str(sys.exc_info()))

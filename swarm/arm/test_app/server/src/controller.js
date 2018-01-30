@@ -188,8 +188,6 @@ function insertData(req, res, next) {
   let success = function(data) {
     let message = "Successfully inserted " + req.body.data.length + ' record(s)';
 
-    console.log(message);
-
     res.status(200).send(data[0]);
   }
 
@@ -260,9 +258,19 @@ function databaseInitialized(error) {
     // table, and the other corresponds to the
     // 'temperature table.'
     if (data.length == 2) {
+      let devices     = data[0].tablename == 'devices' || data[0].tablename == 'devices' ||
+                        data[0].tablename == 'temperature' || data[0].tablename == 'temperature';
 
-      let devices     = data[0].tablename=='devices' || data[0].tablename=='devices';
-      let temperature = data[1].tablename=='temperature' || data[1].tablename=='temperature';
+      let temperature = data[1].tablename == 'devices' || data[1].tablename == 'devices' ||
+                        data[1].tablename == 'temperature' || data[1].tablename ==' temperature';
+
+      if (!devices) {
+        console.error("Table 'devices' not found");
+      }
+
+      if (!temperature) {
+        console.error("Table 'temperature' not found");
+      }
 
       // Both should have come back true
       valid = devices && temperature;
