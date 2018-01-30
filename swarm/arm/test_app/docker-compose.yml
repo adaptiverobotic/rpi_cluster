@@ -1,32 +1,29 @@
 version: '3.1'
 
 services:
-  redis:
-    image: "redis:alpine"
-
-  # client:
-  #   image: jabaridash/cluster_test_client
-  #
-  #   ports:
-  #    - 5000:5000
-  #
-  #   networks:
-  #     - cluster_test_app
-  #
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
-
-#-------------------------------------------------------------------------------
 
   server:
     image: jabaridash/cluster_test_server
+    build: server
 
     ports:
       - 8085:8085
 
-    networks:
-      - cluster_test_app
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+#-------------------------------------------------------------------------------
+
+  client:
+    image: jabaridash/cluster_test_client
+    build: client
+
+    ports:
+     - 5000:5000
+
+    depends_on:
+      - "server"
 
     deploy:
       restart_policy:
@@ -35,4 +32,6 @@ services:
 #-------------------------------------------------------------------------------
 
 networks:
-  cluster_test_app:
+  default:
+    external:
+      name: cluster_test_app
