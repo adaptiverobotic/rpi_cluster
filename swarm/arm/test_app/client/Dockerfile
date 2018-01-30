@@ -1,11 +1,14 @@
 FROM python:3.4-alpine
 
 # Copy this folder
-ADD . /client_test
-WORKDIR /client_test
+ADD . /client
+WORKDIR /client
 
 # Install dependencies
 RUN pip install -r dependencies.txt
+
+# Setup SQLite3 Database
+#RUN sqlite3 db/temperature.db < db/schema.sql
 
 # Run the app
 WORKDIR src

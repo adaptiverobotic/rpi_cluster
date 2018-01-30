@@ -190,7 +190,7 @@ if __name__ == "__main__":
     # associated with each database connection.
     # After all, sqlite3 opens the file each time. However, for
     # large intervals (seconds), the overhead is not noticeable.
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler(timezone='America/New_York')
     scheduler.add_job(controller.record_temperature, 'interval', seconds=record_interval)
     scheduler.add_job(controller.send_temperature, 'interval', kwargs={"device_id":device_id}, seconds=send_interval)
     scheduler.start()
