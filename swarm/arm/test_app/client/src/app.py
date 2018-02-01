@@ -151,9 +151,18 @@ if __name__ == "__main__":
     # logHandler.setLevel(logging.INFO)
     # app.logger.addHandler(logHandler)
 
-    # Set the app logger level
+    # Set the app logger level and format
+    formatter = logging.Formatter(
+        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s"
+    )
+
+    logHandler = logging.StreamHandler(sys.stdout)
+    logHandler.setLevel(logging.INFO)
+    logHandler.setFormatter(formatter)
+
+
     app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.addHandler(logHandler)
 
     # Initialize this device by registering
     # it and creating a local database.

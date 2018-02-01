@@ -71,7 +71,6 @@ def create_temperature_database(last_record_time):
     try:
         # If the database directory does not exist, make it
         if not os.path.exists(app.config['database']['path']):
-
             log.info(app.config['database']['path'] + ' does not exits, creating it...')
             os.makedirs(app.config['database']['path'])
 

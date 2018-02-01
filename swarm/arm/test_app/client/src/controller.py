@@ -40,14 +40,14 @@ log = logging.getLogger(app.config['app']['name'])
 
 # Makes a REST call to a specified
 # URL. Currently only supports POST requests.
-def rest_call(url, method='POST', payload=None):
+def rest_call(url, payload=None, method='POST', ):
     response_data=None
 
     try:
 
         # If a payload was passed, consider
         # it a POST method
-        if payload and method is 'POST':
+        if payload is not None and method is 'POST':
             log.info("HTTP POST to url: " + url)
 
             # Make REST call to main server
@@ -59,10 +59,12 @@ def rest_call(url, method='POST', payload=None):
 
         # Consider it a GET method
         else:
-            raise ValueError("Only POST method is current supported")
+            raise ValueError("Only HTTP POST method is currently supported")
 
-    except:
-        log.error("ERROR")
+    # Catch exceptions and handle them
+    except (ValueError, requests.exceptions.ConnectionError) as error:
+        log.error(error)
+        response_data=None
 
     return response_data
 
@@ -99,21 +101,24 @@ def register_device(device_name):
 
         # Make REST call to main server
         # and capture the response
-        data = rest_call(url, data)
+        resp = rest_call(url, data)
 
-        log.info("Response from server: " + str(data))
+        log.info("Response from server: " + str(resp))
+
+        if not resp:
+            raise ValueError("The server did not return proper response, data is None")
 
         # Read in the device_id and last_record_time
         # from the response from the HTTP request
-        device_id        = data['device_id']
-        last_record_time = data['last_record_time']
+        device_id        = resp['device_id']
+        last_record_time = resp['last_record_time']
 
     # If any sort of error was thrown
     # consider the registration a
     # failure and that the device
     # was not properly registered with server
-    except:
-        log.error(str(sys.exc_info()))
+    except (TypeError, ValueError) as error:
+        log.error(error)
         device_id        = None
         last_record_time = None
 
