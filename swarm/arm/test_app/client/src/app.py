@@ -35,7 +35,7 @@ try:
 except:
     # Print error message to console
     # and exit
-    print(sys.exc_info())
+    print(str(sys.exc_info()))
     sys.exit(1030)
 
 # If its still null, exit
@@ -43,7 +43,7 @@ if (not config):
     print("Could not read config file")
     sys.exit(1030)
 
-# This will be a numeric value that will
+# The device_id will be a numeric value that will
 # be assigned to this device by the main
 # server. By default it is null. If the device_id
 # is not properly recieved from the main server,

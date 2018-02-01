@@ -1,12 +1,12 @@
 // EXPRESS
-var config     = require('./config/config.json');
-var controller = require('./controller')
-var db         = require('./db');
-var bodyParser = require('body-parser');
-var express    = require('express');
-var path       = require('path');
-var app        = express();
-var api        = config.api;
+let config     = require('./config/config.json');
+let controller = require('./controller')
+let db         = require('./db');
+let bodyParser = require('body-parser');
+let express    = require('express');
+let path       = require('path');
+let app        = express();
+let api        = config.api;
 
 // Check that the database is in order
 //------------------------------------------------------------------------------

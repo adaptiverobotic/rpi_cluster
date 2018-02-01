@@ -1,11 +1,11 @@
-var promise  = require('bluebird');
-var options  = {promiseLib: promise};
-var pgp      = require('pg-promise')(options);
-var config   = require('./config/config.json');
-var postgres = config.postgres;
-var db       = pgp(connectionString());
-var tables   = postgres.database.tables;
-var types    = pgp.pg.types;
+let promise  = require('bluebird');
+let options  = {promiseLib: promise};
+let pgp      = require('pg-promise')(options);
+let config   = require('./config/config.json');
+let postgres = config.postgres;
+let db       = pgp(connectionString());
+let tables   = postgres.database.tables;
+let types    = pgp.pg.types;
 
 // Do not format dates, read them as is
 types.setTypeParser(1114, str => str);
@@ -13,7 +13,7 @@ types.setTypeParser(1114, str => str);
 //------------------------------------------------------------------------------
 
 /**
- * Returns the postgres connection string.
+ * Returns the PostgreSQL connection string.
  */
 function connectionString() {
   return 'postgres://' +
@@ -41,6 +41,10 @@ function executeQuery(query, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Creates a new record in the devices table
+ * for a specified unique device_name.
+ */
 function registerDevice(device_name, success, error) {
 
   // Insert device name then get the id generated
@@ -56,6 +60,9 @@ function registerDevice(device_name, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Returns all records from the devices table.
+ */
 function getAllDevices(success, error) {
   let query = "SELECT * FROM devices;";
 
@@ -66,6 +73,10 @@ function getAllDevices(success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Returns the record from the devices table that is
+ * associated with a given device_id.
+ */
 function getDeviceById(device_id, success, error) {
   let query = "SELECT * FROM devices " +
               "WHERE device_id = " + device_id;
@@ -77,6 +88,10 @@ function getDeviceById(device_id, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Returns the record from the devices table that is
+ * associated with a given device_name.
+ */
 function getDeviceByName(device_name, success, error) {
   let query = "SELECT * FROM devices " +
               "WHERE device_name = '" + device_name + "';";
@@ -88,6 +103,9 @@ function getDeviceByName(device_name, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Returns N records associated with a specified device_id.
+ */
 function getAllData(device_id, num_records, success, error) {
 
   // TODO - Reverse the order
@@ -103,6 +121,10 @@ function getAllData(device_id, num_records, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Inserts N temperature recordings into
+ * the database.
+ */
 function insertData(body, success, error) {
   let data      = body.data;
   let device_id = body.device_id;
@@ -139,6 +161,10 @@ function insertData(body, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Gets the last temperature recording
+ * that is associated with a provided device_id.
+ */
 function getMostRecentRecordData(device_id, success, error) {
 
   console.log("Getting most recent record for device: " + device_id);
@@ -155,6 +181,10 @@ function getMostRecentRecordData(device_id, success, error) {
 
 //------------------------------------------------------------------------------
 
+/**
+ * Check that the database has the tables that
+ * we need for this API to properly function.
+ */
 function checkForTables(success, error) {
 
   // We want to select the records that correspond

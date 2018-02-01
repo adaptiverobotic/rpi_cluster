@@ -1,7 +1,22 @@
-import os
-import sys
+# The main app. We import
+# this to get access to the
+# config file, so ultimately
+# we can get access to the logger
 import app
+
+# Access to local filesystem
+# for checking if the database file's
+# directory is created.
+import os
+
+# Exception handling
+import sys
+
+# Connection to the local
+# sqlite3 database
 import sqlite3
+
+# Logging to console
 import logging
 
 # Set up logger
@@ -9,8 +24,14 @@ log = logging.getLogger(app.config['app']['name'])
 
 #-------------------------------------------------------------------------------
 
+# Executes a SQL query. This function supports
+# both SELECT and INSERT / UPDATE methods.
 def execute_query(query, fetchall=False):
     records = None
+
+    # TODO - Exception handling, perhaps also
+    # return a boolean to indicate if the query
+    # was successfully executed or not
 
     # Connect to the sqlite database using the name that
     # is specified in the configuration file
@@ -25,7 +46,7 @@ def execute_query(query, fetchall=False):
     conn.commit()
 
     # If its a SELECT statement
-    # fetch the resule from query
+    # fetch the result from query
     # and store it in records variable
     if fetchall:
         records = c.fetchall()
@@ -33,11 +54,17 @@ def execute_query(query, fetchall=False):
     # Close the collection
     conn.close()
 
+    # Return any records
+    # that were fetched
     return records
 
 #-------------------------------------------------------------------------------
 
-# Initializes the temperature table
+# Initializes the temperature database. If the database
+# folder is not present, we will create that directory.
+# The file will authomatically be created if it does not
+# exists. We then check if the database file has the appropriate
+# tables. If it does not, we will create them ourselves.
 def create_temperature_database(last_record_time):
     success = False
 
@@ -50,7 +77,6 @@ def create_temperature_database(last_record_time):
 
         # Connect to database
         log.info('Connecting to sqlite3 databse :' + app.config['database']['name'])
-
         log.info('Creating tables if it they do not exist alrdy')
 
         # Table to store temperature data
@@ -88,12 +114,16 @@ def create_temperature_database(last_record_time):
         success = True
 
     except:
+        log.error('Could not initilize database')
         log.error(str(sys.exc_info()))
 
     return success
 
 #-------------------------------------------------------------------------------
 
+# Write the timestamp to the local database
+# that represents the last_record_time that
+# the main server has confirmed saved for this device.
 def update_last_backup(record_time):
     query = "REPLACE INTO last_backup VALUES(\'" + record_time + "\');"
 
@@ -103,6 +133,11 @@ def update_last_backup(record_time):
 
 #-------------------------------------------------------------------------------
 
+# Reads the local database for the timestamp
+# that represents the latests record_time that the
+# main server has for this device. All records
+# that occur after this timestamp will be sent
+# back to the main server the next time this device phones home.
 def get_last_backup():
     records = []
 
@@ -114,7 +149,8 @@ def get_last_backup():
 
 #-------------------------------------------------------------------------------
 
-# Inserts a record into local database
+# Inserts a temperature recording
+# into local sqlite3 database
 def insert_temperature(record):
 
     # Build query
@@ -131,20 +167,21 @@ def insert_temperature(record):
 
 #-------------------------------------------------------------------------------
 
-# Gets everything from the database
+# Gets last 500 records from the local database.
+# This data will be displayed in the browser.
 def get_temperature(record_time=None):
-    records = []
 
     # Build query
-    query=("select * from " +
-           "(select * from temperature " +
-           "order by record_time desc " +
-           "limit 500) T1 " +
-           "order by record_time;")
+    query=("SELECT * FROM " +
+           "(SELECT * FROM temperature " +
+           "ORDER BY record_time DESC " +
+           "LIMIT 500) T1 " +
+           "ORDER BY record_time;")
 
     # We want to only get records newer that
     # this record time
     if record_time:
-        query=("SELECT * from temperature WHERE record_time > Datetime(\'" + record_time + "\');")
+        query=("SELECT * FROM temperature " +
+               "WHERE record_time > Datetime(\'" + record_time + "\');")
 
     return execute_query(query, fetchall=True)

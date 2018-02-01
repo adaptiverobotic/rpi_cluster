@@ -1,4 +1,4 @@
-var db = require('./db');
+let db = require('./db');
 
 //------------------------------------------------------------------------------
 
@@ -138,6 +138,7 @@ function getAllData(req, res, next) {
   let success = function (data) {
 
     // NOTE - Temporary fix
+    // need to reverse at SQLlevel
     data.reverse();
 
     let response = {
@@ -173,7 +174,7 @@ function getAllData(req, res, next) {
 //------------------------------------------------------------------------------
 
 /**
- * Insert a random number between some range into database.
+ * Insert N records into database.
  */
 function insertData(req, res, next) {
 
