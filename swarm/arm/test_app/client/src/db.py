@@ -19,44 +19,64 @@ import sqlite3
 # Logging to console
 import logging
 
-# Set up logger
+#-------------------------------------------------------------------------------
+
+# Set up logger for logging to console and / or log file
 log = logging.getLogger(app.config['app']['name'])
 
 #-------------------------------------------------------------------------------
 
 # Executes a SQL query. This function supports
 # both SELECT and INSERT / UPDATE methods.
+# It takes an optional parameter fetchall that
+# indicates whether or not the query should be
+# interpreted as a SELECT or not. If fetchall is
+# False (which it is by default) no records will be
+# returned. This is the case when the query is an
+# INSERT or UPDATE. If we are retrieving records
+# from the database, we must set the fetchall flag to True.
 def execute_query(query, fetchall=False):
     records = None
+    success = False
 
-    # TODO - Exception handling, perhaps also
-    # return a boolean to indicate if the query
-    # was successfully executed or not
+    try:
+        # Connect to the sqlite database using the name that
+        # is specified in the configuration file
+        conn = sqlite3.connect(app.config['database']['name'])
 
-    # Connect to the sqlite database using the name that
-    # is specified in the configuration file
-    conn = sqlite3.connect(app.config['database']['name'])
+        # Log the query
+        log.info(query)
 
-    # Log the query
-    log.info(query)
+        # Execute it
+        c = conn.cursor()
+        c.execute(query)
+        conn.commit()
 
-    # Execute it
-    c = conn.cursor()
-    c.execute(query)
-    conn.commit()
+        # If its a SELECT statement
+        # fetch the result from the query
+        # and store it in the records variable
+        if fetchall:
+            records = c.fetchall()
 
-    # If its a SELECT statement
-    # fetch the result from query
-    # and store it in records variable
-    if fetchall:
-        records = c.fetchall()
+        # Close the connection
+        conn.close()
 
-    # Close the collection
-    conn.close()
+        # Query execution was
+        # successful
+        success = True
+
+    # Catches all unanticipated
+    # exceptions thrown during loop
+    except:
+        log.error('Could not execute query because of unexpected error')
+        log.error(str(sys.exc_info()))
+        success = False
 
     # Return any records
-    # that were fetched
-    return records
+    # that were fetched and the
+    # boolean flag that indicates whether
+    # or not the execution was successful.
+    return records, success
 
 #-------------------------------------------------------------------------------
 
@@ -66,7 +86,11 @@ def execute_query(query, fetchall=False):
 # exists. We then check if the database file has the appropriate
 # tables. If it does not, we will create them ourselves.
 def create_temperature_database(last_record_time):
-    success = False
+    success = True
+
+    # TODO - Instead of executing these queries as string, read in
+    # the schema.sql file as a string, and execute it like that. That
+    # way, if the schema is changed, we do not have to update the code as well.
 
     try:
         # If the database directory does not exist, make it
@@ -76,7 +100,7 @@ def create_temperature_database(last_record_time):
 
         # Connect to database
         log.info('Connecting to sqlite3 databse :' + app.config['database']['name'])
-        log.info('Creating tables if it they do not exist alrdy')
+        log.info('Creating tables \'temperature\' and \'last_backup\' if it they do not exist alrdy')
 
         # Table to store temperature data
         query1=("CREATE TABLE IF NOT EXISTS temperature(" +
@@ -101,50 +125,84 @@ def create_temperature_database(last_record_time):
         # time and accidently have 'gaps' in our records
         query4=("REPLACE INTO last_backup VALUES(\'" + last_record_time + "\')")
 
-        # Put the queries in a list
+        # Put the queries in a list that we will
+        # execute one by one.
         queries=[query1, query2, query3, query4]
 
         # Execute each query
         for query in queries:
-            execute_query(query)
+            # r and s are temporary values
+            # for the records and success values
+            # that are returned by the execute_query()
+            # function. As all of these queries do not
+            # request any data back from the database, r
+            # is a throwaway variable. We only care about s
+            # because it indicated whether or not
+            # the query was executed successfully or not.
+            r, s = execute_query(query)
 
-        log.info('Tables successfully created')
+            # Keep 'AND-ing' the success
+            # of each query that is executed.
+            # If one comes back False, then the
+            # overall success of this function is False.
+            success = success and s
 
-        success = True
+            # If at any point success goes false, then the last
+            # query that got executed failed. We should not
+            # continue executing subsequent queries if a given
+            # query fails. Immediately throw an Exception.
+            if not success:
+                log.info('Query was not executed successfully')
+                raise ValueError('Unsuccessful query: ' + query)
 
+        # If we have gotten this far, then executing each
+        # query was successfully executed.
+        log.info('Tables \'temperature\' and \'last_backup\' were successfully created')
+
+    # We anticipate this error if
+    # a given query in the list
+    # fails to execute at the
+    # execute_query() function call.
+    except ValueError as error:
+        log.error(error)
+        success = False
+
+    # Catches all unanticipated
+    # exceptions thrown during loop
     except:
-        log.error('Could not initilize database')
+        log.error('Could not initilize database because of unexpected error')
         log.error(str(sys.exc_info()))
+        success = False
 
-    return success
+    return None, success
 
 #-------------------------------------------------------------------------------
 
 # Write the timestamp to the local database
 # that represents the last_record_time that
 # the main server has confirmed saved for this device.
+# We use this value to know which values to select
+# the next time we want to send new values to main server.
 def update_last_backup(record_time):
-    query = "REPLACE INTO last_backup VALUES(\'" + record_time + "\');"
 
-    execute_query(query)
+    # Build query
+    query="REPLACE INTO last_backup VALUES(\'" + record_time + "\');"
 
-    return True
+    return execute_query(query)
 
 #-------------------------------------------------------------------------------
 
 # Reads the local database for the timestamp
 # that represents the latests record_time that the
 # main server has for this device. All records
-# that occur after this timestamp will be sent
+# with timestamps after this timestamp will be sent
 # back to the main server the next time this device phones home.
 def get_last_backup():
-    records = []
 
+    # Build query
     query = "SELECT * FROM last_backup LIMIT 1"
 
-    records = execute_query(query, fetchall=True)
-
-    return records
+    return execute_query(query, fetchall=True)
 
 #-------------------------------------------------------------------------------
 
@@ -153,16 +211,14 @@ def get_last_backup():
 def insert_temperature(record):
 
     # Build query
-    query=('INSERT ' + 'INTO temperature(' +
+    query=('INSERT INTO temperature(' +
           "record_time," +
           "temperature)" +
           "VALUES(" +
           "\'" + record['record_time'] + '\',' +
           str(record['temperature'])) + ")"
 
-    execute_query(query)
-
-    return True
+    return execute_query(query)
 
 #-------------------------------------------------------------------------------
 
@@ -171,6 +227,10 @@ def insert_temperature(record):
 def get_temperature(record_time=None):
 
     # Build query
+    # TODO - Change this becauase after the database
+    # has more than 500 Records, will it continue
+    # to return new data? or will it always give
+    # back the first 500 records?
     query=("SELECT * FROM " +
            "(SELECT * FROM temperature " +
            "ORDER BY record_time DESC " +
@@ -181,6 +241,6 @@ def get_temperature(record_time=None):
     # this record time
     if record_time:
         query=("SELECT * FROM temperature " +
-               "WHERE record_time > Datetime(\'" + record_time + "\');")
+               "WHERE record_time > Datetime(\'" + record_time + "\') LIMIT 500;")
 
     return execute_query(query, fetchall=True)

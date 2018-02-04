@@ -1,5 +1,8 @@
 let db = require('./db');
 
+// TODO - Check that body / query values are not null
+// before we try to access them?
+
 //------------------------------------------------------------------------------
 
 /**
@@ -11,7 +14,7 @@ function registerDevice(req, res, next) {
   var device_name = req.body.device_name;
 
   // Function that is called upon success
-  let success = function (data) {
+  let success = function(data) {
     console.log("Device " + device_name + " was assigned id " + data[0].device_id);
 
     res.status(201).send(data[0]);
@@ -58,6 +61,8 @@ function registerDevice(req, res, next) {
 function getAllDevices(req, res, next) {
 
   // Function that's called upon success
+  // Both cases will use the same success
+  // function, but different error functions
   var success = function(data) {
     console.log("Success: " + data);
 
@@ -129,6 +134,7 @@ function getDeviceByName(req, res, next) {
  * Returns all data from database in data table.
  */
 function getAllData(req, res, next) {
+
   // If we only want the most recent
   // use a different query
   if (req.query.num_records == 1) {

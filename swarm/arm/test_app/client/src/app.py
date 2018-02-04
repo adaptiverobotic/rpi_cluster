@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # Exception handling
 import sys
 
-# REST api and serving files to browser
+# REST API and serving files / webpage to browser
 from flask import Flask, jsonify, request
 import redis
 
@@ -22,6 +22,17 @@ import argparse
 
 #-------------------------------------------------------------------------------
 
+# Dictionary of exit codes for exiting the
+# program on different errors. If the program
+# had more potential exit conditions, expanding
+# this dictionary may be useful.
+exit_codes = {
+    'success'           : 0,
+    'no_config'         : 1,
+    'not_registered'    : 2,
+    'no_local_database' : 3
+}
+
 # We will set the config object to null
 # by default. If we read the config file
 # in correctly, it should not be null after
@@ -34,14 +45,14 @@ try:
         config = json.load(json_data)
 except:
     # Print error message to console
-    # and exit
+    # and exit with the appropriate exit code
     print(str(sys.exc_info()))
-    sys.exit(1030)
+    sys.exit(exit_codes['no_config'])
 
 # If its still null, exit
 if (not config):
     print("Could not read config file")
-    sys.exit(1030)
+    sys.exit(exit_codes['no_config'])
 
 # The device_id will be a numeric value that will
 # be assigned to this device by the main
@@ -74,7 +85,7 @@ cache = redis.Redis(host='redis', port=6379)
 # We are routing the root path
 # to the index.html file. So if the ip
 # address of this device is entered into
-# the browser, the index.html file will be returned.
+# the browser, the index.html file will be served.
 @app.route('/')
 def root():
     return app.send_static_file('index.html')
@@ -99,7 +110,6 @@ def static_proxy(path):
   return app.send_static_file(path)
 
 #-------------------------------------------------------------------------------
-
 
 # This is a REST endpoint that will send
 # the most recent temperature sensor
@@ -136,10 +146,15 @@ if __name__ == "__main__":
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('--mac-address', help='MAC Address of the device', required=True)
 
-    # Parse the command line arguments
+    # Parse the command line arguments. Right now
+    # we are only expecting the mac-address.
     args = parser.parse_args()
 
-    # Set the device name
+    # Set the device name equal to the
+    # MAC address of this device. We will use
+    # this as as a unique identifier between
+    # different devices that are sending data
+    # to the same main server.
     device_name = args.mac_address
 
     # Initialize the log handler
@@ -151,16 +166,19 @@ if __name__ == "__main__":
     # logHandler.setLevel(logging.INFO)
     # app.logger.addHandler(logHandler)
 
-    # Set the app logger level and format
+    # Set the app logger level and format. We want datetime,
+    # as well as the filename and line of code that the error
+    # message is printed on. This makes debugging easier.
     formatter = logging.Formatter(
         "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s"
     )
 
+    # Set up the logHandler to log to standard output
     logHandler = logging.StreamHandler(sys.stdout)
     logHandler.setLevel(logging.INFO)
     logHandler.setFormatter(formatter)
 
-
+    # Add log handled to Flask app
     app.logger.setLevel(logging.INFO)
     app.logger.addHandler(logHandler)
 
@@ -172,23 +190,32 @@ if __name__ == "__main__":
     # is not properly accesible.
     device_id, last_record_time = controller.register_device(device_name)
 
-    # Make sure we got a device_id back.
-    # If not, exit the program.
-    if not device_id:
+    # Make sure we got a device_id and
+    # last_record_time time from the main server.
+    # If not, exit the program because if we do
+    # not have a device_id, there is no way for the
+    # main server to associate records with this
+    # device. If we did not get a last_record_time
+    # back, then this device has no idea as to how
+    # much data it should send to main server.
+    # We need both, otherwise immediately terminate execution.
+    if not device_id or not last_record_time:
         app.logger.error('Could not register device with main server')
-        sys.exit(1030)
+        sys.exit(exit_codes['not_registered'])
 
     # Once we know that we have a place in the main server,
-    # we will initialize our local database.
+    # we will initialize our local database. If this fails,
+    # we must immediately terminate execution because we have
+    # no way of properly keeping data before it is sent to main server.
     if not controller.initialize_database(last_record_time):
         app.logger.error('Could not initialize local database')
-        sys.exit(1030)
+        sys.exit(exit_codes['no_local_database'])
 
     # Once we are properly setup with a local
-    # database an a device_id with the main server,
+    # database and are registered with the main server,
     # set up scheduled function calls
     # to periodically record data locally and
-    # send it back to main server.
+    # a separate interval to send it back to main server.
     # NOTE - These functions are called on
     # different threads of execution than the main thread. So, for
     # objects such as sqlite3 objects, a new
@@ -206,15 +233,20 @@ if __name__ == "__main__":
 
     # Now that our local database has been created
     # and we have successfully registered this device with
-    # the main server, launch the REST application. This will
-    # allow clients to consume the local API running on this device.
-    # NOTE - This will keep running until the python process has been killed.
-    # So the following line of code will not be executed until the app stops running.
-    # By default the API will be running on port 5000
+    # the main server and we are polling data locally, launch the REST application. This will
+    # allow clients to consume the local API running on this device, as well
+    # as the Flask application will server a webpage that allows visualitation.
+    # NOTE - The next line will keep running until the python process has been killed.
+    # So the line of code that follows it will not be executed until the flask app stops running.
+    # By default the API will be running on port 5000.
     app.run(host="0.0.0.0", debug=True, use_reloader=False)
 
-    # If the main application has been killed, we want
+    # If the main flask application has been killed, we want
     # to kill the scheduler. This is a multithreaded
     # application and we want to destroy all residual threads
     # so that they do not continue to be triggered in the background
     scheduler.shutdown()
+
+    # Close the program with the
+    # success exit code.
+    sys.exit(exit_codes['success'])
