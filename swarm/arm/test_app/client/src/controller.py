@@ -98,10 +98,12 @@ def initialize_database(last_record_time):
         records, success = db.create_temperature_database(last_record_time)
 
         # Throw an Exception if creating
-        # the local database was unsuccessful.
+        # the local database tables was unsuccessful.
         if not success:
             raise ValueError("Could not properly initilize sqlite3 database")
 
+    # We expect this error if the database
+    # was not properly initialized
     except ValueError as error:
         log.error(error)
 
@@ -147,14 +149,20 @@ def register_device(device_name):
         device_id        = resp['device_id']
         last_record_time = resp['last_record_time']
 
-        # If we are at this point, andthe device_id
+        # If we are at this point, and the device_id
         # and last_record_time came back from the server
         # successfully, we can consider the registration
         # successful on the client side.
         if device_id:
             log.info('Device successfully assigned id: ' + str(device_id))
+        else:
+            log.info('No device_id was returned')
+            raise ValueError('device_id is None')
 
         # TODO - Check that last_record_time is not null
+        if not last_record_time:
+            log.info('No last_record_time was returned')
+            raise ValueError('last_record_time is None')
 
     # If any sort of error was thrown
     # consider the registration a
@@ -185,7 +193,7 @@ def register_device(device_name):
 # Records temperature to
 # local sqlite3 database
 def record_temperature():
-    success=False
+    success = False
 
     try:
         log.info("Recording current temperature")
@@ -219,8 +227,8 @@ def record_temperature():
 
 # Sends temperature data back to main server
 def send_temperature(device_id):
-    success=False
-    records=[]
+    success = False
+    records = []
 
     # Make REST call to main server
     try:
@@ -301,19 +309,25 @@ def send_temperature(device_id):
         # If for whatever reason the response from
         # the update_last_backup() call was false,
         # but an Exception wasn't thrown, we consider
-        # this to be a failure. TODO - Should we raise
-        # a ValueError?
+        # this to be a failure.
         else:
-            log.info("Failed to sent " + str(len(records)) + " record(s) to server")
+            raise ValueError("Failed to sent " + str(len(records)) + " record(s) to server")
 
     # We anticipate these types of errors
-    except (ValueError, TypeError) as error:
+    except ValueError as error:
         log.error(error)
+        success = False
+
+    except TypeError as error:
+        log.error(error)
+        success = False
 
     # This catches any other type of error
-    # that we did not anticipate
+    # that we did not anticipate.
     except:
+        log.error('Failed to send records for some unknown reason')
         log.error(str(sys.exc_info()))
+        success = False
 
     return success;
 
@@ -329,18 +343,31 @@ def get_temperature(record_time=None):
     records = []
     success = False
 
-    # TODO - Exception handling
-    rows, success = db.get_temperature(record_time)
+    try:
 
-    # For each row (which will be a tuple)
-    # create a dictionary (JSON object) with
-    # the appropriate data field. This JSON
-    # data will eventually be sent back to the
-    # client over an HTTP connection.
-    for r in rows:
-        records.append({
-            "record_time":r[0],
-            "temperature":r[1]
-        })
+        # Get temperature data from the local database
+        # in the form of a two-dimensional array as well
+        # as the boolean flag that declares whether or not
+        # the data retrieval was successful.
+        rows, success = db.get_temperature(record_time)
+
+        # For each row (which will be am array of size 2)
+        # create a dictionary (JSON object) with
+        # the appropriate data field. This JSON
+        # data will eventually be sent back to the
+        # client over an HTTP connection.
+        for r in rows:
+            records.append({
+                "record_time":r[0],
+                "temperature":r[1]
+            })
+
+    except ValueError as error:
+        log.error(error)
+
+    # If getting the temperature was unsuccessful,
+    # then reset the records to an empty array
+    if not success:
+        records = []
 
     return records, success

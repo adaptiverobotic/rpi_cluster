@@ -13,7 +13,6 @@ var options = {
       },
       type:'time',
       time: {
-          unit: 'second',
           tooltipFormat: "MMM D, h:mm A",
           displayFormats: {
             second: 'MMM D, h:mm A'
@@ -130,7 +129,14 @@ function updateChart(device_chart) {
 
   // Delete old data and replace it
   delete chart.data.datasets[0].data;
-  chart.data.datasets[0].data = getTemperatureData().data;
+
+  // Get new data from API
+  let new_data = getTemperatureData().data;
+
+  // Put new data into the chart
+  chart.data.datasets[0].data = new_data;
+
+  // Update the chart
   chart.update();
 }
 
@@ -154,6 +160,9 @@ var interval = setInterval(() => {
   }
 
 }, 2000);
+
+
+//------------------------------------------------------------------------------
 
 function unregister() {
   clearInterval(interval)

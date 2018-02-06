@@ -295,6 +295,7 @@ function databaseInitialized(error) {
     // If we got this far, then we are in good shape.
     // Print to console that we are good. Nothing else to do.
     console.log("Success: Database has tables 'devices' and 'temperature'");
+    console.log("Ready to accept requests from clients")
 
   // If an error occured, we exit. This means
   // we could not verify that the database is

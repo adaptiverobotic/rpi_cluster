@@ -13,7 +13,6 @@ var options = {
       },
       type:'time',
       time: {
-          unit: 'second',
           tooltipFormat: "MMM D, h:mm A",
           displayFormats: {
             second: 'MMM D, h:mm A'

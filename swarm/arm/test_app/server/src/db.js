@@ -138,7 +138,7 @@ function insertData(body, success, error) {
   // VALUES(v0, v1, v2)
   // VALUES(v0, v1, v2)
   // ...
-  for (var i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     query += "(" +
              device_id + ',' +
              data[i].temperature + ',' +

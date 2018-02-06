@@ -1,4 +1,7 @@
 var devices = getDevices();
+var failures = 0;
+
+//------------------------------------------------------------------------------
 
 let device_charts = (function() {
   let array = [];
@@ -11,8 +14,7 @@ let device_charts = (function() {
   return array;
 })();
 
-
-let failures = 0;
+//------------------------------------------------------------------------------
 
 var interval = setInterval(() => {
   try {
@@ -30,6 +32,8 @@ var interval = setInterval(() => {
   }
 
 }, 5000);
+
+//------------------------------------------------------------------------------
 
 function unregister() {
   clearInterval(interval)

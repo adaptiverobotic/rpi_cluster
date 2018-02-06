@@ -43,10 +43,12 @@ function getTemperatureData(device_id) {
 
     // Convert data to (x, y) format
     for (i in device.data) {
-     data.push({
-       "x": device.data[i].record_time,
-       "y": device.data[i].temperature
-     });
+      let record = {
+        "x": device.data[i].record_time,
+        "y": device.data[i].temperature
+      }
+
+      data.push(record);
     }
 
     // Replace old array with new one

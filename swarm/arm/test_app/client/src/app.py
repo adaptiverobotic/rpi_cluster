@@ -118,10 +118,16 @@ def static_proxy(path):
 @app.route('/temperature')
 def temperature():
 
+    # TODO - Check that these values are
+    # not NoneType? If so, make sure that
+    # these do not get converted to Strings
+
+    temperature, success = controller.get_temperature()
+
     return jsonify(
         device_id   = device_id,
         device_name = device_name,
-        data        = controller.get_temperature()
+        data        = temperature
     )
 
 # PROGRAM STARTS HERE

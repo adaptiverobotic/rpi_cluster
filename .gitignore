@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+__pycache__
+*.log*
+*.db
+*.db*
+
+Chart.min.js
+jquery.min.js
+moment.js
