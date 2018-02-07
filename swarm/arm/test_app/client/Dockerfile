@@ -1,4 +1,4 @@
-FROM python:3.4-alpine
+FROM arm32v7/python:3.4
 
 # Copy this folder
 ADD . /client
