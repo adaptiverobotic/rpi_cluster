@@ -1,3 +1,8 @@
+import time
+
+# Temporary
+time.sleep(120)
+
 # Task scheduling
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -18,7 +23,6 @@ import controller
 # Reading in the config file
 # and command line arguments
 import json
-import argparse
 import os
 
 #-------------------------------------------------------------------------------
@@ -142,10 +146,6 @@ def temperature():
 
 if __name__ == "__main__":
 
-    # This is the object that will parse
-    # the arguments entered via command line
-    parser = argparse.ArgumentParser()
-
     # A MAC Address must be provided for this app to run. It will be
     # used as the unique identifier for each device when the data is
     # compiled into one central location on the main server
@@ -156,19 +156,6 @@ if __name__ == "__main__":
     # running this app in Docker makes the hostname come back different for every new container,
     # even though it is running on the same physical device. For this purpose,
     # MAC address is a required command line argument that will be read in from the host machine.
-    requiredNamed = parser.add_argument_group('required named arguments')
-    requiredNamed.add_argument('--mac-address', help='MAC Address of the device', required=True)
-
-    # Parse the command line arguments. Right now
-    # we are only expecting the mac-address.
-    args = parser.parse_args()
-
-    # Set the device name equal to the
-    # MAC address of this device. We will use
-    # this as as a unique identifier between
-    # different devices that are sending data
-    # to the same main server.
-    device_name = args.mac_address
 
     # Initialize the log handler
     # Set the log handler level

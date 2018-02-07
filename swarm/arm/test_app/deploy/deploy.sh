@@ -13,8 +13,8 @@
 # Tag and build new images locally
 ./build.sh assets/images
 
-# Push latest images up to docker hub
-./push.sh assets/images
-
 # Deploy stack to Swarm
 ./run.sh assets/stack
+
+# Push latest images up to docker hub
+# ./push.sh assets/images

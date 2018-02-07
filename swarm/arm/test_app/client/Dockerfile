@@ -10,4 +10,6 @@ RUN pip install -r dependencies.txt
 
 # Run the app
 WORKDIR src
-CMD ["python", "app.py", "--mac-address=10301995"]
+
+# Start python app
+CMD python app.py

@@ -1,4 +1,4 @@
 while read line; do
   l=($line)
-  echo $line
+  docker rmi $(docker images --format '{{.Repository}}' | grep ${l[0]})
 done <$1

@@ -83,5 +83,7 @@ services:
      - MAC_ADDRESS_FILE=/client/src/config/address
 
     deploy:
+      mode: global
+
       restart_policy:
         condition: on-failure

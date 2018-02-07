@@ -15,4 +15,5 @@ EXPOSE 8085
 # where the node app lives
 WORKDIR src
 
+# Start node app
 CMD node app.js
