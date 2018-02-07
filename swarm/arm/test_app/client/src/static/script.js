@@ -1,4 +1,4 @@
-var options = {
+let options = {
   responsive: true,
 
   animation: {
@@ -31,7 +31,7 @@ var options = {
       }
     }]
   }
-}
+};
 
 //------------------------------------------------------------------------------
 
@@ -59,9 +59,9 @@ function drawChart() {
   container.appendChild(chart);
   charts.appendChild(container);
 
-  var ctx = document.getElementById(chart.id).getContext('2d');
+  let ctx = document.getElementById(chart.id).getContext('2d');
 
-  var myLineChart = new Chart(ctx, {
+  let myLineChart = new Chart(ctx, {
     type: 'scatter',
     data: {
       datasets: [{
@@ -103,7 +103,7 @@ function getTemperatureData() {
     let data = [];
 
     // Convert data to (x, y) format
-    for (i in device.data) {
+    for (let i in device.data) {
      data.push({
        "x": device.data[i].record_time,
        "y": device.data[i].temperature
@@ -133,6 +133,8 @@ function updateChart(device_chart) {
   // Get new data from API
   let new_data = getTemperatureData().data;
 
+  // TODO - Check that something came back?
+
   // Put new data into the chart
   chart.data.datasets[0].data = new_data;
 
@@ -145,16 +147,16 @@ function updateChart(device_chart) {
 let chart = drawChart();
 let failures = 0;
 
-var interval = setInterval(() => {
+let interval = setInterval(() => {
   try {
     updateChart(chart)
 
   } catch (err) {
     failures++;
-    console.log("Could not update chart after " + failures + " attempts")
+    console.log("Could not update chart after " + failures + " attempts");
 
-    if (failures == 3) {
-      console.log("Connection has been lost")
+    if (failures === 3) {
+      console.log("Connection has been lost");
       unregister();
     }
   }

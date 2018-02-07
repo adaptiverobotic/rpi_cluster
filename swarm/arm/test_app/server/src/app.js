@@ -1,7 +1,6 @@
 // EXPRESS
 let config     = require('./config/config.json');
 let controller = require('./controller')
-let db         = require('./db');
 let bodyParser = require('body-parser');
 let express    = require('express');
 let path       = require('path');

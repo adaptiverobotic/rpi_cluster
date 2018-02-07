@@ -20,8 +20,7 @@
     "url":"http://127.0.0.1:8085",
     "endpoints": {
       "devices": "/devices",
-      "temperature": "/temperature",
-      "mock": "/mock"
+      "temperature": "/temperature"
     }
   }
 }

@@ -4,6 +4,9 @@ __pycache__
 *.log*
 *.db
 *.db*
+.idea
+
+DEFAULT_PASSWORD
 
 Chart.min.js
 jquery.min.js

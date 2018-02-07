@@ -117,12 +117,18 @@ def static_proxy(path):
 # in a chart in the index.html file.
 @app.route('/temperature')
 def temperature():
+    message = "Success"
 
-    # TODO - Check that these values are
-    # not NoneType? If so, make sure that
-    # these do not get converted to Strings
-
+    # Get the temperature data for this device
     temperature, success = controller.get_temperature()
+
+    # If for whatever reason the exit
+    # status of the get_temperature() function
+    # was False, we throw away whatever it returned
+    # to the temperature variable and send back
+    # an tempty array.
+    if not success:
+        temperature = []
 
     return jsonify(
         device_id   = device_id,

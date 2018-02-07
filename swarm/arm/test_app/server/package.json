@@ -19,6 +19,7 @@
     "moment": "^2.20.1",
     "node-getmac": "^1.0.3",
     "pg-promise": "^7.3.3",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "yargs": "^11.0.0"
   }
 }

@@ -19,8 +19,7 @@
     "port": 8085,
     "endpoints": {
       "temperature": "/temperature",
-      "devices": "/devices",
-      "mock": "/mock"
+      "devices": "/devices"
     }
   }
 

@@ -1,14 +1,44 @@
+const args   = require('yargs').argv;
+let fs       = require('fs');
 let promise  = require('bluebird');
 let options  = {promiseLib: promise};
 let pgp      = require('pg-promise')(options);
 let config   = require('./config/config.json');
 let postgres = config.postgres;
 let db       = pgp(connectionString());
-let tables   = postgres.database.tables;
 let types    = pgp.pg.types;
 
 // Do not format dates, read them as is
 types.setTypeParser(1114, str => str);
+
+//------------------------------------------------------------------------------
+
+/**
+ * Gets Postgres password from file.
+ *
+ * @returns {*}
+ */
+function getDatabasePassword() {
+
+  // Password must be passed as parameter
+  if (!args.DB_PASSWORD_FILE) {
+    throw "Must pass command line argument --DB_PASSWORD_FILE";
+  }
+
+  // Convert to String just in case
+  let DB_PASSWORD_FILE = args.DB_PASSWORD_FILE.toString();
+
+  // Read the entire file in as the password string
+  let password = fs.readFileSync(DB_PASSWORD_FILE, 'utf8');
+
+  // If nothing came back, throw
+  //  an exception
+  if (!password) {
+    throw "Password must not be null"
+  }
+
+  return password;
+}
 
 //------------------------------------------------------------------------------
 
@@ -18,7 +48,7 @@ types.setTypeParser(1114, str => str);
 function connectionString() {
   return 'postgres://' +
           postgres.user + ":" +
-          postgres.password + "@" +
+          getDatabasePassword() + "@" +
           postgres.hostname + ":" +
           postgres.port + "/" +
           postgres.database.name;
@@ -51,7 +81,7 @@ function registerDevice(device_name, success, error) {
   let query = "INSERT INTO devices (device_name) " +
               "VALUES " + "(\'" + device_name + "\');" + "\n" +
               "SELECT * FROM devices " +
-              "WHERE device_name = '" + device_name +  "';"
+              "WHERE device_name = '" + device_name +  "';";
 
   console.log("Registering device by device_name: " + device_name);
 
@@ -81,7 +111,7 @@ function getDeviceById(device_id, success, error) {
   let query = "SELECT * FROM devices " +
               "WHERE device_id = " + device_id;
 
-  console.log("Getting device by device_id: " + device_id)
+  console.log("Getting device by device_id: " + device_id);
 
   executeQuery(query, success, error);
 }
@@ -108,8 +138,8 @@ function getDeviceByName(device_name, success, error) {
  */
 function getAllData(device_id, num_records, success, error) {
 
-  // TODO - Reverse the order
-  var query = 'SELECT * ' +
+  // TODO - Reverse the order @ SQL level
+  let query = 'SELECT * ' +
                'FROM temperature ' +
                'WHERE device_id = ' + device_id + " " +
                'ORDER BY record_time DESC LIMIT ' + num_records;
@@ -145,7 +175,7 @@ function insertData(body, success, error) {
              "\'" + data[i].record_time + "\')";
 
     // Append commas to all but the last
-    if (i != data.length-1) {
+    if (i !== data.length-1) {
       query += ','
     } else {
       query += ';\n'
@@ -171,10 +201,11 @@ function getMostRecentRecordData(device_id, success, error) {
 
   // Get max record that's associated
   // with the provided device_id
-  var query = "SELECT * FROM temperature "+
+  // TODO - Get this data from devices table
+  let query = "SELECT * FROM temperature "+
               "WHERE record_time IN " +
               "(SELECT MAX(record_time) FROM temperature " +
-              "WHERE device_id =" + device_id + ") LIMIT 1;"
+              "WHERE device_id =" + device_id + ") LIMIT 1;";
 
   executeQuery(query, success, error);
 }

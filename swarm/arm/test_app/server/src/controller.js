@@ -11,14 +11,14 @@ let db = require('./db');
 function registerDevice(req, res, next) {
 
   // Get the device's name to send to database
-  var device_name = req.body.device_name;
+  let device_name = req.body.device_name;
 
   // Function that is called upon success
   let success = function(data) {
     console.log("Device " + device_name + " was assigned id " + data[0].device_id);
 
     res.status(201).send(data[0]);
-  }
+  };
 
   // Function that is called upon error
   let error = function(err) {
@@ -36,18 +36,18 @@ function registerDevice(req, res, next) {
     // an error message
     } else {
       let message = "Could not register device: " +
-                      req.body.device_name + "\n"
+                      req.body.device_name + "\n" +
                       err.detail;
 
       let response = {
         message : message
-      }
+      };
 
       console.error(err);
 
       res.status(400).send(response);
     }
-  }
+  };
 
   // Register the device by name
   db.registerDevice(device_name, success, error);
@@ -63,11 +63,11 @@ function getAllDevices(req, res, next) {
   // Function that's called upon success
   // Both cases will use the same success
   // function, but different error functions
-  var success = function(data) {
+  let success = function(data) {
     console.log("Success: " + data);
 
     res.status(200).send(data);
-  }
+  };
 
   // If the user requested
   // a specifiec device
@@ -75,10 +75,10 @@ function getAllDevices(req, res, next) {
 
     // Function that's called upon error
     let error = function(err) {
-      var message = "Device: " + req.query.device_id +" not found\n" + err.detail;
+      let message = "Device: " + req.query.device_id +" not found\n" + err.detail;
 
       res.status(400).send({message:message});
-    }
+    };
 
     db.getDeviceById(success, error);
 
@@ -92,7 +92,7 @@ function getAllDevices(req, res, next) {
       console.error(err.detail);
 
       res.status(200).send([]);
-    }
+    };
 
     db.getAllDevices(success, error);
   }
@@ -104,7 +104,7 @@ function getAllDevices(req, res, next) {
  * Returns the record associated with a device_name.
  */
 function getDeviceByName(req, res, next) {
-  var device_name = "";
+  let device_name = "";
 
   // Can get device via POST or GET
   if (req.method === 'POST') {
@@ -116,14 +116,14 @@ function getDeviceByName(req, res, next) {
   // Function that's called upon success
   let success = function (data) {
     res.status(200).send(data);
-  }
+  };
 
   // Function that's called upon error
   let error = function (err) {
-    var message = "Device: " + device_name + " not found\n" + err.detail;
+    let message = "Device: " + device_name + " not found\n" + err.detail;
 
     res.status(404).send({message:message});
-  }
+  };
 
   db.getDeviceByName(device_name, success, error);
 }
@@ -137,24 +137,24 @@ function getAllData(req, res, next) {
 
   // If we only want the most recent
   // use a different query
-  if (req.query.num_records == 1) {
+  if (req.query.num_records === 1) {
     return db.getMostRecentRecordData(req, res, next);
   }
 
   let success = function (data) {
 
     // NOTE - Temporary fix
-    // need to reverse at SQLlevel
+    // need to reverse at SQL level
     data.reverse();
 
     let response = {
       message: "message",
       device_id: req.query.device_id,
       data: data
-    }
+    };
 
     res.status(200).send(response);
-  }
+  };
 
   let error = function (err) {
     let message = "Could not get data for device: " + req.query.device_id;
@@ -165,10 +165,10 @@ function getAllData(req, res, next) {
       message: message,
       device_id: req.query.device_id,
       data: []
-    }
+    };
 
     res.status(200).send(response);
-  }
+  };
 
   db.getAllData(req.query.device_id,
                 req.query.num_records,
@@ -187,7 +187,7 @@ function insertData(req, res, next) {
   if (req.body.data.length < 1) {
     res.status(400).send({
       "message": "Must send at least one record"
-    })
+    });
 
     return;
   }
@@ -196,7 +196,7 @@ function insertData(req, res, next) {
     let message = "Successfully inserted " + req.body.data.length + ' record(s)';
 
     res.status(200).send(data[0]);
-  }
+  };
 
   let error = function(err) {
     let sql_message = '';
@@ -212,40 +212,15 @@ function insertData(req, res, next) {
       hint: "Make sure your data is in the form: [{" +
             "temperature: %Y-%m-%d %H:%M:%S, " +
             "record_time: 123}]"
-    }
+    };
 
     console.error("Failed to insert records");
-    console.error(err)
+    console.error(err);
 
     res.status(400).send(response);
-  }
+  };
 
   db.insertData(req.body, success, error);
-}
-
-//------------------------------------------------------------------------------
-
-/**
- * Returns the last record data of a given
- * device. This is used so that the client
- * knows that it only needs to send data after
- * this data the next time it phones home to this server.
- */
-function getMostRecentRecordData(req, res, next) {
-
-  let success = function (data) {
-    console.log("Success: " + JSON.stringify(data));
-
-    res.status(200).send({"record_data":data});
-  }
-
-  let error = function (err) {
-    var message = err.detail
-
-    res.status(404).send({message:message});
-  }
-
-  getMostRecentRecordData(req.query.device_id, success, error);
 }
 
 //------------------------------------------------------------------------------
@@ -258,18 +233,18 @@ function getMostRecentRecordData(req, res, next) {
 function databaseInitialized(error) {
 
   db.checkForTables(function(data) {
-    var valid = false;
+    let valid = false;
 
     // We should get exactly 2 records back.
     // Make sure that one corresponds to the 'devices'
     // table, and the other corresponds to the
     // 'temperature table.'
-    if (data.length == 2) {
-      let devices     = data[0].tablename == 'devices' || data[0].tablename == 'devices' ||
-                        data[0].tablename == 'temperature' || data[0].tablename == 'temperature';
+    if (data.length === 2) {
+      let devices     = data[0].tablename === 'devices' || data[0].tablename === 'devices' ||
+                        data[0].tablename === 'temperature' || data[0].tablename === 'temperature';
 
-      let temperature = data[1].tablename == 'devices' || data[1].tablename == 'devices' ||
-                        data[1].tablename == 'temperature' || data[1].tablename ==' temperature';
+      let temperature = data[1].tablename === 'devices' || data[1].tablename === 'devices' ||
+                        data[1].tablename === 'temperature' || data[1].tablename ===' temperature';
 
       if (!devices) {
         console.error("Table 'devices' not found");
@@ -303,7 +278,7 @@ function databaseInitialized(error) {
   }, function(err) {
 
     console.error("Could not verify that database has the proper schema");
-    console.error(err)
+    console.error(err);
     error();
   });
 }
@@ -317,6 +292,5 @@ module.exports = {
   getDeviceByName         : getDeviceByName,
   getAllData              : getAllData,
   insertData              : insertData,
-  databaseInitialized     : databaseInitialized,
-  getMostRecentRecordData : getMostRecentRecordData
+  databaseInitialized     : databaseInitialized
 };
