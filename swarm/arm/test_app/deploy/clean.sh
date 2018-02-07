@@ -1,8 +1,13 @@
 containers() {
+
   while read line; do
     l=($line)
-    docker rm $(docker stop $(docker ps -a -q --filter ancestor=${l[0]} --format="{{.ID}}"))
+
+    docker ps -a -q --filter ancestor=${l[0]} | xargs --no-run-if-empty docker stop
   done <$1
+
+  # Delete all stopped containers
+  docker ps -q -f status=exited | xargs --no-run-if-empty docker rm
 }
 
 #-------------------------------------------------------------------------------
@@ -10,13 +15,20 @@ containers() {
 images() {
   while read line; do
     l=($line)
-    docker rmi $(docker images --format '{{.Repository}}' | grep ${l[0]})
+
+    # Delete all images associated with image name
+    docker images --format '{{.Repository}}' | grep ${l[0]} | xargs --no-run-if-empty docker rmi
   done <$1
+
+  # Delete all dangling (unused) images
+  docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi
 }
 
 #-------------------------------------------------------------------------------
 
 networks() {
+  docker network prune
+
   while read line; do
     l=($line)
     docker network rm ${l[0]}
@@ -26,10 +38,7 @@ networks() {
 #-------------------------------------------------------------------------------
 
 secrets() {
-  while read line; do
-    l=($line)
-    docker volume rm ${l[0]}
-  done <$1
+  echo "Secrets"
 }
 
 #-------------------------------------------------------------------------------
@@ -45,6 +54,8 @@ volumes() {
     l=($line)
     docker volume rm ${l[0]}
   done <$1
+
+  docker volume ls -qf dangling=true | xargs --no-run-if-empty -r docker volume rm
 }
 
 #-------------------------------------------------------------------------------

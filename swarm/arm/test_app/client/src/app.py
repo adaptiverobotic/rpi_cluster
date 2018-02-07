@@ -1,8 +1,3 @@
-import time
-
-# Temporary
-time.sleep(120)
-
 # Task scheduling
 from apscheduler.schedulers.background import BackgroundScheduler
 

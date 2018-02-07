@@ -3,4 +3,7 @@ __pycache__
 *.db*
 address
 
+*.db
+temperature.db
+
 *DS_Store*

@@ -1,7 +1,3 @@
-var sleep = require('thread-sleep');
-
-sleep(60000)
-
 // EXPRESS
 let config     = require('./config/config.json');
 let controller = require('./controller')

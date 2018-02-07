@@ -40,11 +40,35 @@ secret() {
 
 #-------------------------------------------------------------------------------
 
+service() {
+  while read line; do
+    ./../$line/docker_service.sh
+  done <$1
+}
+
+#-------------------------------------------------------------------------------
+
 volume() {
   while read line; do
     l=($line)
     docker volume create -d ${l[1]} ${l[0]}
   done <$1
 }
+
+#-------------------------------------------------------------------------------
+
+upload() {
+
+  # Delete old images
+  ./clean.sh assets/clean
+
+  # Build new ones
+  build assets/images
+
+  # Push them to cloud
+  push assets/images
+}
+
+#-------------------------------------------------------------------------------
 
 "$@"

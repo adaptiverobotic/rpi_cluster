@@ -32,8 +32,11 @@ run_locally() {
   # Tag and build new images locally
   ./docker.sh build assets/images
 
-  # Deploy stack to Swarm
-  docker stack deploy -c ../docker-compose.yml $(cat assets/stack)
+  # Deploy services to swarm
+  ./docker.sh service assets/services
+
+  # Deploy stack to swarm
+  # docker stack deploy -c ../docker-compose.yml $(cat assets/stack)
 }
 
 #-------------------------------------------------------------------------------
@@ -41,9 +44,6 @@ run_locally() {
 # Get the common username
 # from the user file
 user=$(cat assets/user)
-
-# Get this hostname
-host=$(cat /etc/hostname)
 
 # Generate list of node hostnames
 node_hostnames
