@@ -10,6 +10,7 @@
   "database": {
     "path":"../db/",
     "name":"../db/temperature.db",
+    "schema_file": "../db/schema.sql",
     "tables": {
       "temperature":"temperature",
       "device":"device"

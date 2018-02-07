@@ -35,7 +35,7 @@ log = logging.getLogger(app.config['app']['name'])
 # returned. This is the case when the query is an
 # INSERT or UPDATE. If we are retrieving records
 # from the database, we must set the fetchall flag to True.
-def execute_query(query, fetchall=False):
+def execute_query(query, fetchall=False, script=False):
     records = None
     success = False
 
@@ -49,7 +49,16 @@ def execute_query(query, fetchall=False):
 
         # Execute it
         c = conn.cursor()
-        c.execute(query)
+
+        # Single statement
+        if not script:
+            c.execute(query)
+
+        # Several statements
+        else:
+            c.executescript(query)
+
+        # Commit any changes
         conn.commit()
 
         # If its a SELECT statement
@@ -80,6 +89,31 @@ def execute_query(query, fetchall=False):
 
 #-------------------------------------------------------------------------------
 
+# Executes a .sql file (series of queries)
+def execute_script(path, fetchall=False):
+    records = None
+    success = False
+
+    try:
+
+        # Read the schema file in as a string
+        query = open(path, 'r').read()
+
+        # Execute it
+        records, success = execute_query(query, fetchall, script=True)
+
+    # Catches all unanticipated
+    # exceptions thrown during loop
+    # TODO - Implement more specific exception handling
+    except:
+        log.error('Could not execute script because of unexpected error')
+        log.error(str(sys.exc_info()))
+        success = False
+
+    return records, success
+
+#-------------------------------------------------------------------------------
+
 # Initializes the temperature database. If the database
 # folder is not present, we will create that directory.
 # The file will authomatically be created if it does not
@@ -102,62 +136,19 @@ def create_temperature_database(last_record_time):
         log.info('Connecting to sqlite3 databse :' + app.config['database']['name'])
         log.info('Creating tables \'temperature\' and \'last_backup\' if it they do not exist alrdy')
 
-        # Table to store temperature data
-        query1=("CREATE TABLE IF NOT EXISTS temperature(" +
-               "record_time timestamp without time zone NOT NULL," +
-               "temperature decimal NOT NULL);")
+        r, s = execute_script(app.config['database']['schema_file'])
 
-        # This table holds exactly one record. It will be updated
-        # with the most recent date that the server has for this device.
-        # That way, when we periodically send data to the main server,
-        # we are only sending the newest data that the server does not
-        # already have stored for this device
-        query2=("CREATE TABLE IF NOT EXISTS last_backup(" +
-                "record_time timestamp without time zone NOT NULL);")
+        # We want to start keeping track of the last piece of data the main
+        # server has for this device.
+        query = "REPLACE INTO last_backup VALUES(\'" + last_record_time + "\')"
 
-        query3=("CREATE UNIQUE INDEX IF NOT EXISTS last_backup_one_row " +
-                "ON last_backup((record_time IS NOT NULL));")
+        # Execute that query too
+        r, s2 = execute_query(query)
 
-        # The last_record_time is a value that we got from the main database. That way
-        # next time, we only send data that the main server's database does not have yet.
-        # TODO - Perhaps ensure that the value that we are replacing is always less
-        # than the current value that's there. That way we cannot 'skip' ahead in
-        # time and accidently have 'gaps' in our records
-        query4=("REPLACE INTO last_backup VALUES(\'" + last_record_time + "\')")
+        # We were successful if and only if
+        # both queries succeeded
+        success = s and s2
 
-        # Put the queries in a list that we will
-        # execute one by one.
-        queries=[query1, query2, query3, query4]
-
-        # Execute each query
-        for query in queries:
-            # r and s are temporary values
-            # for the records and success values
-            # that are returned by the execute_query()
-            # function. As all of these queries do not
-            # request any data back from the database, r
-            # is a throwaway variable. We only care about s
-            # because it indicated whether or not
-            # the query was executed successfully or not.
-            r, s = execute_query(query)
-
-            # Keep 'AND-ing' the success
-            # of each query that is executed.
-            # If one comes back False, then the
-            # overall success of this function is False.
-            success = success and s
-
-            # If at any point success goes false, then the last
-            # query that got executed failed. We should not
-            # continue executing subsequent queries if a given
-            # query fails. Immediately throw an Exception.
-            if not success:
-                log.info('Query was not executed successfully')
-                raise ValueError('Unsuccessful query: ' + query)
-
-        # If we have gotten this far, then executing each
-        # query was successfully executed.
-        log.info('Tables \'temperature\' and \'last_backup\' were successfully created')
 
     # We anticipate this error if
     # a given query in the list

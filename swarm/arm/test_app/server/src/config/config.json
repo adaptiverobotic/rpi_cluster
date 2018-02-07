@@ -2,11 +2,11 @@
   "postgres": {
     "user":"postgres",
     "password": "",
-    "hostname": "postgres",
+    "hostname": "database",
     "port": 5432,
 
     "database": {
-      "name": "cluster_test",
+      "name": "cluster_test_app",
 
       "tables": {
         "devices": "devices",
