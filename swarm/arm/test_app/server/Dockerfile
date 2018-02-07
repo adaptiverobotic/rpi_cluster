@@ -15,4 +15,4 @@ EXPOSE 8085
 # where the node app lives
 WORKDIR src
 
-CMD node app.js --DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+CMD node app.js

@@ -21,20 +21,25 @@ types.setTypeParser(1114, str => str);
 function getDatabasePassword() {
 
   // Password must be passed as parameter
-  if (!args.DB_PASSWORD_FILE) {
-    throw "Must pass command line argument --DB_PASSWORD_FILE";
+  if (!process.env.DB_PASSWORD_FILE) {
+    throw "Environment variable DB_PASSWORD_FILE must be defined";
   }
 
   // Convert to String just in case
-  let DB_PASSWORD_FILE = args.DB_PASSWORD_FILE.toString();
+  let DB_PASSWORD_FILE = process.env.DB_PASSWORD_FILE.toString();
 
   // Read the entire file in as the password string
-  let password = fs.readFileSync(DB_PASSWORD_FILE, 'utf8');
+  let password = fs.readFileSync(DB_PASSWORD_FILE);
+
+  // Convert to String and strip off
+  // any newline characters
+  password = password.toString();
+  password = password.replace(/(\r\n|\n|\r)/gm, "");
 
   // If nothing came back, throw
-  //  an exception
+  // an exception
   if (!password) {
-    throw "Password must not be null"
+    throw "Password must not be null";
   }
 
   return password;

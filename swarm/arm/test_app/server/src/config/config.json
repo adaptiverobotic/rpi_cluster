@@ -2,7 +2,7 @@
   "postgres": {
     "user":"postgres",
     "password": "",
-    "hostname": "jabaridash.com",
+    "hostname": "postgres",
     "port": 5432,
 
     "database": {

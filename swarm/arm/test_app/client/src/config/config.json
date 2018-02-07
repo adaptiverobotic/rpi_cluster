@@ -17,7 +17,7 @@
   },
 
   "server": {
-    "url":"http://127.0.0.1:8085",
+    "url":"http://server:8085",
     "endpoints": {
       "devices": "/devices",
       "temperature": "/temperature"

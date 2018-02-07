@@ -6,6 +6,7 @@ __pycache__
 *.db*
 .idea
 
+address
 DEFAULT_PASSWORD
 
 Chart.min.js

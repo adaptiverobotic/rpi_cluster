@@ -19,6 +19,7 @@ import controller
 # and command line arguments
 import json
 import argparse
+import os
 
 #-------------------------------------------------------------------------------
 
@@ -193,6 +194,30 @@ if __name__ == "__main__":
     # Add log handled to Flask app
     app.logger.setLevel(logging.INFO)
     app.logger.addHandler(logHandler)
+
+    # Read in the environment variable that has the
+    # path to the file that contains the MAC address
+    MAC_ADDRESS_FILE = os.getenv('MAC_ADDRESS_FILE')
+
+    # If nothing came back, then
+    # we should exit because we cannot
+    # register without the MAC address.
+    if not MAC_ADDRESS_FILE:
+        app.logger.error("Environment variable MAC_ADDRESS_FILE must be initialized")
+        sys.exit(exit_codes['not_registered'])
+    else:
+        # TODO - Exception handling if error reading file
+
+        # Read the MAC_ADDRESS_FILE
+        f = open(MAC_ADDRESS_FILE, 'r')
+        mac_address = f.read().replace('\n', '')
+        f.close()
+
+        # Set the device_name equal to
+        # MAC address. We will use this as
+        # our unique identifier when registering
+        # with the main server
+        device_name = mac_address
 
     # Initialize this device by registering
     # it and creating a local database.

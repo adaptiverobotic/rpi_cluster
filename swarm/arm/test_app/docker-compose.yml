@@ -1,13 +1,67 @@
 version: '3.1'
 
+volumes:
+  postgres:
+    external:
+      name: cluster_test_app_server_postgres
+
+  sqlite3:
+    external:
+      name: cluster_test_app_client_sqlite3
+
+#-------------------------------------------------------------------------------
+
+networks:
+  default:
+    external:
+      name: cluster_test_app
+
+#-------------------------------------------------------------------------------
+
+secrets:
+  DEFAULT_PASSWORD:
+    external: true
+
+#-------------------------------------------------------------------------------
+
 services:
+
+  postgres:
+    image: jabaridash/cluster_test_postgres
+
+    ports:
+      - 5432:5432
+
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+    secrets:
+    - source: "DEFAULT_PASSWORD"
+      target: "DEFAULT_PASSWORD"
+      uid: "0"
+      gid: "0"
+      mode: 0444
+
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/DEFAULT_PASSWORD
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+#-------------------------------------------------------------------------------
 
   server:
     image: jabaridash/cluster_test_server
-    build: server
 
     ports:
       - 8085:8085
+
+    secrets:
+    - DEFAULT_PASSWORD
+
+    environment:
+     - DB_PASSWORD_FILE=/run/secrets/DEFAULT_PASSWORD
 
     deploy:
       restart_policy:
@@ -17,21 +71,17 @@ services:
 
   client:
     image: jabaridash/cluster_test_client
-    build: client
+
+    volumes:
+      - sqlite3:/client/db
+      - /sys/class/net/eth0/address:/client/src/config/address
 
     ports:
      - 5000:5000
 
-    depends_on:
-      - "server"
+    environment:
+     - MAC_ADDRESS_FILE=/client/src/config/address
 
     deploy:
       restart_policy:
         condition: on-failure
-
-#-------------------------------------------------------------------------------
-
-networks:
-  default:
-    external:
-      name: cluster_test_app
