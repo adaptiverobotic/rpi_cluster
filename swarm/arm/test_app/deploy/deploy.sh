@@ -1,20 +1,63 @@
-# Remove old data
-./clean.sh assets/clean
+# Generates list of nodes by hostname
+node_hostnames() {
+  node_file=assets/nodes
 
-# Initialize docker networks
-./network.sh assets/networks
+  # Delete if exists
+  rm -f $node_file
 
-# Initialize docker volumes
-./volume.sh assets/volumes
+  # Recreate files
+  touch $node_file
 
-# Ensures that all secrets are created
-./secret.sh assets/secrets
+  # Write out to temp file
+  temp=$(docker node ls -q | xargs docker node inspect -f '{{ .Description.Hostname }}')
 
-# Tag and build new images locally
-./build.sh assets/images
+  # Break up into array
+  nodes=($temp)
 
-# Deploy stack to Swarm
-./run.sh assets/stack
+  # Loop through array and Write
+  # line by line
+  for i in "${nodes[@]}"
+  do
+     :
+     echo ${nodes[i]} >> $node_file
+  done
+}
 
-# Push latest images up to docker hub
-# ./push.sh assets/images
+#-------------------------------------------------------------------------------
+
+run_locally() {
+  # Initialize docker networks
+  ./docker.sh network assets/networks
+
+  # Tag and build new images locally
+  ./docker.sh build assets/images
+
+  # Deploy stack to Swarm
+  docker stack deploy -c ../docker-compose.yml $(cat assets/stack)
+}
+
+#-------------------------------------------------------------------------------
+
+# Get the common username
+# from the user file
+user=$(cat assets/user)
+
+# Get this hostname
+host=$(cat /etc/hostname)
+
+# Generate list of node hostnames
+node_hostnames
+
+# If we successfully wrote the list
+if [[ $? -eq 0 ]]; then
+
+  while read line; do
+
+    # Send files over and execute
+    scp -r assets clean.sh deploy.sh docker.sh setup.sh $user@$line:
+    ssh -n $user@$line "./setup.sh"
+
+  done <assets/nodes
+
+  run_locally
+fi
