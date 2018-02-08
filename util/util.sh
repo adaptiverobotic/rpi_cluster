@@ -17,12 +17,12 @@ loop_nodes() {
     # If we want to SSH
     if [[ $protocol == "ssh" ]]; then
       echo "SSH: $user@$line"
-      ssh -n $user@$line "${@:4}"
+      ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $user@$line "${@:4}"
 
     # If we want to SCP
     elif [[ $protocol == "scp" ]]; then
       echo "SCP: $user@$line"
-      scp -r ${@:4} $user@$line:
+      scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${@:4} $user@$line:
 
     else
       echo "Only SSH and SCP are supported protocols"

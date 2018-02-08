@@ -1,10 +1,10 @@
 # Build ip address list
 /bin/bash ip/list.sh
 
-exit 0
-
 # Enable passwordless ssh
 /bin/bash ssh/install.sh
+
+exit 0
 
 # Change all the hostnames
 /bin/bash hostname/change.sh
