@@ -10,21 +10,22 @@ loop_nodes() {
   file=$3
 
   echo "Looping each node in $file"
+  echo "$(cat $file)"
 
   while read line; do
 
     # If we want to SSH
     if [[ $protocol == "ssh" ]]; then
       echo "SSH: $user@$line"
-      ssh -n $user@$line "${@:3}"
+      ssh -n $user@$line "${@:4}"
 
     # If we want to SCP
     elif [[ $protocol == "scp" ]]; then
       echo "SCP: $user@$line"
-      scp -r ${@:3} $user@$line:
+      scp -r ${@:4} $user@$line:
 
-    # TODO - Notify command not recognized otherwise
-
+    else
+      echo "Only SSH and SCP are supported protocols"
     fi
   done <$file
 }
