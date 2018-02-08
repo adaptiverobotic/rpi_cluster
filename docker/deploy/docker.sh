@@ -51,7 +51,14 @@ service() {
     # Execute docker_service.sh in
     # each directory that is read from file
 
-    /bin/bash ${2}${line}/docker_service.sh
+    # Run this in the background because some
+    # docker task startups will hang, die, and
+    # restart depending on the restart policy
+    # of the service. We do not want this to
+    # block the terminal.
+
+    # TODO - Send to background
+    /bin/bash ${2}${line}/docker_service.sh &>/dev/null &
   done <$1
 }
 
@@ -95,6 +102,14 @@ clean_containers() {
 
 clean_images() {
   echo "Cleaning images"
+
+  # NOTE - Do we also want to
+  # delete images that our images
+  # depend on? Example, if database
+  # depends on postgres, should we
+  # also delete these? This may drastically
+  # slow down deployment speed if we
+  # do this every time. Perharps set a flag
 
   while read line; do
     l=($line)
@@ -157,6 +172,12 @@ clean_secrets() {
 
 #-------------------------------------------------------------------------------
 
+clean_services() {
+  echo "Cleaning services"
+}
+
+#-------------------------------------------------------------------------------
+
 clean_stacks() {
   echo "Cleaning stacks"
 
@@ -178,6 +199,8 @@ cleanup() {
 
     # Clean containers associated with
     # image names
+
+    # TODO - they say there is a syntax error
     if [[ $line == "containers" ]]; then
       clean_containers $2assets/images
 

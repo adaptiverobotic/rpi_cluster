@@ -117,6 +117,7 @@ init() {
 services() {
   echo "Starting each service individually"
 
+  # Initialize each node
   init
 
   # Deploy services to swarm
@@ -128,6 +129,7 @@ services() {
 stack() {
   echo "Starting services via docker deploy stack"
 
+  # Initialize each node
   init
 
   # Deploy stack to swarm

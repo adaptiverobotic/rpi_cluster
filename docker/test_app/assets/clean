@@ -1,4 +1,6 @@
-networks
-volumes
+stacks
+services
 containers
 images
+volumes
+networks
