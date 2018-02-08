@@ -34,7 +34,7 @@ compile_assets() {
 #-------------------------------------------------------------------------------
 
 clear_assets() {
-  echo "Removing assets from local asset folder that are not docker related"
+  echo "Removing temporary assets directory and its contents"
 
   # TODO - Maybe not delete
   # so destructively
@@ -44,7 +44,7 @@ clear_assets() {
 #-------------------------------------------------------------------------------
 
 send_assets() {
-  echo "Sending asset files to all nodes in swarm"
+  echo "Sending assets to all nodes in swarm"
 
   # Compile assets from root and
   # test app into one directory
@@ -52,7 +52,7 @@ send_assets() {
 
   # Loop through each node, SCP into each one and
   # send all of these files to the node
-  $scp_nodes $user $node_file $assets setup.sh docker.sh clean.sh
+  $scp_nodes $user $node_file $assets docker.sh
 }
 
 #-------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ setup_nodes() {
   echo "Running install script on node"
 
   # Loop through nodes and run setup script
-  $ssh_nodes $user $node_file ./setup.sh
+  $ssh_nodes $user $node_file ./docker.sh setup
 }
 
 #-------------------------------------------------------------------------------
@@ -70,7 +70,16 @@ clean_nodes() {
   echo "Cleaning old volumes, images, and containers from each node"
 
   # Loop through nodes and run cleanup script
-  $ssh_nodes $user $node_file ./clean.sh assets/clean
+  $ssh_nodes $user $node_file ./docker.sh cleanup assets/clean ./
+}
+
+#-------------------------------------------------------------------------------
+
+pull_nodes() {
+  echo "Pulling images down from docker hub"
+
+  # Loop through nodes and pull images down locally
+  $ssh_nodes $user $node_file ./docker.sh pull assets/images ./
 }
 
 #-------------------------------------------------------------------------------
@@ -89,11 +98,18 @@ init() {
   # Set up nodes (create volumes, etc.)
   setup_nodes
 
-  # Initialize docker networks (once)
+  # Initialize docker networks (once for entire swarm)
   ./docker.sh network ${assets}networks
 
   # Tag and build new images locally
-  ./docker.sh build ${assets}images
+  ./docker.sh build ${assets}images $app_path
+
+  # Push images to docker hub
+  ./docker.sh push ${assets}images
+
+  # Pull images down
+  # to each node
+  pull_nodes
 }
 
 #-------------------------------------------------------------------------------
@@ -104,7 +120,7 @@ services() {
   init
 
   # Deploy services to swarm
-  ./docker.sh service ${assets}services
+  ./docker.sh service ${assets}services $app_path
 }
 
 #-------------------------------------------------------------------------------
@@ -115,7 +131,7 @@ stack() {
   init
 
   # Deploy stack to swarm
-  docker stack deploy -c ${app}docker-compose.yml $(cat assets/stack)
+  docker stack deploy -c ${app}docker-compose.yml $(cat ${assets}stack)
 }
 
 #-------------------------------------------------------------------------------
@@ -155,6 +171,8 @@ mkdir -p $assets
 # Generate list of node hostnames
 node_hostnames $node_file
 
+# Run function specified
+# by command line argumens
 "$@"
 
 # Clear assets from temporary
