@@ -9,20 +9,24 @@ loop_nodes() {
   user=$2
   file=$3
 
-  echo "Looping each node in $file"
+  # TODO - Temporary fix for SSH keys not working!
+  password="$(cat ${DIR}/../assets/password)"
+
+  echo "Looping each ip / host listed in: $file"
   echo "$(cat $file)"
 
   while read line; do
+    echo "$protocol: $user@$line"
 
     # If we want to SSH
     if [[ $protocol == "ssh" ]]; then
-      echo "SSH: $user@$line"
-      ssh -n -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $user@$line "${@:4}"
+      # ssh -n $user@$line "${@:4}"
+      sshpass -p "$password" ssh -n $user@$line "${@:4}"
 
     # If we want to SCP
     elif [[ $protocol == "scp" ]]; then
-      echo "SCP: $user@$line"
-      scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${@:4} $user@$line:
+      # scp -r ${@:4} $user@$line:
+      sshpass -p "$password" scp -r ${@:4} $user@$line:
 
     else
       echo "Only SSH and SCP are supported protocols"
@@ -49,5 +53,8 @@ scp_nodes() {
 }
 
 #-------------------------------------------------------------------------------
+
+# Get absolute path of this script
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 "$@"
