@@ -77,29 +77,4 @@ volumes() {
 
 #-------------------------------------------------------------------------------
 
-switch() {
-  if [[ $1 == "stack" ]]; then
-    stack assets/stack
-
-  elif [[ $1 == "secrets" ]]; then
-    secrets assets/secrets
-
-  elif [[ $1 == "networks" ]]; then
-    networks assets/networks
-
-  elif [[ $1 == "volumes" ]]; then
-    volumes assets/volumes
-
-  elif [[ $1 == "containers" ]]; then
-    containers assets/images
-
-  elif [[ $1 == "images" ]]; then
-    images assets/images
-  fi
-}
-
-#-------------------------------------------------------------------------------
-
-while read line; do
-  switch $line
-done <$1
+"$@"

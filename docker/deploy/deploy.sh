@@ -1,12 +1,10 @@
 # Generates list of nodes by hostname
 node_hostnames() {
-  node_file=assets/nodes
-
   # Delete if exists
-  rm -f $node_file
+  rm -f $1
 
   # Recreate files
-  touch $node_file
+  touch $1
 
   # Write out to temp file
   temp=$(docker node ls -q | xargs docker node inspect -f '{{ .Description.Hostname }}')
@@ -16,55 +14,11 @@ node_hostnames() {
 
   # Loop through array and Write
   # line by line
-  for i in "${nodes[@]}"
+  for i in $nodes
   do
      :
-     echo ${nodes[i]} >> $node_file
+     echo $i >> $1
   done
-}
-
-#-------------------------------------------------------------------------------
-
-# Loop through each node and either SCP
-# files to it, or SSH into it and execute
-# a specified script / command.
-loop_nodes() {
-  echo "Looping each node"
-
-  while read line; do
-
-    # If we want to SSH
-    if [[ $1 == "ssh" ]]; then
-      echo "SSH: $user@$line"
-      ssh -n $user@$line "${@:2}"
-
-    # If we want to SCP
-    elif [[ $1 == "scp" ]]; then
-      echo "SCP: $user@$line"
-      scp -r ${@:2} $user@$line:
-
-    # TODO - Notify command not recognized otherwise
-
-    fi
-  done <assets/nodes
-}
-
-#-------------------------------------------------------------------------------
-
-ssh_nodes() {
-
-  # Loop through nodes and
-  # run a specified script
-  loop_nodes ssh "$@"
-}
-
-#-------------------------------------------------------------------------------
-
-scp_nodes() {
-
-  # Loop through nodes and
-  # run a specified script
-  loop_nodes scp "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -73,7 +27,7 @@ send_assets() {
 
   # Loop through each node, SCP into each one and
   # send all of these files to the node
-  scp_nodes assets setup.sh docker.sh clean.sh
+  $scp_nodes $user $node_file $assets setup.sh docker.sh clean.sh
 }
 
 #-------------------------------------------------------------------------------
@@ -82,7 +36,7 @@ setup_nodes() {
 
   # Loop through nodes and
   # run setup script
-  ssh_nodes ./setup.sh
+  $ssh_nodes $user $node_file ./setup.sh
 }
 
 #-------------------------------------------------------------------------------
@@ -92,7 +46,7 @@ clean_nodes() {
 
   # Loop through nodes and
   # run cleanup script
-  ssh_nodes ./clean.sh assets/clean
+  $ssh_nodes $user $node_file ./clean.sh assets/clean
 }
 
 #-------------------------------------------------------------------------------
@@ -110,10 +64,10 @@ init() {
   setup_nodes
 
   # Initialize docker networks (once)
-  ./docker.sh network assets/networks
+  ./docker.sh network ${assets}networks
 
   # Tag and build new images locally
-  ./docker.sh build assets/images
+  ./docker.sh build ${assets}images
 }
 
 #-------------------------------------------------------------------------------
@@ -122,7 +76,7 @@ services() {
   init
 
   # Deploy services to swarm
-  ./docker.sh service assets/services
+  ./docker.sh service ${assets}services
 }
 
 #-------------------------------------------------------------------------------
@@ -131,16 +85,40 @@ stack() {
   init
 
   # Deploy stack to swarm
-  docker stack deploy -c ../docker-compose.yml $(cat assets/stack)
+  docker stack deploy -c ${app}docker-compose.yml $(cat assets/stack)
 }
 
 #-------------------------------------------------------------------------------
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# For fully qualified paths
+# when passing files to scripts
+# that are in different directories
+root_path="${DIR}/../../"
+app_path="${DIR}/../test_app/"
+
+# All paths to asset files
+root_assets="${root_path}assets/"
+app_assets="${app_path}assets/"
+assets="${DIR}/assets/"
+
+# Alias to import util script
+util="/bin/bash ${root_path}util/util.sh"
+
+# Alias to  functions in util script
+scp_nodes="${util} scp_nodes"
+ssh_nodes="${util} ssh_nodes"
+
+# File with list of hostnames
+# of nodes in docker swarm
+node_file="${assets}nodes"
+
 # Get the common username
 # from the user file
-user=$(cat assets/user)
+user=$(cat ${root_assets}user)
 
 # Generate list of node hostnames
-node_hostnames
+node_hostnames $node_file
 
 "$@"

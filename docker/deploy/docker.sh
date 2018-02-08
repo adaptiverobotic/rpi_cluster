@@ -63,18 +63,4 @@ volume() {
 
 #-------------------------------------------------------------------------------
 
-upload() {
-
-  # Delete old images
-  ./clean.sh assets/clean
-
-  # Build new ones
-  build assets/images
-
-  # Push them to cloud
-  push assets/images
-}
-
-#-------------------------------------------------------------------------------
-
 "$@"
