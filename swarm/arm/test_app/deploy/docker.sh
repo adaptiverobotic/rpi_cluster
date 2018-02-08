@@ -42,6 +42,12 @@ secret() {
 
 service() {
   while read line; do
+
+    # Execute docker_service.sh in
+    # each directory that is read from file
+
+    # TODO - Make this more portable
+    # by reading in fully qualified paths?
     ./../$line/docker_service.sh
   done <$1
 }

@@ -3,6 +3,7 @@ containers() {
   while read line; do
     l=($line)
 
+    # Stop all containers associate with image name
     docker ps -a -q --filter ancestor=${l[0]} | xargs --no-run-if-empty docker stop
   done <$1
 
@@ -27,23 +28,36 @@ images() {
 #-------------------------------------------------------------------------------
 
 networks() {
-  docker network prune
 
   while read line; do
     l=($line)
     docker network rm ${l[0]}
   done <$1
+
+  # Delete all networks that
+  # does not have at least one
+  # container connected to it
+
+  # NOTE - Temporary
+  # docker network prune
 }
 
 #-------------------------------------------------------------------------------
 
 secrets() {
+  # TODO - Delete secrets
+  # by name specified by file
+
   echo "Secrets"
 }
 
 #-------------------------------------------------------------------------------
 
 stack() {
+
+  # Remove a stack by name.
+  # All associated services
+  # will be stopped
   docker stack rm $(cat $1)
 }
 
@@ -52,9 +66,12 @@ stack() {
 volumes() {
   while read line; do
     l=($line)
+
+    # Remove volume by name
     docker volume rm ${l[0]}
   done <$1
 
+  # Remove all unused volumes
   docker volume ls -qf dangling=true | xargs --no-run-if-empty -r docker volume rm
 }
 
