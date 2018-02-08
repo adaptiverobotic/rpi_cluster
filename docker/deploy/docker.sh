@@ -1,6 +1,9 @@
 build() {
   path=$2
 
+  echo "Building images listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
     l=($line)
     docker build -t ${l[0]}:latest $path${l[1]}
@@ -10,6 +13,9 @@ build() {
 #-------------------------------------------------------------------------------
 
 network() {
+  echo "Creating networks listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
     l=($line)
     docker network create -d ${l[1]} ${l[0]}
@@ -19,6 +25,9 @@ network() {
 #-------------------------------------------------------------------------------
 
 pull() {
+  echo "Pulling images listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
     l=($line)
     docker pull ${l[0]}:latest
@@ -28,6 +37,9 @@ pull() {
 #-------------------------------------------------------------------------------
 
 push() {
+  echo "Pushing to docker hub images listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
     l=($line)
     docker push ${l[0]}:latest
@@ -37,14 +49,24 @@ push() {
 #-------------------------------------------------------------------------------
 
 secret() {
-  echo "Secret"
+  echo "Creating docker secrets listed in: $1"
+  echo "$(cat $1)"
+
+  while read line; do
+    l=($line)
+    echo $line
+  done <$1
 }
 
 #-------------------------------------------------------------------------------
 
 service() {
+  path=$2
+
+  echo "Creating services listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
-    path=$2
 
     echo "Starting docker service from $path"
 
@@ -58,13 +80,16 @@ service() {
     # block the terminal.
 
     # TODO - Send to background
-    /bin/bash ${2}${line}/docker_service.sh &>/dev/null &
+    /bin/bash ${path}${line}/docker_service.sh &>/dev/null &
   done <$1
 }
 
 #-------------------------------------------------------------------------------
 
 volume() {
+  echo "Creating volumes listed in: $1"
+  echo "$(cat $1)"
+
   while read line; do
     l=($line)
     docker volume create -d ${l[1]} ${l[0]}
@@ -74,18 +99,21 @@ volume() {
 #-------------------------------------------------------------------------------
 
 setup() {
+  path=$1
+
   echo "Setting up volumes and secrets"
 
   # Initialize docker volumes
-  volume assets/volumes
+  volume ${path}assets/volumes
 
   # Ensures that all secrets are created
-  secret assets/secrets
+  secret ${path}assets/secrets
 }
 #-------------------------------------------------------------------------------
 
 clean_containers() {
-  echo "Cleaning containers"
+  echo "Removing containers associated with images listed in: $1"
+  echo "$(cat $1)"
 
   while read line; do
     l=($line)
@@ -101,7 +129,8 @@ clean_containers() {
 #-------------------------------------------------------------------------------
 
 clean_images() {
-  echo "Cleaning images"
+  echo "Removing images listed in: $1"
+  echo "$(cat $1)"
 
   # NOTE - Do we also want to
   # delete images that our images
@@ -125,7 +154,8 @@ clean_images() {
 #-------------------------------------------------------------------------------
 
 clean_volumes() {
-  echo "Cleaning volumes"
+  echo "Removing volumes listed in: $1"
+  echo "$(cat $1)"
 
   while read line; do
     l=($line)
@@ -142,7 +172,8 @@ clean_volumes() {
 #-------------------------------------------------------------------------------
 
 clean_networks() {
-  echo "Cleaning networks"
+  echo "Removing networks listed in: $1"
+  echo "$(cat $1)"
 
   while read line; do
     l=($line)
@@ -162,7 +193,8 @@ clean_networks() {
 #-------------------------------------------------------------------------------
 
 clean_secrets() {
-  echo "Cleaning secrets"
+  echo "Removing secrets listed in: $1"
+  echo "$(cat $1)"
 
   # TODO - Delete secrets
   # by name specified by file
@@ -173,13 +205,17 @@ clean_secrets() {
 #-------------------------------------------------------------------------------
 
 clean_services() {
-  echo "Cleaning services"
+  echo "Removing services listed in: $1"
+  echo "$(cat $1)"
+
+  # TODO - Implement
 }
 
 #-------------------------------------------------------------------------------
 
 clean_stacks() {
-  echo "Cleaning stacks"
+  echo "Removing stacks listed in: $1"
+  echo "$(cat $1)"
 
   # Remove a stack by name.
   # All associated services
@@ -192,6 +228,8 @@ clean_stacks() {
 #-------------------------------------------------------------------------------
 
 cleanup() {
+  path=$2
+
   echo "Cleaning up old volumes, images, containers, etc."
 
   while read line; do
@@ -202,12 +240,12 @@ cleanup() {
 
     # TODO - they say there is a syntax error
     if [[ $line == "containers" ]]; then
-      clean_containers $2assets/images
+      clean_containers ${path}assets/images
 
     # Otherwise just match the string
     # so clean_networks, clean_stacks, etc.
     else
-      clean_$line $2assets/$line
+      clean_$line ${path}assets/$line
 
     fi
   done <$1

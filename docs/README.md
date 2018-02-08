@@ -1,11 +1,11 @@
 # Docker Swarm with Raspberry Pi + NAS
 
-This repository contains the scripts that I used to deploy a [Docker Swarm][docker] cluster
-using [Raspberry Pi][rpi] Single Board Computers (SBC) as nodes. 
+This repository contains the scripts and files that I use to stand up a [Docker Swarm][docker] cluster
+using [Raspberry Pi][rpi] Single Board Computers (SBC) as nodes.
 
 ## Compose files
 
-I have written a series of commonly used `docker-compose.yml` files for easy deployments of services such as:
+I have included commonly used `docker-compose.yml` files for easy deployments of services such as:
 
 * [MySQL][mysql]
 * [PostgreSQL][postgres]
@@ -17,21 +17,21 @@ I have written a series of commonly used `docker-compose.yml` files for easy dep
 
 ## Test Application
 
-This repository also includes the source for a [test application][test_app] that is composed of several services. It is a proof of concept application that demonstrates the ease of deploying a multi-service application to a Docker Swarm based infrastructure.
+I have written a [test application][test_app] that is composed of several services (client, server, and database). It is a proof-of-concept application that demonstrates the pros, cons, and overall process of deploying a scalable applications to a Docker Swarm based infrastructure.
 
 ## Deploy Scripts
 
-As most people who use Docker Command Line Interface (CLI) know, deploying docker containers includes a lot of repetitve work - especially when cleaning up. In response to this, I have written a few bash functions to address these drawbacks.
+Deploying docker containers from the command line includes a lot of repetitive work - especially when cleaning up dangling containers and volumes. I have written a few bash functions to address these drawbacks.
 
 * [Deployment][deploy.sh]
 * [Docker CLI][docker.sh]
 
 ## Network Attached Storage
 
-The repo also includes the scripts that allow me to mount directories in the  local file systems of the nodes as a [Network Attached Storage][nas] (NAS). 
+The repo also includes the scripts that allow me to mount directories in the  local file systems of the nodes as a [Network Attached Storage][nas] (NAS).
 
 **NOTE:** This is a simple NAS based on [Samba][samba] without RAID or scheduled backup.
-This implementation is not meant to be an end-all-be-all network drive solution. It is for easily sharing data between clients on the network.
+This implementation is not meant to be a network drive solution. It is for easily sharing data across network.
 
 [mysql]: ../docker/compose/mysql.yml
 [postgres]: ../docker/compose/postgres.yml
