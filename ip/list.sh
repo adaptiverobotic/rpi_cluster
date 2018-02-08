@@ -19,6 +19,21 @@ temp=$(arp -a | sed 's/^\([^ ][^ ]*\) (\([0-9][0-9.]*[0-9]\)) at \([a-fA-F0-9:]*
 # Convert list to array
 ip_macs=($temp)
 
+# Get this device's ip and mac, as it
+# is not going to be returned by the ARP broadcast
+# we must manually append it to the list
+
+interface="eth0"
+
+temp=($(ifconfig $interface | grep -w inet))
+
+# Store ip and mac
+this_ip=${temp[1]}
+this_mac="$(cat /sys/class/net/$interface/address)"
+
+# Append this device's info to list
+ip_macs+=(";$this_ip;$this_mac")
+
 # Loop through array of hostname:ip:mac mappings
 for i in "${ip_macs[@]}"
 do
@@ -36,7 +51,6 @@ do
   # Check that MAC matches at least
   # one of the filters in the filter file
   while read line; do
-    echo "$mac $line"
 
     if [[ $mac == $(echo $line)* ]]; then
       valid=true
