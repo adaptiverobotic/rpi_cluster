@@ -23,7 +23,7 @@ sudo apt-get install sshpass
 /bin/bash samba/install.sh
 
 # Initialize docker swarm
-# /bin/bash docker/install.sh
+/bin/bash docker/install.sh
 
 # Deploy test application
 # /bin/bash docker/deploy/deploy.sh services
