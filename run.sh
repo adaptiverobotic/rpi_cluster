@@ -11,15 +11,17 @@
 # /bin/bash dependencies/install.sh
 
 # Configure firewall
-/bin/bash ufw/install.sh
-
-exit 0
+# /bin/bash ufw/install.sh
 
 # Setup network attached storage
 /bin/bash samba/install.sh
 
+exit 0
+
 # Initialize docker swarm
-/bin/bash docker/install.sh
+# /bin/bash docker/install.sh
 
 # Deploy test application
-/bin/bash docker/deploy/deploy.sh services
+# /bin/bash docker/deploy/deploy.sh services
+
+#

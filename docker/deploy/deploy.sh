@@ -52,7 +52,7 @@ send_assets() {
 
   # Loop through each node, SCP into each one and
   # send all of these files to the node
-  $scp_nodes $user $node_file $assets docker.sh
+  $scp_nodes $node_file $assets docker.sh
 }
 
 #-------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ setup_nodes() {
   echo "Running install script on node"
 
   # Loop through nodes and run setup script
-  $ssh_nodes $user $node_file ./docker.sh setup
+  $ssh_nodes $node_file ./docker.sh setup
 }
 
 #-------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ clean_nodes() {
   echo "Cleaning old volumes, images, and containers from each node"
 
   # Loop through nodes and run cleanup script
-  $ssh_nodes $user $node_file ./docker.sh cleanup assets/clean ./
+  $ssh_nodes $node_file ./docker.sh cleanup assets/clean ./
 }
 
 #-------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ pull_nodes() {
   echo "Pulling images down from docker hub"
 
   # Loop through nodes and pull images down locally
-  $ssh_nodes $user $node_file ./docker.sh pull assets/images ./
+  $ssh_nodes $node_file ./docker.sh pull assets/images ./
 }
 
 #-------------------------------------------------------------------------------
