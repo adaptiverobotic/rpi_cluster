@@ -9,7 +9,7 @@ dependencies="${DIR}/assets/dependencies"
 # Alias to import util script
 util="/bin/bash ${DIR}/../util/util.sh"
 
-# Alias to functions in util script
+# Alias to ssh function in util script
 ssh_nodes="${util} ssh_nodes"
 
 # Run setup script on each node

@@ -1,5 +1,5 @@
 # Build ip address list
-/bin/bash ip/list.sh
+# /bin/bash ip/list.sh
 
 # Enable passwordless ssh
 # /bin/bash ssh/install.sh

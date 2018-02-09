@@ -6,6 +6,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Get list of dependencies
 conf="${DIR}/assets/smb.conf"
 
+user=$(cat ${DIR}/../assets/user)
+password=$(cat ${DIR}/../assets/password)
+
 # Alias to import util script
 util="/bin/bash ${DIR}/../util/util.sh"
 
@@ -17,4 +20,4 @@ ssh_nodes="${util} ssh_nodes"
 $scp_nodes ${DIR}/setup.sh $conf
 
 # Run setup script as sudo on each node
-$ssh_nodes sudo /bin/bash setup.sh
+$ssh_nodes sudo /bin/bash setup.sh $user $password
