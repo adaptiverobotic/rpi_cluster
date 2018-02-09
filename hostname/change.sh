@@ -1,7 +1,20 @@
 echo "Changing hostname of each node"
 
+# Get absolute path of this script
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# NOTE - Maybe instead of counting pi-0, pi-1...
-# if pi's address is 192.168.2.123, let hostname be pi-123
-# At some later date we can use this convention to easily
-# get the ip address back from its hostname
+# Get common user name
+user=$(cat ${DIR}/../assets/user)
+
+# Alias to import util script
+util="/bin/bash ${DIR}/../util/util.sh"
+
+# Alias to functions in util script
+scp_nodes="${util} scp_nodes"
+ssh_nodes="${util} ssh_nodes"
+
+# SCP setup and password file script to each node
+$scp_nodes ${DIR}/setup.sh
+
+# Run setup script on each node
+$ssh_nodes sudo /bin/bash setup.sh $user

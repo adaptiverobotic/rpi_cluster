@@ -3,11 +3,17 @@ etc_hostname="/etc/hostname"
 hosts="/etc/hosts"
 
 # For creating host
-user="$1"
-node_num="$2"
+user=$1
 
-# pi-0
-hostname=$user-$node_num
+# Get this node's IP from
+# info about it's current
+# ssh connection
+tmp0=$(hostname -I)
+tmp1=($tmp0)
+ip=${tmp1[0]}
+
+# pi-192.168.2.100
+hostname=$user-$ip
 
 echo "Setting up $hostname"
 
