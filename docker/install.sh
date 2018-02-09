@@ -30,11 +30,14 @@ $scp_specific_nodes $ips ${DIR}/setup.sh
 # Read leader ip into a file
 echo $(head -n 1 $ips) > $leader_file
 
-# Read work ips into a separate file
+# TODO - Read first two lines as managers
+# this way if one leader goes out we aren't screwed
+
+# Read workers' ips into a separate file
 echo $(tail -n +2 ${ips}) | tr " " "\n" > $worker_file
 
 # Send list of workers to leader so that leader can SSH through all
-# of the workers and make them join them into the swarm
+# of the workers and make them join the swarm
 $scp_specific_nodes $leader_file $assets $util $worker_file
 
 # Initialize the swarm

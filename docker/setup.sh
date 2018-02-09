@@ -48,8 +48,9 @@ init_swarm() {
   mkdir util
   mv util.sh util/util.sh
 
-  # Join swarm on each worker node
+  # Send join script over to each node, then execute it
   ./util/util.sh scp_specific_nodes worker worker_token.sh
+  ./util/util.sh ssh_specific_nodes worker "docker swarm leave --force"
   ./util/util.sh ssh_specific_nodes worker /bin/bash worker_token.sh
 }
 
