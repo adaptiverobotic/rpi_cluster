@@ -2,15 +2,15 @@
 /bin/bash ip/list.sh
 
 # Enable passwordless ssh
-/bin/bash ssh/install.sh
-
-exit 0
+# /bin/bash ssh/install.sh
 
 # Change all the hostnames
-/bin/bash hostname/change.sh
+# /bin/bash hostname/change.sh
 
 # Install dependencies
 /bin/bash dependencies/install.sh
+
+exit 0
 
 # Configure firewall
 /bin/bash ufw/install.sh

@@ -20,7 +20,7 @@ scp_nodes="${util} scp_nodes"
 ssh_nodes="${util} ssh_nodes"
 
 # SCP setup and password file script to each node
-$scp_nodes $user $ips ${DIR}/setup.sh $password
+$scp_nodes $ips ${DIR}/setup.sh $password
 
 # Run setup script on each node
-$ssh_nodes $user $ips /bin/bash setup.sh $user $(cat $ips)
+$ssh_nodes /bin/bash setup.sh $user $(cat $ips)
