@@ -22,9 +22,16 @@ uninstall_docker() {
 
 init_swarm() {
 
+  # Get this device's ip address
+  ip=$(./util/util.sh my_ip)
+
   # Leave swarm, make a new one
-  x=$(docker swarm leave --force)
-  y=$(docker swarm init --advertise-addr 192.168.2.100)
+  echo "Leaving old swarn and creating new one"
+  docker swarm leave --force
+
+  # Make a new one
+  echo "Initializing swarm, advertising ip: $ip"
+  docker swarm init --advertise-addr $ip
 
   # Check exit status
   if [ $? -ne 0 ]
@@ -33,29 +40,24 @@ init_swarm() {
     exit 1
   fi
 
-  # Get the join-token for workers and managers
-  echo $(docker swarm join-token worker | grep "docker") > worker_token.sh
-  echo $(docker swarm join-token manager | grep "docker") > manager_token.sh
-
-  # Make them executable
-  chmod 777 worker_token.sh
-  chmod 777 manager_token.sh
-
-  # Move util to the right spot
-  # so that it can properly read
-  # in the assets/user file for
-  # user with scp and ssh
-  mkdir util
-  mv util.sh util/util.sh
-
-  # Send join script over to each node, then execute it
-  ./util/util.sh scp_specific_nodes worker worker_token.sh
+  echo "Leaving old swarms"
   ./util/util.sh ssh_specific_nodes worker "docker swarm leave --force"
-  ./util/util.sh ssh_specific_nodes worker /bin/bash worker_token.sh
+
+  # Get the join-token for workers and managers
+  echo "Generating join tokens for joining the new swarm"
+  ./util/util.sh ssh_specific_nodes worker $(docker swarm join-token worker | grep "docker")
+  # ./util/util.sh ssh_specific_nodes manager $(docker swarm join-token manager | grep "docker")
 }
 
 #-------------------------------------------------------------------------------
 
 user=$2
+
+# Move util to the right spot
+# so that it can properly read
+# in the assets/user file for
+# user with scp and ssh
+mkdir -p util
+mv util.sh util/util.sh
 
 "$@"

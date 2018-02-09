@@ -21,11 +21,11 @@ util="${DIR}/../util/util.sh"
 ssh_specific_nodes="/bin/bash ${util} ssh_specific_nodes"
 scp_specific_nodes="/bin/bash ${util} scp_specific_nodes"
 
-# SCP setup and password file script to each node
+# SCP setup script to each node
 $scp_specific_nodes $ips ${DIR}/setup.sh
 
 # Install docker on all nodes
-# $scp_specific_nodes $ips /bin/bash setup.sh install_docker $user
+$ssh_specific_nodes $ips /bin/bash setup.sh install_docker $user
 
 # Read leader ip into a file
 echo $(head -n 1 $ips) > $leader_file
@@ -38,7 +38,7 @@ echo $(tail -n +2 ${ips}) | tr " " "\n" > $worker_file
 
 # Send list of workers to leader so that leader can SSH through all
 # of the workers and make them join the swarm
-$scp_specific_nodes $leader_file $assets $util $worker_file
+$scp_specific_nodes $leader_file $assets $util
 
 # Initialize the swarm
 $ssh_specific_nodes $leader_file /bin/bash setup.sh init_swarm

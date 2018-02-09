@@ -9,7 +9,6 @@ loop_nodes() {
   protocol=$2
 
   echo "Looping each ip / host listed in: $file"
-  echo "$(cat $file)"
 
   while read line; do
     echo "$protocol: $user@$line"
@@ -96,6 +95,17 @@ lowest_ip() {
     num=$(last_three $ip)
 
   done <$ips
+}
+
+#-------------------------------------------------------------------------------
+
+my_ip() {
+
+  # NOTE - LINUX ONLY
+  tmp0=$(hostname -I)
+  tmp1=($tmp0)
+  i=${tmp1[0]}
+  echo $i
 }
 
 #-------------------------------------------------------------------------------
