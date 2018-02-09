@@ -10,7 +10,7 @@ dependencies="${DIR}/assets/dependencies"
 util="/bin/bash ${DIR}/../util/util.sh"
 
 # Alias to functions in util script
-scp_nodes="${util} scp_nodes"
+ssh_nodes="${util} ssh_nodes"
 
 # Run setup script on each node
 $ssh_nodes sudo apt-get install $(cat $dependencies) -y

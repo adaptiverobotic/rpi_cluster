@@ -8,12 +8,12 @@
 # /bin/bash hostname/change.sh
 
 # Install dependencies
-/bin/bash dependencies/install.sh
-
-exit 0
+# /bin/bash dependencies/install.sh
 
 # Configure firewall
 /bin/bash ufw/install.sh
+
+exit 0
 
 # Setup network attached storage
 /bin/bash samba/install.sh
