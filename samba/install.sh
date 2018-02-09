@@ -1,10 +1,20 @@
-user="pi"
-ip="192.168.2.100"
-setup_dir="./"
-setup_script="install_samba.sh"
+echo "Configuring Samba"
 
-# SCP setup files over to pi
-scp -r $setup_dir/ $user@$ip:
+# Get absolute path of this script
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# SSH in and run setup script
-ssh $user@$ip "cd $setup_dir && sudo ./$setup_script"
+# Get list of dependencies
+conf="${DIR}/assets/smb.conf"
+
+# Alias to import util script
+util="/bin/bash ${DIR}/../util/util.sh"
+
+# Alias to functions in util script
+scp_nodes="${util} scp_nodes"
+ssh_nodes="${util} ssh_nodes"
+
+# SCP setup and config file script to each node
+$scp_nodes ${DIR}/setup.sh $conf
+
+# Run setup script as sudo on each node
+$ssh_nodes sudo /bin/bash setup.sh
