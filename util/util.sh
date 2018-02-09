@@ -16,11 +16,11 @@ loop_nodes() {
 
     # If we want to SSH
     if [[ $protocol == "ssh" ]]; then
-      ssh -n $user@$line "${@:2}"
+      sshpass -f $password_file ssh -o userknownhostsfile=/dev/null -o stricthostkeychecking=no -n $user@$line "${@:2}"
 
     # If we want to SCP
     elif [[ $protocol == "scp" ]]; then
-      scp -r ${@:2} $user@$line:
+      sshpass -f $password_file scp -r ${@:2} $user@$line:
 
     else
       echo "Only SSH and SCP are supported protocols"
@@ -51,8 +51,9 @@ scp_nodes() {
 # Get absolute path of this script
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# Get login credentials
+# Get login credential
 user=$(cat ${DIR}/../assets/user)
+password_file="${DIR}/../assets/password"
 ips="${DIR}/../assets/ips"
 
 "$@"
