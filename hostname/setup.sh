@@ -12,8 +12,12 @@ tmp0=$(hostname -I)
 tmp1=($tmp0)
 ip=${tmp1[0]}
 
-# pi-192.168.2.100
-hostname=$user-$ip
+# Get lat 3 digits from ip
+num=$(echo $ip | cut -d . -f 4)
+
+# if ip=192.168.2.100
+# hostname=pi-100
+hostname=$user-$num
 
 echo "Setting up $hostname"
 
