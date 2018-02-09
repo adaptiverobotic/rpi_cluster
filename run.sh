@@ -2,7 +2,7 @@
 # outside of the dependency script
 # because we use sshpass in util
 # to ssh into all nodes without password
-sudo apt-get install sshpass
+# sudo apt-get install sshpass
 
 # Build ip address list
 /bin/bash ip/list.sh

@@ -1,5 +1,3 @@
-password=$(cat password)
-
 # Give variables
 # meaningful names
 user=$1
@@ -20,7 +18,7 @@ do
   # ssh $user@$ip "cat ${HOME}/id_rsa.pub >> ${ssh_dir}authorized_keys"
 
   # TODO - DOES NOT WORK YET!
-  echo "ssh-copy-id -i ${ssh_dir}id_rsa.pub $user@$ip"
+  ssh-copy-id -i ${ssh_dir}id_rsa.pub $user@$ip
 done
 
 # If anything failed, destroy

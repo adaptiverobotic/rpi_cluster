@@ -1,0 +1,1 @@
+Looping each ip / host listed in: /Users/jod/Desktop/rpi_cluster/docker/../assets/leader 192.168.2.100 ssh: pi@192.168.2.100 docker swarm join --token SWMTKN-1-093mssqxza4ehsrnrwui3l4w408olz2jd0kxbswqhw5fo7prbf-5h8l0bheq691zsynrtr8cclje 192.168.2.100:2377

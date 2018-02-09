@@ -24,8 +24,6 @@ sudo pdbedit -x -u $user
 hostname=$(cat /etc/hostname)
 drive_name="[home-$hostname]"
 
-echo "drive: $drive_name"
-
 # Modify config file so that we append the hostname
 # to the name of the network drive.
 sed -i "1s/.*/$drive_name/" smb.conf

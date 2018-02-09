@@ -11,6 +11,10 @@ util="/bin/bash ${DIR}/../util/util.sh"
 
 # Alias to ssh function in util script
 ssh_nodes="${util} ssh_nodes"
+scp_nodes="${util} scp_nodes"
+
+# SCP setup script to each node
+$scp_nodes ${DIR}/setup.sh
 
 # Run setup script on each node
-$ssh_nodes sudo apt-get install $(cat $dependencies) -y
+$ssh_nodes /bin/bash setup.sh $(cat $dependencies) -y
