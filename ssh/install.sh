@@ -3,6 +3,9 @@ echo "Enabling passwordless ssh"
 # Get absolute path of this script
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+# Get common user name
+user=$(cat ${DIR}/../assets/user)
+
 # Get list of ips
 ips="${DIR}/../assets/ips"
 
@@ -13,8 +16,5 @@ util="/bin/bash ${DIR}/../util/util.sh"
 scp_nodes="${util} scp_nodes"
 ssh_nodes="${util} ssh_nodes"
 
-# SCP setup and password file script to each node
-$scp_nodes $ips ${DIR}/setup.sh
-
-# Run setup script on each node
-$ssh_nodes /bin/bash setup.sh $user $(cat $ips)
+# Copy the ssh key to each pi in list
+/bin/bash ${DIR}/setup.sh $user $(cat $ips)

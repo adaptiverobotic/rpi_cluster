@@ -4,6 +4,10 @@ user=$1
 ssh_dir=$HOME/.ssh/
 
 # Re-create directory for SSH keys
+# TODO - Perhaps only delete relavent keys.
+# This way we are not destroying anything
+# on the machine that is being used to
+# set up the pis
 mkdir -p $ssh_dir
 rm -f ${ssh_dir}id_rsa*
 
