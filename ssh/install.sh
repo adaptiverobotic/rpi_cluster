@@ -9,12 +9,11 @@ user=$(cat ${DIR}/../assets/user)
 # Get list of ips
 ips="${DIR}/../assets/ips"
 
-# Alias to import util script
-util="/bin/bash ${DIR}/../util/util.sh"
-
-# Alias to functions in util script
-scp_nodes="${util} scp_nodes"
-ssh_nodes="${util} ssh_nodes"
-
-# Copy the ssh key to each pi in list
+# Copy the ssh key to each node in list.
+# NOTE - At some later date, perhaps we should
+# run this script on the leader. In the event
+# that the leader wants to ssh into each node
+# it should be able to do that without being
+# prompted for a password for each node. For now,
+# this works for simply setting up the cluster.
 /bin/bash ${DIR}/setup.sh $user $(cat $ips)

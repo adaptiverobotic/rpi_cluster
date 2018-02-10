@@ -21,7 +21,6 @@ do
   # scp ${ssh_dir}id_rsa.pub $user@$ip:
   # ssh $user@$ip "cat ${HOME}/id_rsa.pub >> ${ssh_dir}authorized_keys"
 
-  # TODO - DOES NOT WORK YET!
   ssh-copy-id -i ${ssh_dir}id_rsa.pub $user@$ip
 done
 
