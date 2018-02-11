@@ -39,8 +39,8 @@ my_scp() {
 }
 
 # SSH or SCP into a node
-# using global ssh settings,
-# in addition, provide a password
+# using global ssh settings.
+# In addition, provide a password
 # that is read in from a file.
 # Use this to automate SSH / SCP before
 # ssh keys are generated and copied to each node.
@@ -51,7 +51,30 @@ my_sshpass() {
   # as my_ssh, my_scp
   protocol=$1
 
-  sshpass -f $password_file my_$protocol $@
+  # Format: user@ip
+  user_ip=$2
+
+  # If we want to SSH and execute commands on a node
+  if [[ $protocol == "ssh" ]]; then
+
+    call="$protocol $ssh_args -n $user_ip ${@:3}"
+
+  # If we want to SCP a file to a node
+  elif [[ $protocol == "scp" ]]; then
+
+    call="$protocol $ssh_args -r "${@:3}" $user_ip:"
+
+  # We want to copy a public key toa node
+  elif [[ $protocol == "ssh-copy-id" ]]; then
+    call="$protocol $ssh_args ${@:3} $user_ip"
+
+  else
+    echo "$protocol not supported"
+  fi
+
+  # Make SSH or SCP call passing the password
+  # in from a file to automate the process
+  sshpass -f $password_file $call
 }
 
 # Loop through each node and either SCP

@@ -23,7 +23,7 @@ ssh_dir=$HOME/.ssh/
 # can automatically insert the password
 # when we are prompted at ssh command
 expect="${DIR}/../util/expect.sh"
-util="${DIR}/../util/util.sh"
+util="/bin/bash ${DIR}/../util/util.sh"
 
 # Create if it does not
 # already exist
@@ -34,8 +34,13 @@ echo "Generating public and private key pair"
 # Generate public-private key pairs locally
 echo "y" | ssh-keygen -f ${ssh_dir}id_rsa -t rsa -N ''
 
-# Remove old keys associated with this device from each node
-/bin/bash $util ssh_nodes "sed -i "/${hostname}/d" ~/.ssh/authorized_keys"
+# Loop through each node
+# and delete any old authorized_keys
+# that are associate with this device
+for ip in $ips
+do
+  $util my_sshpass ssh $user@$ip "sed -i "/${hostname}/d" ~/.ssh/authorized_keys"
+done
 
 echo "Sending public key to each node"
 
@@ -43,7 +48,7 @@ echo "Sending public key to each node"
 for ip in $ips
 do
   # Copy the new public key to each node
-  ssh-copy-id -o IdentitiesOnly=yes -i ${ssh_dir}id_rsa.pub $user@$ip
+  $util my_sshpass ssh-copy-id $user@$ip -i ${ssh_dir}id_rsa.pub
 done
 
 # Make changes official
