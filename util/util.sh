@@ -38,6 +38,25 @@ my_scp() {
   scp $ssh_args -r "${@:2}" $user_ip:
 }
 
+# SCP a list of files from
+# a remote server to this device
+# TODO - Expand to support
+# multiple files
+my_scp_get_file() {
+  # Format: user@ip
+  user_ip=$1
+  local_dir=$2
+
+  args=${@:3}
+
+  # Make the local_dir
+  # if it does not exist
+  mkdir -p $local_dir
+
+  # SCP a file to a given node passing the password from a file
+  scp $ssh_args -r $user_ip:\"$args\" $local_dir
+}
+
 # SSH or SCP into a node
 # using global ssh settings.
 # In addition, provide a password

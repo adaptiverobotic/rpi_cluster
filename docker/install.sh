@@ -1,15 +1,6 @@
 #!/bin/bash
 set -e
 
-join_swarm() {
-  echo "Each node joining swarm"
-}
-
-disband_swarm() {
-  echo "Removing all nodes from existing swarm"
-  $ssh_specific_nodes $ips "docker swarm leave --force"
-}
-
 echo "Installing Docker"
 
 # Get absolute path of this script
@@ -27,11 +18,12 @@ user=$(cat ${DIR}/../assets/user)
 assets="${DIR}/../assets/"
 
 # Alias to import util script
-util="${DIR}/../util/util.sh"
+util="/bin/bash ${DIR}/../util/util.sh"
 
 # Alias to functions in util script
-ssh_specific_nodes="/bin/bash ${util} ssh_specific_nodes"
-scp_specific_nodes="/bin/bash ${util} scp_specific_nodes"
+ssh_specific_nodes="${util} ssh_specific_nodes"
+scp_specific_nodes="${util} scp_specific_nodes"
+my_scp_get_file="${util} my_scp_get_file"
 
 # SCP setup script to each node
 $scp_specific_nodes $ips ${DIR}/setup.sh
@@ -42,7 +34,10 @@ $ssh_specific_nodes $ips /bin/bash setup.sh install_docker $user
 # Read leader ip into a file
 echo "Selecting leader node"
 echo $(head -n 1 $ips) > $leader_file
-echo "Leader will be: $(cat $leader_file), make sure it's ip is static"
+
+# Capture leader_ip
+leader_ip=$(cat $leader_file)
+echo "Leader will be: $leader_ip, make sure it's ip is static"
 
 # TODO - Read first two lines as managers
 # this way if one leader goes out we aren't screwed
@@ -57,10 +52,18 @@ $scp_specific_nodes $leader_file $assets $util
 
 # Loop through each node
 # and remove it from existing swarm
-disband_swarm
+echo "Removing all nodes from existing swarm"
+$ssh_specific_nodes $ips /bin/bash setup.sh leave_swarm
 
 # Initialize the swarm
 echo "Initializing new swarm"
-$ssh_specific_nodes $leader_file /bin/bash setup.sh init_swarm
+$ssh_specific_nodes $leader_file /bin/bash setup.sh init_swarm $leader_ip
 
-join_swarm
+# Download the join token scripts to this devce
+$my_scp_get_file $user@$leader_ip ${DIR}/assets/ manager_join_token.sh
+$my_scp_get_file $user@$leader_ip ${DIR}/assets/ worker_join_token.sh
+
+# Add all nodes to swarm
+echo "Each node joining swarm"
+$scp_specific_nodes $worker_file ${DIR}/assets/worker_join_token.sh
+$ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
