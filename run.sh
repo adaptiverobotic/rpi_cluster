@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 
 # We must install this dependency
@@ -6,26 +7,86 @@ set -e
 # to ssh into all nodes without password
 # sudo apt-get install sshpass
 
-# Build ip address list
-# /bin/bash ip/list.sh
+ip_list() {
+  echo "Generating list of ips"
 
-# Enable passwordless ssh
-# /bin/bash ssh/install.sh
+  # Build ip address list
+  ./ip/list.sh
+}
 
-# Change all the hostnames
-# /bin/bash hostname/change.sh
+ssh_keys() {
+  echo "Generating ssh keys and copying it to all nodes"
 
-# Install dependencies
-# /bin/bash dependencies/install.sh
+  # Enable passwordless ssh
+  ./ssh/install.sh
+}
 
-# Configure firewall
-# /bin/bash ufw/install.sh
+hostname() {
+  echo "Changing each node's hostname to match a specified pattern"
 
-# Setup network attached storage
-# /bin/bash samba/install.sh
+  # Change all the hostnames
+  ./hostname/change.sh
+}
 
-# Initialize docker swarm
-/bin/bash docker/install.sh
+dependencies() {
+  echo "Installing dependencies on all nodes"
 
-# Deploy test application
-# /bin/bash docker/deploy/deploy.sh services
+  # Install dependencies
+  ./dependencies/install.sh
+}
+
+firewall() {
+  echo "Configuring each nodes' firewall"
+
+  # Configure firewall
+  ./ufw/install.sh
+}
+
+nas() {
+  echo "Mounting each node's home folder as a network attached storage"
+
+  # Setup network attached storage
+  ./samba/install.sh
+}
+
+docker() {
+  echo "Creating docker cluster"
+
+  # Initialize docker swarm
+  ./docker/install.sh
+}
+
+kubernetes() {
+  echo "Creating kubernetes cluster"
+}
+
+deploy() {
+  echo "Deploying test app to $1 cluster"
+
+  # Deploy test application
+  # /bin/bash docker/deploy/deploy.sh services
+}
+
+init() {
+  echo "Initializing general cluster settings"
+
+  ip_list
+
+  ssh_keys
+
+  hostname
+
+  dependencies
+
+  firewall
+
+  nas
+}
+
+docker_cluster() {
+  init
+
+  docker
+}
+
+$@

@@ -1,3 +1,37 @@
+#!/bin/bash
+set -e
+
+# Get this device's ip and mac, as it
+# is not going to be returned by the ARP broadcast.
+# We must manually append it to the list.
+
+check_this_device() {
+  # NOTE - Get output form ifconfig
+  # for eth0 interface. We use this
+  # as it is the only interface that
+  # we can gaurantee will come back
+  # as a Raspberry Pi Foundation MAC address.
+  # For now, we will place the constraint
+  # that the device running this install
+  # script is a Raspberry Pi. The rest
+  # of the nodes' MAC addresses more free as
+  # they are constrained by all of the MAC prefixes
+  # that are listed in the file assets/filters.
+  # We do this, so that we are not adding other
+  # devices such as development machines or phones
+  # that are connected to the network, but
+  # are not going to be part of the cluster.
+  interface="eth0"
+  temp=($(ifconfig $interface | grep -w inet))
+
+  # Store ip and mac
+  this_ip=${temp[1]}
+  this_mac="$(cat /sys/class/net/$interface/address)"
+
+  # Append this device's info to list
+  ip_macs+=(";$this_ip;$this_mac")
+}
+
 # Get absolute path  of this script
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
@@ -19,34 +53,13 @@ temp=$(arp -a | sed 's/^\([^ ][^ ]*\) (\([0-9][0-9.]*[0-9]\)) at \([a-fA-F0-9:]*
 # Convert list to array
 ip_macs=($temp)
 
-# Get this device's ip and mac, as it
-# is not going to be returned by the ARP broadcast.
-# We must manually append it to the list.
+# NOTE - Will fail on device without
+# eth0 network interface (laptops). We
+# Would only run this if we are initializing
+# the cluster from a Raspberry Pi, or whatever
+# the common hardware is for the cluster. 
 
-# NOTE - Get output form ifconfig
-# for eth0 interface. We use this
-# as it is the only interface that
-# we can gaurantee will come back
-# as a Raspberry Pi Foundation MAC address.
-# For now, we will place the constraint
-# that the device running this install
-# script is a Raspberry Pi. The rest
-# of the nodes' MAC addresses more free as
-# they are constrained by all of the MAC prefixes
-# that are listed in the file assets/filters.
-# We do this, so that we are not adding other
-# devices such as development machines or phones
-# that are connected to the network, but
-# are not going to be part of the cluster.
-interface="eth0"
-temp=($(ifconfig $interface | grep -w inet))
-
-# Store ip and mac
-this_ip=${temp[1]}
-this_mac="$(cat /sys/class/net/$interface/address)"
-
-# Append this device's info to list
-ip_macs+=(";$this_ip;$this_mac")
+# check_this_device
 
 # Loop through array of hostname;ip;mac mappings
 for i in "${ip_macs[@]}"

@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # hostname
 etc_hostname="/etc/hostname"
 hosts="/etc/hosts"

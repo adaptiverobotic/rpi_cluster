@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 
 # Enable UFW firewall software

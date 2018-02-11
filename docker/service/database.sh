@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 docker service create \
 --name database \
 --publish 5432:5432 \

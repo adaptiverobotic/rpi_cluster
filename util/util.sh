@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 
 # Get absolute path of this script
@@ -56,7 +57,6 @@ loop_nodes() {
     elif [[ $action == "scp" ]]; then
 
       my_scp $user $ip "${@:3}"
-
     fi
   done <$file
 }

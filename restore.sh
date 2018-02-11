@@ -1,8 +1,9 @@
+#!/bin/bash
+set -e
+
 # Does best job to restore
 # nodes to their original state
 # without reimaging the device
-
-set -e
 
 echo "1"
 

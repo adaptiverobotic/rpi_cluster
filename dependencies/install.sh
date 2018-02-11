@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 echo "Installing dependencies"
 
 # Get absolute path of this script

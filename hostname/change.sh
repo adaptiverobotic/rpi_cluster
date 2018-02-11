@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 echo "Changing hostname of each node"
 
 # Get absolute path of this script
