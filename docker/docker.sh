@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 build() {
   path=$2
 
@@ -98,7 +101,7 @@ volume() {
 
 #-------------------------------------------------------------------------------
 
-setup() {
+setup_app() {
   path=$1
 
   echo "Setting up volumes and secrets"
@@ -162,7 +165,11 @@ clean_volumes() {
 
     # Remove volume by name
     # TODO - Only if exists
-    docker volume rm ${l[0]}
+    if docker volume rm ${l[0]}; then
+      echo "Volume: ${l[0]} was removed"
+    else
+      echo "Volume: ${l[0]} was not removed or failed"
+    fi
   done <$1
 
   # Remove all unused volumes
@@ -179,7 +186,11 @@ clean_networks() {
     l=($line)
 
     # TODO - Only if exists
-    docker network rm ${l[0]}
+    if docker network rm ${l[0]}; then
+      echo "Network: ${l[0]} was removed"
+    else
+      echo "Network ${l[0]} was did not exist or failed"
+    fi
   done <$1
 
   # Delete all networks that
@@ -217,17 +228,20 @@ clean_stacks() {
   echo "Removing stacks listed in: $1"
   echo "$(cat $1)"
 
+  # TODO - not yet implemented
+
   # Remove a stack by name.
   # All associated services
   # will be stopped
 
   # TODO - Only if exists
-  docker stack rm $(cat $1)
+  # docker stack rm $(cat $1)
 }
 
 #-------------------------------------------------------------------------------
 
 cleanup() {
+  clean_file=$1
   path=$2
 
   echo "Cleaning up old volumes, images, containers, etc."
@@ -248,7 +262,7 @@ cleanup() {
       clean_$line ${path}assets/$line
 
     fi
-  done <$1
+  done <$clean_file
 }
 
 #-------------------------------------------------------------------------------

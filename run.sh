@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Make sure every script is
+# runnable with ./script_name.sh syntax
+chmod 777 **/*.sh
+
 # We must install this dependency
 # outside of the dependency script
 # because we use sshpass in util
@@ -61,10 +65,15 @@ kubernetes() {
 }
 
 deploy() {
-  echo "Deploying test app to $1 cluster"
+
+  # Just for clarity
+  provider=$1
+  app_dir=$2
+
+  echo "Deploying test app to $provider cluster"
 
   # Deploy test application
-  # /bin/bash docker/deploy/deploy.sh services
+  ./$1/deploy.sh $2 ${@:3}
 }
 
 init() {
