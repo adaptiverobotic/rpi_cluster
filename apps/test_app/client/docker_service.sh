@@ -1,6 +1,3 @@
-#!/bin/bash
-set -e
-
 docker service create \
 --name client \
 --mode global \

@@ -52,37 +52,40 @@ init() {
   clean_nodes
 
   setup_nodes
+
+  # Run setup for app. This is run once on the manager.
+  # We create the required networks, etc.
+  $ssh_specific_nodes $leader ./docker.sh setup_app ./
+
+  # Pull all images
+  # down to each node
+  pull_images
 }
 
-scp_service_files() {
+scp_service_file() {
+  service_file="${DIR}/assets/docker_service.sh"
   service_file_list="${DIR}/assets/service_file_list"
 
   # Get paths to all docker_service files
   find $app_path -name docker_service.sh > $service_file_list
+  echo "" > $service_file
 
-
+  # Loop through each service file
+  # and create a script for it will a
+  # unique name
   while read path; do
-    # Get the name of the directly directly containing the
-    # docker_service.sh script. We don't care about
-    # the full path. We will use this to rename the scripts
-    # so that once we SCP them to a node, they have unique names
-    base_dir=$(basename $(dirname \"$path\"))
 
-    service_file=${DIR}/assets/docker_service_${base_dir}.sh
-
-    # Erase contents of file
-    # if it already exists
-    echo "" > $service_file
-
-    # Copy the new script line by line
-    # NOTE - using cat did not work because
-    # it read the shebang onto the same line
-    # as command, thus commenting the entire script
-    while read line;do
-      echo $line >> $service_file
-    done <$path
+    # Get rid of the backslashes and append contents
+    # of each docker_service.sh script
+    echo $(cat $path)  | tr '\\' ' ' >> $service_file
 
   done <$service_file_list
+
+  # Make it executable
+  chmod 777 $service_file
+
+  # Send the docker_service.sh to leader, and run it
+  $scp_specific_nodes $leader $service_file
 }
 
 service() {
@@ -92,13 +95,12 @@ service() {
   # on eaach node
   init
 
-  # Run setup for app. This is run once on the manager.
-  # We create the required networks, etc.
-  $ssh_specific_nodes $leader ./docker.sh setup_app ./
+  # Generate and send docker_service.sh
+  # file over to leader node
+  scp_service_file
 
-  # Pull all images
-  # down to each node
-  pull_images
+  # Execute docker_service.sh to kick off the services
+  $ssh_specific_nodes $leader ./docker_service.sh
 }
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -121,6 +123,7 @@ util="/bin/bash ${DIR}/../util/util.sh"
 scp_nodes="${util} scp_nodes"
 ssh_nodes="${util} ssh_nodes"
 ssh_specific_nodes="${util} ssh_specific_nodes"
+scp_specific_nodes="${util} scp_specific_nodes"
 
 # File with list of ips
 # of nodes in docker swarm

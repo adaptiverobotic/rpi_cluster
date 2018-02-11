@@ -1,6 +1,3 @@
-#!/bin/bash
-set -e
-
 docker service create \
 --name server \
 --publish 8085:8085 \

@@ -39,17 +39,17 @@ echo "y" | ssh-keygen -f ${ssh_dir}id_rsa -t rsa -N ''
 # that are associate with this device
 for ip in $ips
 do
-  $util my_sshpass ssh $user@$ip "sed -i "/${hostname}/d" ~/.ssh/authorized_keys"
-done
+  # SCP setup script to node
+  $util my_sshpass scp $user@$ip ${DIR}/setup.sh
 
-echo "Sending public key to each node"
+  echo "Deleting old key from $ip"
+  $util my_sshpass ssh $user@$ip /bin/bash setup.sh ${hostname}
 
-# Loop through ip addresses
-for ip in $ips
-do
   # Copy the new public key to each node
+  echo "Sending public key to $ip"
   $util my_sshpass ssh-copy-id $user@$ip -i ${ssh_dir}id_rsa.pub
 done
+
 
 # Make changes official
 ssh-add
