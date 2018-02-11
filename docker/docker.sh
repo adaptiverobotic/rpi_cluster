@@ -107,7 +107,7 @@ volume() {
 setup_app() {
   path=$1
 
-  clean_networks ${path}assets/secrets
+  clean_networks ${path}assets/networks
   network ${path}assets/networks
 
   # Ensures that all secrets are created
@@ -165,7 +165,6 @@ clean_volumes() {
   while read line; do
     l=($line)
 
-    # Remove volume by name
     # TODO - Only if exists
     if docker volume rm ${l[0]}; then
       echo "Volume: ${l[0]} was removed"
@@ -196,7 +195,7 @@ clean_networks() {
   done <$1
 
   # Delete all networks that
-  # does not have at least one
+  # do not have at least one
   # container connected to it
 
   # NOTE - Temporary
@@ -260,10 +259,7 @@ cleanup() {
   while read line; do
     l=($line)
 
-    # Clean containers associated with
-    # image names
-
-    # TODO - they say there is a syntax error
+    # Clean containers associated with image names
     if [[ $line == "containers" ]]; then
       clean_containers ${path}assets/images
 
@@ -271,7 +267,6 @@ cleanup() {
     # so clean_networks, clean_stacks, etc.
     else
       clean_$line ${path}assets/$line
-
     fi
   done <$clean_file
 }
