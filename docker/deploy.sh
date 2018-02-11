@@ -54,12 +54,50 @@ init() {
   setup_nodes
 }
 
+scp_service_files() {
+  service_file_list="${DIR}/assets/service_file_list"
+
+  # Get paths to all docker_service files
+  find $app_path -name docker_service.sh > $service_file_list
+
+
+  while read path; do
+    # Get the name of the directly directly containing the
+    # docker_service.sh script. We don't care about
+    # the full path. We will use this to rename the scripts
+    # so that once we SCP them to a node, they have unique names
+    base_dir=$(basename $(dirname \"$path\"))
+
+    service_file=${DIR}/assets/docker_service_${base_dir}.sh
+
+    # Erase contents of file
+    # if it already exists
+    echo "" > $service_file
+
+    # Copy the new script line by line
+    # NOTE - using cat did not work because
+    # it read the shebang onto the same line
+    # as command, thus commenting the entire script
+    while read line;do
+      echo $line >> $service_file
+    done <$path
+
+  done <$service_file_list
+}
+
 service() {
+
+  # Run required
+  # initialization
+  # on eaach node
   init
 
+  # Run setup for app. This is run once on the manager.
+  # We create the required networks, etc.
   $ssh_specific_nodes $leader ./docker.sh setup_app ./
 
   # Pull all images
+  # down to each node
   pull_images
 }
 
@@ -87,5 +125,6 @@ ssh_specific_nodes="${util} ssh_specific_nodes"
 # File with list of ips
 # of nodes in docker swarm
 ips="${DIR}/../assets/ips"
+leader="${DIR}/../assets/leader"
 
 $@

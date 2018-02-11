@@ -1,0 +1,3 @@
+./apps/test_app/client/docker_service.sh
+./apps/test_app/server/docker_service.sh
+./apps/test_app/database/docker_service.sh

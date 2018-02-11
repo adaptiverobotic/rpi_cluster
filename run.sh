@@ -53,7 +53,7 @@ nas() {
   ./samba/install.sh
 }
 
-docker() {
+install_docker() {
   echo "Creating docker cluster"
 
   # Initialize docker swarm
@@ -95,7 +95,9 @@ init() {
 docker_cluster() {
   init
 
-  docker
+  install_docker
+
+  deploy docker service ./apps/test_app/
 }
 
 $@
