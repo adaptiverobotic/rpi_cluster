@@ -33,7 +33,7 @@ setup_nodes() {
   echo "Running install script on node"
 
   # Loop through nodes and run setup script
-  $ssh_nodes ./docker.sh setup_app
+  $ssh_nodes ./docker.sh setup_app ./
 }
 
 pull_images() {
@@ -51,10 +51,11 @@ init() {
 
   clean_nodes
 
-  setup_nodes
+  # Create volume on each node
+  $ssh_nodes ./docker.sh volume assets/volumes
 
   # Run setup for app. This is run once on the manager.
-  # We create the required networks, etc.
+  # We create the required networks, secrets, etc.
   $ssh_specific_nodes $leader ./docker.sh setup_app ./
 
   # Pull all images

@@ -53,11 +53,14 @@ push() {
 
 secret() {
   echo "Creating docker secrets listed in: $1"
-  echo "$(cat $1)"
 
   while read line; do
     l=($line)
-    echo $line
+
+    # Echo the value and pipe that into docker create
+    # secret. By convention, the name of secret is first
+    # value, and the value is the second value
+    echo ${l[1]} | docker secret create ${l[0]} -
   done <$1
 }
 
@@ -104,12 +107,11 @@ volume() {
 setup_app() {
   path=$1
 
-  echo "Setting up volumes and secrets"
-
-  # Initialize docker volumes
-  volume ${path}assets/volumes
+  clean_networks ${path}assets/secrets
+  network ${path}assets/networks
 
   # Ensures that all secrets are created
+  clean_secrets ${path}assets/secrets
   secret ${path}assets/secrets
 }
 #-------------------------------------------------------------------------------
@@ -205,12 +207,21 @@ clean_networks() {
 
 clean_secrets() {
   echo "Removing secrets listed in: $1"
-  echo "$(cat $1)"
 
-  # TODO - Delete secrets
+  #Delete secrets
   # by name specified by file
+  while read line; do
+    l=($line)
 
-  echo "Secrets"
+    # Echo the value and pipe that into docker create
+    # secret. By convention, the name of secret is first
+    # value, and the value is the second value
+    if docker secret rm ${l[0]}; then
+      echo "Secret: ${l[0]} removed"
+    else
+      echo "Secret: ${l[0]} could not be removed, or does not exists"
+    fi
+  done <$1
 }
 
 #-------------------------------------------------------------------------------
