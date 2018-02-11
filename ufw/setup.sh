@@ -1,3 +1,4 @@
+set -e
 
 # Enable UFW firewall software
 echo "y" | sudo ufw reset

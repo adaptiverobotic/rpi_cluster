@@ -1,3 +1,39 @@
+set -e
+
+# Get absolute path of this script
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Get login credential
+user=$(cat ${DIR}/../assets/user)
+password_file="${DIR}/../assets/password"
+ips="${DIR}/../assets/ips"
+
+ssh_args="
+-o ConnectTimeout=5 \
+-o IdentitiesOnly=yes \
+-o userknownhostsfile=/dev/null \
+-o stricthostkeychecking=no"
+
+#-------------------------------------------------------------------------------
+
+my_ssh() {
+  user=$1
+  ip=$2
+
+  sshpass -f $password_file ssh $ssh_args -n $user@$ip "${@:3}"
+}
+
+#-------------------------------------------------------------------------------
+
+my_scp() {
+  user=$1
+  ip=$2
+
+  sshpass -f $password_file scp $ssh_args -r "${@:3}" $user@$ip:
+}
+
+#-------------------------------------------------------------------------------
+
 # Loop through each node and either SCP
 # files to it, or SSH into it and execute
 # a specified script / command.
@@ -6,23 +42,21 @@ loop_nodes() {
   # Give names to args
   # for easier reference
   file=$1
-  protocol=$2
+  action=$2
 
-  echo "Looping each ip / host listed in: $file"
-
-  while read line; do
-    echo "$protocol: $user@$line"
+  while read ip; do
+    echo "Action: $action: $user@$ip"
 
     # If we want to SSH
-    if [[ $protocol == "ssh" ]]; then
-      sshpass -f $password_file ssh -o userknownhostsfile=/dev/null -o stricthostkeychecking=no -n $user@$line "${@:3}"
+    if [[ $action == "ssh" ]]; then
+
+      my_ssh $user $ip "${@:3}"
 
     # If we want to SCP
-    elif [[ $protocol == "scp" ]]; then
-      sshpass -f $password_file scp -r ${@:3} $user@$line:
+    elif [[ $action == "scp" ]]; then
 
-    else
-      echo "Only SSH and SCP are supported protocols"
+      my_scp $user $ip "${@:3}"
+
     fi
   done <$file
 }
@@ -63,7 +97,7 @@ scp_nodes() {
 
 #-------------------------------------------------------------------------------
 
-reboot() {
+reboot_nodes() {
 
   # Power off and reboot
   # each node in cluster
@@ -81,24 +115,6 @@ is_installed() {
 
 #-------------------------------------------------------------------------------
 
-last_three() {
-  echo $1 | cut -d . -f 4
-}
-
-#-------------------------------------------------------------------------------
-
-lowest_ip() {
-
-  while read $ip; do
-
-    # Get last 3 digits from ip
-    num=$(last_three $ip)
-
-  done <$ips
-}
-
-#-------------------------------------------------------------------------------
-
 my_ip() {
 
   # NOTE - LINUX ONLY
@@ -109,13 +125,5 @@ my_ip() {
 }
 
 #-------------------------------------------------------------------------------
-
-# Get absolute path of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-# Get login credential
-user=$(cat ${DIR}/../assets/user)
-password_file="${DIR}/../assets/password"
-ips="${DIR}/../assets/ips"
 
 "$@"

@@ -1,3 +1,5 @@
+set -e
+
 echo "Configuring UFW firewall"
 
 # Get absolute path of this script
