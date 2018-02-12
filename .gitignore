@@ -7,8 +7,8 @@ __pycache__
 *.db*
 .idea
 
-logs/*
-!logs/127.0.0.1
+.logs/*
+!.logs/127.0.0.1
 
 docker/deploy/assets
 

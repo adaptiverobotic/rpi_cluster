@@ -52,6 +52,7 @@ done
 
 
 # Make changes official
+eval $(ssh-agent)
 ssh-add
 
 echo "Successfully added ssh key to each node"

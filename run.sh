@@ -9,12 +9,6 @@ set -e
 # (bash, sh, expect) is run for each script
 chmod 777 **/*.sh
 
-# We must install this dependency
-# outside of the dependency script
-# because we use sshpass in util
-# to ssh into all nodes without password
-# sudo apt-get install sshpass
-
 ip_list() {
   echo "Generating list of ips"
 
@@ -51,10 +45,14 @@ firewall() {
 }
 
 install_samba() {
-  echo "Mounting each node's home folder as a network attached storage"
+  echo "Setting up each node as a network attached storage"
 
   # Setup network attached storage
   ./samba/install.sh
+}
+
+uninstall_samba() {
+  echo "Uninstalling samba from cluster"
 }
 
 install_docker() {
@@ -64,8 +62,16 @@ install_docker() {
   ./docker/install.sh
 }
 
+uninstall_docker() {
+  echo "Uninstalling docker from cluster"
+}
+
 install_kubernetes() {
   echo "Creating kubernetes cluster"
+}
+
+uninstal_kubernetes() {
+  echo "Uninstalling kubernetes from cluster"
 }
 
 deploy() {

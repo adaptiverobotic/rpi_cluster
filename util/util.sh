@@ -129,18 +129,11 @@ loop_nodes() {
   action=$2
 
   while read ip; do
-    echo "Action: $action: $user@$ip"
+    echo "$action: $user@$ip"
 
-    # If we want to SSH
-    if [[ $action == "ssh" ]]; then
+    # my_ssh, my_scp
+    my_$action $user@$ip ${@:3}
 
-      my_ssh $user@$ip "${@:3}"
-
-    # If we want to SCP
-    elif [[ $action == "scp" ]]; then
-
-      my_scp $user@$ip "${@:3}"
-    fi
   done <$file
 }
 
@@ -211,9 +204,12 @@ reboot_nodes() {
 # installed on a device
 is_installed() {
 
-  # Determines whether or
-  # not a command is installed
-  echo "0"
+  # Call the command
+  if $1; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 # Print this device's
@@ -243,4 +239,4 @@ delayed_action() {
   $action
 }
 
-"$@"
+$@
