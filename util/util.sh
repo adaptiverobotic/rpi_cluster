@@ -11,6 +11,7 @@ ips="${DIR}/../assets/ips"
 
 # Specify ssh parameters
 ssh_args="
+-o LogLevel=error \
 -o ConnectTimeout=5 \
 -o IdentitiesOnly=yes \
 -o userknownhostsfile=/dev/null \

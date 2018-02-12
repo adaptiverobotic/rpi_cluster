@@ -2,14 +2,29 @@
 set -e
 
 build() {
+  image_file=$1
+
+  # Path to app folder. This
+  # should directly contain
+  # the Dockerfile
   path=$2
 
-  echo "Building images listed in: $1"
+  echo "Building images listed in: $image_file"
 
-  while read line; do
-    l=($line)
-    docker build -t ${l[0]}:latest $path${l[1]}
-  done <$1
+  # If the image file exists
+  if ls $image_file; then
+
+    # Loop through list and
+    # build each image
+    while read line; do
+      image=($line)
+      docker build -t ${image[0]}:latest $path${image[1]}
+    done <$image_file
+
+  # File not found
+  else
+    echo "No images to build"
+  fi
 }
 
 #-------------------------------------------------------------------------------
@@ -18,7 +33,7 @@ network() {
   network_file=$1
   echo "Creating networks listed in: $network_file"
 
-  # If the file exists
+  # If the network file exists
   if ls $network_file; then
 
     # Loop through and delete
@@ -30,7 +45,7 @@ network() {
 
   # It did not exist
   else
-    echo "No networks to remove"
+    echo "No networks to create"
   fi
 }
 
@@ -59,36 +74,56 @@ pull() {
 #-------------------------------------------------------------------------------
 
 push() {
-  echo "Pushing to docker hub images listed in: $1"
-  echo "$(cat $1)"
+  image_file=$1
+  echo "Pushing to docker hub images listed in: $image_file"
 
-  while read line; do
-    l=($line)
-    docker push ${l[0]}:latest
-  done <$1
+  # If the file exists
+  if ls $image_file; then
+
+    # Loop through, and push
+    # all images to docker registry
+    while read line; do
+      image=($line)
+      docker push ${image[0]}:latest
+    done <$image
+
+  # File not found
+  else
+    echo "No images to push"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
 secret() {
-  echo "Creating docker secrets listed in: $1"
+  secret_file=$1
+  echo "Creating docker secrets listed in: $secret_file"
 
-  while read line; do
-    l=($line)
+  if ls $secret_file; then
+    while read line; do
+      secret=($line)
 
-    # Echo the value and pipe that into docker create
-    # secret. By convention, the name of secret is first
-    # value, and the value is the second value
-    echo ${l[1]} | docker secret create ${l[0]} -
-  done <$1
+      # Echo the value and pipe that into docker create
+      # secret. By convention, the name of secret is first
+      # value, and the value is the second value
+      echo ${secret[1]} | docker secret create ${secret[0]} -
+    done <$secret_file
+
+  # File not found
+  else
+    echo "No secrets to create"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
 service() {
+  # NOTE - Unused at the moment
+
+  service_file=$1
   path=$2
 
-  echo "Creating services listed in: $1"
+  echo "Creating services listed in: $service_file"
 
   while read line; do
 
@@ -114,6 +149,7 @@ volume() {
   volume_file=$1
   echo "Creating volumes listed in: $volume_file"
 
+  # File found
   if ls $volume_file; then
 
     # Loop through file and
@@ -123,6 +159,7 @@ volume() {
       docker volume create -d ${l[1]} ${l[0]}
     done <$volume_file
 
+  # File not found
   else
     echo "No volumes to create"
   fi
@@ -131,39 +168,60 @@ volume() {
 #-------------------------------------------------------------------------------
 
 clean_containers() {
-  echo "Removing containers associated with images listed in: $1"
-  echo "$(cat $1)"
+  image_file=$1
+  echo "Removing containers associated with images listed in: $image_file"
 
-  while read line; do
-    l=($line)
+  # File found
+  if ls $image_file; then
 
-    # Stop all containers associate with image name
-    docker ps -a -q --filter ancestor=${l[0]} | xargs --no-run-if-empty docker stop
-  done <$1
+    # Loop through list of images
+    # and  stop all containers associated
+    # with that image
+    while read line; do
+      image=($line)
 
-  # Delete all stopped containers
+      # Stop all containers associate with image name
+      docker ps -a -q --filter ancestor=${image[0]} | xargs --no-run-if-empty docker stop
+    done <$image_file
+
+  # File not found
+  else
+    echo "No list of associated images to clean containers from"
+  fi
+
+  # Delete all stopped containers. This includes containers stop in
+  # the previous loop, and other dangling containers.
   docker ps -q -f status=exited | xargs --no-run-if-empty docker rm
 }
 
 #-------------------------------------------------------------------------------
 
 clean_images() {
-  echo "Removing images listed in: $1"
+  image_file=$1
 
-  # NOTE - Do we also want to
-  # delete images that our images
-  # depend on? Example, if database
-  # depends on postgres, should we
-  # also delete these? This may drastically
-  # slow down deployment speed if we
-  # do this every time. Perharps set a flag
+  echo "Removing images listed in: $image_file"
 
-  while read line; do
-    l=($line)
+  # File found
+  if ls $image_file; then
+    # NOTE - Do we also want to
+    # delete images that our images
+    # depend on? Example, if database
+    # depends on postgres, should we
+    # also delete these? This may drastically
+    # slow down deployment speed if we
+    # do this every time. Perharps set a flag
 
-    # Delete all images associated with image name
-    docker images --format '{{.Repository}}' | grep ${l[0]} | xargs --no-run-if-empty docker rmi
-  done <$1
+    while read line; do
+      image=($line)
+
+      # Delete all images associated with image name
+      docker images --format '{{.Repository}}' | grep ${image[0]} | xargs --no-run-if-empty docker rmi
+    done <$image_file
+
+  # File not found
+  else
+    echo "No images to remove"
+  fi
 
   # Delete all dangling (unused) images
   docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi
@@ -232,47 +290,65 @@ clean_networks() {
 #-------------------------------------------------------------------------------
 
 clean_secrets() {
-  echo "Removing secrets listed in: $1"
+  secret_file=$1
+  echo "Removing secrets listed in: $secret_file"
 
-  #Delete secrets
-  # by name specified by file
-  while read line; do
-    l=($line)
+  # File found
+  if ls $secret_file; then
+    # Delete secrets
+    # by name specified by file
+    while read line; do
+      secret=($line)
 
-    # Echo the value and pipe that into docker create
-    # secret. By convention, the name of secret is first
-    # value, and the value is the second value
-    if docker secret rm ${l[0]}; then
-      echo "Secret: ${l[0]} removed"
-    else
-      echo "Secret: ${l[0]} could not be removed, or does not exists"
-    fi
-  done <$1
+      if docker secret rm ${secret[0]}; then
+        echo "Secret: ${secret[0]} removed"
+      else
+        echo "Secret: ${secret[0]} could not be removed, or does not exists"
+      fi
+    done <$secret_file
+
+  # File not found
+  else
+    echo "No secrets to remove"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
 clean_services() {
-  echo "Removing services listed in: $1"
-  echo "$(cat $1)"
+  service_file=$1
+  echo "Removing services listed in: $service_file"
 
-  # TODO - Implement
+  if ls $service_file; then
+    cat $service_file
+
+    #Delete secrets
+    # by name specified by file
+    while read line; do
+      service=($line)
+
+      if docker service rm ${service[0]}; then
+        echo "Service: ${service[0]} removed"
+      else
+        echo "Service: ${service[0]} could not be removed, or does not exists"
+      fi
+    done <$service_file
+  else
+    echo "No services to remove"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
 clean_stacks() {
-  echo "Removing stacks listed in: $1"
-  echo "$(cat $1)"
+  stack_file=$1
+  echo "Removing stacks listed in: $stack_file"
 
   # TODO - not yet implemented
 
   # Remove a stack by name.
   # All associated services
   # will be stopped
-
-  # TODO - Only if exists
-  # docker stack rm $(cat $1)
 }
 
 #-------------------------------------------------------------------------------
@@ -281,23 +357,35 @@ cleanup() {
   clean_file=$1
   path=$2
 
-  echo "Cleaning up old volumes, images, containers, etc."
+  echo "Cleaning up old volumes, images, containers specified in $clean_file"
 
-  while read line; do
-    l=($line)
+  # File found
+  if ls $clean_file; then
+    # Loop through cleanup file
+    # matching each line with the
+    # respective function. Example,
+    # if a line says images, we will
+    # execute clean_images()
+    while read line; do
+      l=($line)
 
-    # Clean containers associated with image names
-    if [[ $line == "containers" ]]; then
-      clean_containers ${path}assets/images
+      # Clean containers associated with image names
+      if [[ $line == "containers" ]]; then
+        clean_containers ${path}assets/images
 
-    # Otherwise just match the string
-    # so clean_networks, clean_stacks, etc.
-    else
-      clean_$line ${path}assets/$line
-    fi
-  done <$clean_file
+      # Otherwise just match the string
+      # so clean_networks, clean_stacks, etc.
+      else
+        clean_$line ${path}assets/$line
+      fi
+    done <$clean_file
+
+  # File not found
+  else
+    echo "Nothing to cleanup"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
-"$@"
+$@

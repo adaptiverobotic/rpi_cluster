@@ -2,9 +2,17 @@
 set -e
 
 clear_assets() {
-  echo "Deleting old local asset files"
+  echo "Deleting old asset files (remote and local)"
 
-  rm -f ${assets}*
+  # Cleans the remove home directory
+  # of each node. That way we do not
+  # accidently read in asset files
+  # from a previous deployment.
+  echo "Deleting remote asset files"
+  ${util} clean_workspace $ips
+
+  echo "Deleting local asset files"
+  rm -vf ${assets}*
 }
 
 compile_assets() {
@@ -33,10 +41,13 @@ clean_nodes() {
   # Loop through nodes and run cleanup script
   $ssh_nodes ./docker.sh cleanup assets/clean ./
 
-  # Delete old networks
+  # Remove old services
+  $ssh_specific_nodes $leader ./docker.sh clean_services assets/services
+
+  # Remove old networks
   $ssh_specific_nodes $leader ./docker.sh clean_networks assets/networks
 
-  # Delete old secrets
+  # Remove old secrets
   $ssh_specific_nodes $leader ./docker.sh clean_secrets assets/secrets
 }
 
@@ -82,12 +93,26 @@ init() {
 
   create_secrets
 
+  # build_images
+
+  # push_images
+
   # Pull all images
   # down to each node
   pull_images
 }
 
 scp_service_file() {
+  # TODO - Perhaps instead of scanning with
+  # find, read in from assets/services. This
+  # way the user can specify the order of deployment
+  # rather than an auto generated alphabetically
+  # sorted list. This also makes it easier to
+  # implement the "depends_on" feature that
+  # docker stack deploy does not have. Ultimately,
+  # we can avoid wasted containers that keep restarting
+  # while they wait for the services they depend on to come up.
+
   echo "Generative docker_service.sh script"
 
   service_file="${DIR}/assets/docker_service.sh"
@@ -156,8 +181,5 @@ scp_specific_nodes="${util} scp_specific_nodes"
 # of nodes in docker swarm
 ips="${DIR}/../assets/ips"
 leader="${DIR}/../assets/leader"
-
-# Cleans the home directory
-${util} clean_workspace $ips
 
 $@
