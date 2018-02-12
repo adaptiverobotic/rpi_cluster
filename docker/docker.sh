@@ -156,7 +156,10 @@ volume() {
     # create each volume
     while read line; do
       l=($line)
-      docker volume create -d ${l[1]} ${l[0]}
+
+      # Support for different drivers
+      # docker volume create -d ${l[1]} ${l[0]}
+      docker volume create ${l[0]}
     done <$volume_file
 
   # File not found
@@ -189,9 +192,12 @@ clean_containers() {
     echo "No list of associated images to clean containers from"
   fi
 
+  docker container prune -f
+
   # Delete all stopped containers. This includes containers stop in
   # the previous loop, and other dangling containers.
   docker ps -q -f status=exited | xargs --no-run-if-empty docker rm
+
 }
 
 #-------------------------------------------------------------------------------
@@ -222,6 +228,8 @@ clean_images() {
   else
     echo "No images to remove"
   fi
+
+  docker image prune -a -f
 
   # Delete all dangling (unused) images
   docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi

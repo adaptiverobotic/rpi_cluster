@@ -38,17 +38,27 @@ clean_nodes() {
   # (volumes, images, containers)
   echo "Cleaning old volumes, images, and containers from each node"
 
+  # Remove old services. This should kill associated containers
+  $ssh_specific_nodes $leader ./docker.sh clean_services assets/services
+
   # Loop through nodes and run cleanup script
   $ssh_nodes ./docker.sh cleanup assets/clean ./
 
-  # Remove old services
-  $ssh_specific_nodes $leader ./docker.sh clean_services assets/services
-
-  # Remove old networks
+  # Remove old networks that are associated with the service
   $ssh_specific_nodes $leader ./docker.sh clean_networks assets/networks
 
-  # Remove old secrets
+  # Remove old secrets that are associate with the service
   $ssh_specific_nodes $leader ./docker.sh clean_secrets assets/secrets
+}
+
+build_images() {
+  echo "Building images locally"
+  $ssh_specific_nodes $leader ./docker.sh build assets/build ./
+}
+
+push_images() {
+  echo "Pushing images to docker registry"
+  $ssh_specific_nodes $leader ./docker.sh push assets/push ./
 }
 
 pull_images() {
