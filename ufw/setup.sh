@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# NOTE - Maybe we should not use set -e
+# here. We need to make sure port 22 is open
+# even if we fail. Otherwise we are locking
+# ourselves out!
+
 # Enable UFW firewall software
 echo "y" | sudo ufw reset
 echo "y" | sudo ufw enable

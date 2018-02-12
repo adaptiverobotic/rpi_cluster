@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# TODO - MAKE SURE PORT 22 IS OPEN
+# OR WE HAVE SOME WAY BACK IN
+
 echo "Configuring UFW firewall"
 
 # Get absolute path of this script

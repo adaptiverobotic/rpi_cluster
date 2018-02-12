@@ -1,167 +1,0 @@
-Script started on Sun 11 Feb 2018 10:48:03 PM EST
-]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ssh pi@192.12[K68.2.77
-Linux pi-77 4.9.59+ #1047 Sun Oct 29 11:47:10 GMT 2017 armv6l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Mon Feb 12 03:29:29 2018 from 192.168.2.205
-
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
-
-]0;pi@pi-77: ~[01;32mpi@pi-77[00m:[01;34m~ $[00m docker service ls
-ID                  NAME                MODE                REPLICAS            IMAGE                                         PORTS
-vz1hrcv24o6v        client              global              1/4                 jabaridash/cluster_test_app_client:latest     
-uyw2rlk3tv8q        database            replicated          1/1                 jabaridash/cluster_test_app_database:latest   *:5432->5432/tcp
-85sniexdujoj        portainer           global              4/4                 portainer/portainer:latest                    
-mygboxcifyy1        server              replicated          1/1                 jabaridash/cluster_test_app_server:latest     *:8085->8085/tcp
-]0;pi@pi-77: ~[01;32mpi@pi-77[00m:[01;34m~ $[00m exit
-logout
-Connection to 192.168.2.77 closed.
-]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ~~~ssh pi@192.168.2.77[K[K101
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
-Someone could be eavesdropping on you right now (man-in-the-middle attack)!
-It is also possible that a host key has just been changed.
-The fingerprint for the ECDSA key sent by the remote host is
-SHA256:kHOHQOh6gbOZPUtZZshL7ygSlqD3TZWXA3BKy6pTKBc.
-Please contact your system administrator.
-Add correct host key in /home/samsung/.ssh/known_hosts to get rid of this message.
-Offending ECDSA key in /home/samsung/.ssh/known_hosts:2
-  remove with:
-  ssh-keygen -f "/home/samsung/.ssh/known_hosts" -R 192.168.2.101
-ECDSA host key for 192.168.2.101 has changed and you have requested strict checking.
-Host key verification failed.
-]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ssh pi@192.168.2.101[K1[K0
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
-Someone could be eavesdropping on you right now (man-in-the-middle attack)!
-It is also possible that a host key has just been changed.
-The fingerprint for the ECDSA key sent by the remote host is
-SHA256:46mKsa40XMHubstuQOOVfooni8tQeoE9k79iUNXO/pg.
-Please contact your system administrator.
-Add correct host key in /home/samsung/.ssh/known_hosts to get rid of this message.
-Offending ECDSA key in /home/samsung/.ssh/known_hosts:1
-  remove with:
-  ssh-keygen -f "/home/samsung/.ssh/known_hosts" -R 192.168.2.100
-ECDSA host key for 192.168.2.100 has changed and you have requested strict checking.
-Host key verification failed.
-]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ssh pi@192.168.2.100[K2
-Linux pi-102 4.9.59-v7+ #1047 SMP Sun Oct 29 12:19:23 GMT 2017 armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Mon Feb 12 03:12:37 2018 from 192.168.2.205
-
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
-
-]0;pi@pi-102: ~[01;32mpi@pi-102[00m:[01;34m~ $[00m docker ps -a
-CONTAINER ID        IMAGE                                       COMMAND                  CREATED             STATUS              PORTS                    NAMES
-9a4fdedd598c        jabaridash/cluster_test_app_client:latest   "/bin/sh -c 'python …"   11 seconds ago      Up 1 second         0.0.0.0:5000->5000/tcp   client.qdzv6ez0xfmro4j5x0tppnxcw.be1q2h6ezl2ylvmiefah12r51
-d1dd2fb52063        portainer/portainer:latest                  "/portainer --admin-…"   3 minutes ago       Up 3 minutes        0.0.0.0:9000->9000/tcp   portainer.qdzv6ez0xfmro4j5x0tppnxcw.1knwt3q2u4bdi8g6f1nw6pyai
-]0;pi@pi-102: ~[01;32mpi@pi-102[00m:[01;34m~ $[00m curl localhost:9000
-<!DOCTYPE html>
-<html lang="en" ng-app="portainer">
-<head>
-  <meta charset="utf-8">
-  <title>Portainer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="Portainer.io">
-
-  <link rel="stylesheet" href="css/app.c631949e.css">
-
-  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-  <!--[if lt IE 9]>
-  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-
-  <script src="js/app.1dcbcb83.js"></script>
-
-  <!-- Fav and touch icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="ico/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="ico/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="ico/favicon-16x16.png">
-  <link rel="manifest" href="ico/manifest.json">
-  <link rel="mask-icon" href="ico/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="ico/favicon.ico">
-  <meta name="msapplication-config" content="ico/browserconfig.xml">
-  <meta name="theme-color" content="#ffffff">
-</head>
-
-<body ng-controller="MainController">
-  <div id="page-wrapper" ng-class="{
-    open: toggle && ['portainer.auth', 'portainer.init.admin', 'portainer.init.endpoint'].indexOf($state.current.name) === -1,
-    nopadding: ['portainer.auth', 'portainer.init.admin', 'portainer.init.endpoint'].indexOf($state.current.name) > -1 || applicationState.loading
-  }"
-  ng-cloak>
-    <div id="sideview" ui-view="sidebar" ng-if="!applicationState.loading"></div>
-
-    <div id="content-wrapper">
-      <div class="page-content">
-
-        <div class="page-wrapper" ng-if="applicationState.loading">
-          <!-- loading box -->
-          <div class="container simple-box">
-            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
-              <!-- loading box logo -->
-              <div class="row">
-                <img ng-if="logo" ng-src="{{ logo }}" class="simple-box-logo">
-                <img ng-if="!logo" src="images/logo_alt.png" class="simple-box-logo" alt="Portainer">
-              </div>
-              <!-- !loading box logo -->
-              <!-- panel -->
-              <div class="row" style="text-align: center">
-                Connecting to the Docker endpoint...
-                <i class="fa fa-cog fa-spin" style="margin-left: 5px"></i>
-              </div>
-              <!-- !panel -->
-            </div>
-          </div>
-          <!-- !loading box -->
-        </div>
-
-        <!-- Main Content -->
-        <div id="view" ui-view="content" ng-if="!applicationState.loading"></div>
-
-      </div><!-- End Page Content -->
-    </div><!-- End Content Wrapper -->
-  </div><!-- End Page Wrapper -->
-</body>
-</html>
-]0;pi@pi-102: ~[01;32mpi@pi-102[00m:[01;34m~ $[00m clear
-[3J[H[2J]0;pi@pi-102: ~[01;32mpi@pi-102[00m:[01;34m~ $[00m exit
-logout
-Connection to 192.168.2.102 closed.
-]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ssh pi@192.168.2.10201[1P77-v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101[3Ppi@192.168.2.1010-o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"a b[8P c" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ca b [2Pc[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[K[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cclear[3Plsssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:a b c ./[K[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"a b[2@ c"[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[7Ppi@192.168.2.100
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C1-v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101[4Ppi@192.168.2.7710102[Kssh pi@192.168.2.10201[1P77-v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101[3Ppi@192.168.2.1010-o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"a b[8P c" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ca b [2Pc[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cclearrm -rf af x y zls[Kcd ..[3Pls;scd a/[3Plsscp -r pi@192.168.2.100:"~/xx ~/y ~/z ~/a" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi[2P@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"~/x ~/y ~/z ~/a" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi[2P@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cscp -r pi@192.168.2.100:"~/xx ~/y ~/z" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C~/x [2P~/y ~/z[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cscp -r pi@192.168.2.100:~/x  ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ clear[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [9Prm -f known_hosts 
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cclear[Kssh -o IdentitiesOnly=yes pii@192.168.2.10010[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [14Prm -f id_rsa*
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[6P pi@192.168.2.100
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C-o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C-i ./id_rsa.pub pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpi[16P@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[6P pi@192.168.2.100
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C-o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -f id_rsa*ssh -o IdentitiesOnly=yes pii@192.168.2.10010[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ clear[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -f known_hosts ssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ clear[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:~/x ./[K[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:~/x [4P~/y ~/z ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"~/x[2@ ~/y ~/z"[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"~/x ~/y ~/z ~/a" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi[2P@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"~/x ~/y ~/z ~/a" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccd a/[3P;slscd ..[3Plsrm -f x y z[3Prf a[3Pclear[3Plsssh -o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:a b c ./[K[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"a b[2@ c"[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[7Ppi@192.168.2.100
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C1-v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101[4Ppi@192.168.2.771010201[1P77-v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101clear[Kssh -v pi@192.168.2.101[3Ppi@192.168.2.1010-o IdentitiesOnly=yes pii@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Ccp -r pi@192.168.2.100:"a b[8P c" ./[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ca b [2Pc[C[C[C[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ [Csh -o IdentitiesOnly=yes pi@192.168.2.100[A]0;samsung@samsung: ~/github/rpi_cluster[01;32msamsung@samsung[00m:[01;34m~/github/rpi_cluster[00m$ ls[K
-[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[

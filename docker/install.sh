@@ -1,6 +1,93 @@
 #!/bin/bash
 set -e
 
+send_assets() {
+  echo "Sending asset files to nodes"
+
+  # SCP setup script to each node
+  $scp_specific_nodes $ips ${DIR}/setup.sh
+}
+
+install_docker() {
+  echo "Install docker on all nodes"
+
+  # Install docker on all nodes
+  $ssh_specific_nodes $ips ./setup.sh reinstall_docker $user
+}
+
+select_leader() {
+  echo "Selecting leader node"
+
+  # Read leader ip into a file
+  echo "Selecting leader node"
+  echo $(head -n 1 $ips) > $leader_file
+
+  # Capture leader_ip
+  leader_ip=$(cat $leader_file)
+  echo "Leader will be: $leader_ip"
+  echo "Make sure that it's ip address does not change"
+  echo "Either assign in a static ip or reserve it's dhcp less"
+}
+
+select_managers() {
+  echo "Generating list of manager nodes"
+
+  # TODO - Read first two lines as managers
+  # this way if one leader goes out we aren't screwed
+}
+
+select_workers() {
+  echo "Generating list of worker nodes"
+
+  # TODO - Do we want to have the works list
+  # overlap with managers? This probably makes
+  # more sense because this is an initial install
+  # script. All managerial tasks will be handled
+  # by the leader. We can consider all managers
+  # that are not the leader works for the purpose
+  # of this install.
+  echo "Generating list of worker node ips"
+  echo $(tail -n +2 ${ips}) | tr " " "\n" > $worker_file
+}
+
+download_tokens() {
+  echo "Pulling join tokens from leader"
+
+  # Download the join token scripts to this devce
+  $my_scp_get_file $user@$leader_ip ${DIR}/assets/ manager_join_token.sh
+  $my_scp_get_file $user@$leader_ip ${DIR}/assets/ worker_join_token.sh
+}
+
+disband_swarm() {
+  echo "Disbanding old swarm"
+
+  # Loop through each node
+  # and remove it from existing swarm.
+  # We have to remove the leader last
+  echo "Removing all nodes from existing swarm"
+  $ssh_specific_nodes $worker_file ./setup.sh leave_swarm
+  $ssh_specific_nodes $leader_file ./setup.sh leave_swarm
+}
+
+init_swarm() {
+
+  # Initialize the swarm
+  echo "Initializing new swarm"
+  $ssh_specific_nodes $leader_file ./setup.sh init_swarm $(cat $leader_file)
+}
+
+join_swarm() {
+  echo "Adding nodes to swarm"
+
+  # Add all nodes to swarm
+  echo "Each node joining swarm"
+  $scp_specific_nodes $worker_file ${DIR}/assets/worker_join_token.sh
+
+  # NOTE - This seems to hang. Not sure if this has to do with
+  # my connection, or if docker is doing a lot as it removed leaders.
+  $ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
+}
+
 echo "Installing Docker"
 
 # Get absolute path of this script
@@ -25,45 +112,32 @@ ssh_specific_nodes="${util} ssh_specific_nodes"
 scp_specific_nodes="${util} scp_specific_nodes"
 my_scp_get_file="${util} my_scp_get_file"
 
-# SCP setup script to each node
-$scp_specific_nodes $ips ${DIR}/setup.sh
+# Clear home directories
+${util} clean_workspace $ips
 
-# Install docker on all nodes
-$ssh_specific_nodes $ips /bin/bash setup.sh install_docker $user
+# Send setup files
+send_assets
 
-# Read leader ip into a file
-echo "Selecting leader node"
-echo $(head -n 1 $ips) > $leader_file
+# Install docker
+install_docker
 
-# Capture leader_ip
-leader_ip=$(cat $leader_file)
-echo "Leader will be: $leader_ip, make sure it's ip is static"
+# Pick a leader
+select_leader
 
-# TODO - Read first two lines as managers
-# this way if one leader goes out we aren't screwed
+# Select the managers
+select_managers
 
-# Read workers' ips into a separate file
-echo "Generating list of worker node ips"
-echo $(tail -n +2 ${ips}) | tr " " "\n" > $worker_file
+# Select the workers
+select_workers
 
-# Send list of workers to leader so that leader can SSH through all
-# of the workers and make them join the swarm
-$scp_specific_nodes $leader_file $assets $util
+# Disband old swarms
+disband_swarm
 
-# Loop through each node
-# and remove it from existing swarm
-echo "Removing all nodes from existing swarm"
-$ssh_specific_nodes $ips /bin/bash setup.sh leave_swarm
+# Create new swarm
+init_swarm
 
-# Initialize the swarm
-echo "Initializing new swarm"
-$ssh_specific_nodes $leader_file /bin/bash setup.sh init_swarm $leader_ip
+# Download join tokens
+download_tokens
 
-# Download the join token scripts to this devce
-$my_scp_get_file $user@$leader_ip ${DIR}/assets/ manager_join_token.sh
-$my_scp_get_file $user@$leader_ip ${DIR}/assets/ worker_join_token.sh
-
-# Add all nodes to swarm
-echo "Each node joining swarm"
-$scp_specific_nodes $worker_file ${DIR}/assets/worker_join_token.sh
-$ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
+# Add nodes to swarm
+join_swarm

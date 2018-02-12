@@ -16,6 +16,17 @@ clear_assets() {
 }
 
 compile_assets() {
+
+  # TODO - Perhaps instead of compiling
+  # into this assets folder, perhaps we
+  # could just scp assets from root, from app,
+  # and from here over to the node separately.
+  # That way we do not have to continuously
+  # clear and compile. We can also have persistent
+  # assets such as port number, or dependencies
+  # for future improvement and modularization
+  # of the install / deploy process
+
   # Compile assets from root and
   # test app into one directory
   echo "Compiling all asset files into one central location"

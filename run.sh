@@ -3,6 +3,8 @@ set -e
 
 # Make sure every script is
 # runnable with ./script_name.sh syntax
+# That way the appropriate shell
+# (bash, sh, expect) is run for each script
 chmod 777 **/*.sh
 
 # We must install this dependency
@@ -46,7 +48,7 @@ firewall() {
   ./ufw/install.sh
 }
 
-nas() {
+install_samba() {
   echo "Mounting each node's home folder as a network attached storage"
 
   # Setup network attached storage
@@ -60,11 +62,15 @@ install_docker() {
   ./docker/install.sh
 }
 
-kubernetes() {
+install_kubernetes() {
   echo "Creating kubernetes cluster"
 }
 
 deploy() {
+
+  # Deploys an application to
+  # a given cluster provider
+  # (docker swarm, kuberneters, mesos)
 
   # Just for clarity
   provider=$1
@@ -77,27 +83,77 @@ deploy() {
 }
 
 init() {
-  echo "Initializing general cluster settings"
+  provider=$1
+  echo "Initializing cluster settings for: $provider"
 
-  ip_list
+  # Create a global list of ip
+  # addresses that represent the
+  # list of nodes that will be in
+  # the cluster
+  ip_list $provider
 
+  # Generate ssh keys, and ship
+  # the public keys to each node
+  # to enable passwordless access
   ssh_keys
 
-  hostname
+  # Change all of the hostnames
+  # in the cluster to some common
+  # naming convention
+  hostname $provider
 
-  dependencies
+  # TODO - Download dependencies
+  # depending on waht we are deploying.
+  # Example, we do not want to download
+  # kubernetes if we are deploying docker swarm
+  dependencies $provider
 
-  firewall
-
-  # nas
+  # TODO - Open ports depending on
+  # what we are deploying. Example, if
+  # we are only deploying SAMBA, then we
+  # do not need to open docker ports
+  firewall $provider
 }
 
+# Sets up cluster as a docker
+# swarm cluster, and deploys
+# Portainer to the cluster for
+# easy docker swarm management
 docker_cluster() {
-  init
+  init docker
 
   install_docker
 
-  deploy docker service ./apps/test_app/
+  deploy docker service ./docker/service/portainer/
+
+
+  secs=$((30))
+  while [ $secs -gt 0 ]; do
+     echo -ne "Launching browser in: $secs\033[0K\r"
+     sleep 1
+     : $((secs--))
+  done
+
+  google-chrome $(cat assets/leader):9000
+}
+
+# Sets up cluster as a
+# kubernetes cluster
+kubernetes_cluster() {
+  init kubernetes
+
+  install_kubernetes
+
+  deploy kubernetes service ./apps/test_app/
+}
+
+# Sets up each node in the
+# the cluster as a Network
+# Attached Storage (NAS).
+samba_cluster() {
+  init samba
+
+  install_samba
 }
 
 $@

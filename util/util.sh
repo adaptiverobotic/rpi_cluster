@@ -207,4 +207,20 @@ my_ip() {
   echo $i
 }
 
+# Executes a command after N seconds
+delayed_action() {
+  delay=$1
+  message=$2
+  action=${@:3}
+
+  secs=$(( 30 ))
+  while [ $secs -gt 0 ]; do
+     echo -ne "$message: $secs\033[0K\r"
+     sleep 1
+     : $((secs--))
+  done
+
+  $action
+}
+
 "$@"
