@@ -162,6 +162,20 @@ scp_nodes() {
   loop_nodes $ips scp "$@"
 }
 
+clean_workspace() {
+  echo "Clearing home directory"
+
+  echo "rm -vrf ~/*" >> clean_home_dir.sh
+  chmod 777 clean_home_dir.sh
+
+  # Clean the home directory of non-hidden files
+  scp_specific_nodes $1 clean_home_dir.sh
+  ssh_specific_nodes $1 ./clean_home_dir.sh
+
+  # Delete local file
+  rm -f clean_home_dir.sh
+}
+
 # Power off and power
 # on each node.
 reboot_nodes() {

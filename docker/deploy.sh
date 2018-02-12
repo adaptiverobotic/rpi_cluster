@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+clear_assets() {
+  echo "Deleting old local asset files"
+
+  rm -f ${assets}*
+}
+
 compile_assets() {
   # Compile assets from root and
   # test app into one directory
@@ -26,14 +32,12 @@ clean_nodes() {
 
   # Loop through nodes and run cleanup script
   $ssh_nodes ./docker.sh cleanup assets/clean ./
-}
 
-setup_nodes() {
-  # Set up nodes (create volumes, etc.)
-  echo "Running install script on node"
+  # Delete old networks
+  $ssh_specific_nodes $leader ./docker.sh clean_networks assets/networks
 
-  # Loop through nodes and run setup script
-  $ssh_nodes ./docker.sh setup_app ./
+  # Delete old secrets
+  $ssh_specific_nodes $leader ./docker.sh clean_secrets assets/secrets
 }
 
 pull_images() {
@@ -42,8 +46,29 @@ pull_images() {
   $ssh_nodes ./docker.sh pull assets/images ./
 }
 
+create_volumes() {
+  echo "Creating volumes on nodes"
+
+  # Create volume on each node
+  $ssh_nodes ./docker.sh volume assets/volumes
+}
+
+create_networks() {
+  echo "Creating networks for swarm"
+
+  $ssh_specific_nodes $leader ./docker.sh network assets/networks
+}
+
+create_secrets() {
+  echo "Creating secrets for swarm"
+
+  $ssh_specific_nodes $leader ./docker.sh secret assets/secrets
+}
+
 init() {
   echo "Initializing each node"
+
+  clear_assets
 
   compile_assets
 
@@ -51,12 +76,11 @@ init() {
 
   clean_nodes
 
-  # Create volume on each node
-  $ssh_nodes ./docker.sh volume assets/volumes
+  create_volumes
 
-  # Run setup for app. This is run once on the manager.
-  # We create the required networks, secrets, etc.
-  $ssh_specific_nodes $leader ./docker.sh setup_app ./
+  create_networks
+
+  create_secrets
 
   # Pull all images
   # down to each node
@@ -64,6 +88,8 @@ init() {
 }
 
 scp_service_file() {
+  echo "Generative docker_service.sh script"
+
   service_file="${DIR}/assets/docker_service.sh"
   service_file_list="${DIR}/assets/service_file_list"
 
@@ -130,5 +156,8 @@ scp_specific_nodes="${util} scp_specific_nodes"
 # of nodes in docker swarm
 ips="${DIR}/../assets/ips"
 leader="${DIR}/../assets/leader"
+
+# Cleans the home directory
+${util} clean_workspace $ips
 
 $@

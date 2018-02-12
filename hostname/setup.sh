@@ -8,6 +8,8 @@ hosts="/etc/hosts"
 # For creating host
 user=$1
 
+# TODO - see https://askubuntu.com/questions/87665/how-do-i-change-the-hostname-without-a-restart/516898
+
 # Get this node's IP from
 # info about it's current
 # ssh connection

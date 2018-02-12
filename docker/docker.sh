@@ -5,7 +5,6 @@ build() {
   path=$2
 
   echo "Building images listed in: $1"
-  echo "$(cat $1)"
 
   while read line; do
     l=($line)
@@ -16,25 +15,45 @@ build() {
 #-------------------------------------------------------------------------------
 
 network() {
-  echo "Creating networks listed in: $1"
-  echo "$(cat $1)"
+  network_file=$1
+  echo "Creating networks listed in: $network_file"
 
-  while read line; do
-    l=($line)
-    docker network create -d ${l[1]} ${l[0]}
-  done <$1
+  # If the file exists
+  if ls $network_file; then
+
+    # Loop through and delete
+    # each network by name
+    while read line; do
+      network=($line)
+      docker network create -d ${network[1]} ${network[0]}
+    done <$network_file
+
+  # It did not exist
+  else
+    echo "No networks to remove"
+  fi
 }
 
 #-------------------------------------------------------------------------------
 
 pull() {
-  echo "Pulling images listed in: $1"
-  echo "$(cat $1)"
+  image_file=$1
+  echo "Pulling images listed in: $image_file"
 
-  while read line; do
-    l=($line)
-    docker pull ${l[0]}:latest
-  done <$1
+  # If it exists
+  if ls $image_file; then
+
+    # Pull each image
+    # listed in file
+    while read line; do
+      image=($line)
+      docker pull ${image[0]}:latest
+    done <$image_file
+
+  # File not found
+  else
+    echo "No images to pull"
+  fi
 }
 
 #-------------------------------------------------------------------------------
@@ -70,7 +89,6 @@ service() {
   path=$2
 
   echo "Creating services listed in: $1"
-  echo "$(cat $1)"
 
   while read line; do
 
@@ -93,27 +111,23 @@ service() {
 #-------------------------------------------------------------------------------
 
 volume() {
-  echo "Creating volumes listed in: $1"
-  echo "$(cat $1)"
+  volume_file=$1
+  echo "Creating volumes listed in: $volume_file"
 
-  while read line; do
-    l=($line)
-    docker volume create -d ${l[1]} ${l[0]}
-  done <$1
+  if ls $volume_file; then
+
+    # Loop through file and
+    # create each volume
+    while read line; do
+      l=($line)
+      docker volume create -d ${l[1]} ${l[0]}
+    done <$volume_file
+
+  else
+    echo "No volumes to create"
+  fi
 }
 
-#-------------------------------------------------------------------------------
-
-setup_app() {
-  path=$1
-
-  clean_networks ${path}assets/networks
-  network ${path}assets/networks
-
-  # Ensures that all secrets are created
-  clean_secrets ${path}assets/secrets
-  secret ${path}assets/secrets
-}
 #-------------------------------------------------------------------------------
 
 clean_containers() {
@@ -135,7 +149,6 @@ clean_containers() {
 
 clean_images() {
   echo "Removing images listed in: $1"
-  echo "$(cat $1)"
 
   # NOTE - Do we also want to
   # delete images that our images
@@ -159,19 +172,23 @@ clean_images() {
 #-------------------------------------------------------------------------------
 
 clean_volumes() {
-  echo "Removing volumes listed in: $1"
-  echo "$(cat $1)"
+  volume_file=$1
+  echo "Removing volumes listed in: $volume_file"
 
-  while read line; do
-    l=($line)
+  if ls $volume_file; then
+    while read line; do
+      volume=($line)
 
-    # TODO - Only if exists
-    if docker volume rm ${l[0]}; then
-      echo "Volume: ${l[0]} was removed"
-    else
-      echo "Volume: ${l[0]} was not removed or failed"
-    fi
-  done <$1
+      # TODO - Only if exists
+      if docker volume rm ${volume[0]}; then
+        echo "Volume: ${volume[0]} was removed"
+      else
+        echo "Volume: ${volume[0]} was not removed or failed"
+      fi
+    done <$volume_file
+  else
+    echo "No volumes to remove"
+  fi
 
   # Remove all unused volumes
   docker volume ls -qf dangling=true | xargs --no-run-if-empty -r docker volume rm
@@ -180,19 +197,29 @@ clean_volumes() {
 #-------------------------------------------------------------------------------
 
 clean_networks() {
-  echo "Removing networks listed in: $1"
-  echo "$(cat $1)"
+  network_file=$1
 
-  while read line; do
-    l=($line)
+  echo "Removing networks listed in: $network_file"
 
-    # TODO - Only if exists
-    if docker network rm ${l[0]}; then
-      echo "Network: ${l[0]} was removed"
-    else
-      echo "Network ${l[0]} was did not exist or failed"
-    fi
-  done <$1
+  # IF the file exists
+  if ls $network_file; then
+
+    # Loop through networks
+    while read line; do
+      network=($line)
+
+      # TODO - Only if exists
+      if docker network rm $network; then
+        echo "Network: $network was removed"
+      else
+        echo "Network $network was did not exist or failed"
+      fi
+    done <$network_file
+
+  # Otherwise something went wrong
+  else
+    echo "No networks to remove"
+  fi
 
   # Delete all networks that
   # do not have at least one

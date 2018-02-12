@@ -89,7 +89,7 @@ init() {
 
   firewall
 
-  nas
+  # nas
 }
 
 docker_cluster() {
