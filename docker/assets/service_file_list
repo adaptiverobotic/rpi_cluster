@@ -1,1 +1,1 @@
-./docker/service/portainer/docker_service.sh
+/home/pi/rpi_cluster/docker/service/portainer/docker_service.sh

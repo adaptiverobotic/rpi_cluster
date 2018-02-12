@@ -2,24 +2,24 @@
 set -e
 
 build() {
-  image_file=$1
+  build_file=$1
 
   # Path to app folder. This
   # should directly contain
   # the Dockerfile
   path=$2
 
-  echo "Building images listed in: $image_file"
+  echo "Building images listed in: $build_file"
 
   # If the image file exists
-  if ls $image_file; then
+  if ls $build_file; then
 
     # Loop through list and
     # build each image
     while read line; do
       image=($line)
       docker build -t ${image[0]}:latest $path${image[1]}
-    done <$image_file
+    done <$build_file
 
   # File not found
   else
@@ -74,18 +74,18 @@ pull() {
 #-------------------------------------------------------------------------------
 
 push() {
-  image_file=$1
-  echo "Pushing to docker hub images listed in: $image_file"
+  push_file=$1
+  echo "Pushing to docker hub images listed in: $push_file"
 
   # If the file exists
-  if ls $image_file; then
+  if ls $push_file; then
 
     # Loop through, and push
     # all images to docker registry
     while read line; do
       image=($line)
       docker push ${image[0]}:latest
-    done <$image
+    done <$push_file
 
   # File not found
   else

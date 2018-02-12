@@ -230,11 +230,13 @@ my_ip() {
 # Executes a command after N seconds
 delayed_action() {
   delay=$1
+
+  # Get everything between quotes
   message=$2
-  action=${@:3}
 
   # TODO - Allow for spaces in arguments
   # so that we can have a real message
+  action=${@:3}
 
   secs=$(( $delay ))
   while [ $secs -gt 0 ]; do
@@ -243,6 +245,10 @@ delayed_action() {
      : $((secs--))
   done
 
+  # Skip a line
+  echo ""
+
+  # Execute the action
   $action
 }
 

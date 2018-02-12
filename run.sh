@@ -4,15 +4,25 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-export ASSETS="$(pwd)/assets"
-export UTIL="/bin/bash $(pwd)/util/util.sh"
-export IPS="$(pwd)/assets/ips"
-export COMMON_USER="$(cat assets/user)"
+# NOTE - run.sh is ALWAYS in the root
+# directory of this project. If
+# not, all environment variables
+# will break in subprocesses.
+export ROOT_DIR="$( pwd )"
+
+# Environment variables
+export APPS="$ROOT_DIR/apps"
+export ASSETS="$ROOT_DIR/assets"
+export COMMON_HOST="$(cat $ASSETS/hostname)"
+export COMMON_PASS="$(cat $ASSETS/password)"
+export COMMON_USER="$(cat $ASSETS/user)"
+export IPS="$ROOT_DIR/assets/ips"
+export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 
 # Make sure every script is
 # runnable with ./script_name.sh syntax
 # That way the appropriate shell
-# (bash, sh, expect) is run for each script
+# (bash, sh, expect) is run for a given script
 chmod 777 **/*.sh
 
 ip_list() {
@@ -68,7 +78,7 @@ install_docker() {
   echo "Creating docker cluster"
 
   # Initialize docker swarm
-  ./docker/install.sh
+  ./docker/install.sh new_swarm
 }
 
 uninstall_docker() {
@@ -151,10 +161,10 @@ docker_cluster() {
 
   install_docker
 
-  deploy docker service ./docker/service/portainer/
+  deploy docker service $ROOT_DIR/docker/service/portainer/
 
-  message="Launching"
-  ./util/util.sh delayed_action 5 $message google-chrome $(cat assets/leader):9000
+  # Check that the cluster is up
+  $UTIL delayed_action 10 "Health_Check" curl $(cat assets/leader):9000
 }
 
 # Sets up cluster as a
@@ -164,7 +174,7 @@ kubernetes_cluster() {
 
   install_kubernetes
 
-  deploy kubernetes service ./apps/test_app/
+  deploy kubernetes service $ROOT_DIR/test_app/
 }
 
 # Sets up each node in the

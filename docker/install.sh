@@ -10,7 +10,7 @@ manager_file="${ASSETS}/manager"
 worker_file="${ASSETS}/worker"
 
 send_assets() {
-  echo "Sending assets to nodes"
+  echo "Sending assets to each node"
 
   # SCP setup script to each node
   $UTIL scp_specific_nodes $IPS $(pwd)/setup.sh
@@ -26,7 +26,7 @@ install_docker() {
 select_leader() {
   echo "Selecting leader node"
 
-  # Read leader ip into a file
+  # Write leader ip out to a file
   echo "Selecting leader node"
   echo $(head -n 1 $IPS) > $leader_file
 
@@ -40,11 +40,14 @@ select_leader() {
 select_workers() {
   echo "Generating list of worker nodes"
 
-  # Get all but the first ip in the ips file.
+  # Get all but the first ip in the $IPS file.
   # NOTE - This will not be our final list of
   # workers. When we generate the list of managers
   echo "Generating list of worker node ips"
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
+
+  echo "The following is a list of all non-leader nodes"
+  echo "NOTE: Half of these will be promoted to managers to meet quarum"
   echo $(cat $worker_file)
 }
 
@@ -78,7 +81,7 @@ select_managers() {
 
     echo $manager_ip
 
-    # Remove it from the workery_file
+    # Remove it from the worker_file
     sed -i "/$manager_ip/d" $worker_file
   done <$manager_file
 
@@ -87,6 +90,8 @@ select_managers() {
   # the ips in the $IPS file. However, when operating
   # on nodes by status, we must operate on all three files.
   # But, we can also do leader only, or worker only operations.
+  echo "The following nodes will be workers:"
+  cat $worker_file
 }
 
 download_tokens() {
@@ -130,40 +135,44 @@ join_swarm() {
 
   # Execute join-token  script
   echo "Adding workers to swarm"
-  $UTIL ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
+  $UTIL ssh_specific_nodes $worker_file ./worker_join_token.sh
 
   echo "Adding managers to swarm"
-  $UTIL ssh_specific_nodes $manager_file /bin/bash manager_join_token.sh
+  $UTIL ssh_specific_nodes $manager_file ./manager_join_token.sh
 }
 
-echo "Installing Docker"
+new_swarm() {
+  echo "Installing Docker and creating swarm"
 
-# Clear home directories
-$UTIL clean_workspace $IPS
+  # Clear home directories
+  $UTIL clean_workspace $IPS
 
-# Send setup files
-send_assets
+  # Send setup files
+  send_assets
 
-# Install docker
-install_docker
+  # Install docker
+  install_docker
 
-# Pick a leader
-select_leader
+  # Pick a leader
+  select_leader
 
-# Select the workers
-select_workers
+  # Select the workers
+  select_workers
 
-# Select the managers
-select_managers
+  # Select the managers
+  select_managers
 
-# Disband old swarms
-disband_swarm
+  # Disband old swarms
+  disband_swarm
 
-# Create new swarm
-init_swarm
+  # Create new swarm
+  init_swarm
 
-# Download join tokens
-download_tokens
+  # Download join tokens
+  download_tokens
 
-# Add nodes to swarm
-join_swarm
+  # Add nodes to swarm
+  join_swarm
+}
+
+$@
