@@ -1,3 +1,5 @@
+
+
 #!/bin/bash
 set -e
 
@@ -127,14 +129,7 @@ docker_cluster() {
   deploy docker service ./docker/service/portainer/
 
 
-  secs=$((30))
-  while [ $secs -gt 0 ]; do
-     echo -ne "Launching browser in: $secs\033[0K\r"
-     sleep 1
-     : $((secs--))
-  done
-
-  google-chrome $(cat assets/leader):9000
+  /bin/bash util/util.sh delayed_action 5 "Launching Google Chrome in" google-chrome $(cat assets/leader):9000
 }
 
 # Sets up cluster as a

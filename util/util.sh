@@ -213,7 +213,7 @@ delayed_action() {
   message=$2
   action=${@:3}
 
-  secs=$(( 30 ))
+  secs=$(( $delay ))
   while [ $secs -gt 0 ]; do
      echo -ne "$message: $secs\033[0K\r"
      sleep 1

@@ -12,7 +12,7 @@ install_docker() {
   echo "Install docker on all nodes"
 
   # Install docker on all nodes
-  $ssh_specific_nodes $ips ./setup.sh reinstall_docker $user
+  $ssh_specific_nodes $ips ./setup.sh install_docker $user
 }
 
 select_leader() {

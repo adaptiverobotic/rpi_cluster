@@ -35,18 +35,19 @@ install_docker() {
 
 uninstall_docker() {
   echo "Uninstalling docker"
-  # Stop docker
-  echo "Stopping docker daemon"
-  sudo systemctl start docker
 
-  # Remove from apt-get
-  echo "Purging docker"
-  sudo apt-get purge docker-ce -y
+  if docker; then
+    # Remove from apt-get
+    echo "Purging docker"
+    sudo apt-get purge docker-ce -y
 
-  # Remove files it created
-  # Containers, images, etc
-  echo "Removing left over files"
-  sudo rm -rfv /var/lib/docker
+    # Remove files it created
+    # Containers, images, etc
+    echo "Removing left over files"
+    sudo rm -rfv /var/lib/docker
+  else
+    echo "Docker is not installed"
+  fi
 }
 
 reinstall_docker() {
