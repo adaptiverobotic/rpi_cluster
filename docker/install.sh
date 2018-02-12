@@ -6,6 +6,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Get list of ips
 leader_file="${ASSETS}/leader"
+manager_file="${ASSETS}/manager"
 worker_file="${ASSETS}/worker"
 
 # Alias to import util script
@@ -19,7 +20,7 @@ send_assets() {
 }
 
 install_docker() {
-  echo "Install docker on all nodes"
+  echo "Installing docker on all nodes"
 
   # Install docker on all nodes
   $UTIL ssh_specific_nodes $IPS ./setup.sh install_docker
@@ -39,13 +40,6 @@ select_leader() {
   echo "Either assign in a static ip or reserve it's dhcp less"
 }
 
-select_managers() {
-  echo "Generating list of manager nodes"
-
-  # TODO - Read first two lines as managers
-  # this way if one leader goes out we aren't screwed
-}
-
 select_workers() {
   echo "Generating list of worker nodes"
 
@@ -58,6 +52,25 @@ select_workers() {
   # of this install.
   echo "Generating list of worker node ips"
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
+  echo $(cat $worker_file)
+}
+
+select_managers() {
+  echo "Generating list of manager nodes"
+
+  # Get number of workers
+  num_workers=$( $UTIL num_lines $worker_file )
+
+  # Make half of them managers
+  num_managers=$(( $num_workers / 2 ))
+
+  # Write their ips out to file
+  echo $(head -$num_managers $worker_file) > $manager_file
+
+  # Edit the work file
+  while read line; do
+    sed -i "/$line/d" $worker_file
+  done <$manager_file
 }
 
 download_tokens() {
@@ -75,8 +88,7 @@ disband_swarm() {
   # and remove it from existing swarm.
   # We have to remove the leader last
   echo "Removing all nodes from existing swarm"
-  $UTIL ssh_specific_nodes $worker_file ./setup.sh leave_swarm
-  $UTIL ssh_specific_nodes $leader_file ./setup.sh leave_swarm
+  $UTIL ssh_specific_nodes $IPS ./setup.sh leave_swarm
 }
 
 init_swarm() {
@@ -96,10 +108,11 @@ join_swarm() {
   # Add all nodes to swarm
   echo "Each node joining swarm"
   $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
+  $UTIL scp_specific_nodes $manager_file $(pwd)/assets/manager_join_token.sh
 
-  # NOTE - This seems to hang. Not sure if this has to do with
-  # my connection, or if docker is doing a lot as it removed leaders.
+  # Execute join script
   $UTIL ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
+  $UTIL ssh_specific_nodes $manager_file /bin/bash manager_join_token.sh
 }
 
 echo "Installing Docker"
@@ -116,11 +129,11 @@ install_docker
 # Pick a leader
 select_leader
 
-# Select the managers
-select_managers
-
 # Select the workers
 select_workers
+
+# Select the managers
+select_managers
 
 # Disband old swarms
 disband_swarm

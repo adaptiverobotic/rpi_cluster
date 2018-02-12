@@ -3,7 +3,13 @@ set -e
 
 # Get this device's ip and mac, as it
 # is not going to be returned by the ARP broadcast.
-# We must manually append it to the list.
+# We must manually append it to the list
+
+# NOTE - Perhaps ping the entire subnet
+# so that the ips come up by time we run arp -a
+# It appears as though they won't show up
+# for a fresh install unless we ping each ip
+# that we expect to join. This is not practical
 
 check_this_device() {
   # NOTE - Get output form ifconfig
@@ -57,7 +63,7 @@ ip_macs=($temp)
 # eth0 network interface (laptops). We
 # Would only run this if we are initializing
 # the cluster from a Raspberry Pi, or whatever
-# the common hardware is for the cluster. 
+# the common hardware is for the cluster.
 
 # check_this_device
 

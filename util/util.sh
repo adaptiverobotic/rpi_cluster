@@ -246,4 +246,8 @@ delayed_action() {
   $action
 }
 
+num_lines() {
+  cat $1 | wc -l
+}
+
 $@
