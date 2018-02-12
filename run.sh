@@ -135,7 +135,7 @@ docker_cluster() {
   deploy docker service ./docker/service/portainer/
 
 
-  /bin/bash util/util.sh delayed_action 5 "Launching Google Chrome in" google-chrome $(cat assets/leader):9000
+  /bin/bash util/util.sh delayed_action 5 'Launching Google Chrome in' google-chrome $(cat assets/leader):9000
 }
 
 # Sets up cluster as a

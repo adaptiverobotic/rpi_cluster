@@ -12,7 +12,7 @@ install_docker() {
   echo "Install docker on all nodes"
 
   # Install docker on all nodes
-  $ssh_specific_nodes $ips ./setup.sh install_docker $user
+  $ssh_specific_nodes $ips ./setup.sh install_docker
 }
 
 select_leader() {
@@ -73,6 +73,10 @@ init_swarm() {
 
   # Initialize the swarm
   echo "Initializing new swarm"
+
+  # NOTE - Maybe used head just in case. Just to make sure we only
+  # read in one ip address. If somehow this file gets edited, and a
+  # second valid ip address is inserted, the script will fail
   $ssh_specific_nodes $leader_file ./setup.sh init_swarm $(cat $leader_file)
 }
 

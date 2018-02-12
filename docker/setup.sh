@@ -2,17 +2,14 @@
 set -e
 
 install_docker() {
-  user=$1
-  reinstall=$2
-
-  echo "Installing docker on $user"
+  echo "Installing docker locally"
   echo "Checking if docker is already installed"
 
   # Check that docker is installed
   if docker; then
     echo "Docker is already installed"
   else
-    echo "Downloading installscript from docker.com"
+    echo "Downloading install script from docker.com"
 
     # Download it and pipe in into /bin/sh (run it)
     curl -sSL https://get.docker.com | sh
@@ -27,7 +24,7 @@ install_docker() {
 
     # Allow docker command with no sudo
     echo "Enabling sudo-less docker"
-    sudo usermod -aG docker $user
+    sudo usermod -aG docker $(cat whoami)
 
     echo "Finished Docker install process"
   fi
@@ -44,7 +41,7 @@ uninstall_docker() {
     # Remove files it created
     # Containers, images, etc
     echo "Removing left over files"
-    sudo rm -rfv /var/lib/docker
+    sudo rm -rf /var/lib/docker
   else
     echo "Docker is not installed"
   fi
@@ -52,8 +49,8 @@ uninstall_docker() {
 
 reinstall_docker() {
   echo "Reinstalling docker"
-  uninstall_docker $@
-  install_docker $@
+  uninstall_docker
+  install_docker
 }
 
 leave_swarm() {
@@ -65,7 +62,7 @@ leave_swarm() {
   # don't successfully leave, but continue the script,
   # then we will run into issues.
   if docker swarm leave --force; then
-    echo "Node left the swarm"
+    echo "Successfully left swarm"
   else
     echo "This node was not part of a swarm or could not leave"
   fi
@@ -76,7 +73,11 @@ init_swarm() {
   # Get this device's ip address
   ip=$1
 
-  # NOTE - Maybe make sure we have left?
+  # NOTE - Checkout the force init flag in docker docs
+  # TODO - Read in this device's ip address dynamically.
+  # In theevent that a bad ip address was sent to this device
+  # then this script will break.
+  ip=$(hostname -I | awk '{print $1}')
 
   # Make a new swarm.
   echo "Initializing swarm, advertising ip: $ip"
@@ -98,9 +99,5 @@ init_swarm() {
   # will SCP them from this device's home directly to its local working directory
   # and them ship them out to the appropriate nodes in the cluster.
 }
-
-#-------------------------------------------------------------------------------
-
-user=$1
 
 $@
