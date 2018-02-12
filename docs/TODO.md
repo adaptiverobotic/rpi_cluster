@@ -1,10 +1,12 @@
 # To-do List
 
+* Figure out beforehand while nodes are going to be deployed to if possible.
+  this way we are not downloading images and creating volumes on nodes that
+  will not be running a task. This feature does not exist for stack deploy,
+  but it does appear to be available for service.
 * Improve hostname change so changes take effect immediately
-* Implement docker's suggest (n+1)/2 rule for manager:worker ratio
 * Move dependency install script to util as it will reused in several places
 * Figure out how to create docker volumes on nodes it applies to
-* Create some sort of temporary symbolic link or alias for util
 * Perhaps cd into directory of the script to avoid boilerplate code for directory resolution
 * Loop through nodes asynchronously and await exit by process id
 * Fix SQLite3 syntax issues / corruption in test_app's client application

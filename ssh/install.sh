@@ -52,7 +52,9 @@ done
 
 
 # Make changes official
-# eval $(ssh-agent)
+# NOTE - idk y but this works
+# when ssh from outside world
+eval $(ssh-agent)
 ssh-add
 
 echo "Successfully added ssh key to each node"
