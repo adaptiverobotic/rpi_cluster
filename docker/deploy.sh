@@ -118,8 +118,6 @@ init() {
 
   # push_images
 
-  # Pull all images
-  # down to each node
   pull_images
 }
 
@@ -165,7 +163,7 @@ service() {
 
   # Run required
   # initialization
-  # on eaach node
+  # on each node
   init
 
   # Generate and send docker_service.sh

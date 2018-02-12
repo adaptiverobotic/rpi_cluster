@@ -8,6 +8,12 @@ hosts="/etc/hosts"
 # For creating host
 user=$1
 
+# We want the advertised hostname to take effect
+# immediately because if we are inserting nodes
+# into a cluster such as docker swarm, the hostname
+# from /etc/hostname will be used. However, the changes
+# will not take effect until the device reboots. So,
+# currently, the default hostname is used.
 # TODO - see https://askubuntu.com/questions/87665/how-do-i-change-the-hostname-without-a-restart/516898
 
 # Get this node's IP from
@@ -18,7 +24,7 @@ tmp0=$(hostname -I)
 tmp1=($tmp0)
 ip=${tmp1[0]}
 
-# Get lat 3 digits from ip
+# Get last 3 digits from ip
 # TODO - Abstract this to util.sh
 num=$(echo $ip | cut -d . -f 4)
 

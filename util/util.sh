@@ -102,6 +102,26 @@ my_sshpass() {
 # a specified script / command.
 loop_nodes() {
 
+  # TODO - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
+
+  # The script at this point works. But, it takes a lot of time.
+  # Most of the nodes during the setup process are waiting
+  # because we are doing ssh or scp in sequence. We should
+  # kick off each process on a different thread / subprocess
+  # and just wait for all of them them to finish. NOTE - By
+  # default, simply kicking a process off to the background
+  # will pipe its output to /dev/null as well as it exit with
+  # status 0. Essentially, & does not care if the command was executed
+  # successfully or not. In order for us to make sure out install
+  # process is going smoothly, we should keep track of the process
+  # id, and await their completions as a group. If all of them
+  # come back 0, then this function will return 0. If any fail
+  # then the entire function fails. NOTE - We also now want to start
+  # logging the output of each subprocess into a file. Overall,
+  # if implemented correctly, we should get a similar behavior,
+  # but the length of the install process will be roughly the same,
+  # independent of how many nodes we have. Currently T(n) = n
+
   # File to read ips from
   file=$1
 
