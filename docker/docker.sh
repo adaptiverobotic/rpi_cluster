@@ -197,7 +197,6 @@ clean_containers() {
   # Delete all stopped containers. This includes containers stop in
   # the previous loop, and other dangling containers.
   docker ps -q -f status=exited | xargs --no-run-if-empty docker rm
-
 }
 
 #-------------------------------------------------------------------------------
@@ -286,13 +285,6 @@ clean_networks() {
   else
     echo "No networks to remove"
   fi
-
-  # Delete all networks that
-  # do not have at least one
-  # container connected to it
-
-  # NOTE - Temporary
-  # docker network prune
 }
 
 #-------------------------------------------------------------------------------

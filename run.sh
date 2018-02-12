@@ -1,7 +1,13 @@
-
-
 #!/bin/bash
 set -e
+
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+export ASSETS="$(pwd)/assets"
+export UTIL="/bin/bash $(pwd)/util/util.sh"
+export IPS="$(pwd)/assets/ips"
+export COMMON_USER="$(cat assets/user)"
 
 # Make sure every script is
 # runnable with ./script_name.sh syntax
@@ -27,7 +33,7 @@ hostname() {
   echo "Changing each node's hostname to match a specified pattern"
 
   # Change all the hostnames
-  ./hostname/change.sh
+  ./hostname/install.sh
 }
 
 dependencies() {
@@ -53,6 +59,9 @@ install_samba() {
 
 uninstall_samba() {
   echo "Uninstalling samba from cluster"
+
+  # Uninstall samba from all nodes
+  ./samba/uninstall.sh
 }
 
 install_docker() {
@@ -64,30 +73,40 @@ install_docker() {
 
 uninstall_docker() {
   echo "Uninstalling docker from cluster"
+
+  # Remove docker from nodes
+  ./docker/uninstall.sh
 }
 
 install_kubernetes() {
   echo "Creating kubernetes cluster"
+
+  # Initialize kubernetes cluster
+  ./kubernetes/install.sh
 }
 
 uninstal_kubernetes() {
   echo "Uninstalling kubernetes from cluster"
+
+  # Remove kubernetes from nodes
+  ./kubernets/uninstall.sh
 }
 
 deploy() {
 
   # Deploys an application to
   # a given cluster provider
-  # (docker swarm, kuberneters, mesos)
+  # (docker swarm or kuberneters)
 
   # Just for clarity
   provider=$1
   app_dir=$2
+  args=${@:3}
 
-  echo "Deploying test app to $provider cluster"
+  echo "Deploying app to $provider cluster"
 
   # Deploy test application
-  ./$1/deploy.sh $2 ${@:3}
+  ./$provider/deploy.sh $app_dir $args
 }
 
 init() {
@@ -134,8 +153,8 @@ docker_cluster() {
 
   deploy docker service ./docker/service/portainer/
 
-
-  /bin/bash util/util.sh delayed_action 5 'Launching Google Chrome in' google-chrome $(cat assets/leader):9000
+  message="Launching"
+  ./util/util.sh delayed_action 5 $message google-chrome $(cat assets/leader):9000
 }
 
 # Sets up cluster as a

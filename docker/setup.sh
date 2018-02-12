@@ -8,6 +8,8 @@ install_docker() {
   # Check that docker is installed
   if docker; then
     echo "Docker is already installed"
+
+  # We need to install it
   else
     echo "Downloading install script from docker.com"
 
@@ -22,7 +24,7 @@ install_docker() {
     echo "Starting docker daemon"
     sudo systemctl start docker
 
-    # Allow docker command with no sudo
+    # Allow docker command to execute with no sudo
     echo "Enabling sudo-less docker"
     sudo usermod -aG docker $(cat whoami)
 
@@ -33,6 +35,8 @@ install_docker() {
 uninstall_docker() {
   echo "Uninstalling docker"
 
+  # Check if the machine recognizes
+  # the docker command
   if docker; then
     # Remove from apt-get
     echo "Purging docker"
@@ -42,6 +46,8 @@ uninstall_docker() {
     # Containers, images, etc
     echo "Removing left over files"
     sudo rm -rf /var/lib/docker
+
+  # No work to be done
   else
     echo "Docker is not installed"
   fi
@@ -71,12 +77,6 @@ leave_swarm() {
 init_swarm() {
 
   # Get this device's ip address
-  ip=$1
-
-  # NOTE - Checkout the force init flag in docker docs
-  # TODO - Read in this device's ip address dynamically.
-  # In theevent that a bad ip address was sent to this device
-  # then this script will break.
   ip=$(hostname -I | awk '{print $1}')
 
   # Make a new swarm.
@@ -95,7 +95,7 @@ init_swarm() {
   chmod 777 manager_join_token.sh
 
   # We will leave the scripts in our home directory. The sysadmin machine
-  # that is facilitating the install will expect them to be there. The sysadmin
+  # that is facilitating the install process will expect them to be there. The sysadmin
   # will SCP them from this device's home directly to its local working directory
   # and them ship them out to the appropriate nodes in the cluster.
 }

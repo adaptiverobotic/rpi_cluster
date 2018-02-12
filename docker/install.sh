@@ -1,18 +1,28 @@
 #!/bin/bash
 set -e
 
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+# Get list of ips
+leader_file="${ASSETS}/leader"
+worker_file="${ASSETS}/worker"
+
+# Alias to import util script
+# util="/bin/bash ../util/util.sh"
+
 send_assets() {
   echo "Sending asset files to nodes"
 
   # SCP setup script to each node
-  $scp_specific_nodes $ips ${DIR}/setup.sh
+  $UTIL scp_specific_nodes $IPS $(pwd)/setup.sh
 }
 
 install_docker() {
   echo "Install docker on all nodes"
 
   # Install docker on all nodes
-  $ssh_specific_nodes $ips ./setup.sh install_docker
+  $UTIL ssh_specific_nodes $IPS ./setup.sh install_docker
 }
 
 select_leader() {
@@ -20,7 +30,7 @@ select_leader() {
 
   # Read leader ip into a file
   echo "Selecting leader node"
-  echo $(head -n 1 $ips) > $leader_file
+  echo $(head -n 1 $IPS) > $leader_file
 
   # Capture leader_ip
   leader_ip=$(cat $leader_file)
@@ -47,15 +57,15 @@ select_workers() {
   # that are not the leader works for the purpose
   # of this install.
   echo "Generating list of worker node ips"
-  echo $(tail -n +2 ${ips}) | tr " " "\n" > $worker_file
+  echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
 }
 
 download_tokens() {
   echo "Pulling join tokens from leader"
 
   # Download the join token scripts to this devce
-  $my_scp_get_file $user@$leader_ip ${DIR}/assets/ manager_join_token.sh
-  $my_scp_get_file $user@$leader_ip ${DIR}/assets/ worker_join_token.sh
+  $UTIL my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh
+  $UTIL my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ worker_join_token.sh
 }
 
 disband_swarm() {
@@ -65,8 +75,8 @@ disband_swarm() {
   # and remove it from existing swarm.
   # We have to remove the leader last
   echo "Removing all nodes from existing swarm"
-  $ssh_specific_nodes $worker_file ./setup.sh leave_swarm
-  $ssh_specific_nodes $leader_file ./setup.sh leave_swarm
+  $UTIL ssh_specific_nodes $worker_file ./setup.sh leave_swarm
+  $UTIL ssh_specific_nodes $leader_file ./setup.sh leave_swarm
 }
 
 init_swarm() {
@@ -77,7 +87,7 @@ init_swarm() {
   # NOTE - Maybe used head just in case. Just to make sure we only
   # read in one ip address. If somehow this file gets edited, and a
   # second valid ip address is inserted, the script will fail
-  $ssh_specific_nodes $leader_file ./setup.sh init_swarm $(cat $leader_file)
+  $UTIL ssh_specific_nodes $leader_file ./setup.sh init_swarm
 }
 
 join_swarm() {
@@ -85,39 +95,17 @@ join_swarm() {
 
   # Add all nodes to swarm
   echo "Each node joining swarm"
-  $scp_specific_nodes $worker_file ${DIR}/assets/worker_join_token.sh
+  $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
 
   # NOTE - This seems to hang. Not sure if this has to do with
   # my connection, or if docker is doing a lot as it removed leaders.
-  $ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
+  $UTIL ssh_specific_nodes $worker_file /bin/bash worker_join_token.sh
 }
 
 echo "Installing Docker"
 
-# Get absolute path of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-# Get list of ips
-ips="${DIR}/../assets/ips"
-leader_file="${DIR}/../assets/leader"
-worker_file="${DIR}/../assets/worker"
-
-# Get common user
-user=$(cat ${DIR}/../assets/user)
-
-# Get root assets
-assets="${DIR}/../assets/"
-
-# Alias to import util script
-util="/bin/bash ${DIR}/../util/util.sh"
-
-# Alias to functions in util script
-ssh_specific_nodes="${util} ssh_specific_nodes"
-scp_specific_nodes="${util} scp_specific_nodes"
-my_scp_get_file="${util} my_scp_get_file"
-
 # Clear home directories
-${util} clean_workspace $ips
+$UTIL clean_workspace $IPS
 
 # Send setup files
 send_assets

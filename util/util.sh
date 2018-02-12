@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-# Get absolute path of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Get common login credentials
-user=$(cat ${DIR}/../assets/user)
-password_file="${DIR}/../assets/password"
-ips="${DIR}/../assets/ips"
+user=$(cat ../assets/user)
+password_file="../assets/password"
+ips="../assets/ips"
 
 # Specify ssh parameters
 ssh_args="
@@ -35,8 +35,8 @@ my_scp() {
   # Format: user@ip
   user_ip=$1
 
-  # SCP a file to a given node passing the password from a file
-  scp $ssh_args -r "${@:2}" $user_ip:
+  # SCP files from local to remote
+  scp $ssh_args -r ${@:2} $user_ip:
 }
 
 # SCP a list of files from
@@ -46,15 +46,18 @@ my_scp() {
 my_scp_get_file() {
   # Format: user@ip
   user_ip=$1
+
+  # Directory to write to
   local_dir=$2
 
+  # Files to download
   args=${@:3}
 
   # Make the local_dir
   # if it does not exist
   mkdir -p $local_dir
 
-  # SCP a file to a given node passing the password from a file
+  # SCP the files from remove to local
   scp $ssh_args -r $user_ip:\"$args\" $local_dir
 }
 
@@ -141,9 +144,11 @@ loop_nodes() {
 # by a file ($1), and execute all the
 # commands that follow
 ssh_specific_nodes() {
+  ip_list=$1
+  args=${@:2}
 
   # Send file list first
-  loop_nodes $1 ssh ${@:2}
+  loop_nodes $ip_list ssh $args
 }
 
 # Provided a list of node ips
@@ -151,9 +156,11 @@ ssh_specific_nodes() {
 # (remaning arguments), SCP the files
 # to each node ip in the list.
 scp_specific_nodes() {
+  ip_list=$1
+  args=${@:2}
 
   # Send file list first
-  loop_nodes $1 scp ${@:2}
+  loop_nodes $ip_list scp $args
 }
 
 # Execute a command on each
@@ -163,7 +170,7 @@ ssh_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $ips ssh "$@"
+  loop_nodes $ips ssh $@
 }
 
 # SCP a set of files to each
@@ -173,7 +180,7 @@ scp_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $ips scp "$@"
+  loop_nodes $ips scp $@
 }
 
 clean_workspace() {
@@ -216,11 +223,8 @@ is_installed() {
 # ip address to stdout
 my_ip() {
 
-  # NO, specific to linux
-  tmp0=$(hostname -I)
-  tmp1=($tmp0)
-  i=${tmp1[0]}
-  echo $i
+  # Specific to linux. will faill on Mac
+  echo $(hostname -I | awk '{print $1}')
 }
 
 # Executes a command after N seconds
@@ -228,6 +232,9 @@ delayed_action() {
   delay=$1
   message=$2
   action=${@:3}
+
+  # TODO - Allow for spaces in arguments
+  # so that we can have a real message
 
   secs=$(( $delay ))
   while [ $secs -gt 0 ]; do
