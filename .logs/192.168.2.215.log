@@ -1651,3 +1651,2079 @@ sza7o1kwyk77: invalid mount config for type "bind": bind source path does not ex
 overall progress: 0 out of 1 tasks
 sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
 overall progress: 0 out of 1 tasks
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:6 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:24759): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (285 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:26137): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:26518): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (peh6d75v7dnhvl8i0wz9eiq3z) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-1iko06wio4aotyowgpumzqy2umjtzlbgy5ph9amyywlb9aj09b-7zuk89pwy2yv8q3lwerv9u3zx 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Error: No such service: portainer
+Service: portainer could not be removed, or does not exists
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+gcddrwpoic8b4pohbhk9w6tfv
+Building images listed in: assets/build
+ls: No images to build
+cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+0vgv6ysup3s7ezwov39xbcssk
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:29264): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 3s (55.0 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:30631): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:31012): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (tp6hi91u25fhlz7y130dffybf) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-27o5h9tafabbpsrfzjxg4rw3i0k61jwhhg8rahh9h3tc9wwqie-9e109kx73v4kc3u0li2j1k9xh 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+ls: cannot access 'assets/networks': No such file or directory
+No networks to remove
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+ls: No networks to create
+cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+wk4cjqb66766jbmglfog4kg0s
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+aofmetojpxezurpcwhqfy7e0p
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Get:8 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [715 kB]
+Get:9 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [582 kB]
+
+** (appstreamcli:1368): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 1,502 kB in 2s (705 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:2809): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:3190): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (4iv3mrsy3mzgy59ye1gyn66ol) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0vofga0sumkedxh7zzoacfnqquopu2u3csm7rhwihmi0xkedha-bmvdwj46wwog265zcrlfx98dr 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+ls: cannot access 'assets/networks': No such file or directory
+No networks to create
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+xu2zkr7ff5b0jg2jw1i47c5sq
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+xls4lef882trsg2kpcj4x2t2f
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:6505): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (140 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:7866): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:8247): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (z7imsxjastftl9kkakoxl2sno) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-37dpuwom7r5raydgnl30515qx7frxhdg3jpfd945ee3kjecvlk-bl87kj25lv3l6r2p807ckh1fp 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:10131): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (165 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Reading package lists...Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Warning: Stopping docker.service, but it can still be activated by:
+  docker.socket
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:11425): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:11806): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (nijwlmclvvyzfts96n0tv79vx) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-4efxatycv4e960cdfnc09onac7wabg8cztn6e5o1af190pwydq-djgxklbn2pd76b83jxptbxxxn 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:13688): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (227 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Reading package lists...Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:14977): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:15358): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (8cw6lk0633qs3i45imhk5zwmi) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-5xrnegixzhiltavijy1gof6lhgbqglmiz2ykd3hehf5z9pbdmm-eroa6g5rbs8s3k5b22m51qay3 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:17268): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (141 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:18559): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:18941): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (123k16ebbbb6v80vvzsh3trrs) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-152o4mwnwo08lr6xx9l666tjdyjg5u4gw75x9ullkkb9jsr92e-ek59opgxttn3bp4i3ti53rtuc 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Error: No such secret: PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+u2f6ln1gispc38okhctk26ng3
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+No images to push
+ls: cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+aey9998u2kf1egp7d9soex6hw
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:21629): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (242 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+Docker is not installed
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 42: docker ps: command not found
+./setup.sh: line 9: docker ps: command not found
+# Executing docker install script, commit: 1d31602
+Warning: the "docker" command appears to already exist on this system.
+
+If you already have Docker installed, this script can cause trouble, which is
+why we're displaying this warning and provide the opportunity to cancel the
+installation.
+
+If you installed the current Docker package using this script and are using it
+again to update Docker, you can safely ignore this message.
+
+You may press Ctrl+C now to abort this script.
++ sleep 20
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:22067): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:22448): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (nzmewuy1tqn8d1nvx4kpntlr3) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0q4qbi1y1tgxdurjnru9djewd7qhlo2o05l8i30sqqorhty2b7-8l7bwuxgidy2rl8bd1k6xsej9 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Untagged: portainer/portainer:latest
+Untagged: portainer/portainer@sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Deleted: sha256:7b830d8c5636e92cd97f8caeec3a80ce14fffae12c295b03af8626cc719abb4a
+Deleted: sha256:4b1ebed92c5ec939b8ba5982daaf45a7df0d7ef996602e7f3abc9c3dd0d54702
+Deleted: sha256:dd4969f97241b9aefe2a70f560ce399ee9fa0354301c9aef841082ad52161ec5
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+portainer
+Volume: portainer was removed
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+s728apqitbm6lrnidh1272c5m
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+No images to push
+ls: cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+th4vmn0ic9asm7ocf56fhxsge
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:24346): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (207 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+Docker is not installed
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 53: docker ps: command not found
+./setup.sh: line 15: docker ps: command not found
+# Executing docker install script, commit: 1d31602
+Warning: the "docker" command appears to already exist on this system.
+
+If you already have Docker installed, this script can cause trouble, which is
+why we're displaying this warning and provide the opportunity to cancel the
+installation.
+
+If you installed the current Docker package using this script and are using it
+again to update Docker, you can safely ignore this message.
+
+You may press Ctrl+C now to abort this script.
++ sleep 20
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:24776): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:25158): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (twbynnvq59ve8fld829i8ljsy) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3nqh3m9h5z6unqm5dpqrrqwmkel7urig9uujsku730rw4ejpoo-0gg7vjdkdvnan0s8w5qvd4tl8 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Untagged: portainer/portainer:latest
+Untagged: portainer/portainer@sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Deleted: sha256:7b830d8c5636e92cd97f8caeec3a80ce14fffae12c295b03af8626cc719abb4a
+Deleted: sha256:4b1ebed92c5ec939b8ba5982daaf45a7df0d7ef996602e7f3abc9c3dd0d54702
+Deleted: sha256:dd4969f97241b9aefe2a70f560ce399ee9fa0354301c9aef841082ad52161ec5
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+portainer
+Volume: portainer was removed
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+ab30rrpnzandiabtgskiq4xdk
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+No images to push
+ls: cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+z222alsr52fhxjejoxuikcqkm
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged

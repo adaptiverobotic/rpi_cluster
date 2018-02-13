@@ -194,6 +194,9 @@ join_swarm() {
 
 #-------------------------------------------------------------------------------
 
+# Executes all of the steps
+# that are required to start up
+# a new docker swarm.
 new_swarm() {
   echo "Installing Docker and creating swarm"
 

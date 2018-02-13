@@ -1,12 +1,18 @@
 #!/bin/bash
 set -e
 
+#-------------------------------------------------------------------------------
+
+# Install docker via their install
+# script. We check if docker is
+# installed. If it is, then we
+# skip the installation process.
 install_docker() {
   echo "Installing docker locally"
   echo "Checking if docker is already installed"
 
   # Check that docker is installed
-  if docker ps; then
+  if "docker ps"; then
     echo "Docker is already installed"
 
   # We need to install it
@@ -34,12 +40,17 @@ install_docker() {
   fi
 }
 
+#-------------------------------------------------------------------------------
+
+# Removes docker from a node.
+# We first check and make sure
+# that it is installed before Uninstalling.
 uninstall_docker() {
   echo "Uninstalling docker"
 
   # Check if the machine recognizes
   # the docker command
-  if docker; then
+  if "docker ps"; then
     # Remove from apt-get
     echo "Purging docker"
     sudo apt-get purge docker-ce -y
@@ -55,12 +66,21 @@ uninstall_docker() {
   fi
 }
 
+#-------------------------------------------------------------------------------
+
+# Utility function that makes sure
+# we are uninstalling and reinstalling.
+# This is more diagnostic than anything else.
 reinstall_docker() {
   echo "Reinstalling docker"
   uninstall_docker
   install_docker
 }
 
+#-------------------------------------------------------------------------------
+
+# Removes a node from
+# a preexisting swarm.
 leave_swarm() {
   echo "Leaving swarm"
 
@@ -76,6 +96,13 @@ leave_swarm() {
   fi
 }
 
+#-------------------------------------------------------------------------------
+
+# Initializes a new swarm with
+# this device (node) as the leader.
+# We then generate join scripts
+# that other nodes will execute to
+# join this node's swarm.
 init_swarm() {
 
   # Get this device's ip address
@@ -102,4 +129,6 @@ init_swarm() {
   # and them ship them out to the appropriate nodes in the cluster.
 }
 
-$@
+#-------------------------------------------------------------------------------
+
+"$@"

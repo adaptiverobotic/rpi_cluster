@@ -19,6 +19,8 @@ echo "Deploying: $2"
 # All path to asset files
 mkdir -p assets
 
+#-------------------------------------------------------------------------------
+
 clear_assets() {
   echo "Deleting old asset files (remote and local)"
 
@@ -32,6 +34,8 @@ clear_assets() {
   echo "Deleting local assets"
   rm -vf assets/*
 }
+
+#-------------------------------------------------------------------------------
 
 compile_assets() {
 
@@ -52,6 +56,8 @@ compile_assets() {
   cp -r ${app_path}assets/. assets/
 }
 
+#-------------------------------------------------------------------------------
+
 send_assets() {
   # Send required files
   # to nodes over SCP first
@@ -61,6 +67,8 @@ send_assets() {
   # send all of these files to the node
   $UTIL scp_nodes $(pwd)/assets/ $(pwd)/docker.sh
 }
+
+#-------------------------------------------------------------------------------
 
 clean_nodes() {
   # Clean old data off nodes
@@ -80,21 +88,29 @@ clean_nodes() {
   $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_secrets assets/secrets
 }
 
+#-------------------------------------------------------------------------------
+
 build_images() {
   echo "Building images locally"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh build assets/build ./
 }
+
+#-------------------------------------------------------------------------------
 
 push_images() {
   echo "Pushing images to docker registry"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh push assets/push ./
 }
 
+#-------------------------------------------------------------------------------
+
 pull_images() {
   # Loop through nodes and pull images down locally
   echo "Pulling images down from docker hub"
   $UTIL ssh_nodes ./docker.sh pull assets/images ./
 }
+
+#-------------------------------------------------------------------------------
 
 create_volumes() {
   echo "Creating volumes on nodes"
@@ -103,17 +119,23 @@ create_volumes() {
   $UTIL ssh_nodes ./docker.sh volume assets/volumes
 }
 
+#-------------------------------------------------------------------------------
+
 create_networks() {
   echo "Creating networks for swarm"
 
   $UTIL ssh_specific_nodes $leader_file ./docker.sh network assets/networks
 }
 
+#-------------------------------------------------------------------------------
+
 create_secrets() {
   echo "Creating secrets for swarm"
 
   $UTIL ssh_specific_nodes $leader_file ./docker.sh secret assets/secrets
 }
+
+#-------------------------------------------------------------------------------
 
 init() {
   echo "Initializing each node"
@@ -148,6 +170,8 @@ init() {
   # Pull images on each node
   pull_images
 }
+
+#-------------------------------------------------------------------------------
 
 scp_service_file() {
   # TODO - Perhaps instead of scanning with
@@ -187,6 +211,8 @@ scp_service_file() {
   $UTIL scp_specific_nodes $leader_file $service_file
 }
 
+#-------------------------------------------------------------------------------
+
 service() {
 
   # Initialze each node
@@ -200,4 +226,4 @@ service() {
   $UTIL ssh_specific_nodes $leader_file ./docker_service.sh
 }
 
-$@
+"$@"

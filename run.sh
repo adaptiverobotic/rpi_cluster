@@ -37,7 +37,7 @@ ssh_keys() {
   echo "Generating ssh keys and copying it to all nodes"
 
   # Enable passwordless ssh
-  ./ssh/install.sh
+  ./ssh/install.sh $@
 }
 
 hostname() {
@@ -139,7 +139,7 @@ init() {
   # Generate ssh keys, and ship
   # the public keys to each node
   # to enable passwordless access
-  ssh_keys
+  ssh_keys install
 
   # Change all of the hostnames
   # in the cluster to some common
@@ -169,12 +169,14 @@ docker_cluster() {
 
   install_docker
 
+  # Deploy Portainer for easy swarm management
   deploy docker service $ROOT_DIR/docker/service/portainer/
-
-  deploy docker service $ROOT_DIR/apps/test_app/
 
   # Check that the cluster is up
   $UTIL delayed_action 10 "Health_Check" curl $(cat assets/leader):9000
+
+  # Deploy test application as proof of concept
+  # deploy docker service $ROOT_DIR/apps/test_app/
 }
 
 # Sets up cluster as a
