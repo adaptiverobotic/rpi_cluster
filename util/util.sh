@@ -21,7 +21,7 @@ my_ssh() {
   user_ip=$1
 
   # SSH into a given node passing the password from a file
-  ssh $ssh_args -n $user_ip ${@:2}
+  ssh $ssh_args -f $user_ip ${@:2}
 }
 
 # SCP into a node
@@ -147,13 +147,26 @@ loop_nodes() {
     return 1
   fi
 
+  pids=""
+  result=0
+
   while read ip; do
     echo "$action: $COMMON_USER@$ip"
 
-    # my_ssh, my_scp
-    my_$action $COMMON_USER@$ip ${@:3}
+    # my_ssh, my_scp, send it off to background
+    (my_$action $COMMON_USER@$ip ${@:3}) &
 
+    # Keep a list of process ids
+    pids="$pids $!"
   done <$file
+
+  # Loop through pids and wait
+  # for them to complete.
+  for pid in $pids; do
+    wait $pid || let "result=1"
+  done
+
+  return $result
 }
 
 # SSH into a list of node specified
