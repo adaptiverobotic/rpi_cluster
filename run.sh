@@ -102,6 +102,12 @@ uninstal_kubernetes() {
   ./kubernetes/uninstall.sh
 }
 
+restart_cluster() {
+  echo "Restarting the cluster"
+
+  ${UTIL} reboot_nodes
+}
+
 deploy() {
 
   # Deploys an application to

@@ -219,7 +219,8 @@ reboot_nodes() {
 
   # Power off and reboot
   # each node in cluster
-  ssh_nodes reboot -p
+  # TODO - Need to ignore error when ssh is closed
+  ssh_nodes echo "rebooting"; (sleep 1 && sudo reboot &) && exit
 }
 
 # Determine whether or
