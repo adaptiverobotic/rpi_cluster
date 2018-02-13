@@ -43,7 +43,7 @@ hostname() {
   echo "Changing each node's hostname to match a specified pattern"
 
   # Change all the hostnames
-  ./hostname/install.sh
+  ./hostname/install.sh $1
 }
 
 dependencies() {

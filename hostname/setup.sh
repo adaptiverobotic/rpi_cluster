@@ -51,4 +51,4 @@ rm -f $hosts.temp
 echo "127.0.1.1       $hostname" >> $hosts
 
 echo "Changed hostname in /etc/hosts to $hostname"
-echo "Hostname: $(cat /etc/hostname)"
+echo "New Hostname: $(cat /etc/hostname)"
