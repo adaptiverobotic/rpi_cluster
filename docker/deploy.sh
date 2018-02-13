@@ -21,13 +21,13 @@ mkdir -p assets
 
 #-------------------------------------------------------------------------------
 
+# Cleans the remove home directory
+# of each node. That way we do not
+# accidently read in asset files
+# from a previous deployment.
 clear_assets() {
   echo "Deleting old asset files (remote and local)"
 
-  # Cleans the remove home directory
-  # of each node. That way we do not
-  # accidently read in asset files
-  # from a previous deployment.
   echo "Deleting remote assets"
   ${UTIL} clean_workspace $IPS
 
@@ -37,6 +37,9 @@ clear_assets() {
 
 #-------------------------------------------------------------------------------
 
+# Compiles assets from the proided
+# app directory and merges it with
+# the local docker assets.
 compile_assets() {
 
   # TODO - Perhaps instead of compiling
@@ -58,6 +61,8 @@ compile_assets() {
 
 #-------------------------------------------------------------------------------
 
+# Sends all of the asset
+# files to each node.
 send_assets() {
   # Send required files
   # to nodes over SCP first
@@ -70,6 +75,10 @@ send_assets() {
 
 #-------------------------------------------------------------------------------
 
+# Cleans all old images, volumes, containers,
+# etc that are associated with the service
+# we want to deploy. This way we always have the
+# latest images, etc.
 clean_nodes() {
   # Clean old data off nodes
   # (volumes, images, containers)
@@ -90,6 +99,8 @@ clean_nodes() {
 
 #-------------------------------------------------------------------------------
 
+# Build specified images from
+# source on leader
 build_images() {
   echo "Building images locally"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh build assets/build ./
@@ -97,6 +108,8 @@ build_images() {
 
 #-------------------------------------------------------------------------------
 
+# Push specified images to
+# docker registry.
 push_images() {
   echo "Pushing images to docker registry"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh push assets/push ./
@@ -104,14 +117,23 @@ push_images() {
 
 #-------------------------------------------------------------------------------
 
+# Pull specified
+# images from docker registry
+# down to each node.
 pull_images() {
+
   # Loop through nodes and pull images down locally
-  echo "Pulling images down from docker hub"
+  echo "Pulling images down from docker registry"
   $UTIL ssh_nodes ./docker.sh pull assets/images ./
 }
 
 #-------------------------------------------------------------------------------
 
+# Create local volumes
+# that are specified by a list.
+# TODO - Figure out how to
+# create volumes that will be
+# actually used by a serice.
 create_volumes() {
   echo "Creating volumes on nodes"
 
@@ -137,6 +159,8 @@ create_secrets() {
 
 #-------------------------------------------------------------------------------
 
+# Executes all necessary steps to
+# stand up a new service / stack.
 init() {
   echo "Initializing each node"
 
@@ -173,6 +197,11 @@ init() {
 
 #-------------------------------------------------------------------------------
 
+# Generate a global docker_service.sh
+# file that is composed of all service
+# files found in the subdirecries of
+# the app path. Effectively, we are
+# copying some features from docker stack.
 scp_service_file() {
   # TODO - Perhaps instead of scanning with
   # find, read in from assets/services. This
@@ -213,9 +242,15 @@ scp_service_file() {
 
 #-------------------------------------------------------------------------------
 
+# This function facilitates running
+# docker services on the swarm.
 service() {
 
   # Initialze each node
+  # TODO - We should not
+  # init inside of deployment.
+  # deploy should assume that
+  # there is a swarm to deploy to.
   init
 
   # Generate docker_service.sh
