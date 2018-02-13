@@ -16,6 +16,7 @@ export ASSETS="$ROOT_DIR/assets"
 export COMMON_HOST="$(cat $ASSETS/hostname)"
 export COMMON_PASS="$(cat $ASSETS/password)"
 export COMMON_USER="$(cat $ASSETS/user)"
+export LOG_DIR="${ROOT_DIR}/.logs"
 export IPS="$ROOT_DIR/assets/ips"
 export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 

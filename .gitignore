@@ -2,16 +2,15 @@
 .DS_Store
 node_modules
 __pycache__
-*.log*
 *.db
 *.db*
 .idea
 
-.logs/*
 ! .logs/127.0.0.1
 
 docker/deploy/assets
 
+.Trash-*
 
 address
 DEFAULT_PASSWORD

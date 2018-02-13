@@ -8,7 +8,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Specify ssh parameters
 ssh_args="
 -o LogLevel=error \
--o ConnectTimeout=5 \
+-o ConnectTimeout=10 \
 -o IdentitiesOnly=yes \
 -o userknownhostsfile=/dev/null \
 -o stricthostkeychecking=no"
@@ -107,24 +107,6 @@ loop_nodes() {
 
   # TODO - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
 
-  # The script at this point works. But, it takes a lot of time.
-  # Most of the nodes during the setup process are waiting
-  # because we are doing ssh or scp in sequence. We should
-  # kick off each process on a different thread / subprocess
-  # and just wait for all of them them to finish. NOTE - By
-  # default, simply kicking a process off to the background
-  # will pipe its output to /dev/null as well as it exit with
-  # status 0. Essentially, & does not care if the command was executed
-  # successfully or not. In order for us to make sure out install
-  # process is going smoothly, we should keep track of the process
-  # id, and await their completions as a group. If all of them
-  # come back 0, then this function will return 0. If any fail
-  # then the entire function fails. NOTE - We also now want to start
-  # logging the output of each subprocess into a file. Overall,
-  # if implemented correctly, we should get a similar behavior,
-  # but the length of the install process will be roughly the same,
-  # independent of how many nodes we have. Currently T(n) = n
-
   # File to read ips from
   file=$1
 
@@ -153,18 +135,34 @@ loop_nodes() {
   while read ip; do
     echo "$action: $COMMON_USER@$ip"
 
-    # my_ssh, my_scp, send it off to background
-    (my_$action $COMMON_USER@$ip ${@:3}) &
+    # 1. We are mapping ssh to my_ssh, scp -> my_scp and so on
+    # 2. We are running an inner subprocess that will pipe stout
+    # and stderr to a file
+    # 3. This is all encapsulated in another subprocess that we throw into
+    # the background. The outer most process' pid will be captured
+    # and stored into an array. We can then await these processes as a group
+    ( (my_$action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
 
     # Keep a list of process ids
     pids="$pids $!"
   done <$file
+
+  echo "Waiting for all processes to finish"
 
   # Loop through pids and wait
   # for them to complete.
   for pid in $pids; do
     wait $pid || let "result=1"
   done
+
+  echo "Done"
+
+  # Check exit status
+  if [[ $result -eq 0 ]]; then
+    echo "SUCCESS - All asynchronous calls were succesful"
+  else
+    echo "FAILURE - At least process exited with a non-zero status"
+  fi
 
   return $result
 }
