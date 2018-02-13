@@ -99,7 +99,7 @@ uninstal_kubernetes() {
   echo "Uninstalling kubernetes from cluster"
 
   # Remove kubernetes from nodes
-  ./kubernets/uninstall.sh
+  ./kubernetes/uninstall.sh
 }
 
 deploy() {
@@ -140,7 +140,7 @@ init() {
   hostname $provider
 
   # TODO - Download dependencies
-  # depending on waht we are deploying.
+  # depending on what we are deploying.
   # Example, we do not want to download
   # kubernetes if we are deploying docker swarm
   dependencies $provider

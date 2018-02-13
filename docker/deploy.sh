@@ -4,17 +4,20 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-echo "Deploying: $2"
-
 # For fully qualified paths
 # when passing files to scripts
 # that are in different directories
 app_path=$2
 
-# All paths to asset files
-mkdir -p assets
+# File with ip of leader that
+# will facilitate the swarm creation
+# on the cluster side
+leader_file="${ASSETS}/leader"
 
-leader="${ASSETS}/leader"
+echo "Deploying: $2"
+
+# All path to asset files
+mkdir -p assets
 
 clear_assets() {
   echo "Deleting old asset files (remote and local)"
@@ -65,26 +68,26 @@ clean_nodes() {
   echo "Cleaning old volumes, images, and containers from each node"
 
   # Remove old services. This should kill associated containers
-  $UTIL ssh_specific_nodes $leader ./docker.sh clean_services assets/services
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_services assets/services
 
   # Loop through nodes and run cleanup script
   $UTIL ssh_nodes ./docker.sh cleanup assets/clean ./
 
   # Remove old networks that are associated with the service
-  $UTIL ssh_specific_nodes $leader ./docker.sh clean_networks assets/networks
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_networks assets/networks
 
   # Remove old secrets that are associate with the service
-  $UTIL ssh_specific_nodes $leader ./docker.sh clean_secrets assets/secrets
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_secrets assets/secrets
 }
 
 build_images() {
   echo "Building images locally"
-  $UTIL ssh_specific_nodes $leader ./docker.sh build assets/build ./
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh build assets/build ./
 }
 
 push_images() {
   echo "Pushing images to docker registry"
-  $UTIL ssh_specific_nodes $leader ./docker.sh push assets/push ./
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh push assets/push ./
 }
 
 pull_images() {
@@ -103,13 +106,13 @@ create_volumes() {
 create_networks() {
   echo "Creating networks for swarm"
 
-  $UTIL ssh_specific_nodes $leader ./docker.sh network assets/networks
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh network assets/networks
 }
 
 create_secrets() {
   echo "Creating secrets for swarm"
 
-  $UTIL ssh_specific_nodes $leader ./docker.sh secret assets/secrets
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh secret assets/secrets
 }
 
 init() {
@@ -157,7 +160,7 @@ scp_service_file() {
   # we can avoid wasted containers that keep restarting
   # while they wait for the services they depend on to come up.
 
-  echo "Generative docker_service.sh script"
+  echo "Generating service deployment script"
 
   service_file="$( pwd )/assets/docker_service.sh"
   service_file_list="$( pwd )/assets/service_file_list"
@@ -181,7 +184,7 @@ scp_service_file() {
   chmod 777 $service_file
 
   # Send the docker_service.sh to leader, and run it
-  $UTIL scp_specific_nodes $leader $service_file
+  $UTIL scp_specific_nodes $leader_file $service_file
 }
 
 service() {
@@ -194,7 +197,7 @@ service() {
   scp_service_file
 
   # Execute docker_service.sh to kick off the services
-  $UTIL ssh_specific_nodes $leader ./docker_service.sh
+  $UTIL ssh_specific_nodes $leader_file ./docker_service.sh
 }
 
 $@

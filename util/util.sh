@@ -4,10 +4,6 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# Get common login credentials
-user=$(cat ../assets/user)
-password_file="../assets/password"
-ips="../assets/ips"
 
 # Specify ssh parameters
 ssh_args="
@@ -97,7 +93,11 @@ my_sshpass() {
 
   # Make SSH or SCP call passing the password
   # in from a file to automate the process
-  sshpass -f $password_file $call
+  sshpass -p $COMMON_PASS $call
+}
+
+num_lines() {
+  cat $1 | wc -l
 }
 
 # Loop through each node and either SCP
@@ -131,11 +131,27 @@ loop_nodes() {
   # Command to run
   action=$2
 
+  echo "Checking that $file exists"
+  if ! ls $file > /dev/null; then
+    echo "File: $file Could not be found"
+    return 1
+  fi
+
+  # Get number of lines in file
+  temp=$(num_lines $file)
+  number_of_lines=$(( $temp ))
+
+  # Make sure there is at least one line
+  if [[ number_of_lines < 1 ]]; then
+    echo "File: $file Must have at least one line"
+    return 1
+  fi
+
   while read ip; do
-    echo "$action: $user@$ip"
+    echo "$action: $COMMON_USER@$ip"
 
     # my_ssh, my_scp
-    my_$action $user@$ip ${@:3}
+    my_$action $COMMON_USER@$ip ${@:3}
 
   done <$file
 }
@@ -170,7 +186,7 @@ ssh_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $ips ssh $@
+  loop_nodes $IPS ssh $@
 }
 
 # SCP a set of files to each
@@ -180,7 +196,7 @@ scp_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $ips scp $@
+  loop_nodes $IPS scp $@
 }
 
 clean_workspace() {
@@ -252,8 +268,5 @@ delayed_action() {
   $action
 }
 
-num_lines() {
-  cat $1 | wc -l
-}
 
 $@
