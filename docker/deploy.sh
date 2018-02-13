@@ -143,6 +143,8 @@ create_volumes() {
 
 #-------------------------------------------------------------------------------
 
+# Create required networks
+# that are specified in assets/networks
 create_networks() {
   echo "Creating networks for swarm"
 
@@ -151,6 +153,8 @@ create_networks() {
 
 #-------------------------------------------------------------------------------
 
+# Create required networks
+# that are specified in assets/secrets
 create_secrets() {
   echo "Creating secrets for swarm"
 
@@ -260,5 +264,7 @@ service() {
   # Execute docker_service.sh to kick off the services
   $UTIL ssh_specific_nodes $leader_file ./docker_service.sh
 }
+
+#-------------------------------------------------------------------------------
 
 "$@"

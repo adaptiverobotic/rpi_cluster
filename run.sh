@@ -26,19 +26,38 @@ export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 # (bash, sh, expect) is run for a given script
 chmod 777 **/*.sh
 
+#-------------------------------------------------------------------------------
+
+# Generates a list of ip addresses
+# of all of the nodes that will
+# participate in the swarm. Currently
+# we are scanning the network and adding
+# ip adddresses that match a certain prefix.
+# Right now, we are using the Raspberry Pi
+# prefix, butit works for any.
 ip_list() {
   echo "Generating list of ips"
 
   # Build ip address list
   ./ip/list.sh
 }
+#-------------------------------------------------------------------------------
 
+# Generates ssh keys and ships
+# them to all nodes to that we
+# do not have to type in our password
+# when we ssh into our cluster. We
+# can eventually disable password
+# authenticatio all together to make our
+# cluster more secure.
 ssh_keys() {
   echo "Generating ssh keys and copying it to all nodes"
 
   # Enable passwordless ssh
   ./ssh/install.sh $@
 }
+
+#-------------------------------------------------------------------------------
 
 hostname() {
   echo "Changing each node's hostname to match a specified pattern"
@@ -47,12 +66,16 @@ hostname() {
   ./hostname/install.sh $1
 }
 
+#-------------------------------------------------------------------------------
+
 dependencies() {
   echo "Installing dependencies on all nodes"
 
   # Install dependencies
   ./dependencies/install.sh
 }
+
+#-------------------------------------------------------------------------------
 
 firewall() {
   echo "Configuring each nodes' firewall"
@@ -61,12 +84,16 @@ firewall() {
   ./ufw/install.sh
 }
 
+#-------------------------------------------------------------------------------
+
 install_samba() {
   echo "Setting up each node as a network attached storage"
 
   # Setup network attached storage
   ./samba/install.sh
 }
+
+#-------------------------------------------------------------------------------
 
 uninstall_samba() {
   echo "Uninstalling samba from cluster"
@@ -82,12 +109,16 @@ install_docker() {
   ./docker/install.sh new_swarm
 }
 
+#-------------------------------------------------------------------------------
+
 uninstall_docker() {
   echo "Uninstalling docker from cluster"
 
   # Remove docker from nodes
   ./docker/uninstall.sh
 }
+
+#-------------------------------------------------------------------------------
 
 install_kubernetes() {
   echo "Creating kubernetes cluster"
@@ -96,6 +127,8 @@ install_kubernetes() {
   ./kubernetes/install.sh
 }
 
+#-------------------------------------------------------------------------------
+
 uninstal_kubernetes() {
   echo "Uninstalling kubernetes from cluster"
 
@@ -103,11 +136,15 @@ uninstal_kubernetes() {
   ./kubernetes/uninstall.sh
 }
 
+#-------------------------------------------------------------------------------
+
 restart_cluster() {
   echo "Restarting the cluster"
 
   ${UTIL} reboot_nodes
 }
+
+#-------------------------------------------------------------------------------
 
 deploy() {
 
@@ -125,6 +162,8 @@ deploy() {
   # Deploy test application
   ./$provider/deploy.sh $app_dir $args
 }
+
+#-------------------------------------------------------------------------------
 
 init() {
   provider=$1
@@ -160,6 +199,8 @@ init() {
   # firewall $provider
 }
 
+#-------------------------------------------------------------------------------
+
 # Sets up cluster as a docker
 # swarm cluster, and deploys
 # Portainer to the cluster for
@@ -179,6 +220,8 @@ docker_cluster() {
   # deploy docker service $ROOT_DIR/apps/test_app/
 }
 
+#-------------------------------------------------------------------------------
+
 # Sets up cluster as a
 # kubernetes cluster
 kubernetes_cluster() {
@@ -188,6 +231,8 @@ kubernetes_cluster() {
 
   deploy kubernetes service $ROOT_DIR/test_app/
 }
+
+#-------------------------------------------------------------------------------
 
 # Sets up each node in the
 # the cluster as a Network
