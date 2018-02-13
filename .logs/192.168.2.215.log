@@ -1,1 +1,1653 @@
-bash: ubuntu@: command not found
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:4665): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (283 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+removed '/home/ubuntu/assets/manager'
+removed '/home/ubuntu/assets/worker'
+removed '/home/ubuntu/assets/user'
+removed '/home/ubuntu/assets/ips'
+removed '/home/ubuntu/assets/services'
+removed '/home/ubuntu/assets/images'
+removed '/home/ubuntu/assets/volumes'
+removed '/home/ubuntu/assets/secrets'
+removed '/home/ubuntu/assets/clean'
+removed '/home/ubuntu/assets/password'
+removed '/home/ubuntu/assets/hostname'
+removed '/home/ubuntu/assets/leader'
+removed directory '/home/ubuntu/assets'
+removed '/home/ubuntu/clean_home_dir.sh'
+removed '/home/ubuntu/docker_service.sh'
+removed '/home/ubuntu/docker.sh'
+removed '/home/ubuntu/setup.sh'
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Reading package lists...Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:6074): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:6455): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (jrp6ctyypd7z915kqjmzf82c8) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3sqr660p1e77j0rdxvxtgphyrvylaebz1gys01shbtqjci7syj-1ht6jyf1hy0phkbamhdg6aszv 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+removed '/home/ubuntu/clean_home_dir.sh'
+removed '/home/ubuntu/manager_join_token.sh'
+removed '/home/ubuntu/setup.sh'
+removed '/home/ubuntu/worker_join_token.sh'
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+l85q16u5yk6ohfdu2b1xfve2q
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+No images to push
+ls: cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+pt9yf3xe7fayj2a7sfdvqb0wl
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-kubernetes-215
+Changed hostname in /etc/hostname to pi-kubernetes-215
+Changed hostname in /etc/hosts to pi-kubernetes-215
+New Hostname: pi-kubernetes-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:9273): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (302 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-kubernetes-215
+Changed hostname in /etc/hostname to pi-kubernetes-215
+Changed hostname in /etc/hosts to pi-kubernetes-215
+New Hostname: pi-kubernetes-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:9973): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (287 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:10469): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (314 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Reading package lists...Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+Downloading install script from docker.com
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:11838): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:12219): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (v6v3he6c7225pcxexn2qsoxvi) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-29ssueu130xzl3xi915plwwfhhs3xcazjbc38c5mejt0ui5wx6-8twq82mik2w3ldfjdbbzfokal 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Error: No such volume: portainer
+Volume: portainer was not removed or failed
+Removing networks listed in: assets/networks
+No networks to remove
+ls: cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+8hyn9v106tcuvwii43vzk1s6n
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+do5wa8c1924zjz34cu3beukcy
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:14846): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (334 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Reading package lists...Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:16216): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:16598): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (ytmpcy8l6b5zev66pcps2jvdo) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-4bqvu1ugv4peq28t15wjb7houuh2a84fl6tvy6gmh86br2scu5-1jzr3uu7afszed2m0eaxocbfv 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Error: No such service: portainer
+Service: portainer could not be removed, or does not exists
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+ls: No networks to remove
+cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+qiz1evfs7h71x4wgve21fffin
+Building images listed in: assets/build
+ls: No images to build
+cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+vkb5omvxr3g46d6skheqfyxop
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+./setup.sh: line 8: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:19343): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (297 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 346 not upgraded.
+Reinstalling docker
+Uninstalling docker
+
+Purging docker
+Usage:	docker COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/home/ubuntu/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  swarm       Manage Swarm
+  system      Manage Docker
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 346 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Checking if docker is already installed
+Downloading install script from docker.com
+./setup.sh: line 9: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:20717): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:21098): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Client:+ sudo -E sh -c docker version
+
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (sza7o1kwyk77lzmkxfl5djn4g) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3d4h1d0yqdbtwcy4ueb0a86rrnmz6sr2buumpt8nqrz5ivibhh-0mf30d4zux3oa4o3ua5wqie64 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing services listed in: assets/services
+assets/services
+portainer
+Service: portainer could not be removed, or does not exists
+Error: No such service: portainer
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: portainer was not removed or failed
+Error: No such volume: portainer
+Removing networks listed in: assets/networks
+ls: No networks to remove
+cannot access 'assets/networks': No such file or directory
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: PORTAINER_PASSWORD could not be removed, or does not exists
+Error: No such secret: PORTAINER_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+portainer
+Creating networks listed in: assets/networks
+No networks to create
+ls: cannot access 'assets/networks': No such file or directory
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+rho6idd0ikj7p351fucrjykk5
+Building images listed in: assets/build
+ls: No images to build
+cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+No images to push
+ls: cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+otdjbgw871716oy8cdvdqmyec
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing services listed in: assets/services
+assets/services
+database
+server
+client
+Service: database could not be removed, or does not exists
+Error: No such service: database
+Error: No such service: server
+Service: server could not be removed, or does not exists
+Service: client could not be removed, or does not exists
+Error: No such service: client
+Cleaning up old volumes, images, containers specified in assets/clean
+assets/clean
+Removing containers associated with images listed in: ./assets/images
+./assets/images
+Total reclaimed space: 0B
+Removing volumes listed in: ./assets/volumes
+./assets/volumes
+Volume: cluster_test_app_database was not removed or failed
+Error: No such volume: cluster_test_app_database
+Volume: cluster_test_app_sqlite3 was not removed or failed
+Error: No such volume: cluster_test_app_sqlite3
+Removing networks listed in: assets/networks
+assets/networks
+Network cluster_test_app was did not exist or failed
+Error: No such network: cluster_test_app
+Removing secrets listed in: assets/secrets
+assets/secrets
+Secret: DEFAULT_USER could not be removed, or does not exists
+Error: No such secret: DEFAULT_USER
+Secret: DEFAULT_PASSWORD could not be removed, or does not exists
+Error: No such secret: DEFAULT_PASSWORD
+Creating volumes listed in: assets/volumes
+assets/volumes
+cluster_test_app_database
+cluster_test_app_sqlite3
+Creating networks listed in: assets/networks
+assets/networks
+z8qdcxtl4nt4c320ls6zkbp1g
+Creating docker secrets listed in: assets/secrets
+assets/secrets
+di9bfdfwqqj7bg88sctumca39
+hqr06lyhv7kww6z653oai93t2
+Building images listed in: assets/build
+No images to build
+ls: cannot access 'assets/build': No such file or directory
+Pushing to docker hub images listed in: assets/push
+ls: No images to push
+cannot access 'assets/push': No such file or directory
+Pulling images listed in: assets/images
+assets/images
+latest: Pulling from jabaridash/cluster_test_app_database
+b858507a8289: Pulling fs layer
+1a32022aee9c: Pulling fs layer
+2f638de1be78: Pulling fs layer
+d773eee6a7e5: Pulling fs layer
+963848217fb3: Pulling fs layer
+d6df2d996e2c: Pulling fs layer
+c069cce57ffa: Pulling fs layer
+4d62f4c7a681: Pulling fs layer
+b17671b0459f: Pulling fs layer
+2fc4699028e3: Pulling fs layer
+672f481d0e7b: Pulling fs layer
+cca1399318ac: Pulling fs layer
+86de5894ecc2: Pulling fs layer
+ba0e58b5747c: Pulling fs layer
+d773eee6a7e5: Waiting
+963848217fb3: Waiting
+d6df2d996e2c: Waiting
+c069cce57ffa: Waiting
+4d62f4c7a681: Waiting
+b17671b0459f: Waiting
+2fc4699028e3: Waiting
+672f481d0e7b: Waiting
+cca1399318ac: Waiting
+86de5894ecc2: Waiting
+ba0e58b5747c: Waiting
+2f638de1be78: Verifying Checksum
+2f638de1be78: Download complete
+d773eee6a7e5: Verifying Checksum
+d773eee6a7e5: Download complete
+1a32022aee9c: Verifying Checksum
+1a32022aee9c: Download complete
+d6df2d996e2c: Download complete
+963848217fb3: Download complete
+c069cce57ffa: Verifying Checksum
+c069cce57ffa: Download complete
+b17671b0459f: Verifying Checksum
+b17671b0459f: Download complete
+2fc4699028e3: Verifying Checksum
+2fc4699028e3: Download complete
+672f481d0e7b: Download complete
+cca1399318ac: Download complete
+86de5894ecc2: Verifying Checksum
+86de5894ecc2: Download complete
+ba0e58b5747c: Verifying Checksum
+ba0e58b5747c: Download complete
+4d62f4c7a681: Verifying Checksum
+4d62f4c7a681: Download complete
+b858507a8289: Download complete
+b858507a8289: Pull complete
+1a32022aee9c: Pull complete
+2f638de1be78: Pull complete
+d773eee6a7e5: Pull complete
+963848217fb3: Pull complete
+d6df2d996e2c: Pull complete
+c069cce57ffa: Pull complete
+4d62f4c7a681: Pull complete
+b17671b0459f: Pull complete
+2fc4699028e3: Pull complete
+672f481d0e7b: Pull complete
+cca1399318ac: Pull complete
+86de5894ecc2: Pull complete
+ba0e58b5747c: Pull complete
+Digest: sha256:80c1d4291d6ebaecbda96320bbff3faea1a58e6ddf6e713eacad3275c96e1df4
+Status: Downloaded newer image for jabaridash/cluster_test_app_database:latest
+latest: Pulling from jabaridash/cluster_test_app_server
+9219c2405225: Pulling fs layer
+a27600bf541b: Pulling fs layer
+309ff105a14c: Pulling fs layer
+3a487d0862f3: Pulling fs layer
+dbf8eb4b9347: Pulling fs layer
+09e5282fe7fb: Pulling fs layer
+e91d4732932a: Pulling fs layer
+22623601c156: Pulling fs layer
+de98834ba277: Pulling fs layer
+ae24e3bf3c34: Pulling fs layer
+4a1c04195075: Pulling fs layer
+d12d779fa4ec: Pulling fs layer
+e85f77832688: Pulling fs layer
+a47dac3ab16e: Pulling fs layer
+5c9178f6d516: Pulling fs layer
+1198238cfd76: Pulling fs layer
+de98834ba277: Waiting
+ae24e3bf3c34: Waiting
+4a1c04195075: Waiting
+d12d779fa4ec: Waiting
+e85f77832688: Waiting
+a47dac3ab16e: Waiting
+5c9178f6d516: Waiting
+1198238cfd76: Waiting
+3a487d0862f3: Waiting
+dbf8eb4b9347: Waiting
+09e5282fe7fb: Waiting
+e91d4732932a: Waiting
+22623601c156: Waiting
+309ff105a14c: Verifying Checksum
+309ff105a14c: Download complete
+a27600bf541b: Download complete
+dbf8eb4b9347: Verifying Checksum
+dbf8eb4b9347: Download complete
+3a487d0862f3: Download complete
+09e5282fe7fb: Verifying Checksum
+09e5282fe7fb: Download complete
+e91d4732932a: Verifying Checksum
+e91d4732932a: Download complete
+de98834ba277: Verifying Checksum
+de98834ba277: Download complete
+22623601c156: Verifying Checksum
+22623601c156: Download complete
+ae24e3bf3c34: Verifying Checksum
+ae24e3bf3c34: Download complete
+d12d779fa4ec: Download complete
+e85f77832688: Verifying Checksum
+e85f77832688: Download complete
+a47dac3ab16e: Verifying Checksum
+a47dac3ab16e: Download complete
+9219c2405225: Verifying Checksum
+9219c2405225: Download complete
+5c9178f6d516: Verifying Checksum
+5c9178f6d516: Download complete
+9219c2405225: Pull complete
+a27600bf541b: Pull complete
+309ff105a14c: Pull complete
+1198238cfd76: Verifying Checksum
+1198238cfd76: Download complete
+3a487d0862f3: Pull complete
+dbf8eb4b9347: Pull complete
+09e5282fe7fb: Pull complete
+e91d4732932a: Pull complete
+22623601c156: Pull complete
+de98834ba277: Pull complete
+ae24e3bf3c34: Pull complete
+4a1c04195075: Verifying Checksum
+4a1c04195075: Download complete
+4a1c04195075: Pull complete
+d12d779fa4ec: Pull complete
+e85f77832688: Pull complete
+a47dac3ab16e: Pull complete
+5c9178f6d516: Pull complete
+1198238cfd76: Pull complete
+Digest: sha256:55a274cbc12b167ce0abc0edefbb4b28b4659039dab387020ce71ed84c07576a
+Status: Downloaded newer image for jabaridash/cluster_test_app_server:latest
+latest: Pulling from jabaridash/cluster_test_app_client
+95e140a16c79: Pulling fs layer
+237499cbbf2c: Pulling fs layer
+72f718f16c2f: Pulling fs layer
+affc0d5be2fb: Pulling fs layer
+8da492c2b2a6: Pulling fs layer
+be2ab4914237: Pulling fs layer
+054a2d02bc14: Pulling fs layer
+c32845702619: Pulling fs layer
+270dadca441e: Pulling fs layer
+e061c0d6d611: Pulling fs layer
+affc0d5be2fb: Waiting
+8da492c2b2a6: Waiting
+be2ab4914237: Waiting
+054a2d02bc14: Waiting
+c32845702619: Waiting
+270dadca441e: Waiting
+e061c0d6d611: Waiting
+95e140a16c79: Verifying Checksum
+95e140a16c79: Download complete
+237499cbbf2c: Verifying Checksum
+237499cbbf2c: Download complete
+8da492c2b2a6: Verifying Checksum
+8da492c2b2a6: Download complete
+95e140a16c79: Pull complete
+237499cbbf2c: Pull complete
+72f718f16c2f: Verifying Checksum
+72f718f16c2f: Download complete
+054a2d02bc14: Verifying Checksum
+054a2d02bc14: Download complete
+be2ab4914237: Verifying Checksum
+be2ab4914237: Download complete
+c32845702619: Verifying Checksum
+c32845702619: Download complete
+72f718f16c2f: Pull complete
+270dadca441e: Verifying Checksum
+270dadca441e: Download complete
+e061c0d6d611: Verifying Checksum
+e061c0d6d611: Download complete
+affc0d5be2fb: Verifying Checksum
+affc0d5be2fb: Download complete
+affc0d5be2fb: Pull complete
+8da492c2b2a6: Pull complete
+be2ab4914237: Pull complete
+054a2d02bc14: Pull complete
+c32845702619: Pull complete
+270dadca441e: Pull complete
+e061c0d6d611: Pull complete
+Digest: sha256:2d0b620c755f9122b6179d7f858d571193530789a8def571743ec8a93a9b7768
+Status: Downloaded newer image for jabaridash/cluster_test_app_client:latest
+3almyunxxhbv2yvoammzd9c4b
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks
+sza7o1kwyk77: invalid mount config for type "bind": bind source path does not exist
+overall progress: 0 out of 1 tasks

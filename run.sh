@@ -156,7 +156,7 @@ init() {
   # what we are deploying. Example, if
   # we are only deploying SAMBA, then we
   # do not need to open docker ports
-  
+
   # firewall $provider
 }
 
@@ -170,6 +170,8 @@ docker_cluster() {
   install_docker
 
   deploy docker service $ROOT_DIR/docker/service/portainer/
+
+  deploy docker service $ROOT_DIR/apps/test_app/
 
   # Check that the cluster is up
   $UTIL delayed_action 10 "Health_Check" curl $(cat assets/leader):9000
@@ -194,4 +196,4 @@ samba_cluster() {
   install_samba
 }
 
-$@
+"$@"

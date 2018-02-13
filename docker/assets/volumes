@@ -1,1 +1,2 @@
-portainer
+cluster_test_app_database local
+cluster_test_app_sqlite3 local

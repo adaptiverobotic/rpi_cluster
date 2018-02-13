@@ -1,1 +1,3 @@
-portainer/portainer
+jabaridash/cluster_test_app_database database
+jabaridash/cluster_test_app_server server
+jabaridash/cluster_test_app_client client

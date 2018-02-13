@@ -88,6 +88,7 @@ my_sshpass() {
 
   else
     echo "$protocol not supported"
+    return 1
   fi
 
   # Make SSH or SCP call passing the password
@@ -96,8 +97,9 @@ my_sshpass() {
 }
 
 num_lines() {
-  # cat $1 | wc -l
 
+  # Counts the number of lines in
+  # a file, ignore new line / empty strings
   cat $1 | sed '/^\s*$/d' | wc -l
 }
 
@@ -114,7 +116,13 @@ loop_nodes() {
   # Command to run
   action=$2
 
-  echo "Checking that $file exists"
+  # If we want to run loop
+  # synchronously or async
+  # TODO - Allow this to be
+  # sent as a flag
+  async=1
+
+  # Make sure the file exists
   if ! ls $file > /dev/null; then
     echo "File: $file Could not be found"
     return 1
@@ -126,36 +134,49 @@ loop_nodes() {
   while read ip; do
     echo "$action: $COMMON_USER@$ip"
 
-    # 1. We are mapping ssh to my_ssh, scp -> my_scp and so on
-    # 2. We are running an inner subprocess that will pipe stout
-    # and stderr to a file
-    # 3. This is all encapsulated in another subprocess that we throw into
-    # the background. The outer most process' pid will be captured
-    # and stored into an array. We can then await these processes as a group
-    # ( ( $action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
+    # Run in async mode. Essentially
+    # kick off each subprocess and send
+    # it to the background.
+    if [[ $async -eq 0 ]]; then
+      # 1. We are mapping ssh to my_ssh, scp -> my_scp and so on
+      # 2. We are running an inner subprocess that will pipe stout
+      # and stderr to a file
+      # 3. This is all encapsulated in another subprocess that we throw into
+      # the background. The outer most process' pid will be captured
+      # and stored into an array. We can then await these processes as a group
+      ( ( $action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
 
-    $action $COMMON_USER@$ip ${@:3}
+      # Keep a list of process ids
+      pids="$pids $!"
 
-    # Keep a list of process ids
-    pids="$pids $!"
+    # Run synchronously. Wait for
+    # each action to complete before
+    # going onto the next action.
+    else
+
+      # Kick off sub process, logging its output to a file while
+      # still making it present on the console.
+      ( ( $action $COMMON_USER@$ip ${@:3} ) 2>&1 | tee -a $LOG_DIR/$ip.log )
+    fi
   done <$file
 
-  echo "Waiting for all processes to finish"
+  # Await subprocess completion
+  # if we are running in async mode
+  if [[ $async -eq 0 ]]; then
+    echo "Waiting for all processe(s) finish:"
+    printf '%s\n' "${pids[@]}"
 
-  # Loop through pids and wait
-  # for them to complete.
-  for pid in $pids; do
-    wait $pid || let "result=1"
-  done
+    # Loop through pids and wait
+    # for them to complete.
+    for pid in $pids; do
+      wait $pid || let "result=1"
+    done
 
-  echo "Done"
-
-  # Check exit status
-  # if [[ $result -eq 0 ]]; then
-  #   echo "SUCCESS - All asynchronous calls were succesful"
-  # else
-  #   echo "FAILURE - At least process exited with a non-zero status"
-  # fi
+    # Check exit status
+    if [[ $result -ne 0 ]]; then
+      echo "FAILURE - At least process exited with a non-zero status"
+    fi
+  fi
 
   return $result
 }
@@ -208,10 +229,15 @@ sshpass_nodes() {
   loop_nodes $IPS my_sshpass $@
 }
 
-clean_workspace() {
-  echo "Clearing home directory"
+sshpass_specific_nodes() {
 
-  echo "rm -vrf ~/*" >> clean_home_dir.sh
+  loop_nodes $1 my_sshpass ${@:2}
+}
+
+clean_workspace() {
+  echo "Clearing remote working directory"
+
+  echo "rm -rf ~/*" >> clean_home_dir.sh
   chmod 777 clean_home_dir.sh
 
   # Clean the home directory of non-hidden files
@@ -278,5 +304,14 @@ delayed_action() {
   $action
 }
 
+timed_action() {
+  START_TIME=$SECONDS
 
-$@
+  "$@"
+
+  ELAPSED_TIME=$(($SECONDS - $START_TIME))
+
+  echo "Completed $1 deployment in: $ELAPSED_TIME second(s)"
+}
+
+"$@"

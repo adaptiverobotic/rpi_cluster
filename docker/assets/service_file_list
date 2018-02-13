@@ -1,1 +1,3 @@
-/home/pi/rpi_cluster/docker/service/portainer/docker_service.sh
+/home/pi/rpi_cluster/apps/test_app/client/docker_service.sh
+/home/pi/rpi_cluster/apps/test_app/database/docker_service.sh
+/home/pi/rpi_cluster/apps/test_app/server/docker_service.sh
