@@ -40,13 +40,16 @@ select_leader() {
 select_workers() {
   echo "Generating list of worker nodes"
 
+  # Delete old worker file
+  rm -fv $worker_file
+
   # Get all but the first ip in the $IPS file.
   # NOTE - This will not be our final list of
   # workers. When we generate the list of managers
   echo "Generating list of worker node ips"
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
 
-  echo "The following is a list of all non-leader nodes"
+  echo "The following is a list of all non-leader node(s)"
   echo "NOTE: Half of these will be promoted to managers to meet quarum"
   echo $(cat $worker_file)
 }
@@ -61,6 +64,9 @@ select_workers() {
 select_managers() {
   echo "Generating list of manager nodes"
 
+  # Delete old manager file
+  rm -fv $manager_file
+
   # Get number of workers
   num_workers=$( $UTIL num_lines $worker_file )
 
@@ -68,22 +74,25 @@ select_managers() {
   num_managers=$(( $num_workers / 2 ))
 
   # (n+1) / 2 = quorum
-  echo "There are $num_workers workers"
-  echo "Promoting $num_managers workers to managers"
+  echo "There are $num_workers worker(s)"
+  echo "Promoting $num_managers worker(s) to manager(s)"
 
   # Write their ips out to file
   echo $(head -$num_managers $worker_file) > $manager_file
 
-  # Loop through each manager
-  # and remove it from worker_file
-  echo "The following nodes will be managers:"
-  while read manager_ip; do
+  # If there are nodes to read in
+  if [[ $num_managers > 0 ]]; then
+    # Loop through each manager
+    # and remove it from worker_file
+    echo "The following nodes will be managers:"
+    while read manager_ip; do
 
-    echo $manager_ip
+      echo $manager_ip
 
-    # Remove it from the worker_file
-    sed -i "/$manager_ip/d" $worker_file
-  done <$manager_file
+      # Remove it from the worker_file
+      sed -i "/$manager_ip/d" $worker_file
+    done <$manager_file
+  fi
 
   # At this point, leader, managers, and workers
   # should all have unique ips. Together they represent
@@ -126,19 +135,32 @@ init_swarm() {
 join_swarm() {
   echo "Adding nodes to swarm"
 
-  # Send join-tokens to all nodes
-  echo "Sending worker join-token script to workers"
-  $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
+  num_managers=$( $UTIL num_lines $manager_file)
+  num_workers=$( $UTIL num_lines $worker_file)
 
-  echo "Sending manager join-token script to managers"
-  $UTIL scp_specific_nodes $manager_file $(pwd)/assets/manager_join_token.sh
 
-  # Execute join-token  script
-  echo "Adding workers to swarm"
-  $UTIL ssh_specific_nodes $worker_file ./worker_join_token.sh
+  if [[ $num_workers > 0 ]]; then
+    # Send join-tokens to all nodes
+    echo "Sending worker join-token script to workers"
+    $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
 
-  echo "Adding managers to swarm"
-  $UTIL ssh_specific_nodes $manager_file ./manager_join_token.sh
+    # Execute join-token  script
+    echo "Adding workers to swarm"
+    $UTIL ssh_specific_nodes $worker_file ./worker_join_token.sh
+
+  else
+    echo "No workers to add to swarm"
+  fi
+
+  if [[ $num_managers > 0 ]]; then
+    echo "Sending manager join-token script to managers"
+    $UTIL scp_specific_nodes $manager_file $(pwd)/assets/manager_join_token.sh
+
+    echo "Adding managers to swarm"
+    $UTIL ssh_specific_nodes $manager_file ./manager_join_token.sh
+  else
+    echo "No managers to add to swarm"
+  fi
 }
 
 new_swarm() {

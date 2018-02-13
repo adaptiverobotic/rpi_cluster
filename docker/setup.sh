@@ -6,7 +6,7 @@ install_docker() {
   echo "Checking if docker is already installed"
 
   # Check that docker is installed
-  if docker; then
+  if docker ps; then
     echo "Docker is already installed"
 
   # We need to install it
@@ -26,7 +26,9 @@ install_docker() {
 
     # Allow docker command to execute with no sudo
     echo "Enabling sudo-less docker"
-    sudo usermod -aG docker $(cat whoami)
+    sudo usermod -aG docker $(whoami)
+
+    # Must log out for changes to take place
 
     echo "Finished Docker install process"
   fi

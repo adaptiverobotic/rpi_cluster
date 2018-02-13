@@ -156,7 +156,8 @@ init() {
   # what we are deploying. Example, if
   # we are only deploying SAMBA, then we
   # do not need to open docker ports
-  firewall $provider
+  
+  # firewall $provider
 }
 
 # Sets up cluster as a docker

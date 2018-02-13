@@ -1,5 +1,8 @@
 #!/bin/bash
-set -e
+
+# TODO - Find a better way, because this
+# is the second time i locked myself out!
+# set -e
 
 # TODO - MAKE SURE PORT 22 IS OPEN
 # OR WE HAVE SOME WAY BACK IN

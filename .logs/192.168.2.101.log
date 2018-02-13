@@ -1,12 +1,29 @@
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: ERROR: Too many arguments.  Expecting a target hostname, got: 'pi@' 'pi@192.168.2.101'
+
+Usage: /usr/bin/ssh-copy-id [-h|-?|-f|-n] [-i [identity_file]] [-p port] [[-o <ssh -o options>] ...] [user@]hostname
+	-f: force mode -- copy keys without trying to check if they are already installed
+	-n: dry run    -- no keys are actually copied
+	-h|-?: print this help
 ssh: connect to host 192.168.2.101 port 22: Connection timed out
 lost connection
 ssh: connect to host 192.168.2.101 port 22: Connection timed out
-lost connection
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: ERROR: Too many arguments.  Expecting a target hostname, got: 'pi@' 'pi@192.168.2.101'
+
+Usage: /usr/bin/ssh-copy-id [-h|-?|-f|-n] [-i [identity_file]] [-p port] [[-o <ssh -o options>] ...] [user@]hostname
+	-f: force mode -- copy keys without trying to check if they are already installed
+	-n: dry run    -- no keys are actually copied
+	-h|-?: print this help
 ssh: connect to host 192.168.2.101 port 22: Connection timed out
 lost connection
 ssh: connect to host 192.168.2.101 port 22: Connection timed out
-lost connection
-ssh: connect to host 192.168.2.101 port 22: Connection timed out
-lost connection
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: ERROR: Too many arguments.  Expecting a target hostname, got: 'pi@' 'pi@192.168.2.101'
+
+Usage: /usr/bin/ssh-copy-id [-h|-?|-f|-n] [-i [identity_file]] [-p port] [[-o <ssh -o options>] ...] [user@]hostname
+	-f: force mode -- copy keys without trying to check if they are already installed
+	-n: dry run    -- no keys are actually copied
+	-h|-?: print this help
 ssh: connect to host 192.168.2.101 port 22: Connection timed out
 lost connection

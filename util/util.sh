@@ -4,11 +4,10 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-
 # Specify ssh parameters
 ssh_args="
 -o LogLevel=error \
--o ConnectTimeout=10 \
+-o ConnectTimeout=5 \
 -o IdentitiesOnly=yes \
 -o userknownhostsfile=/dev/null \
 -o stricthostkeychecking=no"
@@ -21,7 +20,7 @@ my_ssh() {
   user_ip=$1
 
   # SSH into a given node passing the password from a file
-  ssh $ssh_args -f $user_ip ${@:2}
+  ssh $ssh_args -n $user_ip ${@:2}
 }
 
 # SCP into a node
@@ -65,13 +64,13 @@ my_scp_get_file() {
 # ssh keys are generated and copied to each node.
 my_sshpass() {
 
+  # Format: user@ip
+  user_ip=$1
+
   # Format: ssh
   # will map to functions such
   # as my_ssh, my_scp
-  protocol=$1
-
-  # Format: user@ip
-  user_ip=$2
+  protocol=$2
 
   # If we want to SSH and execute commands on a node
   if [[ $protocol == "ssh" ]]; then
@@ -97,7 +96,9 @@ my_sshpass() {
 }
 
 num_lines() {
-  cat $1 | wc -l
+  # cat $1 | wc -l
+
+  cat $1 | sed '/^\s*$/d' | wc -l
 }
 
 # Loop through each node and either SCP
@@ -119,16 +120,6 @@ loop_nodes() {
     return 1
   fi
 
-  # Get number of lines in file
-  temp=$(num_lines $file)
-  number_of_lines=$(( $temp ))
-
-  # Make sure there is at least one line
-  if [[ number_of_lines < 1 ]]; then
-    echo "File: $file Must have at least one line"
-    return 1
-  fi
-
   pids=""
   result=0
 
@@ -141,7 +132,9 @@ loop_nodes() {
     # 3. This is all encapsulated in another subprocess that we throw into
     # the background. The outer most process' pid will be captured
     # and stored into an array. We can then await these processes as a group
-    ( (my_$action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
+    # ( ( $action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
+
+    $action $COMMON_USER@$ip ${@:3}
 
     # Keep a list of process ids
     pids="$pids $!"
@@ -158,11 +151,11 @@ loop_nodes() {
   echo "Done"
 
   # Check exit status
-  if [[ $result -eq 0 ]]; then
-    echo "SUCCESS - All asynchronous calls were succesful"
-  else
-    echo "FAILURE - At least process exited with a non-zero status"
-  fi
+  # if [[ $result -eq 0 ]]; then
+  #   echo "SUCCESS - All asynchronous calls were succesful"
+  # else
+  #   echo "FAILURE - At least process exited with a non-zero status"
+  # fi
 
   return $result
 }
@@ -187,7 +180,7 @@ scp_specific_nodes() {
   args=${@:2}
 
   # Send file list first
-  loop_nodes $ip_list scp $args
+  loop_nodes $ip_list my_scp $args
 }
 
 # Execute a command on each
@@ -197,7 +190,7 @@ ssh_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $IPS ssh $@
+  loop_nodes $IPS my_ssh $@
 }
 
 # SCP a set of files to each
@@ -207,7 +200,12 @@ scp_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $IPS scp $@
+  loop_nodes $IPS my_scp $@
+}
+
+sshpass_nodes() {
+
+  loop_nodes $IPS my_sshpass $@
 }
 
 clean_workspace() {
