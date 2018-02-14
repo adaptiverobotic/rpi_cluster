@@ -7,12 +7,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 #-------------------------------------------------------------------------------
 
 declare_variables() {
-  general_ssh_args="
-  -o LogLevel=error \
-  -o ConnectTimeout=5 \
-  -o IdentitiesOnly=yes \
-  -o userknownhostsfile=/dev/null \
-  -o stricthostkeychecking=no"
+  general_ssh_args="$(cat assets/ssh_args_file)"
 
   ssh_args="$general_ssh_args"
   scp_args="$general_ssh_args -r"
@@ -37,10 +32,6 @@ my_ssh() {
 
 # SCP some files
 # to a node
-
-# TODO - Merge scp_get and
-# this function so that we can
-# get multiple files
 my_scp() {
 
   # Format: user@ip
@@ -53,9 +44,10 @@ my_scp() {
 #-------------------------------------------------------------------------------
 
 # Retrieve files from a node
-# TODO - Expand to support
-# multiple files
-my_scp_get_file() {
+# and download to a specified
+# local directory
+my_scp_get() {
+
   # Format: user@ip
   local user_ip=$1; shift
   local local_dir=$1; shift
@@ -65,8 +57,6 @@ my_scp_get_file() {
   # if it does not exist
   mkdir -p $local_dir
 
-  # Idk why the one liner does
-  # not work, but whatever
   for file in $args; do
     scp $scp_args $user_ip:$file $local_dir
   done
@@ -202,14 +192,12 @@ loop_nodes() {
 
 #-------------------------------------------------------------------------------
 
-# SSH into a list of node specified
-# by a file ($1), and execute the
-# command that follow
-ssh_specific_nodes() {
-  local ip_list=$1; shift
-  local args="$@"
+# SCP a set of files to each
+# node that is specified in
+# the global list of ips
+scp_nodes() {
 
-  loop_nodes "$ip_list" my_ssh $args
+  loop_nodes "$IPS" my_scp "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -237,14 +225,14 @@ ssh_nodes() {
 
 #-------------------------------------------------------------------------------
 
-# SCP a set of files to each
-# node that is specified in
-# the global list of ips
-scp_nodes() {
+# SSH into a list of node specified
+# by a file ($1), and execute the
+# command that follow
+ssh_specific_nodes() {
+  local ip_list=$1; shift
+  local args="$@"
 
-  # Loop through nodes and
-  # run a specified script
-  loop_nodes "$IPS" my_scp "$@"
+  loop_nodes "$ip_list" my_ssh $args
 }
 
 #-------------------------------------------------------------------------------

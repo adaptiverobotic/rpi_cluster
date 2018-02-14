@@ -146,7 +146,7 @@ download_tokens() {
   local leader_ip=$(cat $leader_file)
 
   echo "Downloading join-token scripts from leader: $(cat $leader_file)"
-  $UTIL my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
+  $UTIL my_scp_get $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
   echo "Successfully downloaed join-token scripts from leader"
 }
 
