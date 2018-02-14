@@ -22,7 +22,7 @@ declare_variables() {
 # to each node in the cluster
 send_assets() {
   echo "Sending assets to each node"
-  "$UTIL" scp_nodes $(pwd)/setup.sh
+  $UTIL scp_nodes $(pwd)/setup.sh
   echo "Succesfuly sent assets to each node"
 }
 
@@ -32,7 +32,7 @@ send_assets() {
 # docker on all nodes.
 install_docker() {
   echo "Installing docker on each node"
-  "$UTIL" ssh_nodes ./setup.sh reinstall_docker
+  $UTIL ssh_nodes ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
 }
 
@@ -45,16 +45,16 @@ select_leader() {
   echo "Selecting leader node"
 
   # Write leader ip out to a file
-  echo $(head -n 1 "$IPS") > "$leader_file"
+  echo $(head -n 1 $IPS) > $leader_file
 
   # Make sure that there is exactly only 1 leader
-  if [[ $("$UTIL" num_lines "$leader_file") -ne 1 ]]; then
+  if [[ $($UTIL num_lines $leader_file) -ne 1 ]]; then
     echo "There can only be exactly 1 leader"
     return 1
   fi
 
   # Capture leader_ip
-  leader_ip=$(cat "$leader_file")
+  leader_ip=$(cat $leader_file)
   echo "Leader will be: $leader_ip"
   echo "Make sure that it's ip address does not change"
   echo "Either assign it a static ip or reserve it's dhcp lease"
@@ -72,17 +72,17 @@ select_workers() {
   echo "Generating list of worker nodes"
 
   # Delete old worker file
-  rm -fv "$worker_file"
+  rm -fv $worker_file
 
   # Get all but the first ip in the $IPS file.
   # NOTE - This will not be our final list of
   # workers. When we generate the list of managers
   echo "Generating list of worker node ips"
-  echo $(tail -n +2 "$IPS") | tr " " "\n" > "$worker_file"
+  echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
 
   echo "The following is a list of all non-leader node(s)"
   echo "NOTE: Half of these will be promoted to managers to meet quarum"
-  echo $(cat "$worker_file")
+  echo $(cat $worker_file)
 }
 
 #-------------------------------------------------------------------------------
@@ -100,10 +100,10 @@ select_managers() {
   echo "Generating list of manager nodes"
 
   # Delete old manager file
-  rm -fv "$manager_file"
+  rm -fv $manager_file
 
   # Get number of workers
-  num_workers=$( "$UTIL" num_lines "$worker_file" )
+  num_workers=$( $UTIL num_lines $worker_file )
 
   # Make half of them managers
   num_managers=$(( $num_workers / 2 ))
@@ -113,7 +113,7 @@ select_managers() {
   echo "Promoting $num_managers worker(s) to manager(s)"
 
   # Write their ips out to file
-  echo $(head -$num_managers "$worker_file") > "$manager_file"
+  echo $(head -$num_managers $worker_file) > $manager_file
 
   # If there are nodes to read in
   if [[ $num_managers > 0 ]]; then
@@ -122,11 +122,11 @@ select_managers() {
     echo "The following nodes will be manager(s):"
     while read manager_ip; do
 
-      echo "$manager_ip"
+      echo $manager_ip
 
       # Remove it from the worker_file
-      sed -i "/$manager_ip/d" "$worker_file"
-    done <"$manager_file"
+      sed -i "/$manager_ip/d" $worker_file
+    done <$manager_file
   fi
 
   # At this point, leader, managers, and workers
@@ -135,7 +135,7 @@ select_managers() {
   # on nodes by status, we must operate on all three files.
   # But, we can also do leader only, or worker only operations.
   echo "The following nodes will be worker(s):"
-  cat "$worker_file"
+  cat $worker_file
 }
 
 #-------------------------------------------------------------------------------
@@ -143,11 +143,10 @@ select_managers() {
 # Download the join-token
 # scripts from the leader node
 download_tokens() {
-  local leader_ip=$(cat "$leader_file")
+  local leader_ip=$(cat $leader_file)
 
-  echo "Downloading join-token scripts from leader: $leader_file"
-  "$UTIL" my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh
-  "$UTIL" my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ worker_join_token.sh
+  echo "Downloading join-token scripts from leader: $(cat $leader_file)"
+  $UTIL my_scp_get_file $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
   echo "Successfully downloaed join-token scripts from leader"
 }
 
@@ -159,7 +158,7 @@ download_tokens() {
 # an existing swarm.
 disband_swarm() {
   echo "Removing all nodes from existing swarm"
-  "$UTIL" ssh_nodes ./setup.sh leave_swarm
+  $UTIL ssh_nodes ./setup.sh leave_swarm
   echo "Successfully removed all nodes from existing swarm"
 }
 
@@ -171,10 +170,10 @@ disband_swarm() {
 # can be run on workers and managers
 # so that they can join the new swarm.
 init_swarm() {
-  local $leader_ip=$(cat "$leader_file")
+  local leader_ip=$(cat $leader_file)
 
   echo "Initializing new swarm on: $leader_ip"
-  "$UTIL" ssh_specific_nodes "$leader_file" ./setup.sh init_swarm
+  $UTIL ssh_specific_nodes $leader_file ./setup.sh init_swarm
   echo "Successfully initialized new swarm"
 }
 
@@ -188,8 +187,8 @@ join_swarm() {
   echo "Adding nodes to swarm"
 
   # Count number of workers and managers
-  num_managers=$( "$UTIL" num_lines "$manager_file")
-  num_workers=$( "$UTIL" num_lines "$worker_file")
+  num_managers=$( $UTIL num_lines $manager_file)
+  num_workers=$( $UTIL num_lines $worker_file)
 
   # If there is at least one worker
   # to add to the swarm
@@ -197,11 +196,11 @@ join_swarm() {
 
     # Send join-tokens to all nodes
     echo "Sending worker join-token script to workers"
-    "$UTIL" scp_specific_nodes "$worker_file" $(pwd)/assets/worker_join_token.sh
+    $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
 
     # Execute join-token script
     echo "Adding workers to swarm"
-    "$UTIL" ssh_specific_nodes "$worker_file" ./worker_join_token.sh
+    $UTIL ssh_specific_nodes $worker_file ./worker_join_token.sh
 
   else
     echo "No workers to add to swarm"
@@ -213,11 +212,11 @@ join_swarm() {
 
     # Send the join script
     echo "Sending manager join-token script to managers"
-    "$UTIL" scp_specific_nodes "$manager_file" $(pwd)/assets/manager_join_token.sh
+    $UTIL scp_specific_nodes $manager_file $(pwd)/assets/manager_join_token.sh
 
     # Execute it
     echo "Adding managers to swarm"
-    "$UTIL" ssh_specific_nodes "$manager_file" ./manager_join_token.sh
+    $UTIL ssh_specific_nodes $manager_file ./manager_join_token.sh
   else
     echo "No managers to add to swarm"
   fi
@@ -232,7 +231,7 @@ new_swarm() {
   echo "Installing Docker and creating swarm"
 
   # Clear home directories
-  "$UTIL" clean_workspace "$IPS"
+  $UTIL clean_workspace $IPS
 
   # Send setup files
   send_assets
@@ -280,4 +279,4 @@ main() {
 
 #-------------------------------------------------------------------------------
 
-main
+main "$@"

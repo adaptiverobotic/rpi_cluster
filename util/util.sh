@@ -15,7 +15,7 @@ declare_variables() {
   -o stricthostkeychecking=no"
 
   ssh_args="$general_ssh_args"
-  scp_args="$general_ssh_args"
+  scp_args="$general_ssh_args -r"
 }
 
 #-------------------------------------------------------------------------------
@@ -26,8 +26,11 @@ my_ssh() {
   local user_ip=$1; shift
   local args=$@
 
+  # TODO - Figure out why -n does not work when we
+  # copy the ssh-id. it prints the key on screen.
+  # unacceptable.
   # SSH into a given node passing the password from a file
-  ssh $ssh_args -n $user_ip $args
+  ssh $ssh_args -n $user_ip "$args"
 }
 
 #-------------------------------------------------------------------------------
@@ -44,8 +47,7 @@ my_scp() {
   local user_ip=$1; shift
   local args=$@
 
-  # SCP files from local to remote
-  scp $scp_args -r $args $user_ip:
+  scp $scp_args $args $user_ip:
 }
 
 #-------------------------------------------------------------------------------
@@ -56,15 +58,18 @@ my_scp() {
 my_scp_get_file() {
   # Format: user@ip
   local user_ip=$1; shift
-  local local_dir=$1 shift
-  local args=$@
+  local local_dir=$1; shift
+  local args="$@"
 
   # Make the local_dir
   # if it does not exist
   mkdir -p $local_dir
 
-  # SCP the files from remove to local
-  scp $scp_args -r $user_ip:\"$args\" $local_dir
+  # Idk why the one liner does
+  # not work, but whatever
+  for file in $args; do
+    scp $scp_args $user_ip:$file $local_dir
+  done
 }
 
 #-------------------------------------------------------------------------------
@@ -77,32 +82,33 @@ my_scp_get_file() {
 # ssh keys are generated and copied to each node.
 my_sshpass() {
   local user_ip=$1; shift
-  local protocol=$1; shift
+  local method=$1; shift
   local call=""
   local args=$@
 
   # If we want to SSH and execute commands on a node
-  if [[ $protocol == "ssh" ]]; then
+  if [[ $method == "ssh" ]]; then
 
-    call="-n $user_ip $args"
+    call="$ssh_args $user_ip $args"
 
   # If we want to SCP a file to a node
-  elif [[ $protocol == "scp" ]]; then
+  elif [[ $method == "scp" ]]; then
 
-    call="-r "$args" $user_ip:"
+    call="$scp_args $args $user_ip:"
 
   # We want to copy a public key toa node
-  elif [[ $protocol == "ssh-copy-id" ]]; then
-    call="$args $user_ip"
+  elif [[ $method == "ssh-copy-id" ]]; then
+
+    call="$ssh_args $args $user_ip"
 
   else
-    echo "$protocol not supported"
+    echo "$method not supported"
     return 1
   fi
 
   # Make SSH or SCP call passing the password
   # in from a file to automate the process
-  sshpass -p $COMMON_PASS $protocol $ssh_args $call
+  sshpass -p $COMMON_PASS $method $call
 }
 
 #-------------------------------------------------------------------------------
@@ -111,9 +117,9 @@ my_sshpass() {
 # a file, ignore new line / empty strings.
 # Prints it to console
 num_lines() {
-  local file=$1
+  local file="$@"
 
-  cat "$file" | sed '/^\s*$/d' | wc -l
+  cat $file | sed '/^\s*$/d' | wc -l
 }
 
 #-------------------------------------------------------------------------------
@@ -129,8 +135,8 @@ loop_nodes() {
   # TODO - pass async as flag
   local file=$1; shift
   local action=$1; shift
-  local async=0
-  local args=$@
+  local async=1
+  local args="$@"
   local pids=""
   local result=0
 
@@ -150,7 +156,7 @@ loop_nodes() {
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
-      ( ( $action $COMMON_USER@$ip $args) >> $LOG_DIR/$ip.log 2>&1 ) &
+      ( ( $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
 
       # Keep a list of process ids
       pids="$pids $!"
@@ -201,10 +207,9 @@ loop_nodes() {
 # command that follow
 ssh_specific_nodes() {
   local ip_list=$1; shift
-  local args=$@
+  local args="$@"
 
-  # Send file list first
-  loop_nodes $ip_list my_ssh $args
+  loop_nodes "$ip_list" my_ssh $args
 }
 
 #-------------------------------------------------------------------------------
@@ -215,9 +220,9 @@ ssh_specific_nodes() {
 # to each node ip in the list.
 scp_specific_nodes() {
   local ip_list=$1; shift
-  local args=$@
+  local args="$@"
 
-  loop_nodes $ip_list my_scp $args
+  loop_nodes "$ip_list" my_scp $args
 }
 
 #-------------------------------------------------------------------------------
@@ -227,7 +232,7 @@ scp_specific_nodes() {
 # the global list of ips
 ssh_nodes() {
 
-  loop_nodes $IPS my_ssh $@
+  loop_nodes "$IPS" my_ssh "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -239,7 +244,7 @@ scp_nodes() {
 
   # Loop through nodes and
   # run a specified script
-  loop_nodes $IPS my_scp $@
+  loop_nodes "$IPS" my_scp "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -252,7 +257,7 @@ scp_nodes() {
 # use this function before we generate keys.
 sshpass_nodes() {
 
-  loop_nodes $IPS my_sshpass $@
+  loop_nodes "$IPS" my_sshpass "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -265,9 +270,9 @@ sshpass_nodes() {
 # use this function before we generate keys.
 sshpass_specific_nodes() {
   local ip_list=$1; shift
-  local args=$@
+  local args="$@"
 
-  loop_nodes $ip_list my_sshpass $args
+  loop_nodes "$ip_list" my_sshpass "$args"
 }
 
 #-------------------------------------------------------------------------------
@@ -282,19 +287,14 @@ sshpass_specific_nodes() {
 # and NAS goig at the same time
 clean_workspace() {
   echo "Clearing remote working directory"
+  local ip_list=$1
+  local clean_script="clean_workspace.sh"
 
-  # TODO - Get this to work over SSH rather
-  # than sending a script. I still don't know
-  # why that doesn't work.
-  echo "rm -rf ~/*" >> clean_home_dir.sh
-  chmod +x clean_home_dir.sh
-
-  # Clean the home directory of non-hidden files
-  scp_specific_nodes $1 clean_home_dir.sh
-  ssh_specific_nodes $1 ./clean_home_dir.sh
-
-  # Delete local file
-  rm -f clean_home_dir.sh
+  echo "rm -rfv ./*" > $clean_script
+  chmod +x $clean_script
+  scp_specific_nodes "$ip_list" $clean_script
+  ssh_specific_nodes "$ip_list" ./$clean_scriptsh
+  rm -f $clean_script
 }
 
 #-------------------------------------------------------------------------------
@@ -337,12 +337,12 @@ my_ip() {
 
 #-------------------------------------------------------------------------------
 
-# Executes a command after N seconds
+# Executes a given command after N seconds
 # with a real time countdown and message.
 delayed_action() {
   local delay=$1; shift
-  local message=$2; shift
-  local action=$@
+  local message=$1; shift
+  local action="$@"
   local secs=$(( $delay ))
 
   while [ $secs -gt 0 ]; do
@@ -370,9 +370,7 @@ timed_action() {
   local START_TIME=$SECONDS
 
   "$@"
-
   local ELAPSED_TIME=$(($SECONDS - $START_TIME))
-
   echo "Completed $action in: $ELAPSED_TIME second(s)"
 }
 
