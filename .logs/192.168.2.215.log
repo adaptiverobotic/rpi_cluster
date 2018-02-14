@@ -934,3 +934,1600 @@ verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Get:7 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+
+** (appstreamcli:12180): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 1s (114 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [0bfaa1f843976e9f70931feb71265f6539ae8ad01980c2a3ba26e5d555779640]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+wlxngyleuna6py78ummgtm4x9
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+qvuckq6eyuei23etknj0m1lna
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:13485): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (317 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [9196ce450eb32ae3064d25899951a17c97c8c722f182bf3c0e889a2b667dcc39]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+jely54d0uhwtrevj3js0iyy7l
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+ui4hkcst8ywsczm9fqziuduir
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+ssh-copy-id 
+-o LogLevel=error -o ConnectTimeout=5 -o IdentitiesOnly=yes -o userknownhostsfile=/dev/null -o stricthostkeychecking=no -i /home/pi/.ssh/id_rsa.pub ubuntu@192.168.2.215
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+ssh-copy-id 
+-o LogLevel=error -o ConnectTimeout=5 -o IdentitiesOnly=yes -o userknownhostsfile=/dev/null -o stricthostkeychecking=no -i /home/pi/.ssh/id_rsa.pub ubuntu@192.168.2.215
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:15488): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (293 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:15983): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (301 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [033708a250b2868983683244ef8b057d504bb000aacfd3f0a7e2b9bf811e0954]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+axjdqqojg3uc2rbtaulhiu6s7
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+s3vnv19c5od1w8rpmifftbncf
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:17282): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (305 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [9aa2c4ccb052264783787c11e1603ca39f39a52bb8ddc2609f1dfb07f13f97d5]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+kghsb7hp919aidzw29vu4295u
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+lg8zatmvbaxf55k2vgd32yenz
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:18662): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (293 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [89203e9cde041f4b03416953e02138fc8abcb2b927cbcd17422f2f9646cb3e19]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+4pwwjnfdhv55jqsk3dtz4bnt6
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+zl51sfl0tv7zxbi02mxlpkxm5
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:20035): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (287 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [123a6a40e7b366305c01e284d542cfe3a625ba79ca2fa444e62b5a4aa0fcb117]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+8qc8wfzpw3jwf4d0r4gpyhkpe
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+5h9o8xwp2ol2l3pwh6b8oo052
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+
+  -o LogLevel=error   -o ConnectTimeout=5   -o IdentitiesOnly=yes   -o userknownhostsfile=/dev/null   -o stricthostkeychecking=no: No such file or directory
+-r: No such file or directory
+scp: protocol error: expected control record
+sshpass: Failed to run command: No such file or directory
+sshpass: Failed to run command: No such file or directory
+sshpass: Failed to run command: No such file or directory
+sshpass: Failed to run command: No such file or directory
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+
+  -o LogLevel=error   -o ConnectTimeout=5   -o IdentitiesOnly=yes   -o userknownhostsfile=/dev/null   -o stricthostkeychecking=no: No such file or directory
+-r: No such file or directory
+scp: protocol error: expected control record
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:5 http://security.ubuntu.com/ubuntu xenial-security/main amd64 DEP-11 Metadata [67.5 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://security.ubuntu.com/ubuntu xenial-security/main DEP-11 64x64 Icons [77.2 kB]
+Get:8 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 DEP-11 Metadata [51.4 kB]
+Get:9 http://security.ubuntu.com/ubuntu xenial-security/universe DEP-11 64x64 Icons [80.2 kB]
+Hit:10 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:11 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Get:12 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [716 kB]
+Get:13 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 DEP-11 Metadata [307 kB]
+Get:14 http://archive.ubuntu.com/ubuntu xenial-updates/main DEP-11 64x64 Icons [227 kB]
+Get:15 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [582 kB]
+Get:16 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 DEP-11 Metadata [191 kB]
+Get:17 http://archive.ubuntu.com/ubuntu xenial-updates/universe DEP-11 64x64 Icons [265 kB]
+Get:18 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 DEP-11 Metadata [5,888 B]
+
+** (appstreamcli:21708): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 2,775 kB in 6s (398 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [a0316c6ae82541346f46c1e3362ebedc5bd1616cd7eac986d58143d970f16519]
+Volume: portainer was not removed or failed
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+8xrsc7ajg9lxz2jccohzue4jg
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+ocakpyyi09nvn37b89z9bj0yk
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:23027): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [275522dfd5bfdcff26293a1ffebf434ac3cdea57e521f99a305ca65b554478d2]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+8y3n8jznjmh7dpvem10nzwvf7
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+uop0x3non5l5nf6pu2jgb2t7n
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+bash: ubuntu@192.168.2.215: command not found
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:24497): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [67735ca440ff7812fc803955cf7b6f03ef83afe9c1a6969994e2df05a241359a]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+idelt587arqjv03e0zlxk3xxo
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+j6jaqh3a57mdagota4ubr6tmf
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:25806): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [2c111878c12f501ac7a1e2587fdcce170a3dabe1f62345fc76f1485f355ab785]
+Volume: portainer was not removed or failed
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+k0npvsrwl4h125cfvx66z0ize
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+in9d3k0ccra6qzmuhhjdz7vtm
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+/home/pi/rpi_cluster/ssh/setup.sh not supported
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:27123): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [919e578068dbd2053f3fb464d2fa161567a3b6a4e077210ff9091118a0fd7a58]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+5vp6cav599tg8e1anyzfdcjp8
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+x84yjq85617phsyx5thrwsvmm
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:28451): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [6b500f159235c4c01fb8bae94e5fc5fc612e8e4c7a55a11802a025bc9a90e2bd]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+v9aslfc36affy26zlpmwb38oj
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+gser2upu7yh3o47efsujok53m
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:29757): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [cb51ef990926447a16647670ceb4165a4bc4375457cf62c2e905749a10ac1bfa]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+vxzui7lxux6ufu3naqfbzpo2f
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+ijw1v2cycf6mau9t9vrs47315
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Error response from daemon: rpc error: code = Unknown desc = name conflicts with an existing object
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://security.ubuntu.com/ubuntu xenial-security InRelease
+
+** (appstreamcli:31086): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [e9100b991d6323757cf61fc8b286013adb080239c78392775b162502d64c5319]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+vwwloah4orzjtnn73eup9pqfv
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+lo544qj6jt6oevvofg9vhbfyr
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:32404): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [0b81e5ba7166281eeab9d033a725be90221ba91a604de7e8e614b4147226b4ea]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+pfuqrpinn948c1xskbp828ew2
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+p8rdqhasmqpdhlry5837mzmxz
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 https://download.docker.com/linux/ubuntu xenial InRelease [65.8 kB]
+Hit:6 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:1253): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 65.8 kB in 0s (144 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 349 not upgraded.
+Removing services listed in: assets/services
+portainer
+portainer
+Service: portainer removed
+Cleaning up old volumes, images, containers specified in assets/clean
+Removing volumes listed in: ./assets/volumes
+Volume: portainer was not removed or failed
+Error response from daemon: unable to remove volume: remove portainer: volume is in use - [7d787a4161c789d17885f81822c3060624903d2e27782be318a5d492f57b57b6]
+other_volume
+Volume: other_volume was removed
+Removing networks listed in: assets/networks
+Removing secrets listed in: assets/secrets
+PORTAINER_PASSWORD
+Secret: PORTAINER_PASSWORD removed
+Creating volumes listed in: assets/volumes
+portainer
+other_volume
+Creating networks listed in: assets/networks
+Creating docker secrets listed in: assets/secrets
+lih6stqnevr468d2a7ceaekl9
+Building images listed in: assets/build
+No images to build
+Pushing to docker hub images listed in: assets/push
+No images to push
+Pulling images listed in: assets/images
+latest: Pulling from portainer/portainer
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Image is up to date for portainer/portainer:latest
+qew8yzllfgzevw10prhf25jca
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged

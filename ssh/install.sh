@@ -9,15 +9,13 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Creates the local .ssh directory
 # if it does not already exist.
-setup_local() {
-  echo "Enabling passwordless ssh"
+declare_variables() {
 
   # Directory that contains
   # files related to ssh
   ssh_dir=$HOME/.ssh/
 
-  # Create if it does not
-  # already exist
+  # Create if doesn't exist
   mkdir -p $ssh_dir
 }
 
@@ -27,9 +25,8 @@ setup_local() {
 # and store it in ~/.ssh locally
 generate_keys() {
   echo "Generating public and private key pair"
-
-  # Generate public-private key pairs locally
-  echo "y" | ssh-keygen -f ${ssh_dir}id_rsa -t rsa -N ''
+  echo "y" | ssh-keygen -f ${ssh_dir}id_rsa -t rsa -N '' > /dev/null
+  echo "Successfully generated public and private key pair"
 }
 
 #-------------------------------------------------------------------------------
@@ -39,8 +36,10 @@ generate_keys() {
 # using sshpass to automate
 # this before we have ssg keys
 send_assets() {
-  # SCP setup script to node
+
+  echo "Sending setup script to each node"
   $UTIL sshpass_nodes scp $(pwd)/setup.sh
+  echo "Successfully sent setup script to each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -50,7 +49,8 @@ send_assets() {
 # that are associated with this machine.
 delete_keys() {
   echo "Deleting old keys"
-  $UTIL sshpass_nodes ssh ./setup.sh ${hostname}
+  $UTIL sshpass_nodes ssh ./setup.sh "$hostname"
+  echo "Successfully deleted old keys"
 }
 
 #-------------------------------------------------------------------------------
@@ -62,14 +62,9 @@ send_keys() {
   # Loop through each node
   # and delete any old authorized_keys
   # that are associate with this device
-  echo "Sending public key to all nodes"
-
-  # Copy the new public key to each node
-  echo "Sending new public keys"
-  while read ip;
-  do
-    $UTIL my_sshpass $COMMON_USER@$ip ssh-copy-id -i ${ssh_dir}id_rsa.pub
-  done <$IPS
+  echo "Sending public key to each node"
+  $UTIL sshpass_nodes ssh-copy-id -i ${ssh_dir}id_rsa.pub
+  echo "Successfully sent public key to each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -83,8 +78,6 @@ finalize() {
   # when ssh from outside world
   eval $(ssh-agent)
   ssh-add
-
-  echo "Successfully added ssh key to each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -93,8 +86,7 @@ finalize() {
 # to enable passwordless ssh
 # between this machine and each node
 install() {
-  # Create .sshdir
-  setup_local
+  echo "Installing ssh keys on cluster"
 
   # Create key pair
   generate_keys
@@ -110,6 +102,18 @@ install() {
 
   # IDK
   finalize
+
+  echo "Successfully installed ssh keys on cluster"
 }
 
-"$@"
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

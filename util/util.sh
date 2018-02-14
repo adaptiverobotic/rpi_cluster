@@ -4,13 +4,19 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# Specify ssh parameters
-ssh_args="
--o LogLevel=error \
--o ConnectTimeout=5 \
--o IdentitiesOnly=yes \
--o userknownhostsfile=/dev/null \
--o stricthostkeychecking=no"
+
+
+#-------------------------------------------------------------------------------
+
+declare_variables() {
+  # Specify ssh parameters
+  ssh_args="
+  -o LogLevel=error \
+  -o ConnectTimeout=5 \
+  -o IdentitiesOnly=yes \
+  -o userknownhostsfile=/dev/null \
+  -o stricthostkeychecking=no"
+}
 
 #-------------------------------------------------------------------------------
 
@@ -19,10 +25,11 @@ ssh_args="
 my_ssh() {
 
   # Format: user@ip
-  user_ip=$1
+  local user_ip=$1; shift
+  local args=$@
 
   # SSH into a given node passing the password from a file
-  ssh $ssh_args -n $user_ip ${@:2}
+  ssh $ssh_args -n $user_ip $args
 }
 
 #-------------------------------------------------------------------------------
@@ -32,10 +39,11 @@ my_ssh() {
 my_scp() {
 
   # Format: user@ip
-  user_ip=$1
+  local user_ip=$1; shift
+  local args=$@
 
   # SCP files from local to remote
-  scp $ssh_args -r ${@:2} $user_ip:
+  scp $ssh_args -r $args $user_ip:
 }
 
 #-------------------------------------------------------------------------------
@@ -45,13 +53,13 @@ my_scp() {
 # multiple files
 my_scp_get_file() {
   # Format: user@ip
-  user_ip=$1
+  user_ip=$1; shift
 
   # Directory to write to
-  local_dir=$2
+  local_dir=$1 shift
 
   # Files to download
-  args=${@:3}
+  args=$@
 
   # Make the local_dir
   # if it does not exist
@@ -72,26 +80,23 @@ my_scp_get_file() {
 my_sshpass() {
 
   # Format: user@ip
-  user_ip=$1
-
   # Format: ssh
-  # will map to functions such
-  # as my_ssh, my_scp
-  protocol=$2
+  user_ip=$1; shift
+  protocol=$1; shift
 
   # If we want to SSH and execute commands on a node
   if [[ $protocol == "ssh" ]]; then
 
-    call="$protocol $ssh_args -n $user_ip ${@:3}"
+    call="$protocol $ssh_args -n $user_ip $@"
 
   # If we want to SCP a file to a node
   elif [[ $protocol == "scp" ]]; then
 
-    call="$protocol $ssh_args -r "${@:3}" $user_ip:"
+    call="$protocol $ssh_args -r "$@" $user_ip:"
 
   # We want to copy a public key toa node
   elif [[ $protocol == "ssh-copy-id" ]]; then
-    call="$protocol $ssh_args ${@:3} $user_ip"
+    call="$protocol $ssh_args $@ $user_ip"
 
   else
     echo "$protocol not supported"
@@ -121,49 +126,33 @@ num_lines() {
 # can run synchronously or asynchronously.
 loop_nodes() {
 
-  # TODO - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
+  # NOTE - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
 
-  # File with list
-  # of ips
-  file=$1
-
-  # Command to run
-  action=$2
-
-  # If we want to run loop
-  # synchronously or async
-  # TODO - Allow this to be
-  # sent as a flag
-  async=1
-
-  # Make sure the file exists
-  if ! ls $file > /dev/null; then
-    echo "File: $file Could not be found"
-    return 1
-  fi
-
-  # List of process_id
-  # and exit status
-  pids=""
-  result=0
+  # TODO - pass async as flag
+  local file=$1; shift
+  local action=$1; shift
+  local async=0
+  local args=$@
+  local pids=""
+  local result=0
 
   # Loop through each ip address
   # listed in input file
   while read ip; do
 
-    # Print the action that is beig carried out
+    # Print the action that is being carried out
     echo "$action: $COMMON_USER@$ip"
 
     # Run in async mode. Essentially
     # kick off each subprocess and send
     # it to the background.
-    if [[ $async -eq 0 ]]; then
+    if [[ "$async" -eq 0 ]]; then
       # 1. We are running an inner subprocess that will pipe stout
       # and stderr to a file
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
-      ( ( $action $COMMON_USER@$ip ${@:3}) >> $LOG_DIR/$ip.log 2>&1 ) &
+      ( ( $action $COMMON_USER@$ip $args) >> $LOG_DIR/$ip.log 2>&1 ) &
 
       # Keep a list of process ids
       pids="$pids $!"
@@ -175,13 +164,13 @@ loop_nodes() {
 
       # Kick off a subprocess in foreground. Log its output to a file while
       # still making it visible on the console.
-      ( ( $action $COMMON_USER@$ip ${@:3} ) 2>&1 | tee -a $LOG_DIR/$ip.log )
+      ( ( $action $COMMON_USER@$ip $args ) 2>&1 | tee -a $LOG_DIR/$ip.log )
     fi
   done <$file
 
   # If we ran in async mode,
   # await all subprocesses' completion
-  if [[ $async -eq 0 ]]; then
+  if [[ "$async" -eq 0 ]]; then
 
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
@@ -195,6 +184,10 @@ loop_nodes() {
     done
 
     # Check exit status
+    # TODO - Create some sort of temporary
+    # mapping between PID and ip so that we
+    # know which node failed, and we know which
+    # log file to check
     if [[ $result -ne 0 ]]; then
       echo "FAILURE - At least on process exited with a non-zero status"
     fi
@@ -209,11 +202,11 @@ loop_nodes() {
 # by a file ($1), and execute the
 # command that follow
 ssh_specific_nodes() {
-  ip_list=$1
-  args=${@:2}
+  local ip_list=$1; shift
+  local args=$@
 
   # Send file list first
-  loop_nodes $ip_list ssh $args
+  loop_nodes $ip_list my_ssh $args
 }
 
 #-------------------------------------------------------------------------------
@@ -223,8 +216,8 @@ ssh_specific_nodes() {
 # (remaning arguments), SCP the files
 # to each node ip in the list.
 scp_specific_nodes() {
-  ip_list=$1
-  args=${@:2}
+  local ip_list=$1; shift
+  local args=$@
 
   # Send file list first
   loop_nodes $ip_list my_scp $args
@@ -392,4 +385,12 @@ timed_action() {
 
 #-------------------------------------------------------------------------------
 
-"$@"
+main() {
+  declare_variables
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"
