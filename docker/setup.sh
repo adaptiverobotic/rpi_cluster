@@ -9,10 +9,10 @@ set -e
 # skip the installation process.
 install_docker() {
   echo "Installing docker locally"
-  echo "Checking if docker is already installed"
+
 
   # Check that docker is installed
-  if "docker" > /dev/null; then
+  if docker ps; then
     echo "Docker is already installed"
 
   # We need to install it
@@ -50,7 +50,7 @@ uninstall_docker() {
 
   # Check if the machine recognizes
   # the docker command
-  if "docker" > /dev/null; then
+  if docker ps; then
     # Remove from apt-get
     echo "Purging docker"
     sudo apt-get purge docker-ce -y

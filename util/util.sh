@@ -45,11 +45,17 @@ my_scp() {
 
 # Retrieve files from a node
 # and download to a specified
-# local directory
+# local directory. NOTE - This is not
+# compatible with the loop nodes function.
+# Even if it were, it would not serve us
+# because the file will get overriden
+# locally as the loopp_nodes() functions
+# provides no facility to change / append
+# a unique identifier to to the local directory.
 my_scp_get() {
 
   # Format: user@ip
-  local user_ip=$1; shift
+  local ip=$1; shift
   local local_dir=$1; shift
   local args="$@"
 
@@ -58,7 +64,7 @@ my_scp_get() {
   mkdir -p $local_dir
 
   for file in $args; do
-    scp $scp_args $user_ip:$file $local_dir
+    scp $scp_args $COMMON_USER@$ip:$file $local_dir
   done
 }
 
@@ -237,6 +243,33 @@ ssh_specific_nodes() {
 
 #-------------------------------------------------------------------------------
 
+# Sends a single and executes
+# a command on each node in global
+# list of ips
+scp_ssh_nodes() {
+  local file=$1; shift
+  local args="$@"
+
+  scp_nodes "$file"
+  ssh_nodes "$args"
+}
+
+#-------------------------------------------------------------------------------
+
+# Sends a single and executes
+# a command on each node in specified
+# list of ips
+scp_ssh_specific_nodes() {
+  local ip_list=$1; shift
+  local file=$1; shift
+  local args="$@"
+
+  scp_specific_nodes "$ip_list" "$file"
+  ssh_specific_nodes "$ip_list" "$args"
+}
+
+#-------------------------------------------------------------------------------
+
 # Execute a command (ssh) or send
 # a file (scp) to each node listed
 # in global list of ips. This method
@@ -280,8 +313,9 @@ clean_workspace() {
 
   echo "rm -rfv ./*" > $clean_script
   chmod +x $clean_script
-  scp_specific_nodes "$ip_list" $clean_script
-  ssh_specific_nodes "$ip_list" ./$clean_scriptsh
+
+  scp_ssh_specific_nodes "$ip_list" $clean_script ./$clean_script
+
   rm -f $clean_script
 }
 
@@ -318,8 +352,8 @@ is_installed() {
 # Print this device's ip
 my_ip() {
 
-  # TODO - Find platform neutral way of
-  # getting ip address
+  # TODO - Find platform independent way of
+  # getting the ip address
   echo $(hostname -I | awk '{print $1}')
 }
 

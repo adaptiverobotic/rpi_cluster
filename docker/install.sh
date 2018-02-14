@@ -32,7 +32,7 @@ send_assets() {
 # docker on all nodes.
 install_docker() {
   echo "Installing docker on each node"
-  $UTIL ssh_nodes ./setup.sh reinstall_docker
+  $UTIL ssh_nodes ./setup.sh install_docker
   echo "Successfully installed docker on each node"
 }
 
@@ -54,7 +54,7 @@ select_leader() {
   fi
 
   # Capture leader_ip
-  leader_ip=$(cat $leader_file)
+  local leader_ip=$(cat $leader_file)
   echo "Leader will be: $leader_ip"
   echo "Make sure that it's ip address does not change"
   echo "Either assign it a static ip or reserve it's dhcp lease"
@@ -103,10 +103,10 @@ select_managers() {
   rm -fv $manager_file
 
   # Get number of workers
-  num_workers=$( $UTIL num_lines $worker_file )
+  local num_workers=$( $UTIL num_lines $worker_file )
 
   # Make half of them managers
-  num_managers=$(( $num_workers / 2 ))
+  local num_managers=$(( $num_workers / 2 ))
 
   # (n+1) / 2 = quorum
   echo "There are $num_workers worker(s)"
@@ -146,7 +146,7 @@ download_tokens() {
   local leader_ip=$(cat $leader_file)
 
   echo "Downloading join-token scripts from leader: $(cat $leader_file)"
-  $UTIL my_scp_get $COMMON_USER@$leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
+  $UTIL my_scp_get $leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
   echo "Successfully downloaed join-token scripts from leader"
 }
 
@@ -187,8 +187,8 @@ join_swarm() {
   echo "Adding nodes to swarm"
 
   # Count number of workers and managers
-  num_managers=$( $UTIL num_lines $manager_file)
-  num_workers=$( $UTIL num_lines $worker_file)
+  local num_managers=$( $UTIL num_lines $manager_file)
+  local num_workers=$( $UTIL num_lines $worker_file)
 
   # If there is at least one worker
   # to add to the swarm
