@@ -268,6 +268,7 @@ new_swarm() {
   # Add nodes to swarm
   join_swarm
 
+  # Start docker container
   start_portainer
 
   echo "Successfully installed Docker and created swarm"

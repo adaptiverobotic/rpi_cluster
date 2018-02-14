@@ -71,15 +71,18 @@ uninstall_docker() {
 start_portainer() {
   echo "Starting portainer"
 
-  password=$1
+  local password=$1
+
+  # Pull image from docker registry
+  docker pull portainer/portainer
 
   # Create necessary volume
   docker volume create portainer
 
-  # Create admin password secret
+  # Create admin password as a secret
   echo -n $password | docker secret create portainer-pass -
 
-  # Launch service
+  # Launch as detached process
   docker service create \
   --detach \
   --name portainer \
@@ -92,6 +95,8 @@ start_portainer() {
   portainer/portainer \
   --admin-password-file '/run/secrets/portainer-pass' \
   -H unix:///var/run/docker.sock
+
+  docker service ls
 }
 
 #-------------------------------------------------------------------------------

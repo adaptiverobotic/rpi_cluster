@@ -131,10 +131,31 @@ loop_nodes() {
   # TODO - pass async as flag
   local file=$1; shift
   local action=$1; shift
-  local async=1
+  local async=true
   local args="$@"
-  local pids=""
   local result=0
+  local lines_in_files=$( num_lines "$file" )
+
+  # Associative array mapping
+  # process_id to ip_address.
+  # We use this in async mode to
+  # figure out which ip a given
+  # call failed on by its associated
+  # pid (and consequently, exit code)
+  declare -A map_pid_ip
+
+  # Make sure the file has at least one line
+  if [[ $lines_in_files -eq 0 ]]; then
+    echo "Empty file: $file"
+    return 1
+
+  # If we only have 1 node, we
+  # might as well run in synchronous
+  # mode so that we can see what's
+  # happening. Good for debugging.
+  elif [[ $lines_in_files -eq 1 ]]; then
+    async=false
+  fi
 
   # Loop through each ip address
   # listed in input file
@@ -146,7 +167,7 @@ loop_nodes() {
     # Run in async mode. Essentially
     # kick off each subprocess and send
     # it to the background.
-    if [[ "$async" -eq 0 ]]; then
+    if [[ "$async" = true ]]; then
       # 1. We are running an inner subprocess that will pipe stout
       # and stderr to a file
       # 2. This is all encapsulated in another subprocess that we throw into
@@ -155,7 +176,7 @@ loop_nodes() {
       ( ( $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
 
       # Keep a list of process ids
-      pids="$pids $!"
+      map_pid_ip[$!]=$ip
 
     # Run synchronously. Wait for
     # each action to complete before
@@ -170,7 +191,7 @@ loop_nodes() {
 
   # If we ran in async mode,
   # await all subprocesses' completion
-  if [[ "$async" -eq 0 ]]; then
+  if [[ "$async" = true ]]; then
 
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
@@ -179,7 +200,14 @@ loop_nodes() {
 
     # Loop through pids and wait
     # for them to complete.
-    for pid in $pids; do
+    for pid in "${!map_pid_ip[@]}"
+    do
+      echo "Process:"
+      echo "------------------"
+      echo "pid: $pid"
+      echo "ip:  ${map_pid_ip[$pid]}"
+      echo "------------------"
+
       wait $pid || let "result=1"
     done
 
@@ -448,7 +476,7 @@ launch_browser() {
 # always make the exit
 # status 0. This is convenient
 # as all scripts in this
-# ap have set -e 
+# ap have set -e
 ignore_exit_status() {
   "$@" || true
 }
