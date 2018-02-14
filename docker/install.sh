@@ -224,6 +224,10 @@ join_swarm() {
 
 #-------------------------------------------------------------------------------
 
+# Start portainer as a
+# docker service so that
+# we can manager the swarm
+# from the web browser.
 start_portainer() {
   echo "Starting portainer"
   $UTIL ssh_specific_nodes $leader_file ./setup.sh start_portainer $COMMON_PASS
@@ -270,6 +274,9 @@ new_swarm() {
 
   # Start docker container
   start_portainer
+
+  # Clear home directories
+  $UTIL clean_workspace $IPS
 
   echo "Successfully installed Docker and created swarm"
 }

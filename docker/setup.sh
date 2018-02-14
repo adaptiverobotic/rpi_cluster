@@ -10,7 +10,6 @@ set -e
 install_docker() {
   echo "Installing docker locally"
 
-
   # Check that docker is installed
   if docker ps; then
     echo "Docker is already installed"
@@ -68,10 +67,13 @@ uninstall_docker() {
 
 #-------------------------------------------------------------------------------
 
+# Run portainer service
+# on swarm so we manage
+# through web console.
 start_portainer() {
-  echo "Starting portainer"
-
   local password=$1
+
+  echo "Starting portainer"
 
   # Pull image from docker registry
   docker pull portainer/portainer
@@ -79,7 +81,7 @@ start_portainer() {
   # Create necessary volume
   docker volume create portainer
 
-  # Create admin password as a secret
+  # Create admin password as a docker secret
   echo -n $password | docker secret create portainer-pass -
 
   # Launch as detached process
@@ -96,6 +98,7 @@ start_portainer() {
   --admin-password-file '/run/secrets/portainer-pass' \
   -H unix:///var/run/docker.sock
 
+  # Sanity check
   docker service ls
 }
 
