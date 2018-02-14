@@ -398,6 +398,82 @@ timed_action() {
 
 #-------------------------------------------------------------------------------
 
+# Checks if a command runs
+# successfully. We can specify
+# the number of attempts before
+# considering it a failure, as well
+# as the delay between each attempt.
+health_check() {
+  local attempts=$(($1)); shift
+  local action="$@"
+  local counter=1
+
+  while [ $counter -le $attempts ]; do
+
+    if delayed_action $action; then
+      echo "Success"
+      return 0
+    else
+      echo "Failure: $(( $attempts - $counter )) attempt(s) remaining"
+    fi
+
+    ((counter++))
+  done
+
+  return 1
+}
+
+#-------------------------------------------------------------------------------
+
+# Launches a browser
+# and navigates to a
+# specified url
+launch_browser() {
+  local browser=$1; shift
+  local url=$@
+
+  echo "Opening $url in $browser"
+
+  if which $browser; then
+    $browser $url
+  else
+    echo "Could not open browser, try opening it manually"
+    return 1
+  fi
+}
+
+#-------------------------------------------------------------------------------
+
+# Execute a command and
+# always make the exit
+# status 0. This is convenient
+# as all scripts in this
+# ap have set -e 
+ignore_exit_status() {
+  "$@" || true
+}
+
+#-------------------------------------------------------------------------------
+
+# Displays the login url
+# and credentials of the swarm
+display_entry_point() {
+  local url="$@"
+
+  echo "You can access the swarm at: $url"
+  echo ""
+  echo "Credentials:"
+  echo "-------------"
+  echo "User: admin"
+  echo "Password: $COMMON_PASS"
+  echo "-------------"
+  echo ""
+
+  ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $url
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
 

@@ -206,12 +206,14 @@ init() {
 # Portainer to the cluster for
 # easy docker swarm management
 docker_cluster() {
-  init docker
+  local portainer_url="http://$(cat assets/leader):9000"
 
+  init docker
   install_docker
 
-  # Check that the cluster is up
-  $UTIL delayed_action 10 "Health_Check" curl $(cat assets/leader):9000
+  # Check that the cluster's portainer page is up is up
+  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
+  $UTIL display_entry_point $portainer_url
 }
 
 #-------------------------------------------------------------------------------

@@ -73,11 +73,15 @@ start_portainer() {
 
   password=$1
 
+  # Create necessary volume
   docker volume create portainer
+
+  # Create admin password secret
   echo -n $password | docker secret create portainer-pass -
 
-
+  # Launch service
   docker service create \
+  --detach \
   --name portainer \
   --secret portainer-pass \
   --mode global \
