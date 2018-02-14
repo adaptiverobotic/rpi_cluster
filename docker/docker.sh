@@ -4,17 +4,17 @@ set -e
 #-------------------------------------------------------------------------------
 
 build() {
-  build_file=$1
+  local build_file=$1
 
   # Path to app folder. This
   # should directly contain
   # the Dockerfile
-  path=$2
+  local path=$2
 
   echo "Building images listed in: $build_file"
 
   # If the image file exists
-  if ls $build_file; then
+  if [[ -f  "$build_file" ]]; then
 
     # Loop through list and
     # build each image
@@ -32,11 +32,11 @@ build() {
 #-------------------------------------------------------------------------------
 
 network() {
-  network_file=$1
+  local network_file=$1
   echo "Creating networks listed in: $network_file"
 
   # If the network file exists
-  if ls $network_file; then
+  if [[ -f "$network_file"  ]]; then
 
     # Loop through and delete
     # each network by name
@@ -54,11 +54,11 @@ network() {
 #-------------------------------------------------------------------------------
 
 pull() {
-  image_file=$1
+  local image_file=$1
   echo "Pulling images listed in: $image_file"
 
   # If it exists
-  if ls $image_file; then
+  if [[ -f "$image_file" ]]; then
 
     # Pull each image
     # listed in file
@@ -76,11 +76,11 @@ pull() {
 #-------------------------------------------------------------------------------
 
 push() {
-  push_file=$1
+  local push_file=$1
   echo "Pushing to docker hub images listed in: $push_file"
 
   # If the file exists
-  if ls $push_file; then
+  if [[ -f "$push_file" ]]; then
 
     # Loop through, and push
     # all images to docker registry
@@ -98,10 +98,10 @@ push() {
 #-------------------------------------------------------------------------------
 
 secret() {
-  secret_file=$1
+  local secret_file=$1
   echo "Creating docker secrets listed in: $secret_file"
 
-  if ls $secret_file; then
+  if [[ -f "$secret_file" ]]; then
     while read line; do
       secret=($line)
 
@@ -122,8 +122,8 @@ secret() {
 service() {
   # NOTE - Unused at the moment
 
-  service_file=$1
-  path=$2
+  local service_file=$1
+  local path=$2
 
   echo "Creating services listed in: $service_file"
 
@@ -148,11 +148,11 @@ service() {
 #-------------------------------------------------------------------------------
 
 volume() {
-  volume_file=$1
+  local volume_file=$1
   echo "Creating volumes listed in: $volume_file"
 
   # File found
-  if ls $volume_file; then
+  if [[ -f "$volume_file" ]]; then
 
     # Loop through file and
     # create each volume
@@ -173,11 +173,11 @@ volume() {
 #-------------------------------------------------------------------------------
 
 clean_containers() {
-  image_file=$1
+  local image_file=$1
   echo "Removing containers associated with images listed in: $image_file"
 
   # File found
-  if ls $image_file; then
+  if [[ -f "$image_file" ]]; then
 
     # Loop through list of images
     # and  stop all containers associated
@@ -204,12 +204,12 @@ clean_containers() {
 #-------------------------------------------------------------------------------
 
 clean_images() {
-  image_file=$1
+  local image_file=$1
 
   echo "Removing images listed in: $image_file"
 
   # File found
-  if ls $image_file; then
+  if [[ -f "$image_file" ]]; then
     # NOTE - Do we also want to
     # delete images that our images
     # depend on? Example, if database
@@ -239,10 +239,10 @@ clean_images() {
 #-------------------------------------------------------------------------------
 
 clean_volumes() {
-  volume_file=$1
+  local volume_file=$1
   echo "Removing volumes listed in: $volume_file"
 
-  if ls $volume_file; then
+  if [[ -f "$volume_file" ]]; then
     while read line; do
       volume=($line)
 
@@ -264,12 +264,12 @@ clean_volumes() {
 #-------------------------------------------------------------------------------
 
 clean_networks() {
-  network_file=$1
+  local network_file=$1
 
   echo "Removing networks listed in: $network_file"
 
   # IF the file exists
-  if ls $network_file; then
+  if [[ -f "$network_file" ]]; then
 
     # Loop through networks
     while read line; do
@@ -292,11 +292,11 @@ clean_networks() {
 #-------------------------------------------------------------------------------
 
 clean_secrets() {
-  secret_file=$1
+  local secret_file=$1
   echo "Removing secrets listed in: $secret_file"
 
   # File found
-  if ls $secret_file; then
+  if [[ -f "$secret_file" ]]; then
     # Delete secrets
     # by name specified by file
     while read line; do
@@ -318,11 +318,12 @@ clean_secrets() {
 #-------------------------------------------------------------------------------
 
 clean_services() {
-  service_file=$1
+  local service_file=$1
+
   echo "Removing services listed in: $service_file"
 
-  if ls $service_file; then
-    cat $service_file
+  if [[ -f "$service_file" ]]; then
+    cat "$service_file"
 
     #Delete secrets
     # by name specified by file
@@ -343,7 +344,7 @@ clean_services() {
 #-------------------------------------------------------------------------------
 
 clean_stacks() {
-  stack_file=$1
+  local stack_file=$1
   echo "Removing stacks listed in: $stack_file"
 
   # TODO - not yet implemented
@@ -356,13 +357,13 @@ clean_stacks() {
 #-------------------------------------------------------------------------------
 
 cleanup() {
-  clean_file=$1
-  path=$2
+  local clean_file=$1
+  local path=$2
 
   echo "Cleaning up old volumes, images, containers specified in $clean_file"
 
   # File found
-  if ls $clean_file; then
+  if [[ -f "$clean_file" ]]; then
     # Loop through cleanup file
     # matching each line with the
     # respective function. Example,
@@ -388,4 +389,10 @@ cleanup() {
   fi
 }
 
-$@
+#-------------------------------------------------------------------------------
+
+main() {
+  "$@"
+}
+
+main "$@"

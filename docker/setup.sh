@@ -12,7 +12,7 @@ install_docker() {
   echo "Checking if docker is already installed"
 
   # Check that docker is installed
-  if "docker ps"; then
+  if "docker" > /dev/null; then
     echo "Docker is already installed"
 
   # We need to install it
@@ -50,7 +50,7 @@ uninstall_docker() {
 
   # Check if the machine recognizes
   # the docker command
-  if "docker ps"; then
+  if "docker" > /dev/null; then
     # Remove from apt-get
     echo "Purging docker"
     sudo apt-get purge docker-ce -y
@@ -110,7 +110,10 @@ init_swarm() {
 
   # Make a new swarm.
   echo "Initializing swarm, advertising ip: $ip"
-  docker swarm init --advertise-addr $ip
+
+  # TODO - Maybe pipe this to /dev/null
+  # for security purposes??
+  docker swarm init --advertise-addr "$ip"
 
   # Get the join-token commands for workers and managers and pipe
   # the output into respective script files. These script files

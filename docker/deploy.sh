@@ -4,20 +4,25 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# For fully qualified paths
-# when passing files to scripts
-# that are in different directories
-app_path=$2
+#-------------------------------------------------------------------------------
 
-# File with ip of leader that
-# will facilitate the swarm creation
-# on the cluster side
-leader_file="${ASSETS}/leader"
+# Initialize global variables
+# that will be reused throughout
+# this script.
+declare_variables() {
+  # For fully qualified paths
+  # when passing files to scripts
+  # that are in different directories
+  app_path=$1
 
-echo "Deploying: $2"
+  # File with ip of leader that
+  # will facilitate the swarm creation
+  # on the cluster side
+  leader_file="${ASSETS}/leader"
 
-# All path to asset files
-mkdir -p assets
+  # All path to asset files
+  mkdir -p assets
+}
 
 #-------------------------------------------------------------------------------
 
@@ -32,7 +37,7 @@ clear_assets() {
   ${UTIL} clean_workspace $IPS
 
   echo "Deleting local assets"
-  rm -vf assets/*
+  rm -f assets/*
 }
 
 #-------------------------------------------------------------------------------
@@ -75,35 +80,12 @@ send_assets() {
 
 #-------------------------------------------------------------------------------
 
-# Cleans all old images, volumes, containers,
-# etc that are associated with the service
-# we want to deploy. This way we always have the
-# latest images, etc.
-clean_nodes() {
-  # Clean old data off nodes
-  # (volumes, images, containers)
-  echo "Cleaning old volumes, images, and containers from each node"
-
-  # Remove old services. This should kill associated containers
-  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_services assets/services
-
-  # Loop through nodes and run cleanup script
-  $UTIL ssh_nodes ./docker.sh cleanup assets/clean ./
-
-  # Remove old networks that are associated with the service
-  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_networks assets/networks
-
-  # Remove old secrets that are associate with the service
-  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_secrets assets/secrets
-}
-
-#-------------------------------------------------------------------------------
-
 # Build specified images from
 # source on leader
 build_images() {
   echo "Building images locally"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh build assets/build ./
+  echo "Successfully build images locally"
 }
 
 #-------------------------------------------------------------------------------
@@ -113,6 +95,7 @@ build_images() {
 push_images() {
   echo "Pushing images to docker registry"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh push assets/push ./
+  echo "Successfully pushed all images to docker register"
 }
 
 #-------------------------------------------------------------------------------
@@ -123,8 +106,9 @@ push_images() {
 pull_images() {
 
   # Loop through nodes and pull images down locally
-  echo "Pulling images down from docker registry"
+  echo "Pulling images down to each node from docker registry"
   $UTIL ssh_nodes ./docker.sh pull assets/images ./
+  echo "Successfully pulled images to each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -136,9 +120,8 @@ pull_images() {
 # actually used by a serice.
 create_volumes() {
   echo "Creating volumes on nodes"
-
-  # Create volume on each node
   $UTIL ssh_nodes ./docker.sh volume assets/volumes
+  echo "Successfully created all volumes"
 }
 
 #-------------------------------------------------------------------------------
@@ -147,8 +130,8 @@ create_volumes() {
 # that are specified in assets/networks
 create_networks() {
   echo "Creating networks for swarm"
-
   $UTIL ssh_specific_nodes $leader_file ./docker.sh network assets/networks
+  echo "Successfully created swarm networks"
 }
 
 #-------------------------------------------------------------------------------
@@ -156,9 +139,106 @@ create_networks() {
 # Create required networks
 # that are specified in assets/secrets
 create_secrets() {
-  echo "Creating secrets for swarm"
 
+  # SSH into leader node, and create new secrets
+  echo "Creating secrets for swarm"
   $UTIL ssh_specific_nodes $leader_file ./docker.sh secret assets/secrets
+  echo "Successfully created swarm secrets"
+}
+
+#-------------------------------------------------------------------------------
+
+# Removes all services
+# specified in the services file
+clean_services() {
+  # Remove old services. This should kill associated containers
+  echo "Removing old services"
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_services assets/services
+  echo "Successfully removed old services"
+}
+
+#-------------------------------------------------------------------------------
+
+# Removes all swarm networks
+# specified in networks file
+clean_networks() {
+  # Remove old networks that are associated with the service
+  echo "Removing old networks"
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_networks assets/networks
+  echo "Successfully removed old networks"
+}
+
+#-------------------------------------------------------------------------------
+
+# Removes all swarm secrets
+# specified in the secrets file
+clean_secrets() {
+  # Remove old secrets that are associate with the service
+  echo "Removing old secrets"
+  $UTIL ssh_specific_nodes $leader_file ./docker.sh clean_secrets assets/secrets
+  echo "Successfully removed old secrets"
+}
+
+#-------------------------------------------------------------------------------
+
+# Runs cleanup function on
+# all nodes in swarm
+cleanup() {
+  # Loop through nodes and run cleanup script
+  echo "Cleaning up on each node"
+  $UTIL ssh_nodes ./docker.sh cleanup assets/clean ./
+  echo "Successfully cleaned up each node"
+}
+
+#-------------------------------------------------------------------------------
+
+# Cleans all old images, volumes, containers,
+# etc that are associated with the service
+# we want to deploy. This way we always have the
+# latest images, etc.
+clean_nodes() {
+  # Clean old data off nodes
+  # (volumes, images, containers)
+  echo "Cleaning old volumes, images, and containers, etc from each node"
+
+  # Remove swarm services
+  clean_services
+
+  # Run worker cleanup
+  cleanup
+
+  # Remove swarm networks
+  clean_networks
+
+  # Remove swarm secrets
+  clean_secrets
+
+  echo "Succesffuly cleaned old volumes, images, and containers, etc from each node"
+}
+
+#-------------------------------------------------------------------------------
+
+# Creates new images, volumes, containers,
+# etc that are associated with the service
+# we want to deploy. This way we always have the
+# latest images, etc.
+prepare_nodes() {
+  echo "Creating new volumes, images, and containers, etc from each node"
+
+  # TODO - Implement create process the same way as we clean so that
+  # this script has less functions, and we let the docker.sh handle
+  # looping through a 'create' file to figure out which things to create
+
+  # Create necessary volumes
+  create_volumes
+
+  # Create required networks
+  create_networks
+
+  # Create swarm secrets
+  create_secrets
+
+  echo "Successfully created new volumes, images, and containers, etc from each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -180,16 +260,10 @@ init() {
   # Clean old images, volumes etc.
   clean_nodes
 
-  # Create necessary volumes
-  create_volumes
+  # Create new images, volumes etc.
+  prepare_nodes
 
-  # Create required networks
-  create_networks
-
-  # Create swarm secrets
-  create_secrets
-
-  # Build from source localy
+  # Build from source locally
   build_images
 
   # Push build images to registry
@@ -197,16 +271,13 @@ init() {
 
   # Pull images on each node
   pull_images
+
+  echo "Successfully initialized each nodes"
 }
 
 #-------------------------------------------------------------------------------
 
-# Generate a global docker_service.sh
-# file that is composed of all service
-# files found in the subdirecries of
-# the app path. Effectively, we are
-# copying some features from docker stack.
-scp_service_file() {
+generate_service_script() {
   # TODO - Perhaps instead of scanning with
   # find, read in from assets/services. This
   # way the user can specify the order of deployment
@@ -224,6 +295,8 @@ scp_service_file() {
 
   # Get paths to all docker_service files
   find $app_path -name docker_service.sh > $service_file_list
+
+  # Erase old service_file
   echo "" > $service_file
 
   # Loop through each service file
@@ -238,10 +311,30 @@ scp_service_file() {
   done <$service_file_list
 
   # Make it executable
-  chmod 777 $service_file
+  chmod +x $service_file
 
-  # Send the docker_service.sh to leader, and run it
+  echo "Succesfully generated deployment script"
+}
+
+#-------------------------------------------------------------------------------
+
+# Generate a global docker_service.sh
+# file that is composed of all service
+# files found in the subdirecries of
+# the app path. Effectively, we are
+# copying some features from docker stack.
+send_service_script() {
+  echo "Sending deployment script to leader: $(cat "$leader_file")"
   $UTIL scp_specific_nodes $leader_file $service_file
+  echo "Succesfuly sent deployment script to leader: $(cat "$leader_file")"
+}
+
+#-------------------------------------------------------------------------------
+
+execute_service_script() {
+  echo "Executing deployment script on leader: $(cat "$leader_file")"
+  $UTIL ssh_specific_nodes $leader_file ./docker_service.sh
+  echo "Successfully executed deployment script on leader: $(cat "$leader_file")"
 }
 
 #-------------------------------------------------------------------------------
@@ -258,13 +351,25 @@ service() {
   init
 
   # Generate docker_service.sh
-  # and send it to leader
-  scp_service_file
+  generate_service_script
 
-  # Execute docker_service.sh to kick off the services
-  $UTIL ssh_specific_nodes $leader_file ./docker_service.sh
+  # Send service script to leader
+  send_service_script
+
+  # Start services
+  execute_service_script
 }
 
 #-------------------------------------------------------------------------------
 
-"$@"
+main() {
+  echo "Deploying app from: $2"
+
+  declare_variables "${@:2}"
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

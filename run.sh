@@ -24,7 +24,7 @@ export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 # runnable with ./script_name.sh syntax
 # That way the appropriate shell
 # (bash, sh, expect) is run for a given script
-chmod 777 **/*.sh
+chmod +x **/*.sh
 
 #-------------------------------------------------------------------------------
 
