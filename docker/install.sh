@@ -32,7 +32,7 @@ send_assets() {
 # docker on all nodes.
 install_docker() {
   echo "Installing docker on each node"
-  $UTIL ssh_nodes ./setup.sh install_docker
+  $UTIL ssh_nodes ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
 }
 
@@ -224,6 +224,14 @@ join_swarm() {
 
 #-------------------------------------------------------------------------------
 
+start_portainer() {
+  echo "Starting portainer"
+  $UTIL ssh_specific_nodes $leader_file ./setup.sh start_portainer $COMMON_PASS
+  echo "Succesfully started portainer"
+}
+
+#-------------------------------------------------------------------------------
+
 # Executes all of the steps
 # that are required to start up
 # a new docker swarm.
@@ -259,6 +267,8 @@ new_swarm() {
 
   # Add nodes to swarm
   join_swarm
+
+  start_portainer
 
   echo "Successfully installed Docker and created swarm"
 }

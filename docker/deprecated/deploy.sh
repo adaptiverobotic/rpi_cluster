@@ -360,6 +360,14 @@ service() {
   execute_service_script
 }
 
+portainer() {
+  # NOTE - Don't care about deploying
+  # other stuff. Scripts are getting too
+  # complicated.
+
+  echo "Deploying portainer"
+}
+
 #-------------------------------------------------------------------------------
 
 main() {

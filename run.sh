@@ -210,14 +210,8 @@ docker_cluster() {
 
   install_docker
 
-  # Deploy Portainer for easy swarm management
-  deploy docker service $ROOT_DIR/docker/service/portainer/
-
   # Check that the cluster is up
   $UTIL delayed_action 10 "Health_Check" curl $(cat assets/leader):9000
-
-  # Deploy test application as proof of concept
-  # deploy docker service $ROOT_DIR/apps/test_app/
 }
 
 #-------------------------------------------------------------------------------

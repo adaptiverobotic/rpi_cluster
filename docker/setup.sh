@@ -68,6 +68,30 @@ uninstall_docker() {
 
 #-------------------------------------------------------------------------------
 
+start_portainer() {
+  echo "Starting portainer"
+
+  password=$1
+
+  docker volume create portainer
+  echo -n $password | docker secret create portainer-pass -
+
+
+  docker service create \
+  --name portainer \
+  --secret portainer-pass \
+  --mode global \
+  --constraint 'node.role == manager' \
+  --publish mode=host,target=9000,published=9000 \
+  --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  --mount type=volume,source=portainer,target=/data \
+  portainer/portainer \
+  --admin-password-file '/run/secrets/portainer-pass' \
+  -H unix:///var/run/docker.sock
+}
+
+#-------------------------------------------------------------------------------
+
 # Utility function that makes sure
 # we are uninstalling and reinstalling.
 # This is more diagnostic than anything else.

@@ -20089,3 +20089,1798 @@ verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Waiting 1 seconds to verify that tasks are stable...
 verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:6 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:21882): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (258 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './assets/manager'
+removed './assets/worker'
+removed './assets/user'
+removed './assets/portainer'
+removed './assets/ips'
+removed './assets/networks'
+removed './assets/services'
+removed './assets/images'
+removed './assets/volumes'
+removed './assets/secrets'
+removed './assets/clean'
+removed './assets/password'
+removed './assets/hostname'
+removed './assets/leader'
+removed directory './assets'
+removed './clean_workspace.sh'
+removed './docker_service.sh'
+removed './docker.sh'
+removed './setup.sh'
+Installing docker locally
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+cf2fc80137a5        portainer/portainer:latest   "/portainer -H unix:…"   15 minutes ago      Up 15 minutes       0.0.0.0:9000->9000/tcp   portainer.2rt89yvyxye1wkgwcdv7y37lj.rw8hd4g7y6dzfdhwjeiqyk43l
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (5caq0er8uowvbo31u9ipb3vew) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-1ra78hjgd4280way1gdh9ps65rg2oezglty83564y9cfu0ugn6-5ft484wkej0k7ly08e3wwpzp4 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:22942): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (294 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Installing docker locally
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (zqw1rmlajhyp6zuirl60x1ugp) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-50oksx8x1pd36cljz7skv3o33hb7eh3sn7spqiht1qscpvze6g-csp0mv9q5c5dvbktptfwszol2 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:23952): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (301 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Installing docker locally
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (vrfb3lqu2o54ygq3fa86jgbni) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-4tzjs70upjxe5aa7nzh7v965oi2m188f2oeci6dp0yddni651d-08l4uey216c7spfs6npk2bgwa 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+bash: .//home/pi/rpi_cluster/docker/portainer.sh: No such file or directory
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:24946): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 1s (164 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Installing docker locally
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (wikdi2jwnp6l0hrjo4uviseeb) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2em1zn8czhd5b9xe2pe8h588qospwe05uct85a2elwle4tn389-es2rrca6ireev4hkp33zu8tag 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+bash: .//home/pi/rpi_cluster/docker/portainer.sh: No such file or directory
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:25984): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (248 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Installing docker locally
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (yd8ggyu49sewdbt4ffp2xdkua) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-59e2a67iul6obmvpdk4hmkakkuexkcioyqc0mj25p2lfjt5x2p-4xntcm19s6o1idiacry590dvz 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+aaz0p72ctveayzb9xd1tf1z6g
+y0u4edblvvvwokscc65638tqc
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:30497): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (335 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Installing docker locally
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Docker is already installed
+Leaving swarm
+Node left the swarm.
+Successfully left swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (p6t7m5ytfesniglejlcv7e2ts) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-400hetahu10xayh2qwh371cq0g5ajjkfugjg2021ja5782alvq-eimill1ny6dvi7p669h9zmwbv 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+yojilwzwchu2ldj9ddn3wxb17
+portainer
+1mbjah3u6woqwiz2slsugs4f3
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:3160): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (314 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+Downloading install script from docker.com
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:5424): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:5805): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (msxexxuusmjvvmofx4uec6gs8) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-27ijkub2968ki1abocqwxihu3si0pyotjwvmqe425vnc3qz8o2-3bxrwhrz4re642fhnu1lw4aot 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+kg050xohrd04o66302it51a0f
+portainer
+ba96h37yfsjdo0lfo028kz8k9
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:9944): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (308 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:11598): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:11979): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (flrobovwhdp1ecll9p43vmtfz) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-21bu87ztxcokhlmoi0cdnz4f8vhq0k6lub9s8l9rar9p46yn0g-bcbyilsvsatf0dtsr9vauexk4 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+kbjy8rqij3frtzhenawetujkh
+v2pxzpqp4c6w7btsftfd0fz5z
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:14270): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 5s (36.3 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+35d9de9161a3        portainer/portainer:latest   "/portainer -H unix:…"   6 minutes ago       Up 6 minutes        0.0.0.0:9000->9000/tcp   portainer.flrobovwhdp1ecll9p43vmtfz.sustvm991pm1fqc993p8ae2lo
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Warning: Stopping docker.service, but it can still be activated by:
+  docker.socket
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:15645): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:16028): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (643dp63yb7ae4tkd13ms9hs6e) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2ouyyjkvp9nrldp40wunalftbq5t3lml5m3x5xlvpg27e24cn4-4k7a5v264cs4wcrlzv85oizgj 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Starting portainer
+portainer
+p06pylhpv08ppdbw8cz4glhbn
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+./setup.sh: line 85: -H: command not found
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:18325): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (266 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+04f8c2c7bff3        portainer/portainer:latest   "/portainer --admin-…"   7 minutes ago       Up 6 minutes        0.0.0.0:9000->9000/tcp   portainer.643dp63yb7ae4tkd13ms9hs6e.af67xhrms8uuxq15mfof4tomh
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:19687): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:20068): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (sfg5m5rd9h53o5b606otddgck) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3bz95p8y779cts7bp8hi606jptc0hffj4khwyucjliyhjujd8n-712nz3wzy9iib1si6i8i4h2dn 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Starting portainer
+portainer
+g3om0s0ye70x9vzbocccj2xpv
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+overall progress: 0 out of 1 tasks
+verify: Detected task failure
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+
+** (appstreamcli:27459): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (307 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer_password_file'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:29123): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:29504): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (kcrhqhe19d0jfjx5d8i4rb3ri) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-1levddzmjmu9x8vc34tuj6kov6lbesc35a1h5eo5gc42ilm217-0zxtxnllhvv38ly009wqypjf8 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Starting portainer
+portainer
+oif7n02d4haeu08w9byd4rsjl
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:31713): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (325 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer_password_file'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED              STATUS              PORTS                    NAMES
+a686c98c788c        portainer/portainer:latest   "/portainer --admin-…"   About a minute ago   Up About a minute   0.0.0.0:9000->9000/tcp   portainer.kcrhqhe19d0jfjx5d8i4rb3ri.wfvtd0i6alx989djk84sbp7os
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:604): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:985): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (rvq2syjlmxzojgrb37sws80hb) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2upduaieskhps3oy79ezzstq4290py4etibikl1d6foaiwnnb0-5ses9ksscgo8xxf5k243pie51 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Starting portainer
+portainer
+i5ne6axxxzdq54u84066ykwhv
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:3296): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 204 kB in 0s (309 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 353 not upgraded.
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './portainer_password_file'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+c4656f1c0548        portainer/portainer:latest   "/portainer --admin-…"   4 minutes ago       Up 4 minutes        0.0.0.0:9000->9000/tcp   portainer.rvq2syjlmxzojgrb37sws80hb.ycjlr51s32pmrtl700fsn37w4
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 353 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:4927): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:5318): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Swarm initialized: current node (fkx7j1x4ce2ls2t9ebydnu6k0) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-6c2y0rdhcn56za8re8frld2m9ycste2rmfy9j05bgpggp6tqcb-as7uveqsyijbqfu22tbv2kkvd 192.168.2.215:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+Generating join tokens for joining the new swarm
+Starting portainer
+portainer
+eygkau66w7v3m8260p52ah0wa
+uy3lbx846kb0n1q3l482wfkeq
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 5 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 4 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 3 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 2 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Waiting 1 seconds to verify that tasks are stable...
+verify: Service converged
