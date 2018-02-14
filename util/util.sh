@@ -4,18 +4,18 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-
-
 #-------------------------------------------------------------------------------
 
 declare_variables() {
-  # Specify ssh parameters
-  ssh_args="
+  general_ssh_args="
   -o LogLevel=error \
   -o ConnectTimeout=5 \
   -o IdentitiesOnly=yes \
   -o userknownhostsfile=/dev/null \
   -o stricthostkeychecking=no"
+
+  ssh_args="$general_ssh_args"
+  scp_args="$general_ssh_args"
 }
 
 #-------------------------------------------------------------------------------
@@ -23,8 +23,6 @@ declare_variables() {
 # SSH into a node and
 # execute a command
 my_ssh() {
-
-  # Format: user@ip
   local user_ip=$1; shift
   local args=$@
 
@@ -36,6 +34,10 @@ my_ssh() {
 
 # SCP some files
 # to a node
+
+# TODO - Merge scp_get and
+# this function so that we can
+# get multiple files
 my_scp() {
 
   # Format: user@ip
@@ -43,7 +45,7 @@ my_scp() {
   local args=$@
 
   # SCP files from local to remote
-  scp $ssh_args -r $args $user_ip:
+  scp $scp_args -r $args $user_ip:
 }
 
 #-------------------------------------------------------------------------------
@@ -53,20 +55,16 @@ my_scp() {
 # multiple files
 my_scp_get_file() {
   # Format: user@ip
-  user_ip=$1; shift
-
-  # Directory to write to
-  local_dir=$1 shift
-
-  # Files to download
-  args=$@
+  local user_ip=$1; shift
+  local local_dir=$1 shift
+  local args=$@
 
   # Make the local_dir
   # if it does not exist
   mkdir -p $local_dir
 
   # SCP the files from remove to local
-  scp $ssh_args -r $user_ip:\"$args\" $local_dir
+  scp $scp_args -r $user_ip:\"$args\" $local_dir
 }
 
 #-------------------------------------------------------------------------------
@@ -78,25 +76,24 @@ my_scp_get_file() {
 # Use this to automate SSH / SCP before
 # ssh keys are generated and copied to each node.
 my_sshpass() {
-
-  # Format: user@ip
-  # Format: ssh
-  user_ip=$1; shift
-  protocol=$1; shift
+  local user_ip=$1; shift
+  local protocol=$1; shift
+  local call=""
+  local args=$@
 
   # If we want to SSH and execute commands on a node
   if [[ $protocol == "ssh" ]]; then
 
-    call="$protocol $ssh_args -n $user_ip $@"
+    call="-n $user_ip $args"
 
   # If we want to SCP a file to a node
   elif [[ $protocol == "scp" ]]; then
 
-    call="$protocol $ssh_args -r "$@" $user_ip:"
+    call="-r "$args" $user_ip:"
 
   # We want to copy a public key toa node
   elif [[ $protocol == "ssh-copy-id" ]]; then
-    call="$protocol $ssh_args $@ $user_ip"
+    call="$args $user_ip"
 
   else
     echo "$protocol not supported"
@@ -105,7 +102,7 @@ my_sshpass() {
 
   # Make SSH or SCP call passing the password
   # in from a file to automate the process
-  sshpass -p $COMMON_PASS $call
+  sshpass -p $COMMON_PASS $protocol $ssh_args $call
 }
 
 #-------------------------------------------------------------------------------
@@ -114,8 +111,9 @@ my_sshpass() {
 # a file, ignore new line / empty strings.
 # Prints it to console
 num_lines() {
+  local file=$1
 
-  cat $1 | sed '/^\s*$/d' | wc -l
+  cat "$file" | sed '/^\s*$/d' | wc -l
 }
 
 #-------------------------------------------------------------------------------
@@ -219,7 +217,6 @@ scp_specific_nodes() {
   local ip_list=$1; shift
   local args=$@
 
-  # Send file list first
   loop_nodes $ip_list my_scp $args
 }
 
@@ -230,8 +227,6 @@ scp_specific_nodes() {
 # the global list of ips
 ssh_nodes() {
 
-  # Loop through nodes and
-  # run a specified script
   loop_nodes $IPS my_ssh $@
 }
 
@@ -269,8 +264,10 @@ sshpass_nodes() {
 # rather than relying on ssh keys. We
 # use this function before we generate keys.
 sshpass_specific_nodes() {
+  local ip_list=$1; shift
+  local args=$@
 
-  loop_nodes $1 my_sshpass ${@:2}
+  loop_nodes $ip_list my_sshpass $args
 }
 
 #-------------------------------------------------------------------------------
@@ -286,12 +283,11 @@ sshpass_specific_nodes() {
 clean_workspace() {
   echo "Clearing remote working directory"
 
-
   # TODO - Get this to work over SSH rather
   # than sending a script. I still don't know
   # why that doesn't work.
   echo "rm -rf ~/*" >> clean_home_dir.sh
-  chmod 777 clean_home_dir.sh
+  chmod +x clean_home_dir.sh
 
   # Clean the home directory of non-hidden files
   scp_specific_nodes $1 clean_home_dir.sh
@@ -319,9 +315,10 @@ reboot_nodes() {
 # not a command is is
 # installed on a device
 is_installed() {
+  local program=$1
 
   # Call the command
-  if $1; then
+  if "$program"; then
     return 0
   else
     return 1
@@ -330,11 +327,11 @@ is_installed() {
 
 #-------------------------------------------------------------------------------
 
-# Print this device's
-# ip address to stdout
+# Print this device's ip
 my_ip() {
 
-  # Specific to linux. will faill on Mac
+  # TODO - Find platform neutral way of
+  # getting ip address
   echo $(hostname -I | awk '{print $1}')
 }
 
@@ -343,16 +340,11 @@ my_ip() {
 # Executes a command after N seconds
 # with a real time countdown and message.
 delayed_action() {
-  delay=$1
+  local delay=$1; shift
+  local message=$2; shift
+  local action=$@
+  local secs=$(( $delay ))
 
-  # Get everything between quotes
-  message=$2
-
-  # TODO - Allow for spaces in arguments
-  # so that we can have a real message
-  action=${@:3}
-
-  secs=$(( $delay ))
   while [ $secs -gt 0 ]; do
      echo -ne "$message: $secs\033[0K\r"
      sleep 1
@@ -374,13 +366,14 @@ delayed_action() {
 # TODO - Maybe give more meaningful
 # output such as hh:mm:ss
 timed_action() {
-  START_TIME=$SECONDS
+  local action=$1
+  local START_TIME=$SECONDS
 
   "$@"
 
-  ELAPSED_TIME=$(($SECONDS - $START_TIME))
+  local ELAPSED_TIME=$(($SECONDS - $START_TIME))
 
-  echo "Completed $1 deployment in: $ELAPSED_TIME second(s)"
+  echo "Completed $action in: $ELAPSED_TIME second(s)"
 }
 
 #-------------------------------------------------------------------------------
