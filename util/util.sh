@@ -189,6 +189,8 @@ loop_nodes() {
     async=false
   fi
 
+  # async=true
+
   # Loop through each ip address
   # listed in input file
   while read ip; do
@@ -592,7 +594,10 @@ archive_old_logs() {
   done
 
   # Copy each file from current to old
-  # and append the deployment date
+  # and append the deployment date. However,
+  # we are not going to delete the old ones.
+  # That's because this function is always followed
+  # by clear_logs().
   for log in $(ls "$LOG_DIR");
   do
     cp "$LOG_DIR"/"$log" "$old_log_dir"/"$log"/"$log"-"$(cat $LAST_DEPLOYMENT)"
