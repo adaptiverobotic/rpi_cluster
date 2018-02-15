@@ -34,7 +34,6 @@ install_docker() {
     sudo usermod -aG docker $(whoami)
 
     # Must log out for changes to take place
-
     echo "Finished Docker install process"
   fi
 }
@@ -73,18 +72,22 @@ uninstall_docker() {
 start_portainer() {
   local password=$1
 
-  echo "Starting portainer"
+  echo "Starting portainer as docker service"
 
   # Pull image from docker registry
+  echo "Pulling docker image portainer/portainer from docker registry"
   docker pull portainer/portainer
 
   # Create necessary volume
+  echo "Creating persistant volume"
   docker volume create portainer
 
   # Create admin password as a docker secret
+  echo "Changing default admin password"
   echo -n $password | docker secret create portainer-pass -
 
   # Launch as detached process
+  echo "Launching portainer"
   docker service create \
   --detach \
   --name portainer \
@@ -99,6 +102,7 @@ start_portainer() {
   -H unix:///var/run/docker.sock
 
   # Sanity check
+  echo "Checking if service has launched"
   docker service ls
 }
 
@@ -147,9 +151,9 @@ init_swarm() {
   # Make a new swarm.
   echo "Initializing swarm, advertising ip: $ip"
 
-  # TODO - Maybe pipe this to /dev/null
-  # for security purposes??
-  docker swarm init --advertise-addr "$ip"
+  # Generate join token but pipe stdout to /dev/null
+  # so the join token is not exposed in the logs.
+  docker swarm init --advertise-addr "$ip" > /dev/null
 
   # Get the join-token commands for workers and managers and pipe
   # the output into respective script files. These script files
@@ -159,8 +163,7 @@ init_swarm() {
   docker swarm join-token manager | grep "docker" > manager_join_token.sh
 
   # Make the tokens runnable scripts
-  chmod 777 worker_join_token.sh
-  chmod 777 manager_join_token.sh
+  chmod +x worker_join_token.sh manager_join_token.sh
 
   # We will leave the scripts in our home directory. The sysadmin machine
   # that is facilitating the install process will expect them to be there. The sysadmin
@@ -170,4 +173,16 @@ init_swarm() {
 
 #-------------------------------------------------------------------------------
 
-"$@"
+main() {
+
+  # Reserved space for if there
+  # is anything we want to initialize
+  # before running functions such as
+  # variables, etc.
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

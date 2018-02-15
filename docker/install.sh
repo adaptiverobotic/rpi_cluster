@@ -184,7 +184,7 @@ init_swarm() {
 # join script, and execute it to finilize
 # the swarm creation process.
 join_swarm() {
-  echo "Adding nodes to swarm"
+  echo "Assembling nodes to swarm"
 
   # Count number of workers and managers
   local num_managers=$( $UTIL num_lines $manager_file)
@@ -220,6 +220,24 @@ join_swarm() {
   else
     echo "No managers to add to swarm"
   fi
+
+  echo "Succesfully assembled swarm"
+}
+
+#-------------------------------------------------------------------------------
+
+# Simply install docker
+# daemon on all nodes
+docker() {
+  echo "Installing docker daemon"
+
+  # Send setup files
+  send_assets
+
+  # Install docker
+  install_docker
+
+  echo "Successfully installed docker daemon"
 }
 
 #-------------------------------------------------------------------------------
@@ -239,17 +257,11 @@ start_portainer() {
 # Executes all of the steps
 # that are required to start up
 # a new docker swarm.
-new_swarm() {
-  echo "Installing Docker and creating swarm"
+swarm() {
+  echo "Creating docker swarm"
 
-  # Clear home directories
-  $UTIL clean_workspace $IPS
-
-  # Send setup files
-  send_assets
-
-  # Install docker
-  install_docker
+  # Install docker daemon
+  docker
 
   # Pick a leader
   select_leader
@@ -275,10 +287,7 @@ new_swarm() {
   # Start docker container
   start_portainer
 
-  # Clear home directories
-  $UTIL clean_workspace $IPS
-
-  echo "Successfully installed Docker and created swarm"
+  echo "Successfully created docker swarm"
 }
 
 #-------------------------------------------------------------------------------
@@ -289,10 +298,16 @@ main() {
   # Initialize globals
   declare_variables
 
+  # Clear home directory
+  $UTIL clean_workspace $IPS
+
   # Execute whatever
   # command read in
   # from command line
   "$@"
+
+  # Clear home directory
+  $UTIL clean_workspace $IPS
 }
 
 #-------------------------------------------------------------------------------

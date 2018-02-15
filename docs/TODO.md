@@ -1,5 +1,7 @@
 # To-do List
 
+* Deploy samba in docker instead of to straight os. That way everything is
+on top of docker and the only dependencies we have are ufw for port management
 * Change user name to match the service we are running. That way the hostname
 folder over kubernetes does not get impactd by docker or samba. We can then
 also get the clusters running as multiple things, such as k8s and swarm.

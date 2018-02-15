@@ -6,7 +6,13 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
 
+# Declare global settings
+# such as ssh and scp flags
 declare_variables() {
+
+  # Read general ssh flags in from a file because
+  # there are a lot of them. We will use these for
+  # both ssh and scp.
   general_ssh_args="$(cat assets/ssh_args_file)"
 
   ssh_args="$general_ssh_args"
@@ -63,6 +69,10 @@ my_scp_get() {
   # if it does not exist
   mkdir -p $local_dir
 
+  # NOTE - Loop through each arg
+  # and download one by one.
+  # idk why but passing all at
+  # once does not work.
   for file in $args; do
     scp $scp_args $COMMON_USER@$ip:$file $local_dir
   done
@@ -128,7 +138,6 @@ loop_nodes() {
 
   # NOTE - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
 
-  # TODO - pass async as flag
   local file=$1; shift
   local action=$1; shift
   local async=true
@@ -169,7 +178,7 @@ loop_nodes() {
     # it to the background.
     if [[ "$async" = true ]]; then
       # 1. We are running an inner subprocess that will pipe stout
-      # and stderr to a file
+      # and stderr to a file by its associates ip address
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
