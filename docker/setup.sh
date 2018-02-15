@@ -8,6 +8,7 @@ set -e
 # installed. If it is, then we
 # skip the installation process.
 install_docker() {
+
   echo "Installing docker locally"
 
   # Check that docker is installed

@@ -130,10 +130,33 @@ num_lines() {
 
 #-------------------------------------------------------------------------------
 
-# Loop through each node and either SCP
-# files to it, or SSH into it and execute
-# a specified script / command. This function
-# can run synchronously or asynchronously.
+# This function is the core of this util
+# script that makes this application work.
+# Provided a list of ips, and a command,
+# this function will loop through each ip
+# in the ip list and execute that command.
+# This function is used with my_ssh, my_scp, etc,
+# so the first argument is user@hostname. We
+# can expand it to work for any command if
+#  we create an auxiliary function that maps
+# the command to a function in this util file
+# or simply executes the command if it does not find
+# a function in this util script. By default, this function
+# runs asynchronously. That is, the process is kicked
+# off on each ip. We do not wait for ip1 to finish before
+# we start the command on ip2. If a list of ips that
+# has exactly 1 ip in it is passed, this function will run
+# in synchronous mode. For debugging purposes, we can
+# override this and run in synchronous mode for N nodes
+# by setting an environment variable $SYNC_MODE to be true.
+# That way we reserve the right to run specific parts of
+# our application in synchronous mode if that is necessary.
+# Provided this asynchrounous nature, logging becomes out of order.
+# We address this by logging to a log file associated with a given ip. The
+# logfile will take the form 192.168.2.xxx.log. Both
+# stdout and stderr are sent to this file in asynch and
+# sync mode. However, in synch mode, stdout and stderr
+# also appear on the console for easy debugging.
 loop_nodes() {
 
   # NOTE - See: https://stackoverflow.com/questions/356100/how-to-wait-in-bash-for-several-subprocesses-to-finish-and-return-exit-code-0
@@ -143,6 +166,7 @@ loop_nodes() {
   local async=true
   local args="$@"
   local result=0
+  local failed_pids=""
   local lines_in_files=$( num_lines "$file" )
 
   # Associative array mapping
@@ -165,6 +189,8 @@ loop_nodes() {
   elif [[ $lines_in_files -eq 1 ]]; then
     async=false
   fi
+
+  async=true
 
   # Loop through each ip address
   # listed in input file
@@ -204,29 +230,53 @@ loop_nodes() {
 
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
-    echo "Waiting for all processe(s) to finish:"
-    printf '%s\n' "${pids[@]}"
+    echo "Waiting for all processe(s) to finish..."
 
     # Loop through pids and wait
     # for them to complete.
     for pid in "${!map_pid_ip[@]}"
     do
-      echo "Process:"
-      echo "------------------"
-      echo "pid: $pid"
-      echo "ip:  ${map_pid_ip[$pid]}"
-      echo "------------------"
 
-      wait $pid || let "result=1"
+      # TODO - Delete this once
+      # we test on multiple nodes
+
+      # echo "Process:"
+      # echo "------------------"
+      # echo "pid: $pid"
+      # echo "ip:  ${map_pid_ip[$pid]}"
+      # echo "------------------"
+
+      # If a process failed,
+      # push its pid onto a list
+      # so that we know which logs
+      # to check later
+      if ! wait $pid; then
+
+        # Push onto list of failed pids
+        failed_pids="$failed_pids $pid"
+        result=1
+      else
+        # NOTE - Reserve this for if
+        # we want to do some sort of
+        # logging by pid, currently,
+        # do nothing
+        :
+      fi
     done
 
-    # Check exit status
-    # TODO - Create some sort of temporary
-    # mapping between PID and ip so that we
-    # know which node failed, and we know which
-    # log file to check
+    # Print path to log files of failed nodes
     if [[ $result -ne 0 ]]; then
-      echo "FAILURE - At least on process exited with a non-zero status"
+      echo "FAILURE - At least one process exited with a non-zero status"
+      echo "Please see the following log file(s):"
+      echo "-------------------------------------"
+
+      # Loop through failed pids
+      # and print their associated
+      # log file paths.
+      for pid in $failed_pids;
+      do
+        echo "$LOG_DIR/${map_pid_ip[$pid]}.log"
+      done
     fi
   fi
 
