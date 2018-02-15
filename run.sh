@@ -18,6 +18,7 @@ declare_variables() {
   export COMMON_HOST="$(cat $ASSETS/hostname)"
   export COMMON_PASS="$(cat $ASSETS/password)"
   export COMMON_USER="$(cat $ASSETS/user)"
+  export DEV_MODE=false
   export IPS="$ASSETS/ips"
   export LAST_DEPLOYMENT="$ASSETS/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"

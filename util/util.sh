@@ -162,7 +162,7 @@ loop_nodes() {
 
   local file=$1; shift
   local action=$1; shift
-  local async=true
+  local async=$SYNC_MODE
   local args="$@"
   local result=0
   local failed_pids=""
@@ -180,16 +180,20 @@ loop_nodes() {
   if [[ $lines_in_files -eq 0 ]]; then
     echo "Empty file: $file"
     return 1
+  fi
 
   # If we only have 1 node, we
   # might as well run in synchronous
   # mode so that we can see what's
   # happening. Good for debugging.
-  elif [[ $lines_in_files -eq 1 ]] || [[ $SYNC_MODE = true ]]; then
+  if [[ $lines_in_files -eq 1 ]]; then
     async=false
   fi
 
-  # async=true
+  # $DEV_MODE overrides all settings
+  if [[ $DEV_MODE = true ]]; then
+    async=false
+  fi
 
   # Loop through each ip address
   # listed in input file
