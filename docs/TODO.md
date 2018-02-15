@@ -1,8 +1,9 @@
 # To-do List
 
+* Ping subnet so that all ips come up when we run that first arp -a command on a new instll
 * Perhaps add debugging set +x or whatever the flag is so that function names
 or even etter, full commands are displayed.
-* Clean up the ip list.sh scriptto comply with standards
+* Clean up the ip list.sh script to comply with standards
 * Maybe we shouldn't deploy samba to container because that is platform specific.
 That it it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
 that the architecture of our nodes is x86, and the kernel is that of debian. However,

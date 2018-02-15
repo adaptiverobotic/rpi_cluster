@@ -1,10 +1,43 @@
 #!/bin/bash
 set -e
 
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
 declare_variables() {
-  echo ""
+  filters="assets/filters"
+}
+
+#-------------------------------------------------------------------------------
+
+# Figure out the subnet
+# dynamically
+echo_subnet() {
+  # Figure out how to only
+  # get first entry and strip off .xxx/24
+  local temp=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')
+  local subnet=($temp)
+  subnet=${subnet[0]}
+
+  # TODO - Temporary
+  subnet="192.168.2"
+
+  echo $subnet
+}
+
+#-------------------------------------------------------------------------------
+
+# Ping each ip to
+# enforce arp resolution
+ping_subnet() {
+  local subnet=$(echo_subnet)
+
+  echo "Pinging subnet $subnet.x"
+  for i in {1..254};
+  do
+    (ping $subnet.$i -c 1 -w 5  >/dev/null && echo "$subnet.$i" &)
+  done
 }
 
 #-------------------------------------------------------------------------------
@@ -46,82 +79,89 @@ check_this_device() {
   ip_macs+=(";$this_ip;$this_mac")
 }
 
-# Get absolute path  of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# Get paths to files for ips and filters
-ips="${DIR}/../assets/ips"
-filters="${DIR}/assets/filters"
+#-------------------------------------------------------------------------------
 
-echo "Creating list of ip addresses"
+genetate_list() {
+  echo "Creating list of ip addresses"
 
-# Delete old ip address list
-rm -f $ips
+  # Delete old ip address list
+  rm -f $IPS
 
-# Create new empty list file
-touch $ips
+  # Create new empty list file
+  touch $IPS
 
-# Read in all device on network info as single string in ; delimited list in format hostname;ip_address;mac_address
-temp=$(arp -a | sed 's/^\([^ ][^ ]*\) (\([0-9][0-9.]*[0-9]\)) at \([a-fA-F0-9:]*\)[^a-fA-F0-9:].*$/\1;\2;\3/')
+  # Read in all device on network info as single string in ; delimited list in format hostname;ip_address;mac_address
+  temp=$(arp -a | sed 's/^\([^ ][^ ]*\) (\([0-9][0-9.]*[0-9]\)) at \([a-fA-F0-9:]*\)[^a-fA-F0-9:].*$/\1;\2;\3/')
 
-# Convert list to array
-ip_macs=($temp)
+  # Convert list to array
+  ip_macs=($temp)
 
-# NOTE - Will fail on device without
-# eth0 network interface (laptops). We
-# Would only run this if we are initializing
-# the cluster from a Raspberry Pi, or whatever
-# the common hardware is for the cluster.
+  # NOTE - Will fail on device without
+  # eth0 network interface (laptops). We
+  # Would only run this if we are initializing
+  # the cluster from a Raspberry Pi, or whatever
+  # the common hardware is for the cluster.
 
-# check_this_device
+  # check_this_device
 
-# Loop through array of hostname;ip;mac mappings
-for i in "${ip_macs[@]}"
-do
-  # Boolean flag that we use
-  # to decide whether or not to
-  # add an ip to list of ips
-  valid=false
+  # Loop through array of hostname;ip;mac mappings
+  for i in "${ip_macs[@]}"
+  do
+    # Boolean flag that we use
+    # to decide whether or not to
+    # add an ip to list of ips
+    valid=false
 
-  # Separate ip and mac into separate variables
-  # TODO - Possibly shorten??
-  while IFS=';' read -ra ADDR; do
-    ip=${ADDR[1]}
-    mac=${ADDR[2]}
-  done <<< "$i"
+    # Separate ip and mac into separate variables
+    # TODO - Possibly shorten??
+    while IFS=';' read -ra ADDR; do
+      ip=${ADDR[1]}
+      mac=${ADDR[2]}
+    done <<< "$i"
 
-  # Check that $mac matches at least
-  # one of the filters specified
-  # in the assets/filter file
-  while read line; do
+    # Check that $mac matches at least
+    # one of the filters specified
+    # in the assets/filter file
+    while read line; do
 
-    # If $mac address begins with the
-    # mac address prefix specified by $line,
-    # then $mac is a valid address. Example:
-    # if $mac=12:34, and $line=12, then $mac is valid
-    if [[ $mac == $(echo $line)* ]]; then
-      valid=true
-      break
-    fi
-  done <$filters
+      # If $mac address begins with the
+      # mac address prefix specified by $line,
+      # then $mac is a valid address. Example:
+      # if $mac=12:34, and $line=12, then $mac is valid
+      if [[ $mac == $(echo $line)* ]]; then
+        valid=true
+        break
+      fi
+    done <$filters
 
-  # If the current $mac is valid,
-  # write its corresponding ip
-  # out to the ip_address file
-  if [[ $valid == true ]]; then
-    echo $ip >> $ips
-   fi
-done
+    # If the current $mac is valid,
+    # write its corresponding ip
+    # out to the ip_address file
+    if [[ $valid == true ]]; then
+      echo $ip >> $IPS
+     fi
+  done
+}
 
-# We now have a list of pingable ips for
-# all of the hardware that is intended to
-# be in the cluster. We will use this list
-# when looping through each node and running scripts.
+#-------------------------------------------------------------------------------
+
+display_list() {
+  echo ""
+  echo "List of ips:"
+  echo "------------"
+  cat "$IPS"
+  echo "------------"
+  echo ""
+}
 
 #-------------------------------------------------------------------------------
 
 main() {
   declare_variables
+  ping_subnet
+  genetate_list
+  display_list
 
   "$@"
 }
