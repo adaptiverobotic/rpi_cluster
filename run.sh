@@ -119,9 +119,16 @@ install() {
 # Power off and power on
 # all nodes in cluster
 restart_cluster() {
-  echo "Restarting the cluster"
+  echo "Rebooting the cluster"
 
   $UTIL reboot_nodes
+}
+
+#-------------------------------------------------------------------------------
+
+
+restart_cluster() {
+  echo "Restarting the cluster"
 }
 
 #-------------------------------------------------------------------------------
@@ -178,6 +185,9 @@ docker_cluster() {
 
 #-------------------------------------------------------------------------------
 
+# Move old logs to an archive
+# and clear the logs to make
+# space for new log files
 prepare_logs() {
   $UTIL archive_old_logs
   $UTIL clear_logs
@@ -185,15 +195,19 @@ prepare_logs() {
 
 #-------------------------------------------------------------------------------
 
+# Writes the date and time out to
+# a file that represents when this deployment
+# was kicked off. Used for logging.
+create_deployment_timestamp() {
+  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
-
   prepare_logs
-
-  # Write the timestamp of this deployment, so next time
-  # around the logs can be moved properly
-  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
-
+  create_deployment_timestamp
   "$@"
 }
 
