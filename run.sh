@@ -24,6 +24,14 @@ declare_variables() {
   export SYNC_MODE="false"
   export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 
+  # This is a hidden dir
+  # so it won't get pulled from
+  # github, so let's make sure
+  # that it is present so we don't
+  # error out when we try to write
+  # files to this directory
+  mkdir -p $LOG_DIR
+
   # Make sure every script is
   # runnable with ./script_name.sh syntax
   # That way the appropriate shell
@@ -170,22 +178,23 @@ docker_cluster() {
 
 #-------------------------------------------------------------------------------
 
+prepare_logs() {
+  $UTIL archive_old_logs
+  $UTIL clear_logs
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
 
-  $UTIL clear_logs
+  prepare_logs
 
   # Write the timestamp of this deployment, so next time
   # around the logs can be moved properly
   date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
 
-  if "$@"; then
-    :
-  else
-    echo "Exited with non-zero exit status. Please see logs"
-  fi
-
-  $UTIL archive_old_logs
+  "$@"
 }
 
 #-------------------------------------------------------------------------------

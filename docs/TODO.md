@@ -1,10 +1,5 @@
 # To-do List
 
-* Add log management mechanism. Should we continuously write out to one long log
-file, and perhaps just put a line-break before and after each deployment so we know
-where to start and stop. Or should we have separate folders by ip, and then have
-a unique time stamp per deployment. We will have many more files, but it will
-be way easier to track deployments. Its just more code to implement the second.
 * Maybe we shouldn't deploy samba to container because that is platform specific.
 That it it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
 that the architecture of our nodes is x86, and the kernel is that of debian. However,
