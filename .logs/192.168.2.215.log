@@ -197,3 +197,611 @@ Changing default admin password
 64pqus1lhhkor2tlq999e0oww
 Launching portainer
 mxy08utjt1b2ldhkklvxravn5
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-
+cat: echo_my_ip: No such file or directory
+Changed hostname in /etc/hostname to pi-docker-
+Changed hostname in /etc/hosts to pi-docker-
+New Hostname: pi-docker-
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Get:7 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+
+** (appstreamcli:7758): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (105 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 362 not upgraded.
+removed './assets/smb.conf'
+removed './assets/manager_join_token.sh'
+removed './assets/samba.sh'
+removed './assets/samba_Dockerfile'
+removed './assets/worker_join_token.sh'
+removed directory './assets'
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+e063fdcff530        portainer/portainer:latest   "/portainer --admin-…"   15 minutes ago      Up 15 minutes       0.0.0.0:9000->9000/tcp   portainer.zcl4ckz3o8by98r4r6h6dj4th.xhj5a8j8l08ycosmkezl35l9r
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 362 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:9126): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:9507): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Generating join tokens for joining the new swarm
+Starting portainer as docker service
+Pulling docker image portainer/portainer from docker registry
+Using default tag: latest
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+Creating persistant volume
+portainer
+Changing default admin password
+89gxjnvlhejgzxu5lzqf8gauz
+Launching portainer
+353027a0be7nq8mtw5kkv19tv
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up pi-docker-215
+Changed hostname in /etc/hostname to pi-docker-215
+Changed hostname in /etc/hosts to pi-docker-215
+New Hostname: pi-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Hit:4 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:7 https://download.docker.com/linux/ubuntu xenial InRelease
+
+** (appstreamcli:11884): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (182 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 362 not upgraded.
+removed './assets/smb.conf'
+removed './assets/manager_join_token.sh'
+removed './assets/samba.sh'
+removed './assets/samba_Dockerfile'
+removed './assets/worker_join_token.sh'
+removed directory './assets'
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+b0cab1a6066e        portainer/portainer:latest   "/portainer --admin-…"   2 minutes ago       Up 2 minutes        0.0.0.0:9000->9000/tcp   portainer.nyha8ktwkyk4sygolm3xowycq.ljgxc4ernkn9gfb0eph88zkf2
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 362 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:13285): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:13667): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Generating join tokens for joining the new swarm
+Starting portainer as docker service
+Pulling docker image portainer/portainer from docker registry
+Using default tag: latest
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+Creating persistant volume
+portainer
+Changing default admin password
+pv7pt5c8xr206frzyzdkbew5n
+Launching portainer
+kvjlesz4uqfmqu0y09vp0ey3s
+Removing all keys associated with  from authorized_keys
+Hostname:  was not in authorized keys or the file doesn't exist
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Setting up jod-docker-215
+Changed hostname in /etc/hostname to jod-docker-215
+Changed hostname in /etc/hosts to jod-docker-215
+New Hostname: jod-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:6 https://download.docker.com/linux/ubuntu xenial InRelease
+Hit:7 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+
+** (appstreamcli:15873): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 102 kB in 0s (250 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 362 not upgraded.
+removed './assets/smb.conf'
+removed './assets/manager_join_token.sh'
+removed './assets/samba.sh'
+removed './assets/samba_Dockerfile'
+removed './assets/worker_join_token.sh'
+removed directory './assets'
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+69a4f4ecfe22        portainer/portainer:latest   "/portainer --admin-…"   38 seconds ago      Up 37 seconds       0.0.0.0:9000->9000/tcp   portainer.15ts680cbiqqdjm47emp8b9x1.eono0tiilwpqawgnuq349fef7
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 362 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:17268): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:17649): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+This node was not part of a swarm or could not leave
+Error response from daemon: This node is not part of a swarm
+Initializing swarm, advertising ip: 192.168.2.215
+Generating join tokens for joining the new swarm
+Starting portainer as docker service
+Pulling docker image portainer/portainer from docker registry
+Using default tag: latest
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+Creating persistant volume
+portainer
+Changing default admin password
+rne1j2op0sip098nb9gp84oem
+Launching portainer
+0pcg5o0ybz0737nqcygm3hicz
+Removing all keys associated with  from authorized_keys
+./setup.sh: line 11: sed -i //d ~/.ssh/authorized_keys: No such file or directory
+Hostname:  was not in authorized keys or the file doesn't exist
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pi/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh -o 'LogLevel=error' -o 'ConnectTimeout=5' -o 'IdentitiesOnly=yes' -o 'userknownhostsfile=/dev/null' -o 'stricthostkeychecking=no' 'ubuntu@192.168.2.215'"
+and check to make sure that only the key(s) you wanted were added.
+
+Changing hostname in: /etc/hostname
+Old hostname in /etc/hostname: jod-docker-215
+New Hostname in /etc/hostname: jod-docker-215
+Ign:1 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial InRelease
+Hit:2 cdrom://Ubuntu 16.04.3 LTS _Xenial Xerus_ - Release amd64 (20170801) xenial Release
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [102 kB]
+Hit:5 https://download.docker.com/linux/ubuntu xenial InRelease
+Get:6 http://security.ubuntu.com/ubuntu xenial-security/main amd64 DEP-11 Metadata [67.4 kB]
+Get:7 http://security.ubuntu.com/ubuntu xenial-security/main DEP-11 64x64 Icons [72.2 kB]
+Get:8 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 DEP-11 Metadata [51.4 kB]
+Get:9 http://security.ubuntu.com/ubuntu xenial-security/universe DEP-11 64x64 Icons [85.1 kB]
+Hit:10 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:11 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [102 kB]
+Get:12 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 DEP-11 Metadata [308 kB]
+Get:13 http://archive.ubuntu.com/ubuntu xenial-updates/main DEP-11 64x64 Icons [219 kB]
+Get:14 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 DEP-11 Metadata [190 kB]
+Get:15 http://archive.ubuntu.com/ubuntu xenial-updates/universe DEP-11 64x64 Icons [272 kB]
+Get:16 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 DEP-11 Metadata [5,892 B]
+
+** (appstreamcli:19932): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
+Fetched 1,475 kB in 2s (618 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+ufw is already the newest version (0.35-0ubuntu2).
+sshpass is already the newest version (1.05-1).
+0 upgraded, 0 newly installed, 0 to remove and 362 not upgraded.
+removed './assets/smb.conf'
+removed './assets/manager_join_token.sh'
+removed './assets/samba.sh'
+removed './assets/samba_Dockerfile'
+removed './assets/worker_join_token.sh'
+removed directory './assets'
+removed './clean_workspace.sh'
+removed './manager_join_token.sh'
+removed './setup.sh'
+removed './worker_join_token.sh'
+Reinstalling docker
+Uninstalling docker
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                    NAMES
+7efb173b8b22        portainer/portainer:latest   "/portainer --admin-…"   6 minutes ago       Up 6 minutes        0.0.0.0:9000->9000/tcp   portainer.cnlthl7uy5lkh5ii9qf5eeh7q.bizcpwyv68sjkaloq2dsgrcij
+Purging docker
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  docker-ce*
+0 upgraded, 0 newly installed, 1 to remove and 362 not upgraded.
+After this operation, 168 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 198177 files and directories currently installed.)
+Removing docker-ce (18.02.0~ce-0~ubuntu) ...
+Purging configuration files for docker-ce (18.02.0~ce-0~ubuntu) ...
+Processing triggers for man-db (2.7.5-1) ...
+Removing left over files
+Installing docker locally
+Downloading install script from docker.com
+./setup.sh: line 15: /usr/bin/docker: No such file or directory
+# Executing docker install script, commit: 1d31602
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:21295): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial edge" > /etc/apt/sources.list.d/docker.list
++ [ ubuntu = debian ]
++ sudo -E sh -c apt-get update -qq >/dev/null
+
+** (appstreamcli:21677): CRITICAL **: Error while moving old database out of the way.
+AppStream cache update failed.
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
++ sudo -E sh -c docker version
+Client:
+ Version:	18.02.0-ce
+ API version:	1.36
+ Go version:	go1.9.3
+ Git commit:	fc4de44
+ Built:	Wed Feb  7 21:16:33 2018
+ OS/Arch:	linux/amd64
+ Experimental:	false
+ Orchestrator:	swarm
+
+Server:
+ Engine:
+  Version:	18.02.0-ce
+  API version:	1.36 (minimum version 1.12)
+  Go version:	go1.9.3
+  Git commit:	fc4de44
+  Built:	Wed Feb  7 21:15:05 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+If you would like to use Docker as a non-root user, you should now consider
+adding your user to the "docker" group with something like:
+
+  sudo usermod -aG docker ubuntu
+
+Remember that you will have to log out and back in for this to take effect!
+
+WARNING: Adding a user to the "docker" group will grant the ability to run
+         containers which can be used to obtain root privileges on the
+         docker host.
+         Refer to https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+         for more information.
+Enabling docker daemon
+Synchronizing state of docker.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable docker
+Starting docker daemon
+Enabling sudo-less docker
+Finished Docker install process
+Leaving swarm
+Error response from daemon: This node is not part of a swarm
+This node was not part of a swarm or could not leave
+Initializing swarm, advertising ip: 192.168.2.215
+Generating join tokens for joining the new swarm
+Starting portainer as docker service
+Pulling docker image portainer/portainer from docker registry
+Using default tag: latest
+latest: Pulling from portainer/portainer
+d1e017099d17: Pulling fs layer
+a23d8e6a837b: Pulling fs layer
+d1e017099d17: Verifying Checksum
+d1e017099d17: Download complete
+d1e017099d17: Pull complete
+a23d8e6a837b: Verifying Checksum
+a23d8e6a837b: Download complete
+a23d8e6a837b: Pull complete
+Digest: sha256:ea22d362cba64fe0aec1641534812fef84e09e21bef05a2c761f7c7ec8d7185e
+Status: Downloaded newer image for portainer/portainer:latest
+Creating persistant volume
+portainer
+Changing default admin password
+w6tgus0odi7dso6wjtr5nhkaf
+Launching portainer
+uyb0d2hudo3fyz2omod7cdu5j

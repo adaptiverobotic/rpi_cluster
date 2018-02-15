@@ -1,54 +1,76 @@
 #!/bin/bash
 set -e
 
-# hostname
-readonly etc_hostname="/etc/hostname"
-readonly hosts="/etc/hosts"
+#----------------------------------------------------------------------------------------
 
-# For creating host
-readonly user=$1
+# Echos the last 3 digits
+# of this device's IPv4 ip address
+echo_my_ip() {
+  # Is there a cleaner way?
+  local tmp0=$(hostname -I)
+  local tmp1=($tmp0)
+  local ip=${tmp1[0]}
+  local num=$(echo $ip | cut -d . -f 4)
 
-# We want the advertised hostname to take effect
-# immediately because if we are inserting nodes
-# into a cluster such as docker swarm, the hostname
-# from /etc/hostname will be used. However, the changes
-# will not take effect until the device reboots. So,
-# currently, the default hostname is used.
-# TODO - see https://askubuntu.com/questions/87665/how-do-i-change-the-hostname-without-a-restart/516898
+  echo $num
+}
 
-# Get this node's IP from
-# info about it's current
-# ssh connection
-# TODO - Abstract this to util.sh
-tmp0=$(hostname -I)
-tmp1=($tmp0)
-ip=${tmp1[0]}
+#----------------------------------------------------------------------------------------
 
-# Get last 3 digits from ip
-# TODO - Abstract this to util.sh
-num=$(echo $ip | cut -d . -f 4)
+declare_variables() {
+  local user=$1
+  readonly hostname=$user-$(echo_my_ip)
+}
 
-# if ip=192.168.2.100
-# if user=pi
-# hostname=pi-100
-hostname=$user-$num
+#----------------------------------------------------------------------------------------
 
-echo "Setting up $hostname"
+# Changes hostname in /etc/hostname
+change_hostname() {
+  local etc_hostname="/etc/hostname"
 
-# Change hostname in hostname /etc/hostname
-# TODO - Backup old /etc/hostname
-sudo rm -f $etc_hostname
-sudo touch $etc_hostname
-echo $hostname >> $etc_hostname
+  # We want the advertised hostname to take effect
+  # immediately because if we are inserting nodes
+  # into a cluster such as docker swarm, the hostname
+  # from /etc/hostname will be used. However, the changes
+  # will not take effect until the device reboots. So,
+  # currently, the default hostname is used.
+  # TODO - see https://askubuntu.com/questions/87665/how-do-i-change-the-hostname-without-a-restart/516898
 
-echo "Changed hostname in /etc/hostname to $hostname"
+  echo "Changing hostname in: $etc_hostname"
+  echo "Old hostname in $etc_hostname: $(cat $etc_hostname)"
 
-# Change host name in /etc/hosts
-# TODO - Backup old /etc/hosts
-cp $hosts $hosts.temp
-sed '$ d' $hosts.temp > $hosts
-rm -f $hosts.temp
-echo "127.0.1.1       $hostname" >> $hosts
+  # Change hostname in hostname /etc/hostname
+  # TODO - Backup old /etc/hostname
+  sudo rm -f $etc_hostname
+  sudo touch $etc_hostname
+  echo $hostname >> $etc_hostname
 
-echo "Changed hostname in /etc/hosts to $hostname"
-echo "New Hostname: $(cat /etc/hostname)"
+  echo "New Hostname in $etc_hostname: $(cat $etc_hostname)"
+}
+
+#----------------------------------------------------------------------------------------
+
+# Change hostname in /etc/hosts
+change_host() {
+  local hosts="/etc/hosts"
+
+  # Change host name in /etc/hosts
+  # TODO - Backup old /etc/hosts
+  cp $hosts $hosts.temp
+  sed '$ d' $hosts.temp > $hosts
+  rm -f $hosts.temp
+  echo "127.0.1.1       $hostname" >> $hosts
+
+}
+
+#----------------------------------------------------------------------------------------
+
+main() {
+  declare_variables "$@"
+  change_hostname
+  change_host
+}
+
+#----------------------------------------------------------------------------------------
+
+main "$@"
