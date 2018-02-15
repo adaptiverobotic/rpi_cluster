@@ -20,6 +20,7 @@ declare_variables() {
   export COMMON_USER="$(cat $ASSETS/user)"
   export IPS="$ASSETS/ips"
   export LOG_DIR="${ROOT_DIR}/.logs"
+  export SYNC_MODE="false"
   export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
 
   # Make sure every script is
@@ -58,7 +59,7 @@ ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
 
   # Enable passwordless ssh
-  ./ssh/install.sh
+  ./ssh/install.sh install
 }
 
 #-------------------------------------------------------------------------------
@@ -158,7 +159,7 @@ init() {
 # easy docker swarm management
 docker_cluster() {
   init docker
-  install docker swarm
+  install docker swarm portainer samba
 
   # Check that the cluster's portainer page is up is up
   local portainer_url="http://$(cat assets/leader):9000"

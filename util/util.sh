@@ -186,11 +186,11 @@ loop_nodes() {
   # might as well run in synchronous
   # mode so that we can see what's
   # happening. Good for debugging.
-  elif [[ $lines_in_files -eq 1 ]]; then
+  elif [[ $lines_in_files -eq 1 ]] || [[ $SYNC_MODE = true ]]; then
     async=false
   fi
 
-  async=true
+  # async=true
 
   # Loop through each ip address
   # listed in input file
@@ -218,9 +218,14 @@ loop_nodes() {
     # going onto the next action.
     else
 
+      # TODO - SYNC MODE IS NOT CATCHING ERRORS WHEN
+      # WE ARE SSH'ED INTO DOCKER BOX. FIGURE OUT WHY
+      # this might have to do with all this subprocess
+      # stuff that i am doing. it might not be necessary
+
       # Kick off a subprocess in foreground. Log its output to a file while
       # still making it visible on the console.
-      ( ( $action $COMMON_USER@$ip $args ) 2>&1 | tee -a $LOG_DIR/$ip.log )
+      ( $action $COMMON_USER@$ip $args ) 2>&1 | tee -a $LOG_DIR/$ip.log 
     fi
   done <$file
 

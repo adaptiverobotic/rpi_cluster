@@ -1,0 +1,14 @@
+FROM ubuntu
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install samba -y
+#RUN export DEBIAN_FRONTEND=noninteractive
+
+ADD samba.sh /samba.sh
+ADD smb.conf /etc/samba/smb.conf
+
+RUN chmod +x /samba.sh
+
+EXPOSE 88 137/udp 138/udp 139 445
+
+ENTRYPOINT ["/samba.sh"]

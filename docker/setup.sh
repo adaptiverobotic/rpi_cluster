@@ -67,11 +67,20 @@ uninstall_docker() {
 
 #-------------------------------------------------------------------------------
 
+# Wrapper to list
+# running docker services
+list_services() {
+  docker service ls
+}
+
+#-------------------------------------------------------------------------------
+
 # Run portainer service
 # on swarm so we manage
 # through web console.
 start_portainer() {
-  local password=$1
+  local user=$1
+  local pass=$2
 
   echo "Starting portainer as docker service"
 
@@ -85,7 +94,7 @@ start_portainer() {
 
   # Create admin password as a docker secret
   echo "Changing default admin password"
-  echo -n $password | docker secret create portainer-pass -
+  echo -n $pass | docker secret create portainer-pass -
 
   # Launch as detached process
   echo "Launching portainer"
@@ -101,10 +110,34 @@ start_portainer() {
   portainer/portainer \
   --admin-password-file '/run/secrets/portainer-pass' \
   -H unix:///var/run/docker.sock
+}
 
-  # Sanity check
-  echo "Checking if service has launched"
-  docker service ls
+#-------------------------------------------------------------------------------
+
+# Start samba as service
+# for easy NAS
+start_samba() {
+  local user=$1
+  local pass=$2
+
+  echo "Starting samba as docker service"
+  echo "Building from local Dockerfile"
+  docker build --file ./samba_Dockerfile -t samba .
+
+  echo "Creating persistant volume"
+  docker volume create samba
+
+  echo "Creating secrets: samba_user, samba_pass"
+  echo -n $user | docker secret create samba_user -
+  echo -n $pass | docker secret create samba_pass -
+
+  # Launch as detached process
+  echo "Launching samba"
+  docker service create \
+  --name samba \
+  --mode global \
+  samba
+
 }
 
 #-------------------------------------------------------------------------------

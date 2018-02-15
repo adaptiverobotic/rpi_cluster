@@ -22,7 +22,7 @@ declare_variables() {
 # to each node in the cluster
 send_assets() {
   echo "Sending assets to each node"
-  $UTIL scp_nodes $(pwd)/setup.sh
+  $UTIL scp_nodes $(pwd)/setup.sh $(pwd)/assets/samba.sh $(pwd)/assets/samba_Dockerfile
   echo "Succesfuly sent assets to each node"
 }
 
@@ -242,14 +242,29 @@ docker() {
 
 #-------------------------------------------------------------------------------
 
-# Start portainer as a
-# docker service so that
-# we can manager the swarm
-# from the web browser.
-start_portainer() {
-  echo "Starting portainer"
-  $UTIL ssh_specific_nodes $leader_file ./setup.sh start_portainer $COMMON_PASS
-  echo "Succesfully started portainer"
+start_service() {
+  local service=$1
+
+  echo "Starting docker service: $service"
+  $UTIL ssh_specific_nodes $leader_file ./setup.sh start_$service $COMMON_USER $COMMON_PASS
+  echo "Successfully started docker service: $service"
+}
+
+#-------------------------------------------------------------------------------
+
+# Start all desired services
+# that were passed as command
+# line arguments
+start_services() {
+  local services="$@"
+
+  # TODO - Print on new line as tabbed list
+  echo "Starting docker services: $services"
+  for service in $services;
+  do
+    start_service $service
+  done
+  echo "Succesfully started docker services: $services"
 }
 
 #-------------------------------------------------------------------------------
@@ -258,6 +273,8 @@ start_portainer() {
 # that are required to start up
 # a new docker swarm.
 swarm() {
+  local services="$@"
+
   echo "Creating docker swarm"
 
   # Install docker daemon
@@ -284,8 +301,8 @@ swarm() {
   # Add nodes to swarm
   join_swarm
 
-  # Start docker container
-  start_portainer
+  # Start desired services
+  start_services "$services"
 
   echo "Successfully created docker swarm"
 }
@@ -307,7 +324,7 @@ main() {
   "$@"
 
   # Clear home directory
-  $UTIL clean_workspace $IPS
+  # $UTIL clean_workspace $IPS
 }
 
 #-------------------------------------------------------------------------------
