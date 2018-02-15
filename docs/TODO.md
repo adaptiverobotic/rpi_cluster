@@ -1,9 +1,13 @@
 # To-do List
 
-* Ping subnet so that all ips come up when we run that first arp -a command on a new instll
+* Let's explore making $IPS read only. We can either read the file or delete it
+and make a new one. Obviously it will have write privelages when we are constructing
+it. but once the list.sh script is done. it will change the permissions on $IPS.
+In fact, $ASSETS and all of its files should become read only once we have started
+the script. If we put an API in front if this, the API will be responsible for
+generating these files.
 * Perhaps add debugging set +x or whatever the flag is so that function names
 or even etter, full commands are displayed.
-* Clean up the ip list.sh script to comply with standards
 * Maybe we shouldn't deploy samba to container because that is platform specific.
 That it it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
 that the architecture of our nodes is x86, and the kernel is that of debian. However,

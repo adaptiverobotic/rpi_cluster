@@ -5,13 +5,17 @@ set -e
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
+
+# Global variables
 declare_variables() {
-  filters="assets/filters"
+  # NOTE - Placeholder for if
+  # we need to declare globals
+  :
 }
 
 #-------------------------------------------------------------------------------
 
-# Figure out the subnet
+# NOTE - Figure out our subnet
 # dynamically
 echo_subnet() {
   # Figure out how to only
@@ -28,12 +32,14 @@ echo_subnet() {
 
 #-------------------------------------------------------------------------------
 
-# Ping each ip to
-# enforce arp resolution
+# Ping each ip in subnet.
+# We use this as an auxiliary function
+# to enforce arp resolution
 ping_subnet() {
   local subnet=$(echo_subnet)
 
-  echo "Pinging subnet $subnet.x"
+  echo "Pinging subnet $subnet.xxx"
+
   for i in {1..254};
   do
     (ping $subnet.$i -c 1 -w 5  >/dev/null && echo "$subnet.$i" &)
@@ -79,10 +85,19 @@ check_this_device() {
   ip_macs+=(";$this_ip;$this_mac")
 }
 
-
 #-------------------------------------------------------------------------------
 
-genetate_list() {
+# Build the list of ip addresses
+# that have a corresponding mac address
+# that meets a given criteria. The
+# criteria is specified by a file called
+# filters that containers a list of mac address
+# prefixes. If an ip address on the subnet begins
+# with at least one of the prefixes, it is
+# added to the list.
+generate_list() {
+  local filters="assets/filters"
+
   echo "Creating list of ip addresses"
 
   # Delete old ip address list
@@ -146,6 +161,25 @@ genetate_list() {
 
 #-------------------------------------------------------------------------------
 
+# Verifies that we actually
+# have ssh access to the list
+# of ips that we constructed.
+# ips that reject the connection,
+# or the username doesn't work for, etc,
+# will be removed from the list.
+# We also have an optional whitelist
+# of ips that even if they meet
+# the criteria, they will be removed.
+# Haha, see what I did there. Whitelist...
+# I'm black, q tu quieres q yo te diga...
+verify_list() {
+  echo "Verifying list"
+}
+
+#-------------------------------------------------------------------------------
+
+# Print final list
+# to console
 display_list() {
   echo ""
   echo "List of ips:"
@@ -160,10 +194,24 @@ display_list() {
 main() {
   declare_variables
   ping_subnet
-  genetate_list
+  generate_list
+  verify_list
   display_list
 
-  "$@"
+  # TODO - de hecho, si queremos esto.
+  # porque q tal si ya tenemos una lista de
+  # nodos q no se quedan en la misma red. puede
+  # ser q son servidores digital ocean. lo unico
+  # q tenemos q hacer es verificar q el usuario
+  # y la clave funcionan bien. no nos vale nada
+  # escanear la red local. o tambien, la api
+  # deberia ofrecer la opcion de dar la lista.
+  # no la teneos q generar en todos casos. pilas.
+
+  # Placeholder for if we
+  # want to accept command
+  # line arguments
+  # "$@"
 }
 
 #-------------------------------------------------------------------------------
