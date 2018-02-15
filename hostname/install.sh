@@ -4,10 +4,32 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-echo "Changing hostname of each node to takte the pattern: $COMMON_HOST-[provider]-xxx"
+#-------------------------------------------------------------------------------
 
-# SCP setup script to each node
-$UTIL scp_nodes $(pwd)/setup.sh
+# Placehold function for
+# declaring global variables
+declare_variables() {
+  readonly provider=$2
+  readonly hostname_pattern="$COMMON_HOST-$provider"
+}
 
-# Run setup script on each node
-$UTIL ssh_nodes sudo ./setup.sh $COMMON_HOST-$1
+#-------------------------------------------------------------------------------
+
+# Send and run setup script on each node
+change_hostnames() {
+  echo "Changing hostname of each node to take the pattern: $hostname_pattern-xxx"
+  $UTIL scp_ssh_nodes $(pwd)/setup.sh sudo ./setup.sh $hostname_pattern
+  echo "Successfully changed hostname of each node to take the pattern: $hostname_pattern-xxx"
+}
+
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables "$@"
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

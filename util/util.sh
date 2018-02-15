@@ -13,10 +13,9 @@ declare_variables() {
   # Read general ssh flags in from a file because
   # there are a lot of them. We will use these for
   # both ssh and scp.
-  general_ssh_args="$(cat assets/ssh_args_file)"
-
-  ssh_args="$general_ssh_args"
-  scp_args="$general_ssh_args -r"
+  readonly general_ssh_args="$(cat assets/ssh_args_file)"
+  readonly ssh_args="$general_ssh_args"
+  readonly scp_args="$general_ssh_args -r"
 }
 
 #-------------------------------------------------------------------------------
@@ -190,8 +189,6 @@ loop_nodes() {
     async=false
   fi
 
-  # async=true
-
   # Loop through each ip address
   # listed in input file
   while read ip; do
@@ -218,14 +215,16 @@ loop_nodes() {
     # going onto the next action.
     else
 
-      # TODO - SYNC MODE IS NOT CATCHING ERRORS WHEN
-      # WE ARE SSH'ED INTO DOCKER BOX. FIGURE OUT WHY
-      # this might have to do with all this subprocess
-      # stuff that i am doing. it might not be necessary
-
       # Kick off a subprocess in foreground. Log its output to a file while
       # still making it visible on the console.
-      ( $action $COMMON_USER@$ip $args ) 2>&1 | tee -a $LOG_DIR/$ip.log 
+      # NOTE - Careful using tee, if we want to capture exit status
+      # we need set -o pipefail, otherwise we get exit 0 for everything
+      # which will effectively negate the ffects of our global set -e
+      (
+        set -o pipefail
+        $action $COMMON_USER@$ip $args  2>&1 | tee -a $LOG_DIR/$ip.log
+      )
+
     fi
   done <$file
 
@@ -271,6 +270,7 @@ loop_nodes() {
 
     # Print path to log files of failed nodes
     if [[ $result -ne 0 ]]; then
+      echo ""
       echo "FAILURE - At least one process exited with a non-zero status"
       echo "Please see the following log file(s):"
       echo "-------------------------------------"
@@ -282,6 +282,7 @@ loop_nodes() {
       do
         echo "$LOG_DIR/${map_pid_ip[$pid]}.log"
       done
+      echo "-------------------------------------"
     fi
   fi
 

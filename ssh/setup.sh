@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-hostname=$1
+readonly hostname=$1
 
 # Encompass this in if so we don't error out if the
 # file dos not exist. This is only pertinent to new installs

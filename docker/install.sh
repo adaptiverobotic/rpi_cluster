@@ -11,9 +11,9 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # this script.
 declare_variables() {
   # List of ip addresses by role
-  leader_file="${ASSETS}/leader"
-  manager_file="${ASSETS}/manager"
-  worker_file="${ASSETS}/worker"
+  readonly leader_file="${ASSETS}/leader"
+  readonly manager_file="${ASSETS}/manager"
+  readonly worker_file="${ASSETS}/worker"
 }
 
 #-------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ declare_variables() {
 # to each node in the cluster
 send_assets() {
   echo "Sending assets to each node"
-  $UTIL scp_nodes $(pwd)/setup.sh $(pwd)/assets/samba.sh $(pwd)/assets/samba_Dockerfile
+  $UTIL scp_nodes $(pwd)/setup.sh $(pwd)/assets/
   echo "Succesfuly sent assets to each node"
 }
 

@@ -4,8 +4,8 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install samba -y
 #RUN export DEBIAN_FRONTEND=noninteractive
 
-ADD samba.sh /samba.sh
-ADD smb.conf /etc/samba/smb.conf
+ADD assets/samba.sh /samba.sh
+ADD assets/smb.conf /etc/samba/smb.conf
 
 RUN chmod +x /samba.sh
 

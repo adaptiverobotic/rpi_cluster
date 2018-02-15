@@ -13,7 +13,7 @@ declare_variables() {
 
   # Directory that contains
   # files related to ssh
-  ssh_dir=$HOME/.ssh/
+  readonly ssh_dir=$HOME/.ssh/
 
   # Create if doesn't exist
   mkdir -p $ssh_dir

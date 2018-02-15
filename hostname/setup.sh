@@ -2,11 +2,11 @@
 set -e
 
 # hostname
-etc_hostname="/etc/hostname"
-hosts="/etc/hosts"
+readonly etc_hostname="/etc/hostname"
+readonly hosts="/etc/hosts"
 
 # For creating host
-user=$1
+readonly user=$1
 
 # We want the advertised hostname to take effect
 # immediately because if we are inserting nodes

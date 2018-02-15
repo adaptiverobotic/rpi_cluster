@@ -122,7 +122,7 @@ start_samba() {
 
   echo "Starting samba as docker service"
   echo "Building from local Dockerfile"
-  docker build --file ./samba_Dockerfile -t samba .
+  docker build --file ./assets/samba_Dockerfile -t samba .
 
   echo "Creating persistant volume"
   docker volume create samba
@@ -132,6 +132,9 @@ start_samba() {
   echo -n $pass | docker secret create samba_pass -
 
   # Launch as detached process
+  # TODO - Finished creating settings
+  # and finish entry point script
+  # to create user, etc.
   echo "Launching samba"
   docker service create \
   --name samba \

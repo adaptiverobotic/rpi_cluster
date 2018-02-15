@@ -1,12 +1,12 @@
 # To-do List
 
-* Deploy samba in docker instead of to straight os. That way everything is
-on top of docker and the only dependencies we have are ufw for port management
-* Change user name to match the service we are running. That way the hostname
-folder over kubernetes does not get impactd by docker or samba. We can then
-also get the clusters running as multiple things, such as k8s and swarm.
+* Maybe we shouldn't deploy samba to container because that is platform specific.
+That it it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
+that the architecture of our nodes is x86, and the kernel is that of debian. However,
+we cannot. We want this application to be as platform independent as possible.
+* Changing use name may be a challenge in that by default pi's the root account is
+locked. We don't know which other distros is true for. Let's ommit that for the sake of platform independence.
 * Improve hostname change so changes take effect immediately
 * Move dependency install script to util as it will reused in several places
 * Fix SQLite3 syntax issues / corruption in test_app's client application
-* Maybe do Samba via Docker rather than in host OS? Might not be worth is though
 * Create simple flow chart / one page index.html to host on github pages that documents the project

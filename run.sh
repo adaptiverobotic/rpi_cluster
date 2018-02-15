@@ -69,7 +69,7 @@ hostname() {
   echo "Changing each node's hostname"
 
   # Change all the hostnames
-  ./hostname/install.sh $provider
+  ./hostname/install.sh change_hostnames $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ init() {
 # easy docker swarm management
 docker_cluster() {
   init docker
-  install docker swarm portainer samba
+  install docker swarm portainer
 
   # Check that the cluster's portainer page is up is up
   local portainer_url="http://$(cat assets/leader):9000"
