@@ -553,6 +553,7 @@ ignore_exit_status() {
 display_entry_point() {
   local url="$@"
 
+  echo ""
   echo "You can access the swarm at: $url"
   echo ""
   echo "Credentials:"
