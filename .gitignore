@@ -6,6 +6,8 @@ __pycache__
 *.db*
 .idea
 
+.logs
+.logs.old
 ! .logs/127.0.0.1
 
 docker/deploy/assets
@@ -18,3 +20,6 @@ DEFAULT_PASSWORD
 Chart.min.js
 jquery.min.js
 moment.js
+
+manager_join_token.sh
+worker_join_token.sh

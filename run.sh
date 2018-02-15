@@ -19,6 +19,7 @@ declare_variables() {
   export COMMON_PASS="$(cat $ASSETS/password)"
   export COMMON_USER="$(cat $ASSETS/user)"
   export IPS="$ASSETS/ips"
+  export LAST_DEPLOYMENT="$ASSETS/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
   export SYNC_MODE="false"
   export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
@@ -172,7 +173,19 @@ docker_cluster() {
 main() {
   declare_variables
 
-  "$@"
+  $UTIL clear_logs
+
+  # Write the timestamp of this deployment, so next time
+  # around the logs can be moved properly
+  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
+
+  if "$@"; then
+    :
+  else
+    echo "Exited with non-zero exit status. Please see logs"
+  fi
+
+  $UTIL archive_old_logs
 }
 
 #-------------------------------------------------------------------------------

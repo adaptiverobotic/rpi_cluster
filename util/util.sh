@@ -568,6 +568,39 @@ display_entry_point() {
 
 #-------------------------------------------------------------------------------
 
+# Delete old log files
+clear_logs() {
+  echo "Clearing logs from: $LOG_DIR"
+
+  rm -f $LOG_DIR/*
+}
+
+#-------------------------------------------------------------------------------
+
+# Archives log files from
+# previous deployments
+archive_old_logs() {
+  local old_log_dir="$ROOT_DIR/.logs.old"
+
+  echo "Moving old logs from $LOG_DIR to $old_log_dir"
+
+  # Make a folder for each log file
+  for dir in $(ls "$LOG_DIR");
+  do
+    # TODO - Regex to remove .log
+    mkdir -p "$old_log_dir"/"$dir"
+  done
+
+  # Copy each file from current to old
+  # and append the deployment date
+  for log in $(ls "$LOG_DIR");
+  do
+    cp "$LOG_DIR"/"$log" "$old_log_dir"/"$log"/"$log"-"$(cat $LAST_DEPLOYMENT)"
+  done
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
 

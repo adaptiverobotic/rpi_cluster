@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+
+#-------------------------------------------------------------------------------
+declare_variables() {
+  echo ""
+}
+
+#-------------------------------------------------------------------------------
+
 # Get this device's ip and mac, as it
 # is not going to be returned by the ARP broadcast.
 # We must manually append it to the list
@@ -109,3 +117,15 @@ done
 # all of the hardware that is intended to
 # be in the cluster. We will use this list
 # when looping through each node and running scripts.
+
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"
