@@ -76,7 +76,7 @@ finalize() {
   # Make changes official
   # NOTE - idk y but this works
   # when ssh from outside world
-  eval $(ssh-agent)
+  # eval $(ssh-agent)
   ssh-add
 }
 

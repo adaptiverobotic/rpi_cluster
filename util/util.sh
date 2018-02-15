@@ -162,7 +162,7 @@ loop_nodes() {
 
   local file=$1; shift
   local action=$1; shift
-  local async=$SYNC_MODE
+  local async=true
   local args="$@"
   local result=0
   local failed_pids=""
@@ -187,11 +187,6 @@ loop_nodes() {
   # mode so that we can see what's
   # happening. Good for debugging.
   if [[ $lines_in_files -eq 1 ]]; then
-    async=false
-  fi
-
-  # $DEV_MODE overrides all settings
-  if [[ $DEV_MODE = true ]]; then
     async=false
   fi
 
