@@ -10,12 +10,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Creates the local .ssh directory
 # if it does not already exist.
 declare_variables() {
-
-  # Directory that contains
-  # files related to ssh
-  readonly ssh_dir=$HOME/.ssh/
-
-  # Create if doesn't exist
+  readonly ssh_dir=$HOME/.ssh
   mkdir -p $ssh_dir
 }
 
@@ -25,7 +20,7 @@ declare_variables() {
 # and store it in ~/.ssh locally
 generate_keys() {
   echo "Generating public and private key pair"
-  echo "y" | ssh-keygen -f ${ssh_dir}id_rsa -t rsa -N '' > /dev/null
+  echo "y" | ssh-keygen -f $ssh_dir/id_rsa -t rsa -N '' > /dev/null
   echo "Successfully generated public and private key pair"
 }
 
@@ -36,7 +31,6 @@ generate_keys() {
 # using sshpass to automate
 # this before we have ssg keys
 send_assets() {
-
   echo "Sending setup script to each node"
   $UTIL sshpass_nodes scp $(pwd)/setup.sh
   echo "Successfully sent setup script to each node"
@@ -49,7 +43,7 @@ send_assets() {
 # that are associated with this machine.
 delete_keys() {
   echo "Deleting old keys"
-  $UTIL sshpass_nodes ssh ./setup.sh "$hostname"
+  $UTIL sshpass_nodes ssh ./setup.sh
   echo "Successfully deleted old keys"
 }
 
@@ -59,11 +53,8 @@ delete_keys() {
 # id_rsa.pub into authorized_keys
 # of each node
 send_keys() {
-  # Loop through each node
-  # and delete any old authorized_keys
-  # that are associate with this device
   echo "Sending public key to each node"
-  $UTIL sshpass_nodes ssh-copy-id -i ${ssh_dir}id_rsa.pub
+  $UTIL sshpass_nodes ssh-copy-id -i $ssh_dir/id_rsa.pub
   echo "Successfully sent public key to each node"
 }
 
@@ -82,10 +73,17 @@ finalize() {
 
 #-------------------------------------------------------------------------------
 
-# Calls necessary functions
-# to enable passwordless ssh
-# between this machine and each node
-install() {
+# NOTE - Main purposely does not
+# accept parameters. Every
+# time you call this script
+# everybody gets a new key.
+# no other option. For the time
+# being, this is the simplest
+# solution that works for the
+# scope of this project.
+main() {
+  declare_variables
+
   echo "Installing ssh keys on cluster"
 
   # Create key pair
@@ -108,12 +106,4 @@ install() {
 
 #-------------------------------------------------------------------------------
 
-main() {
-  declare_variables
-
-  "$@"
-}
-
-#-------------------------------------------------------------------------------
-
-main "$@"
+main

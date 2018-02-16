@@ -84,7 +84,7 @@ ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
 
   # Enable passwordless ssh
-  ./ssh/install.sh install
+  ./ssh/install.sh
 }
 
 # Everything above this line will not have an api binding. They are auxiliary
@@ -112,7 +112,7 @@ ip_list() {
 # nodes to match a specified pattern.
 hostname() {
   local provider=$1
-  
+
   echo "Changing each node's hostname"
   ./hostname/install.sh change_hostnames $provider
 }
