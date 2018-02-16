@@ -1,25 +1,27 @@
+# File generates by OS
 *DS_Store*
 .DS_Store
+.Trash-*
+
+# Application specific
 node_modules
 __pycache__
 *.db
 *.db*
 .idea
 
-.logs
-.logs.old
-! .logs/127.0.0.1
-
-docker/deploy/assets
-
-.Trash-*
-
-address
-DEFAULT_PASSWORD
-
+# JavaScript Dependencies
 Chart.min.js
 jquery.min.js
 moment.js
 
-manager_join_token.sh
-worker_join_token.sh
+# Log stuff
+.logs*
+
+# Docker files
+docker/deploy/assets
+docker/assets/manager
+docker/assets/leader
+docker/assets/worker
+docker/assets/manager_join_token.sh
+docker/assets/worker_join_token.sh

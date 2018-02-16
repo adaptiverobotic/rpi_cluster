@@ -11,9 +11,9 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # this script.
 declare_variables() {
   # List of ip addresses by role
-  readonly leader_file="${ASSETS}/leader"
-  readonly manager_file="${ASSETS}/manager"
-  readonly worker_file="${ASSETS}/worker"
+  readonly leader_file="$(pwd)/assets/leader"
+  readonly manager_file="$(pwd)/assets/manager"
+  readonly worker_file="$(pwd)/assets/worker"
 }
 
 #-------------------------------------------------------------------------------
@@ -48,7 +48,9 @@ select_leader() {
   echo $(head -n 1 $IPS) > $leader_file
 
   # Make sure that there is exactly only 1 leader
-  if [[ $($UTIL num_lines $leader_file) -ne 1 ]]; then
+  local lines=$($UTIL num_lines $leader_file)
+
+  if [[ $lines -ne 1 ]]; then
     echo "There can only be exactly 1 leader"
     return 1
   fi

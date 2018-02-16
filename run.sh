@@ -42,18 +42,33 @@ declare_variables() {
 
 #-------------------------------------------------------------------------------
 
-# Generates a list of ip addresses
-# of all of the nodes that will
-# participate in the cluster. Currently
-# we are scanning the network and adding
-# ip adddresses that match a certain prefix.
-# Right now, we are using the Raspberry Pi
-# prefix, but it works for any.
-ip_list() {
-  echo "Generating list of ips"
+# Move old logs to an archive
+# and clear the logs to make
+# space for new log files
+prepare_logs() {
+  $UTIL archive_old_logs
+  $UTIL clear_logs
+}
 
-  # Build ip address list
-  ./ip/list.sh
+#-------------------------------------------------------------------------------
+
+# Writes the date and time out to
+# a file that represents when this deployment
+# was kicked off. Used for management.
+create_deployment_timestamp() {
+  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
+}
+
+#-------------------------------------------------------------------------------
+
+# Configure firewall for a
+# given provider such as docker
+# swarm, kubernetes.
+firewall() {
+  local provider=$1
+
+  echo "Configuring each nodes' firewall for: $provider"
+  ./ufw/install.sh $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -72,8 +87,29 @@ ssh_keys() {
   ./ssh/install.sh install
 }
 
+# Everything above this line will not have an api binding. They are auxiliary
+# functoins that make the applicaiton work correctly. But, we do not want
+# these behaviors exosed.
+#===============================================================================
+
+# Generates a list of ip addresses
+# of all of the nodes that will
+# participate in the cluster. Currently
+# we are scanning the network and adding
+# ip adddresses that match a certain prefix.
+# Right now, we are using the Raspberry Pi
+# prefix, but it works for any.
+ip_list() {
+  echo "Generating list of ips"
+
+  # Build ip address list
+  ./ip/list.sh
+}
+
 #-------------------------------------------------------------------------------
 
+# Changes the hostname on all
+# nodes to match a specified pattern.
 hostname() {
   local provider=$1
   echo "Changing each node's hostname"
@@ -84,23 +120,13 @@ hostname() {
 
 #-------------------------------------------------------------------------------
 
-# Install dependencies
+# Install dependencies on
+# all nodes in cluster
 dependencies() {
   local provider=$1
 
   echo "Installing dependencies on all nodes"
   ./dependencies/install.sh $provider
-}
-
-#-------------------------------------------------------------------------------
-
-# Configure firewall for a
-# given provider
-firewall() {
-  local provider=$1
-
-  echo "Configuring each nodes' firewall"
-  ./ufw/install.sh $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -117,9 +143,9 @@ install() {
 
 #-------------------------------------------------------------------------------
 
-# Power off and power on
-# all nodes in cluster
-restart_cluster() {
+# Reboot all nodes
+# in cluster
+reboot_cluster() {
   echo "Rebooting the cluster"
 
   $UTIL reboot_nodes
@@ -127,12 +153,16 @@ restart_cluster() {
 
 #-------------------------------------------------------------------------------
 
-
+# Power off and power on
+# all nodes in cluster
 restart_cluster() {
   echo "Restarting the cluster"
 }
 
-#-------------------------------------------------------------------------------
+# NOTE - Everything below this line will not have an api binding. That is, they are
+# here for development purposes. But, they will be reimplemented on the api
+# side with better error handling between steps.
+#==============================================================================
 
 init() {
   provider=$1
@@ -142,7 +172,8 @@ init() {
   # addresses that represent the
   # list of nodes that will be in
   # the cluster
-  ip_list
+
+  # ip_list
 
   # Generate ssh keys, and ship
   # the public keys to each node
@@ -179,28 +210,9 @@ docker_cluster() {
   install docker swarm portainer
 
   # Check that the cluster's portainer page is up is up
-  local portainer_url="http://$(cat assets/leader):9000"
+  local portainer_url="http://$(cat docker/assets/leader):9000"
   $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
   $UTIL display_entry_point $portainer_url
-}
-
-#-------------------------------------------------------------------------------
-
-# Move old logs to an archive
-# and clear the logs to make
-# space for new log files
-prepare_logs() {
-  $UTIL archive_old_logs
-  $UTIL clear_logs
-}
-
-#-------------------------------------------------------------------------------
-
-# Writes the date and time out to
-# a file that represents when this deployment
-# was kicked off. Used for logging.
-create_deployment_timestamp() {
-  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
 }
 
 #-------------------------------------------------------------------------------
