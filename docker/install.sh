@@ -56,11 +56,15 @@ select_leader() {
     return 1
   fi
 
-  # Capture leader_ip
-  local leader_ip=$(cat $leader_file)
-  echo "Leader will be: $leader_ip"
+  echo ""
+  echo "Leader will be:"
+  echo "---------------"
+  echo "$(cat $leader_file)"
+  echo "---------------"
+  echo ""
   echo "Make sure that it's ip address does not change"
   echo "Either assign it a static ip or reserve it's dhcp lease"
+  echo ""
 }
 
 #-------------------------------------------------------------------------------
@@ -73,11 +77,17 @@ select_leader() {
 # get moved to the manager_file.
 select_workers() {
   echo "Generating list of worker node ips"
-  echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
 
+  # Grab all ips except the first, replace spaces with new lines
+  echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
+  echo ""
   echo "The following is a list of all non-leader node(s)"
   echo "NOTE: Half of these node(s) will be promoted to manager(s) to meet docker swarm quorum"
-  echo $(cat $worker_file)
+  echo "The rest will maintain at worker status:"
+  echo "----------------------------------------"
+  echo $(cat $worker_file) | tr " " "\n"
+  echo "----------------------------------------"
+  echo ""
 }
 
 #-------------------------------------------------------------------------------
@@ -168,50 +178,37 @@ init_swarm() {
 
 #-------------------------------------------------------------------------------
 
+# Adds either a list of workers
+# or a list of managers to swarm.
+join_swarm() {
+  local node_type=$1; shift
+  local node_file=$1
+  local num_nodes=$( $UTIL num_lines $node_file )
+
+  echo "Adding ${node_type}(s) to swarm"
+
+  if [[ $num_nodes > 0 ]]; then
+
+    echo "Sending and running $node_type join-token scipt on all ${node_type}(s)"
+    $UTIL scp_ssh_specific_nodes $node_file \
+          $(pwd)/assets/${node_type}_join_token.sh \
+          ./${node_type}_join_token.sh
+
+  else
+    echo "No ${node_type}(s) to add to swarm"
+  fi
+}
+
+#-------------------------------------------------------------------------------
+
 # Loop through all manager ips and
 # worker ips, send them the appropriate
 # join script, and execute it to finilize
 # the swarm creation process.
-join_swarm() {
+assemble_swarm() {
   echo "Assembling nodes to swarm"
-
-  # Count number of workers and managers
-  local num_managers=$( $UTIL num_lines $manager_file)
-  local num_workers=$( $UTIL num_lines $worker_file)
-
-  # TODO - duplicate code, abstract to function
-
-  # If there is at least one worker
-  # to add to the swarm
-  if [[ $num_workers > 0 ]]; then
-
-    # Send join-tokens to all nodes
-    echo "Sending worker join-token script to workers"
-    $UTIL scp_specific_nodes $worker_file $(pwd)/assets/worker_join_token.sh
-
-    # Execute join-token script
-    echo "Adding workers to swarm"
-    $UTIL ssh_specific_nodes $worker_file ./worker_join_token.sh
-
-  else
-    echo "No workers to add to swarm"
-  fi
-
-  # If there is at least 1 manager
-  # to deploy to
-  if [[ $num_managers > 0 ]]; then
-
-    # Send the join script
-    echo "Sending manager join-token script to managers"
-    $UTIL scp_specific_nodes $manager_file $(pwd)/assets/manager_join_token.sh
-
-    # Execute it
-    echo "Adding managers to swarm"
-    $UTIL ssh_specific_nodes $manager_file ./manager_join_token.sh
-  else
-    echo "No managers to add to swarm"
-  fi
-
+  join_swarm "worker" $worker_file
+  join_swarm "manager" $manager_file
   echo "Succesfully assembled swarm"
 }
 
@@ -219,16 +216,11 @@ join_swarm() {
 
 # Simply install docker
 # daemon on all nodes
-docker() {
-  echo "Installing docker daemon"
-
-  # Send setup files
+docker_daemon() {
+  echo "Installing docker daemon on each node"
   send_assets
-
-  # Install docker
   install_docker
-
-  echo "Successfully installed docker daemon"
+  echo "Successfully installed docker daemon on each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -254,8 +246,7 @@ start_services() {
 
   # TODO - Print on new line as tabbed list
   echo "Starting docker services: $services"
-  for service in $services;
-  do
+  for service in $services; do
     start_service $service
   done
   echo "Succesfully started docker services: $services"
@@ -271,33 +262,16 @@ swarm() {
 
   echo "Creating docker swarm"
 
-  # Install docker daemon
-  docker
-
-  # Pick a leader
+  # TODO - Rename that function, wtf
+  docker_daemon
   select_leader
-
-  # Select the workers
   select_workers
-
-  # Select the managers
   select_managers
-
-  # Disband old swarms
   disband_swarm
-
-  # Create new swarm
   init_swarm
-
-  # Download join tokens
   download_tokens
-
-  # Add nodes to swarm
-  join_swarm
-
-  # Start desired services
+  assemble_swarm
   start_services "$services"
-
   echo "Successfully created docker swarm"
 }
 
@@ -305,20 +279,10 @@ swarm() {
 
 # Kick off the script.
 main() {
-
-  # Initialize globals
   declare_variables
-
-  # Clear home directory
   $UTIL clean_workspace $IPS
-
-  # Execute whatever
-  # command read in
-  # from command line
   "$@"
-
-  # Clear home directory
-  # $UTIL clean_workspace $IPS
+  $UTIL clean_workspace $IPS
 }
 
 #-------------------------------------------------------------------------------

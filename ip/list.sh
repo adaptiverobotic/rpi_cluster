@@ -191,6 +191,16 @@ display_list() {
 
 #-------------------------------------------------------------------------------
 
+# Adds own mac address to the
+# whitelist of mac addresses
+# not to add even if the hardware
+# and credentials are appropriate
+whitelist_self() {
+  echo ""
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
   ping_subnet
