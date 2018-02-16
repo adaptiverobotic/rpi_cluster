@@ -1,23 +1,74 @@
 #!/bin/bash
 set -e
 
-echo "Installing dependencies"
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# Get absolute path of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+#-------------------------------------------------------------------------------
 
-# Get list of dependencies
-dependencies="${DIR}/assets/dependencies"
+# Global variables
+declare_variables() {
+  readonly provider=$2;
+  readonly dependencies="$(cat $ROOT_DIR/$provider/assets/dependencies)"
+}
 
-# Alias to import util script
-util="/bin/bash ${DIR}/../util/util.sh"
+#-------------------------------------------------------------------------------
 
-# Alias to ssh function in util script
-ssh_nodes="${util} ssh_nodes"
-scp_nodes="${util} scp_nodes"
+# Send setup script
+# to each node
+send_assets() {
+  echo "Sending dependency install script to each node"
+  $UTIL scp_nodes $(pwd)/setup.sh
+  echo "Successfully sent dependency install script to each node"
+}
 
-# SCP setup script to each node
-$scp_nodes ${DIR}/setup.sh
+#-------------------------------------------------------------------------------
 
-# Run setup script on each node
-$ssh_nodes /bin/bash setup.sh $(cat $dependencies) -y
+# Print dependency
+# list to the console
+display_dependencies() {
+  local install=$1
+
+  echo ""
+  echo "The following will be ${install}ed on each node:"
+  echo "------------------------------------------------"
+  printf '%s\n' "${dependencies[@]}"
+  echo "------------------------------------------------"
+  echo ""
+}
+
+#-------------------------------------------------------------------------------
+
+# Install dependencies
+# for a given provider
+# from each node
+install() {
+  display_dependencies "install"
+  $UTIL ssh_nodes ./setup.sh install "$dependencies"
+  echo "Successfully installed dependencies on each node"
+}
+
+#-------------------------------------------------------------------------------
+
+# Uninstall dependencies
+# for a given provider
+# from each node
+uninstall() {
+  display_dependencies "uninstall"
+  $UTIL ssh_nodes ./setup.sh uninstall "$dependencies"
+  echo "Successfully uninstalled dependencies from each node"
+}
+
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables "$@"
+
+  send_assets
+
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

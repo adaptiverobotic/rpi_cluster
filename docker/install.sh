@@ -10,10 +10,10 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # that will be reused throughout
 # this script.
 declare_variables() {
-  # List of ip addresses by role
-  readonly leader_file="$(pwd)/assets/leader"
-  readonly manager_file="$(pwd)/assets/manager"
-  readonly worker_file="$(pwd)/assets/worker"
+  readonly assets="$(pwd)/assets"
+  readonly leader_file="$assets/leader"
+  readonly manager_file="$assets/manager"
+  readonly worker_file="$assets/worker"
 }
 
 #-------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ declare_variables() {
 # to each node in the cluster
 send_assets() {
   echo "Sending assets to each node"
-  $UTIL scp_nodes $(pwd)/setup.sh $(pwd)/assets/
+  $UTIL scp_nodes $(pwd)/setup.sh $assets/
   echo "Succesfuly sent assets to each node"
 }
 
@@ -48,6 +48,7 @@ select_leader() {
   echo $(head -n 1 $IPS) > $leader_file
 
   # Make sure that there is exactly only 1 leader
+  # ip specified in the leader file
   local lines=$($UTIL num_lines $leader_file)
 
   if [[ $lines -ne 1 ]]; then
@@ -71,19 +72,11 @@ select_leader() {
 # such that the first half of these adddresses
 # get moved to the manager_file.
 select_workers() {
-  echo "Generating list of worker nodes"
-
-  # Delete old worker file
-  rm -fv $worker_file
-
-  # Get all but the first ip in the $IPS file.
-  # NOTE - This will not be our final list of
-  # workers. When we generate the list of managers
   echo "Generating list of worker node ips"
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
 
   echo "The following is a list of all non-leader node(s)"
-  echo "NOTE: Half of these will be promoted to managers to meet quarum"
+  echo "NOTE: Half of these node(s) will be promoted to manager(s) to meet docker swarm quorum"
   echo $(cat $worker_file)
 }
 
@@ -99,16 +92,10 @@ select_workers() {
 # with manager status can be picked and promoted
 # to leader status.
 select_managers() {
-  echo "Generating list of manager nodes"
-
-  # Delete old manager file
-  rm -fv $manager_file
-
-  # Get number of workers
   local num_workers=$( $UTIL num_lines $worker_file )
-
-  # Make half of them managers
   local num_managers=$(( $num_workers / 2 ))
+
+  echo "Generating list of manager nodes"
 
   # (n+1) / 2 = quorum
   echo "There are $num_workers worker(s)"
@@ -147,7 +134,7 @@ select_managers() {
 download_tokens() {
   local leader_ip=$(cat $leader_file)
 
-  echo "Downloading join-token scripts from leader: $(cat $leader_file)"
+  echo "Downloading join-token scripts from leader: $leader_ip"
   $UTIL my_scp_get $leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
   echo "Successfully downloaed join-token scripts from leader"
 }
@@ -191,6 +178,8 @@ join_swarm() {
   # Count number of workers and managers
   local num_managers=$( $UTIL num_lines $manager_file)
   local num_workers=$( $UTIL num_lines $worker_file)
+
+  # TODO - duplicate code, abstract to function
 
   # If there is at least one worker
   # to add to the swarm
@@ -257,6 +246,9 @@ start_service() {
 # Start all desired services
 # that were passed as command
 # line arguments
+# TODO - Change name of this function
+# if someone passes a service in named
+# 'service', we will spiral into an infinite loop
 start_services() {
   local services="$@"
 

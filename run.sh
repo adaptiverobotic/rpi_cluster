@@ -112,9 +112,8 @@ ip_list() {
 # nodes to match a specified pattern.
 hostname() {
   local provider=$1
+  
   echo "Changing each node's hostname"
-
-  # Change all the hostnames
   ./hostname/install.sh change_hostnames $provider
 }
 
@@ -126,7 +125,7 @@ dependencies() {
   local provider=$1
 
   echo "Installing dependencies on all nodes"
-  ./dependencies/install.sh $provider
+  ./dependencies/install.sh install $provider
 }
 
 #-------------------------------------------------------------------------------
