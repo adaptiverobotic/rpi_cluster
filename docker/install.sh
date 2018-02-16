@@ -44,7 +44,8 @@ install_docker() {
 select_leader() {
   echo "Selecting leader node"
 
-  # Write leader ip out to a file
+  # Pick first ip address in global ip list
+  # and write it out to the leader_file
   echo $(head -n 1 $IPS) > $leader_file
 
   # Make sure that there is exactly only 1 leader
@@ -52,7 +53,7 @@ select_leader() {
   local lines=$($UTIL num_lines $leader_file)
 
   if [[ $lines -ne 1 ]]; then
-    echo "There can only be exactly 1 leader"
+    echo "There must be exactly 1 leader"
     return 1
   fi
 
@@ -103,7 +104,7 @@ select_workers() {
 # to leader status.
 select_managers() {
   local num_workers=$( $UTIL num_lines $worker_file )
-  local num_managers=$(( $num_workers / 2 ))
+  local num_managers=$(( ($num_workers+1) / 2 ))
 
   echo "Generating list of manager nodes"
 
@@ -261,8 +262,6 @@ swarm() {
   local services="$@"
 
   echo "Creating docker swarm"
-
-  # TODO - Rename that function, wtf
   docker_daemon
   select_leader
   select_workers

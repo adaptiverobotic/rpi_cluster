@@ -190,12 +190,15 @@ loop_nodes() {
     async=false
   fi
 
+  echo "$action:"
+  echo "--------------------"
+
   # Loop through each ip address
   # listed in input file
   while read ip; do
 
     # Print the action that is being carried out
-    echo "$action: $COMMON_USER@$ip"
+    echo "$COMMON_USER@$ip"
 
     # Run in async mode. Essentially
     # kick off each subprocess and send
@@ -229,6 +232,9 @@ loop_nodes() {
     fi
   done <$file
 
+  echo "--------------------"
+  echo ""
+
   # If we ran in async mode,
   # await all subprocesses' completion
   if [[ "$async" = true ]]; then
@@ -236,20 +242,12 @@ loop_nodes() {
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
     echo "Waiting for all processe(s) to finish..."
+    echo ""
 
     # Loop through pids and wait
     # for them to complete.
     for pid in "${!map_pid_ip[@]}"
     do
-
-      # TODO - Delete this once
-      # we test on multiple nodes
-
-      # echo "Process:"
-      # echo "------------------"
-      # echo "pid: $pid"
-      # echo "ip:  ${map_pid_ip[$pid]}"
-      # echo "------------------"
 
       # If a process failed,
       # push its pid onto a list
@@ -284,6 +282,12 @@ loop_nodes() {
         echo "$LOG_DIR/${map_pid_ip[$pid]}.log"
       done
       echo "-------------------------------------"
+      echo ""
+
+    else
+      echo ""
+      echo "SUCCESS - All processes completed with exit status 0"
+      echo ""
     fi
   fi
 
@@ -461,6 +465,7 @@ delayed_action() {
   local action="$@"
   local secs=$(( $delay ))
 
+  # Count down
   while [ $secs -gt 0 ]; do
      echo -ne "$message: $secs\033[0K\r"
      sleep 1
@@ -570,9 +575,9 @@ display_entry_point() {
 #-------------------------------------------------------------------------------
 
 # Delete old log files
+# from log directory
 clear_logs() {
   echo "Clearing logs from: $LOG_DIR"
-
   rm -f $LOG_DIR/*
 }
 
@@ -580,23 +585,31 @@ clear_logs() {
 
 # Archives log files from
 # previous deployments
+# by doing the following:
+#
+# 1. Make a folder for each log file
+#
+# 2. Make a folder for each log file
+#
+# 3. Copy each file from current to old
+# and append the deployment date.
+#
+# We are not going to delete the old logs yet.
+# That's because this function is always followed
+# by clear_logs().
 archive_old_logs() {
   local old_log_dir="$ROOT_DIR/.logs.old"
 
   echo "Moving old logs from $LOG_DIR to $old_log_dir"
 
-  # Make a folder for each log file
+  # 1. Make appropriate folders
   for dir in $(ls "$LOG_DIR");
   do
     # TODO - Regex to remove .log
     mkdir -p "$old_log_dir"/"$dir"
   done
 
-  # Copy each file from current to old
-  # and append the deployment date. However,
-  # we are not going to delete the old ones.
-  # That's because this function is always followed
-  # by clear_logs().
+  # 2 / 3. Copy and rename
   for log in $(ls "$LOG_DIR");
   do
     cp "$LOG_DIR"/"$log" "$old_log_dir"/"$log"/"$log"-"$(cat $LAST_DEPLOYMENT)"

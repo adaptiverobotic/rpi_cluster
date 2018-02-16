@@ -167,27 +167,9 @@ init() {
   provider=$1
   echo "Initializing cluster settings for: $provider"
 
-  # Create a global list of ip
-  # addresses that represent the
-  # list of nodes that will be in
-  # the cluster
-
   # ip_list
-
-  # Generate ssh keys, and ship
-  # the public keys to each node
-  # to enable passwordless access
-  ssh_keys install
-
-  # Change all of the hostnames
-  # in the cluster to some common
-  # naming convention
+  ssh_keys
   hostname $provider
-
-  # TODO - Download dependencies
-  # depending on what we are deploying.
-  # Example, we do not want to download
-  # kubernetes if we are deploying docker swarm
   dependencies $provider
 
   # TODO - Open ports depending on
