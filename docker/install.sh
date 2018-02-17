@@ -29,11 +29,21 @@ send_assets() {
 #-------------------------------------------------------------------------------
 
 # Installs latest version of
-# docker on all nodes.
+# docker on each nodes
 install_docker() {
   echo "Installing docker on each node"
   $UTIL ssh_nodes ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
+}
+
+#-------------------------------------------------------------------------------
+
+# Uninstalled docker
+# from each node
+uninstall_docker() {
+  echo "Uninstalling docker from each node"
+  $UTIL ssh_nodes ./setup.sh uninstall_docker
+  echo "Succesfully uninstalled docker from each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -58,8 +68,7 @@ select_leader() {
   fi
 
   $UTIL print_as_list "Leader will be:" $(cat $leader_file)
-  echo "Make sure that it's ip address does not change"
-  echo "Either assign it a static ip or reserve it's dhcp lease"
+  $UTIL warn_static_ip
 }
 
 #-------------------------------------------------------------------------------
@@ -71,7 +80,7 @@ select_leader() {
 # such that the first half of these adddresses
 # get moved to the manager_file.
 select_workers() {
-  echo "Generating list of worker node ips"
+  echo "Generating list of non-leader node ip(s()"
 
   # Grab all ips except the first, replace spaces with new lines
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
@@ -80,7 +89,8 @@ select_workers() {
                       $(cat $worker_file)
 
   echo "NOTE: Half of these node(s) will be promoted to manager(s) to meet docker swarm quorum"
-  echo "The rest will maintain at worker status:"
+  echo "That is, for N nodes, a majority must have manager status. (N+1) / 2"
+  echo "The rest will maintain at worker status"
 }
 
 #-------------------------------------------------------------------------------
@@ -120,6 +130,8 @@ select_managers() {
 
   $UTIL print_as_list "The following node(s) will be manager(s):" \
         $(cat $manager_file)
+
+  $UTIL warn_static_ip
 
   $UTIL print_as_list "The following node(s) will be worker(s):" \
         $(cat $worker_file)
@@ -219,6 +231,12 @@ docker_daemon() {
 
 #-------------------------------------------------------------------------------
 
+# Matches the first argument
+# to a function in setup.sh
+# with the naming convertion
+# start_SERVICE_NAME. If the
+# function is not present, we
+# simply error out.
 start_service() {
   local service=$1
 

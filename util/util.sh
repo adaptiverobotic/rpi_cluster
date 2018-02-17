@@ -6,6 +6,110 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
 
+# Read a file in where each line
+# has two space delimited values,
+# and create. We loop through a file
+# line by line, separating the first
+# values between the first space and
+# storing the first value as the key,
+# and the second as the value in an
+# associative array.
+file_to_hashmap() {
+  local file="$@"
+  local key=""
+  local val=""
+  local entry=""
+  declare -A hashmap
+
+  while read line;
+  do
+    entry=($line)
+    key=${entry[0]}
+    val=${entry[1]}
+    hashmap[$key]=$val
+  done <$file
+
+  declare -p hashmap
+}
+
+#-------------------------------------------------------------------------------
+
+# Displays a associative
+# array in the following form:
+#
+# key: <key_1> val: <val_1>
+# key: <key_2> val: <val_2>
+#             .
+#             .
+#             .
+# key: <key_n> val: <val_n>
+#
+# NOTE - This is for debugging.
+# Not really useful in practice.
+print_hashmap() {
+  local args="$@"
+
+  # NOTE - This is the important line.
+  # We use this is combination with the
+  # aboe function file_to_hashmap() to
+  # get hashmaps from files
+  eval "declare -A hashmap="${args#*=}
+
+  for key in "${!hashmap[@]}"; do
+    printf 'key:%s \t val: %s\n' $key ${hashmap[$key]}
+  done
+}
+
+#-------------------------------------------------------------------------------
+
+# Prints a string in
+# a specified color. If the
+# color is not found, error out.
+print_in_color() {
+  local no_color="\033[0m"
+  local color=$1; shift
+  local message="$@"
+  local colors_file=$(pwd)/assets/colors
+  local str=$(file_to_hashmap $colors_file)
+
+  eval "declare -A hashmap="${str#*=}
+  echo -e "${hashmap[$color]}${message}${no_color}"
+}
+
+#-------------------------------------------------------------------------------
+
+print_advise() {
+  print_in_color "cyan" "$@"
+}
+
+print_error() {
+  print_in_color "red" "$@"
+}
+
+print_success() {
+  print_in_color "green" "$@"
+}
+
+print_warn() {
+  print_in_color "yellow" "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+# Write to console warning about
+# leader and managers having a
+# fixed ip addres.
+warn_static_ip() {
+  echo ""
+  print_warn "Make sure that the ip address(es) do(es) not change"
+  print_warn "Either assign static ip(s) or reserve the dhcp lease(es)"
+  echo ""
+}
+
+
+
+#-------------------------------------------------------------------------------
+
 # Echos length of an array
 # (or white space separated string)
 length() {

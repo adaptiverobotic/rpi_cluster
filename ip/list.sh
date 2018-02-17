@@ -106,6 +106,10 @@ generate_list() {
   # Create new empty list file
   touch $IPS
 
+  # TODO - Let's just do this manually so
+  # what the code is actually doing. But save
+  # it because its a nice regex. Just too complicated
+  # and not condusive to readability
   # Read in all device on network info as single string in ; delimited list in format hostname;ip_address;mac_address
   temp=$(arp -a | sed 's/^\([^ ][^ ]*\) (\([0-9][0-9.]*[0-9]\)) at \([a-fA-F0-9:]*\)[^a-fA-F0-9:].*$/\1;\2;\3/')
 
@@ -181,12 +185,7 @@ verify_list() {
 # Print final list
 # to console
 display_list() {
-  echo ""
-  echo "List of ips:"
-  echo "------------"
-  cat "$IPS"
-  echo "------------"
-  echo ""
+  $UTIL display_as_list "List of ips:" $(cat $IPS)
 }
 
 #-------------------------------------------------------------------------------
@@ -195,6 +194,14 @@ display_list() {
 # whitelist of mac addresses
 # not to add even if the hardware
 # and credentials are appropriate
+# TODO - Remember to add ALL mac
+# addresses for all interfaces. That
+# way this machine does not accidently
+# end up in the list and we can also
+# do sysadmin stuff from similar hardware
+# instead of having a whole laptop
+# for this. That way we have ONE entry
+# point to our cluster.
 whitelist_self() {
   echo ""
 }

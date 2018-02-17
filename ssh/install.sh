@@ -60,6 +60,20 @@ send_keys() {
 
 #-------------------------------------------------------------------------------
 
+# Disables password login
+# over ssh. NOTE - ONLY CALL
+# THIS AFTER WE HAVE VERIFIED THAT
+# SSH KEYS HAVE BEEN PROPERLY
+# ADMINISTERED. OTHERWISE WE
+# WILL BE LOCKED OUT OF OUR CLUSTER
+disable_password_login() {
+  echo "Disabling password login on each node"
+  # $UTIL sshpass_nodes ./setup.sh disable_password_login
+  echo "Successfully disabled password login on each node"
+}
+
+#-------------------------------------------------------------------------------
+
 # For whatever reason,
 # I have to run this.
 # TODO - Figure out why
@@ -82,25 +96,14 @@ finalize() {
 # solution that works for the
 # scope of this project.
 main() {
-  declare_variables
-
   echo "Installing ssh keys on cluster"
-
-  # Create key pair
+  declare_variables
   generate_keys
-
-  # Setup script
   send_assets
-
-  # Delete old keys
   delete_keys
-
-  # Send new keys
   send_keys
-
-  # IDK
+  disable_password_login
   finalize
-
   echo "Successfully installed ssh keys on cluster"
 }
 

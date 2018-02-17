@@ -200,6 +200,9 @@ docker_cluster() {
 
 main() {
   declare_variables
+
+  $UTIL print_in_color "light_cyan" "THIS IS MESSAGE"
+
   prepare_logs
   create_deployment_timestamp
   "$@"
