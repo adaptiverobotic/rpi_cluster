@@ -32,7 +32,7 @@ send_assets() {
 # docker on each nodes
 install_docker() {
   echo "Installing docker on each node"
-  $UTIL ssh_nodes ./setup.sh reinstall_docker
+  # $UTIL ssh_nodes ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
 }
 
@@ -106,7 +106,7 @@ select_workers() {
 # to leader status.
 select_managers() {
   local num_workers=$( $UTIL num_lines $worker_file )
-  local num_managers=$(( ($num_workers+1) / 2 ))
+  local num_managers=$(( ($num_workers + 1) / 2 ))
 
   echo "Generating list of manager nodes"
 
@@ -214,7 +214,7 @@ join_swarm() {
 assemble_swarm() {
   echo "Assembling nodes to swarm"
   join_swarm "worker" $worker_file
-  join_swarm "manager" $manager_file
+  # join_swarm "manager" $manager_file
   echo "Succesfully assembled swarm"
 }
 
@@ -277,7 +277,7 @@ swarm() {
   docker_daemon
   select_leader
   select_workers
-  select_managers
+  # select_managers
   disband_swarm
   init_swarm
   download_tokens

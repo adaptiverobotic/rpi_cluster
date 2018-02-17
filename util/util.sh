@@ -68,28 +68,42 @@ print_hashmap() {
 print_in_color() {
   local no_color="\033[0m"
   local color=$1; shift
-  local message="$@"
+  local c_message=$1; shift
+  local nc_message=$1;
   local colors_file=$(pwd)/assets/colors
   local str=$(file_to_hashmap $colors_file)
 
   eval "declare -A hashmap="${str#*=}
-  echo -e "${hashmap[$color]}${message}${no_color}"
+
+  # Get color from hashmap, print color code, then the colored
+  # message, then print no color code, and print message without color
+  echo -e "${hashmap[$color]}${c_message}${no_color}${nc_message}"
 }
 
 #-------------------------------------------------------------------------------
 
+# Prints in cyan
 print_advise() {
   print_in_color "cyan" "$@"
 }
 
+#-------------------------------------------------------------------------------
+
+# Prints in red
 print_error() {
   print_in_color "red" "$@"
 }
 
+#-------------------------------------------------------------------------------
+
+# Prints in green
 print_success() {
   print_in_color "green" "$@"
 }
 
+#-------------------------------------------------------------------------------
+
+# Prints in yellow
 print_warn() {
   print_in_color "yellow" "$@"
 }
@@ -105,8 +119,6 @@ warn_static_ip() {
   print_warn "Either assign static ip(s) or reserve the dhcp lease(es)"
   echo ""
 }
-
-
 
 #-------------------------------------------------------------------------------
 
@@ -381,6 +393,7 @@ loop_nodes() {
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
+
       ( ( $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
 
       # Keep a list of process ids
@@ -443,7 +456,7 @@ loop_nodes() {
       # TODO - Figure out how to get
       # a list of just of ips and send
       # that to the print_as_list() function
-      echo "FAILURE - At least one process exited with a non-zero status"
+      print_error "FAILURE: " "At least one process exited with a non-zero status"
       echo "Please see the following log file(s):"
       echo "-------------------------------------"
 
@@ -457,7 +470,7 @@ loop_nodes() {
       echo "-------------------------------------"
 
     else
-      echo "SUCCESS - All processe(s) completed successfully"
+      print_success "SUCCESS: " "All processe(s) completed successfully"
       echo ""
     fi
   fi
@@ -696,10 +709,10 @@ health_check() {
   while [ $counter -le $attempts ]; do
 
     if delayed_action $action; then
-      echo "Success"
+      print_success "SUCCESS: " "Health check passed"
       return 0
     else
-      echo "Failure: $(( $attempts - $counter )) attempt(s) remaining"
+      print_error "FAILURE: " "$(( $attempts - $counter )) attempt(s) remaining"
     fi
 
     ((counter++))

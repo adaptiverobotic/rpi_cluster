@@ -146,7 +146,6 @@ install() {
 # in cluster
 reboot_cluster() {
   echo "Rebooting the cluster"
-
   $UTIL reboot_nodes
 }
 
@@ -156,6 +155,7 @@ reboot_cluster() {
 # all nodes in cluster
 restart_cluster() {
   echo "Restarting the cluster"
+  $UTIL restart_nodes
 }
 
 # NOTE - Everything below this line will not have an api binding. That is, they are
@@ -200,9 +200,6 @@ docker_cluster() {
 
 main() {
   declare_variables
-
-  $UTIL print_in_color "light_cyan" "THIS IS MESSAGE"
-
   prepare_logs
   create_deployment_timestamp
   "$@"

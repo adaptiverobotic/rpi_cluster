@@ -1,9 +1,7 @@
 # To-do List
 
-* Make a function in util that displays a list separating by space. get longest
-string in list and make line based off of that length.
-
-* util, get array length
+* Implement source util/util so that we are not spawning
+new shells for each ./util.sh func call
 
 * scp send is async, but right now scp get is sync only because we do not have a facility
 for making sure that if we are copying files with the same name from different nodes (highly probably)
