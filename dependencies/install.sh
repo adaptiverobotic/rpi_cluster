@@ -29,12 +29,7 @@ send_assets() {
 display_dependencies() {
   local install=$1
 
-  echo ""
-  echo "The following will be ${install}ed on each node:"
-  echo "------------------------------------------------"
-  printf '%s\n' "${dependencies[@]}"
-  echo "------------------------------------------------"
-  echo ""
+  $UTIL print_as_list "The following programs will be ${install}ed:" $dependencies
 }
 
 #-------------------------------------------------------------------------------

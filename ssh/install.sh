@@ -20,7 +20,7 @@ declare_variables() {
 # and store it in ~/.ssh locally
 generate_keys() {
   echo "Generating public and private key pair"
-  echo "y" | ssh-keygen -f $ssh_dir/id_rsa -t rsa -N '' > /dev/null
+  echo "y" | ssh-keygen -f $ssh_dir/id_rsa -t rsa -N ''
   echo "Successfully generated public and private key pair"
 }
 

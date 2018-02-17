@@ -6,6 +6,75 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
 
+# Echos length of an array
+# (or white space separated string)
+length() {
+  echo "$#"
+}
+
+#-------------------------------------------------------------------------------
+
+# Echos length in characters
+str_length() {
+  echo -n "$@" | wc -c
+}
+
+#-------------------------------------------------------------------------------
+
+# Prints N hyphens
+# and a new line character
+print_dashes() {
+  for ((i=1;i<=$1;i++));
+  do
+     printf '-'
+  done
+
+  printf '\n'
+}
+
+#-------------------------------------------------------------------------------
+
+# Echoes longest string
+# in array
+longest_string() {
+  local array="$@"
+  local max_str=$1
+
+  # Get string with max length
+  for val in $array;
+  do
+    x=$(str_length $val)
+    y=$(str_length $max_str)
+    if [[ $x > $y ]]; then
+      max_str=$val
+    fi
+  done
+
+  echo $max_str
+}
+
+#-------------------------------------------------------------------------------
+
+# Takes a space separated list
+# with a line above and below
+# based off of the longest string
+# in the list
+print_as_list() {
+  local message=$1; shift
+  local args="$@"
+  local str=$(longest_string $args)
+  local num_dashes=$(str_length $str)
+
+  echo ""
+  echo $message
+  print_dashes $num_dashes
+  printf '%s\n' $@
+  print_dashes $num_dashes
+  echo ""
+}
+
+#-------------------------------------------------------------------------------
+
 # Declare global settings
 # such as ssh and scp flags
 declare_variables() {
@@ -190,15 +259,14 @@ loop_nodes() {
     async=false
   fi
 
-  echo "$action:"
-  echo "--------------------"
+  # Print the action being carried out
+  # and the list of affected ip addresses
+  print_as_list "$action:" $(cat $file)
 
   # Loop through each ip address
   # listed in input file
   while read ip; do
 
-    # Print the action that is being carried out
-    echo "$COMMON_USER@$ip"
 
     # Run in async mode. Essentially
     # kick off each subprocess and send
@@ -225,15 +293,15 @@ loop_nodes() {
       # we need set -o pipefail, otherwise we get exit 0 for everything
       # which will effectively negate the ffects of our global set -e
       (
+        # TODO - Figure out how to add some prefix
+        # to line that indicate that these logs are
+        # coming front an ssh session rather than locally.
         set -o pipefail
         $action $COMMON_USER@$ip $args  2>&1 | tee -a $LOG_DIR/$ip.log
       )
 
     fi
   done <$file
-
-  echo "--------------------"
-  echo ""
 
   # If we ran in async mode,
   # await all subprocesses' completion
@@ -242,7 +310,6 @@ loop_nodes() {
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
     echo "Waiting for all processe(s) to finish..."
-    echo ""
 
     # Loop through pids and wait
     # for them to complete.
@@ -269,7 +336,9 @@ loop_nodes() {
 
     # Print path to log files of failed nodes
     if [[ $result -ne 0 ]]; then
-      echo ""
+      # TODO - Figure out how to get
+      # a list of just of ips and send
+      # that to the print_as_list() function
       echo "FAILURE - At least one process exited with a non-zero status"
       echo "Please see the following log file(s):"
       echo "-------------------------------------"
@@ -282,11 +351,9 @@ loop_nodes() {
         echo "$LOG_DIR/${map_pid_ip[$pid]}.log"
       done
       echo "-------------------------------------"
-      echo ""
 
     else
-      echo ""
-      echo "SUCCESS - All processes completed with exit status 0"
+      echo "SUCCESS - All processe(s) completed successfully"
       echo ""
     fi
   fi
@@ -419,14 +486,29 @@ clean_workspace() {
 
 #-------------------------------------------------------------------------------
 
-# Power off and power
-# on each node.
+# TODO - Put some sort of user defined delay
+# for how long we will give a given node to
+# turn back on. If not, consider it unreachable
+# and error out. Perhaps this can be the same
+# function that we use when we generate out ip
+# list when we verify that a node is reachable.
+# before it gets added to our global list of ips.
+
+# Reboot all nodes
 reboot_nodes() {
 
   # Power off and reboot
   # each node in cluster
   # TODO - Need to ignore error when ssh is closed
-  ssh_nodes echo "rebooting"; (sleep 1 && sudo reboot &) && exit
+  ssh_nodes echo "Rebooting nodes"; (sleep 1 && sudo reboot &) && exit
+}
+
+#-------------------------------------------------------------------------------
+
+# Power off and power
+# on each node
+restart_nodes() {
+    ssh_nodes echo "Restarting nodes"; (sleep 1 && sudo restart &) && exit
 }
 
 #-------------------------------------------------------------------------------
@@ -533,6 +615,10 @@ launch_browser() {
 
   echo "Opening $url in $browser"
 
+  # TODO - Why did I write this...?
+  # Need to find better way to see if
+  # the browser is installed, or open
+  # default web browser
   if which $browser; then
     $browser $url
   else

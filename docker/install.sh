@@ -57,15 +57,9 @@ select_leader() {
     return 1
   fi
 
-  echo ""
-  echo "Leader will be:"
-  echo "---------------"
-  echo "$(cat $leader_file)"
-  echo "---------------"
-  echo ""
+  $UTIL print_as_list "Leader will be:" $(cat $leader_file)
   echo "Make sure that it's ip address does not change"
   echo "Either assign it a static ip or reserve it's dhcp lease"
-  echo ""
 }
 
 #-------------------------------------------------------------------------------
@@ -82,13 +76,11 @@ select_workers() {
   # Grab all ips except the first, replace spaces with new lines
   echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
   echo ""
-  echo "The following is a list of all non-leader node(s)"
+  $UTIL print_as_list "The following is a list of all non-leader node(s):" \
+                      $(cat $worker_file)
+
   echo "NOTE: Half of these node(s) will be promoted to manager(s) to meet docker swarm quorum"
   echo "The rest will maintain at worker status:"
-  echo "----------------------------------------"
-  echo $(cat $worker_file) | tr " " "\n"
-  echo "----------------------------------------"
-  echo ""
 }
 
 #-------------------------------------------------------------------------------
@@ -117,25 +109,26 @@ select_managers() {
 
   # If there are nodes to read in
   if [[ $num_managers > 0 ]]; then
+
     # Loop through each manager
     # and remove it from worker_file
-    echo "The following nodes will be manager(s):"
     while read manager_ip; do
 
-      echo $manager_ip
-
-      # Remove it from the worker_file
       sed -i "/$manager_ip/d" $worker_file
     done <$manager_file
   fi
 
-  # At this point, leader, managers, and workers
+  $UTIL print_as_list "The following node(s) will be manager(s):" \
+        $(cat $manager_file)
+
+  $UTIL print_as_list "The following node(s) will be worker(s):" \
+        $(cat $worker_file)
+
+  # At this point, leader_file, manager_file, and worker_file
   # should all have unique ips. Together they represent
   # the ips in the $IPS file. However, when operating
   # on nodes by status, we must operate on all three files.
   # But, we can also do leader only, or worker only operations.
-  echo "The following nodes will be worker(s):"
-  cat $worker_file
 }
 
 #-------------------------------------------------------------------------------
@@ -245,11 +238,12 @@ start_service() {
 start_services() {
   local services="$@"
 
-  # TODO - Print on new line as tabbed list
-  echo "Starting docker services: $services"
+  $UTIL print_as_list "Starting docker services:" $services
+
   for service in $services; do
     start_service $service
   done
+
   echo "Succesfully started docker services: $services"
 }
 

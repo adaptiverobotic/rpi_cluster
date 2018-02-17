@@ -1,9 +1,9 @@
 # To-do List
 
-* Change the way we select managers, and workers. currently, the edge case is when there are 2 ips. all other cases
-worker. if there are exactly 2, there still ends up being 1 leader and 0 managers. This is not in compliance with
-docker swarm quorum. Either test for the test case. A more elegant solution might b to make a copy of global ips.
-pop * 1 = leader. pop * (n+1) / 2 = managers, and the rest are workers. this sud work for all cases.
+* Make a function in util that displays a list separating by space. get longest
+string in list and make line based off of that length.
+
+* util, get array length
 
 * scp send is async, but right now scp get is sync only because we do not have a facility
 for making sure that if we are copying files with the same name from different nodes (highly probably)
@@ -33,8 +33,6 @@ As long as the nodes have apt-get, bash v4+, and an internet connection, we shou
 
 * Changing user name may be a challenge in that by default pi's the root account is
 locked. We don't know which other distros is true for. Let's ommit that for the sake of platform independence.
-
-* Move dependency install script to util as it will reused in several places
 
 * Fix SQLite3 syntax issues / corruption in test_app's client application
 
