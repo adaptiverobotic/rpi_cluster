@@ -1,5 +1,8 @@
 # To-do List
 
+* SSH into ubuntu server does not work because
+there is no tty or askpass. 
+
 * Implement source util/util so that we are not spawning
 new shells for each ./util.sh func call
 

@@ -14,6 +14,13 @@ declare_variables() {
   readonly leader_file="$assets/leader"
   readonly manager_file="$assets/manager"
   readonly worker_file="$assets/worker"
+  readonly temp_ips_file="$assets/temp_ips"
+
+  # Create temporary files
+  touch $temp_ips_file
+  touch $manager_file
+  touch $worker_file
+  cat $IPS > $temp_ips_file
 }
 
 #-------------------------------------------------------------------------------
@@ -32,7 +39,7 @@ send_assets() {
 # docker on each nodes
 install_docker() {
   echo "Installing docker on each node"
-  # $UTIL ssh_nodes ./setup.sh reinstall_docker
+  $UTIL ssh_nodes ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
 }
 
@@ -54,43 +61,13 @@ uninstall_docker() {
 select_leader() {
   echo "Selecting leader node"
 
-  # Pick first ip address in global ip list
-  # and write it out to the leader_file
-  echo $(head -n 1 $IPS) > $leader_file
-
-  # Make sure that there is exactly only 1 leader
-  # ip specified in the leader file
-  local lines=$($UTIL num_lines $leader_file)
-
-  if [[ $lines -ne 1 ]]; then
-    echo "There must be exactly 1 leader"
-    return 1
-  fi
+  # Get first line from ip list then
+  # remove it from the ip list
+  head -1 $temp_ips_file > $leader_file
+  sed -i -e 1d $temp_ips_file
 
   $UTIL print_as_list "Leader will be:" $(cat $leader_file)
   $UTIL warn_static_ip
-}
-
-#-------------------------------------------------------------------------------
-
-# From the globla ip list, select
-# all ip address except for the first
-# to be a worker. NOTE - If we want
-# managers, the workers file will be modified
-# such that the first half of these adddresses
-# get moved to the manager_file.
-select_workers() {
-  echo "Generating list of non-leader node ip(s()"
-
-  # Grab all ips except the first, replace spaces with new lines
-  echo $(tail -n +2 $IPS) | tr " " "\n" > $worker_file
-  echo ""
-  $UTIL print_as_list "The following is a list of all non-leader node(s):" \
-                      $(cat $worker_file)
-
-  echo "NOTE: Half of these node(s) will be promoted to manager(s) to meet docker swarm quorum"
-  echo "That is, for N nodes, a majority must have manager status. (N+1) / 2"
-  echo "The rest will maintain at worker status"
 }
 
 #-------------------------------------------------------------------------------
@@ -105,42 +82,35 @@ select_workers() {
 # with manager status can be picked and promoted
 # to leader status.
 select_managers() {
-  local num_workers=$( $UTIL num_lines $worker_file )
-  local num_managers=$(( ($num_workers + 1) / 2 ))
+  local num_ips=$( $UTIL num_lines $temp_ips_file )
+  local num_managers=$(( ($num_ips+1) / 2 ))
 
-  echo "Generating list of manager nodes"
-
-  # (n+1) / 2 = quorum
-  echo "There are $num_workers worker(s)"
-  echo "Promoting $num_managers worker(s) to manager(s)"
-
-  # Write their ips out to file
-  echo $(head -$num_managers $worker_file) > $manager_file
-
-  # If there are nodes to read in
-  if [[ $num_managers > 0 ]]; then
-
-    # Loop through each manager
-    # and remove it from worker_file
-    while read manager_ip; do
-
-      sed -i "/$manager_ip/d" $worker_file
-    done <$manager_file
-  fi
+  # Get first (N+1) / 2 lines from ip list then
+  # remove them from the ip list
+  echo "Selecting managers"
+  head -n $num_managers $temp_ips_file > $manager_file
+  sed -i -e 1,${num_managers}d $temp_ips_file
 
   $UTIL print_as_list "The following node(s) will be manager(s):" \
         $(cat $manager_file)
 
   $UTIL warn_static_ip
+}
 
+#-------------------------------------------------------------------------------
+
+# From the globla ip list, select
+# all ip address except for the first
+# to be a worker. NOTE - If we want
+# managers, the workers file will be modified
+# such that the first half of these adddresses
+# get moved to the manager_file.
+select_workers() {
+  echo "Selecting workers"
+
+  cat $temp_ips_file > $worker_file
   $UTIL print_as_list "The following node(s) will be worker(s):" \
         $(cat $worker_file)
-
-  # At this point, leader_file, manager_file, and worker_file
-  # should all have unique ips. Together they represent
-  # the ips in the $IPS file. However, when operating
-  # on nodes by status, we must operate on all three files.
-  # But, we can also do leader only, or worker only operations.
 }
 
 #-------------------------------------------------------------------------------
@@ -214,7 +184,7 @@ join_swarm() {
 assemble_swarm() {
   echo "Assembling nodes to swarm"
   join_swarm "worker" $worker_file
-  # join_swarm "manager" $manager_file
+  join_swarm "manager" $manager_file
   echo "Succesfully assembled swarm"
 }
 
@@ -276,8 +246,8 @@ swarm() {
   echo "Creating docker swarm"
   docker_daemon
   select_leader
+  select_managers
   select_workers
-  # select_managers
   disband_swarm
   init_swarm
   download_tokens

@@ -23,6 +23,7 @@ docker/deploy/assets
 docker/assets/manager
 docker/assets/leader
 docker/assets/worker
+docker/assets/temp_ips
 docker/assets/manager_join_token.sh
 docker/assets/worker_join_token.sh
 

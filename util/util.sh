@@ -215,7 +215,7 @@ my_ssh() {
   # copy the ssh-id. it prints the key on screen.
   # unacceptable.
   # SSH into a given node passing the password from a file
-  ssh $ssh_args -n $user_ip "$args"
+  ssh -t $ssh_args -n $user_ip "$args"
 }
 
 #-------------------------------------------------------------------------------
