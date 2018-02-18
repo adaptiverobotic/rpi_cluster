@@ -84,7 +84,7 @@ print_in_color() {
   local color=$1; shift
   local c_message=$1; shift
   local nc_message=$1;
-  local colors_file=$(pwd)/assets/colors
+  local colors_file=${ROOT_DIR}/assets/colors
   local str=$(file_to_hashmap $colors_file)
 
   # Evaluate the declaration
@@ -872,7 +872,37 @@ valid_ip_list() {
     fi
   done <$file
 
+  # TODO - Check that they are pingable
+  # TODO - Check that they are ssh-able
+
   return $valid
+}
+
+#-------------------------------------------------------------------------------
+
+# Returns 0 if and only
+# if the hostname conforms
+# to linux standards
+valid_hostname() {
+  return 0
+}
+
+#-------------------------------------------------------------------------------
+
+# Returns 0 if and only
+# if user conforms to
+# TODO - pick a standard
+valid_user() {
+  return 0
+}
+
+#-------------------------------------------------------------------------------
+
+# Returns 0 if and only
+# if password conforms to
+# TODO - pick a standard
+valid_password() {
+  return 0
 }
 
 #-------------------------------------------------------------------------------

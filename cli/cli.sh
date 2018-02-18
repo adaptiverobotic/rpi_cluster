@@ -15,9 +15,6 @@ declare_variables() {
 
   # Environment variables
   export ASSETS="$ROOT_DIR/assets"
-  export COMMON_HOST="$(cat $ASSETS/hostname)"
-  export COMMON_PASS="$(cat $ASSETS/password)"
-  export COMMON_USER="$(cat $ASSETS/user)"
   export DEV_MODE=false
   export IPS="$ASSETS/ips"
   export LAST_DEPLOYMENT="$ASSETS/last_deployment"
@@ -42,12 +39,27 @@ declare_variables() {
 
 #-------------------------------------------------------------------------------
 
+# Reads in common credentials
+# such as user and password
+read_in_common_credentials() {
+  export COMMON_HOST="$(cat $ASSETS/hostname)"
+  export COMMON_PASS="$(cat $ASSETS/password)"
+  export COMMON_USER="$(cat $ASSETS/user)"
+}
+
+#-------------------------------------------------------------------------------
+
 # Checks that everything is
 # in order before we run cli.
 # Example, if $IPS does not exist,
 # then we should not keep runnning.
 run_checks() {
-    $UTIL valid_ip_list $IPS
+
+  # TODO - Validate user, password, and hostname
+  # $UTIL valid_hostname $ASSETS/hostname
+  # $UTIL valid_user $ASSETS/user
+  # $UTIL valid_password $ASSETS/password
+  $UTIL valid_ip_list $IPS
 }
 
 #-------------------------------------------------------------------------------
@@ -92,8 +104,6 @@ firewall() {
 # cluster more secure.
 ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
-
-  # Enable passwordless ssh
   ./ssh/install.sh
 }
 
@@ -223,6 +233,7 @@ docker_cluster() {
 main() {
   declare_variables
   run_checks "$@"
+  read_in_common_credentials
   prepare_logs
   create_deployment_timestamp
   "$@"
