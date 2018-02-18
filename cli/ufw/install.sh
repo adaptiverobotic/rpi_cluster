@@ -13,22 +13,19 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 #-------------------------------------------------------------------------------
 
 declare_variables() {
-  :
+  readonly ports="assets/ports"
 }
 
 #-------------------------------------------------------------------------------
 
+# Configures the firewall for
+# a particular provider such
+# as docker swarm, kubernetes
 configure_firewall() {
-  echo "Configuring UFW firewall"
-
-  # Get list of dependencies
-  ports="assets/ports"
-
-  # SCP setup and password file script to each node
-  $UTIL scp_nodes $(pwd)/setup.sh
-
-  # Run setup script on each node
-  $UTIL ssh_nodes ./setup.sh $(cat $ports)
+  echo "Configuring UFW firewall on each node"
+  echo "Sending and running firewall setup script on each node"
+  $UTIL scp_ssh_nodes $(pwd)/setup.sh ./setup.sh $(cat $ports)
+  echo "Successfully configured UFW firewall on each node"
 }
 
 #-------------------------------------------------------------------------------
