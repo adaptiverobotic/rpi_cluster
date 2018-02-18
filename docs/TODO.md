@@ -9,9 +9,6 @@ and continue with working nodes. And as long
 as we make it to the end with at least one
 node, we can report back which ones dropped out.
 
-* Implement source util/util so that we are not spawning
-new shells for each ./util.sh func call
-
 * scp send is async, but right now scp get is sync only because we do not have a facility
 for making sure that if we are copying files with the same name from different nodes (highly probably)
 files do not get overriden, or even worse, we get some sort of concurrent read or write error.
@@ -27,8 +24,6 @@ In fact, $ASSETS and all of its files should become read only once we have start
 the script. If we put an API in front if this, the API will be responsible for
 generating these files.
 
-* Perhaps add debugging set +x or whatever the flag is so that function names
-or even Better, full commands are displayed.
 
 * Maybe we shouldn't deploy samba to container because that is platform specific.
 That is, it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
