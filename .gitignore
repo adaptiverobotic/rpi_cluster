@@ -28,4 +28,5 @@ docker/assets/manager_join_token.sh
 docker/assets/worker_join_token.sh
 
 # Temp files
+*.o
 assets/last_deployment

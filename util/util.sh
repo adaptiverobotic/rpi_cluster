@@ -208,6 +208,24 @@ print_as_list() {
 
 #-------------------------------------------------------------------------------
 
+# Returns 0 if and only if
+# the first argument is a valid
+# ip address
+is_ip_address() {
+  :
+}
+
+#-------------------------------------------------------------------------------
+
+# Returns 0 if and only if
+# the first argument points
+# to a file of valid ip addresses
+is_ip_list() {
+  :
+}
+
+#-------------------------------------------------------------------------------
+
 # SSH into a node and
 # execute a command
 my_ssh() {
