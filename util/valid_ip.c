@@ -81,6 +81,43 @@ bool validate_args(int argc) {
 
 //------------------------------------------------------------------------------
 
+/*
+ * Returns true if and only
+ * if a string passed contains
+ * only numeric values
+ */
+bool is_numeric(char* ip) {
+  int i    = 0;
+  int j    = 0;
+  int n    = strlen(ip);
+  bool num = false;
+
+  // Loop through each char
+  while (i < n) {
+    num = false;
+
+    // Loop through array of nums
+    for (j = 0; j < 10; j++) {
+      if (ip[i] == numbers[j]) {
+        num = true;
+        break;
+      }
+    }
+
+    // If a non-number
+    // was found, break
+    if (!num) {
+      break;
+    }
+
+    i++;
+  }
+
+  return num;
+}
+
+//------------------------------------------------------------------------------
+
 /**
  * Given an array of size 4 that represents
  * the octets in an ip address, and a struct
@@ -115,6 +152,21 @@ bool within_bounds(octet_bound bounds, int* ip_arr) {
 
 //------------------------------------------------------------------------------
 
+/*
+ * Returns true if and only
+ * if the string passed has
+ * leading zeros. Example "001"
+ */
+bool has_leading_zeros(char* ip) {
+  if (strlen(ip) > 1 && ip[0] == '0') {
+    return true;
+  }
+
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
 /**
  * Returns true if and only if
  * the string passed is a valid
@@ -144,8 +196,9 @@ int validate_ip(char* ip_str) {
    */
   while ((octet_str = strsep(&string, ".")) != NULL) {
 
-    //
-    if (false) {
+    // Make sure we only have numbers in our octets.
+    // A number with a leading zero does not count.
+    if (!is_numeric(octet_str) || has_leading_zeros(octet_str)) {
         numeric = false;
         break;
     }
@@ -163,9 +216,9 @@ int validate_ip(char* ip_str) {
   // jk, don't jack that...
   free(tofree);
 
-  // Must contain only numbers,
-  // with exactly dots separating octets,
-  // and be of class A, B, C, or D
+  // Valid imples the string contains only
+  // numbers with exactly dots 4 separating
+  // dots, and be of class A, B, C, or D
   if (
     octet_cnt == 4 &&
     numeric && (
@@ -196,6 +249,10 @@ int validate_ip(char* ip_str) {
  * along with a non-zero exit status. If the argument
  * is not valid, "false" is printed to the console
  * with a zero exit status.
+ * NOTE - LEADING ZEROS ARE NOT ALLOWED. THAT IS
+ * BECAUSE WE ARE TAKING INTO ACCOUNT THE PURPOSE
+ * OF THIS PROGRAM IN THE LARGER ECOSYSTEM. BUT,
+ * IN PRACTICE, THEY ARE FINE (FOR MOST THINGS).
  * See - http://www.manpagez.com/man/3/strsep/
  */
 int main(int argc, char *argv[]) {
