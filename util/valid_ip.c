@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 // Declare booleans
 // because C doesn't
@@ -10,10 +11,12 @@ typedef int bool;
 #define true 1
 #define false 0
 
+// Forward declaration of our struct
+typedef struct octet_bound octet_bound;
+
 // Struct that represents the lower
 // and upper bounds of a
-// gieven IPv4 address class
-typedef struct octet_bound octet_bound;
+// given IPv4 address class
 struct octet_bound {
   int upper[4];
   int lower[4];
@@ -43,22 +46,39 @@ static octet_bound class_D = {
   .upper = {239, 255, 255, 255}
 };
 
+// The numbers as characters
+static char numbers[] = {
+  '0', '1', '2', '3', '4',
+  '5', '6', '7', '8', '9'
+};
+
+// TODO - @ some later date
+// expand to add another arg, that
+// way, if the user wants to check
+// if an ip address is of a specific
+// class, that's an option. Otherwise,
+// check all.
+
+// Number of required args
+static int arg_limit = 2;
+
 //------------------------------------------------------------------------------
 
 /**
  * Verifies that we were
- * passed exactly 1
+ * passed exactly N
  * additional argument.
  */
 bool validate_args(int argc) {
 
-  if (argc != 2) {
-    printf("ERROR: Only 1 additional argument accepted\n");
+  if (argc != arg_limit) {
+    printf("ERROR: Up to %d argument(s) accepted\n", arg_limit - 1);
     return false;
   }
 
   return true;
 }
+
 //------------------------------------------------------------------------------
 
 /**
@@ -67,8 +87,8 @@ bool validate_args(int argc) {
  * that represents the upper and lower bounds
  * of an ip address class, we return true if and
  * only if for each kth octet in ip_arr, it is
- * greater than or equal to the classes' kth lower
- * bound, and less than or each to the kth upper bound.
+ * greater than or equal to the specified classes' kth lower
+ * bound, and less than or equal to the kth upper bound.
  */
 bool within_bounds(octet_bound bounds, int* ip_arr) {
   int i;
@@ -77,19 +97,17 @@ bool within_bounds(octet_bound bounds, int* ip_arr) {
   int octet;
   bool in_bounds = true;
 
+  // Loop through each octet
   for (i = 0; i < 4; i++) {
     octet = ip_arr[i];
     lower = bounds.lower[i];
     upper = bounds.upper[i];
 
-    // lower > octect < upper
+    // lower >= octect <= upper
     if (octet > upper || octet < lower) {
       in_bounds = false;
       break;
     }
-
-    // NOTE - Debugging
-    // printf("%d %d %d\n", bounds.lower[i], ip_arr[i], bounds.upper[i]);
   }
 
   return in_bounds;
@@ -103,40 +121,63 @@ bool within_bounds(octet_bound bounds, int* ip_arr) {
  * class A, B, C or D IPv4 address.
  */
 int validate_ip(char* ip_str) {
-  bool  is_numeric = false;
-  bool  valid      = false;
-  int   octet_cnt  = 0;
-  int   ip_arr[4]  = {0, 0, 0, 0};
+  bool  numeric   = true;
+  bool  valid     = false;
+  int   octet_cnt = 0;
+  int   ip_arr[4] = {0, 0, 0, 0};
   char *octet_str;
   char *string;
   char *tofree;
 
+  // Copy the string
   tofree = string = strdup(ip_str);
+
+  // Make sure it's not empty
   assert(string != NULL);
 
-  // Convert each octet from str to int and
-  // store it in the array of octets
+  /*
+   * 1. Separate each octect by separating
+   *    what's between each dot.
+   *
+   * 2. Convert each octet to an integer
+   *    and store it in the array of octets
+   */
   while ((octet_str = strsep(&string, ".")) != NULL) {
 
-    // TODO - Figure out how to filter out letters?
+    //
+    if (false) {
+        numeric = false;
+        break;
+    }
+
     ip_arr[octet_cnt] = atoi(octet_str);
+
+    // Increment number
+    // of octets that we
+    // have processed
     octet_cnt++;
   }
 
+  // Let it gooo!
+  // let it GoOoO!
+  // jk, don't jack that...
   free(tofree);
 
-  // Must of type
-  // A, B, C or D
+  // Must contain only numbers,
+  // with exactly dots separating octets,
+  // and be of class A, B, C, or D
   if (
+    octet_cnt == 4 &&
+    numeric && (
     within_bounds(class_A, ip_arr) ||
     within_bounds(class_B, ip_arr) ||
     within_bounds(class_C, ip_arr) ||
     within_bounds(class_D, ip_arr)
-  ) {
+    )) {
     valid = true;
   }
 
-  // Print appropriate string
+  // Print whether or not it's valid
   valid ? printf("true\n") : printf("false\n");
 
   return valid;
@@ -161,8 +202,7 @@ int main(int argc, char *argv[]) {
 
   // Read in first arg
   char* ip  = argv[1];
-  int   len = sizeof(ip) / sizeof(char);
 
-  // Valid # of args, if good validate the ip address.
+  // Validate # of args, if valid, validate the ip address.
   return validate_args(argc) && validate_ip(ip) ? 0 : 1;
 }
