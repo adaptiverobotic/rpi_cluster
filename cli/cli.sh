@@ -42,6 +42,16 @@ declare_variables() {
 
 #-------------------------------------------------------------------------------
 
+# Checks that everything is
+# in order before we run cli.
+# Example, if $IPS does not exist,
+# then we should not keep runnning.
+run_checks() {
+    $UTIL valid_ip_list $IPS
+}
+
+#-------------------------------------------------------------------------------
+
 # Move old logs to an archive
 # and clear the logs to make
 # space for new log files
@@ -212,6 +222,7 @@ docker_cluster() {
 
 main() {
   declare_variables
+  run_checks "$@"
   prepare_logs
   create_deployment_timestamp
   "$@"

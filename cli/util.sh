@@ -4,7 +4,6 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-
 #-------------------------------------------------------------------------------
 
 # Declare global settings
@@ -851,6 +850,29 @@ archive_old_logs() {
 sort_ips() {
   local order="ascending"
   local file="$@"
+}
+
+#-------------------------------------------------------------------------------
+
+# Provided a file of ips,
+# this function prints "true"
+# and returns 0 if and only if
+# each line in the file is a valid
+# IPv4 address.
+valid_ip_list() {
+  local file="$@"
+  local valid=0
+
+  while read ip; do
+
+    # Run C program that returns 0 for valid ips
+    if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+      valid=1
+      break
+    fi
+  done <$file
+
+  return $valid
 }
 
 #-------------------------------------------------------------------------------

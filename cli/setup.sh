@@ -1,5 +1,8 @@
 set -e
 
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
 #-------------------------------------------------------------------------------
 
 declare_variables() {
