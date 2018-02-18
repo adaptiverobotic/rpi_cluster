@@ -56,10 +56,13 @@ read_in_common_credentials() {
 run_checks() {
 
   # TODO - Validate user, password, and hostname
-  # $UTIL valid_hostname $ASSETS/hostname
-  # $UTIL valid_user $ASSETS/user
-  # $UTIL valid_password $ASSETS/password
+  $UTIL valid_hostname $COMMON_HOST
+  $UTIL valid_user $COMMON_USER
+  $UTIL valid_password $COMMON_PASS
   $UTIL valid_ip_list $IPS
+
+  echo "HERE"
+  exit 1
 }
 
 #-------------------------------------------------------------------------------
@@ -232,8 +235,8 @@ docker_cluster() {
 
 main() {
   declare_variables
-  run_checks "$@"
   read_in_common_credentials
+  run_checks "$@"
   prepare_logs
   create_deployment_timestamp
   "$@"

@@ -884,7 +884,14 @@ valid_ip_list() {
 # if the hostname conforms
 # to linux standards
 valid_hostname() {
-  return 0
+  local hostname="$@"
+  local valid=0
+
+  # Run C program that returns 0 for valid hostnames
+  if ! ./bin/valid_hostname.o $hostname; then
+    valid=1
+  fi
+  return $valid
 }
 
 #-------------------------------------------------------------------------------
@@ -893,7 +900,14 @@ valid_hostname() {
 # if user conforms to
 # TODO - pick a standard
 valid_user() {
-  return 0
+  local user="$@"
+  local valid=0
+
+  # Run C program that returns 0 for valid usernames
+  if ! ./bin/valid_user.o "$user" > /dev/null; then
+    valid=1
+  fi
+  return $valid
 }
 
 #-------------------------------------------------------------------------------
@@ -902,7 +916,14 @@ valid_user() {
 # if password conforms to
 # TODO - pick a standard
 valid_password() {
-  return 0
+  local password="$@"
+  local valid=0
+
+  # Run C program that returns 0 for valid passwords
+  if ! ./bin/valid_hostname.o "$password" > /dev/null; then
+    valid=1
+  fi
+  return $valid
 }
 
 #-------------------------------------------------------------------------------
