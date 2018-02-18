@@ -18,6 +18,10 @@ typedef struct octet_bound octet_bound;
 // and upper bounds of a
 // given IPv4 address class
 struct octet_bound {
+
+  // Each slot
+  // represents
+  // an octet
   int upper[4];
   int lower[4];
 };
@@ -158,6 +162,10 @@ bool within_bounds(octet_bound bounds, int* ip_arr) {
  * leading zeros. Example "001"
  */
 bool has_leading_zeros(char* ip) {
+
+  // If the array is not {'0'}, but it
+  // has '0' in it's first slot, it
+  // has leading zeros
   if (strlen(ip) > 1 && ip[0] == '0') {
     return true;
   }
@@ -203,6 +211,7 @@ int validate_ip(char* ip_str) {
         break;
     }
 
+    // atoi = ASCII to Integer
     ip_arr[octet_cnt] = atoi(octet_str);
 
     // Increment number
@@ -218,7 +227,8 @@ int validate_ip(char* ip_str) {
 
   // Valid imples the string contains only
   // numbers with exactly dots 4 separating
-  // dots, and be of class A, B, C, or D
+  // octets, and all octets conform to either
+  // class A, B, C, or D standards
   if (
     octet_cnt == 4 &&
     numeric && (

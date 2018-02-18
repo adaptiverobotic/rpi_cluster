@@ -11,7 +11,7 @@ declare_variables() {
   # directory of this project. If
   # not, all environment variables
   # will break in subprocesses.
-  export ROOT_DIR="$( pwd )"
+  export ROOT_DIR="$( pwd )/util"
 
   # Environment variables
   export ASSETS="$ROOT_DIR/assets"
@@ -21,9 +21,9 @@ declare_variables() {
   export DEV_MODE=false
   export IPS="$ASSETS/ips"
   export LAST_DEPLOYMENT="$ASSETS/last_deployment"
-  export LOG_DIR="${ROOT_DIR}/.logs"
+  export LOG_DIR="${ROOT_DIR}/util/.logs"
   export SYNC_MODE="false"
-  export UTIL="/bin/bash $ROOT_DIR/util/util.sh"
+  export UTIL="/bin/bash $ROOT_DIR/util.sh"
 
   # This is a hidden dir
   # so it won't get pulled from
@@ -68,7 +68,7 @@ firewall() {
   local provider=$1
 
   echo "Configuring each nodes' firewall for: $provider"
-  ./ufw/install.sh $provider
+  ./util/ufw/install.sh $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
 
   # Enable passwordless ssh
-  ./ssh/install.sh
+  ./util/ssh/install.sh
 }
 
 # Everything above this line will not have an api binding. They are auxiliary
@@ -114,7 +114,7 @@ hostname() {
   local provider=$1
 
   echo "Changing each node's hostname"
-  ./hostname/install.sh change_hostnames $provider
+  ./util/hostname/install.sh change_hostnames $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ dependencies() {
   local provider=$1
 
   echo "Installing dependencies on all nodes"
-  ./dependencies/install.sh install $provider
+  ./util/dependencies/install.sh install $provider
 }
 
 #-------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ install() {
   local provider=$1; shift
 
   echo "Installing "$@" on cluster"
-  ./$provider/install.sh "$@"
+  ./util/$provider/install.sh "$@"
 }
 
 #-------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ init() {
   # we are only deploying SAMBA, then we
   # do not need to open docker ports
 
-  # firewall $provider
+  firewall $provider
 }
 
 #-------------------------------------------------------------------------------
