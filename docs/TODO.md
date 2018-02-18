@@ -1,7 +1,13 @@
 # To-do List
 
-* SSH into ubuntu server does not work because
-there is no tty or askpass. 
+* Implement timeout to kill jobs that are
+taking too long.
+
+* Perhaps when we are running in async mode,
+instead of erroring out if a single node fails. Let's take it off the list of $IPS
+and continue with working nodes. And as long
+as we make it to the end with at least one
+node, we can report back which ones dropped out.
 
 * Implement source util/util so that we are not spawning
 new shells for each ./util.sh func call

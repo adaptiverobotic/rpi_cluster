@@ -4,6 +4,21 @@ set -e
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
+
+#-------------------------------------------------------------------------------
+
+# Declare global settings
+# such as ssh and scp flags
+declare_variables() {
+
+  # Read general ssh flags in from a file because
+  # there are a lot of them. We will use these for
+  # both ssh and scp.
+  readonly general_ssh_args="$(cat assets/ssh_args_file)"
+  readonly ssh_args="$general_ssh_args"
+  readonly scp_args="$general_ssh_args -r"
+}
+
 #-------------------------------------------------------------------------------
 
 # Read a file in where each line
@@ -73,10 +88,12 @@ print_in_color() {
   local colors_file=$(pwd)/assets/colors
   local str=$(file_to_hashmap $colors_file)
 
+  # Evaluate the declaration
+  # string into a new associative array.
   eval "declare -A hashmap="${str#*=}
 
-  # Get color from hashmap, print color code, then the colored
-  # message, then print no color code, and print message without color
+  # Get color from hashmap, print the colored message in specified
+  # color, then print no color code, and print message without color
   echo -e "${hashmap[$color]}${c_message}${no_color}${nc_message}"
 }
 
@@ -187,20 +204,6 @@ print_as_list() {
   printf '%s\n' $@
   print_dashes $num_dashes
   echo ""
-}
-
-#-------------------------------------------------------------------------------
-
-# Declare global settings
-# such as ssh and scp flags
-declare_variables() {
-
-  # Read general ssh flags in from a file because
-  # there are a lot of them. We will use these for
-  # both ssh and scp.
-  readonly general_ssh_args="$(cat assets/ssh_args_file)"
-  readonly ssh_args="$general_ssh_args"
-  readonly scp_args="$general_ssh_args -r"
 }
 
 #-------------------------------------------------------------------------------
@@ -379,10 +382,14 @@ loop_nodes() {
   # and the list of affected ip addresses
   print_as_list "$action:" $(cat $file)
 
+  # TODO - Wrap asynchrounous function calls
+  # and or synchronous ones in a timeout call.
+  # this way, when strange things like network
+  # down issues occur, we don't hang endlessly.
+
   # Loop through each ip address
   # listed in input file
   while read ip; do
-
 
     # Run in async mode. Essentially
     # kick off each subprocess and send
@@ -426,7 +433,7 @@ loop_nodes() {
 
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
-    echo "Waiting for all processe(s) to finish..."
+    echo "Waiting for ${#map_pid_ip[@]} processe(s) to finish..."
 
     # Loop through pids and wait
     # for them to complete.
@@ -439,15 +446,13 @@ loop_nodes() {
       # to check later
       if ! wait $pid; then
 
+        print_error "\xE2\x9D\x8C " "${map_pid_ip[$pid]}"
+
         # Push onto list of failed pids
         failed_pids="$failed_pids $pid"
         result=1
       else
-        # NOTE - Reserve this for if
-        # we want to do some sort of
-        # logging by pid, currently,
-        # do nothing
-        :
+        print_success "\xE2\x9C\x94 " "${map_pid_ip[$pid]}"
       fi
     done
 
@@ -456,7 +461,7 @@ loop_nodes() {
       # TODO - Figure out how to get
       # a list of just of ips and send
       # that to the print_as_list() function
-      print_error "FAILURE: " "At least one process exited with a non-zero status"
+      print_error "FAILURE: " "$( length $failed_pids) process(s) exited with a non-zero status"
       echo "Please see the following log file(s):"
       echo "-------------------------------------"
 
@@ -470,7 +475,7 @@ loop_nodes() {
       echo "-------------------------------------"
 
     else
-      print_success "SUCCESS: " "All processe(s) completed successfully"
+      print_success "SUCCESS: " "All ${#map_pid_ip[@]} processe(s) completed successfully"
       echo ""
     fi
   fi
@@ -817,6 +822,17 @@ archive_old_logs() {
   do
     cp "$LOG_DIR"/"$log" "$old_log_dir"/"$log"/"$log"-"$(cat $LAST_DEPLOYMENT)"
   done
+}
+
+#-------------------------------------------------------------------------------
+
+# Sorts a list of ips
+# in either ascending or
+# descending order based off
+# othe first argument.
+sort_ips() {
+  local order="ascending"
+  local file="$@"
 }
 
 #-------------------------------------------------------------------------------
