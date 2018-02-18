@@ -194,7 +194,6 @@ assemble_swarm() {
 # daemon on all nodes
 docker_daemon() {
   echo "Installing docker daemon on each node"
-  send_assets
   install_docker
   echo "Successfully installed docker daemon on each node"
 }
@@ -262,6 +261,7 @@ swarm() {
 main() {
   declare_variables
   $UTIL clean_workspace $IPS
+  send_assets
   "$@"
   $UTIL clean_workspace $IPS
 }

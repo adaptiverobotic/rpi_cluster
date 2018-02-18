@@ -142,6 +142,18 @@ install() {
 
 #-------------------------------------------------------------------------------
 
+# Uninstall either docker,
+# kubernetes, or samba on
+# entire cluster
+uninstall() {
+  local provider=$1; shift
+
+  echo "Uninstalling "$@" on cluster"
+  ./$provider/install.sh "$@"
+}
+
+#-------------------------------------------------------------------------------
+
 # Reboot all nodes
 # in cluster
 reboot_cluster() {
