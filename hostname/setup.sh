@@ -42,25 +42,9 @@ declare_variables() {
 # swarm administration than our actual hostnames
 # that we may use for easy manual ssh, etc.
 set_temp_hostname() {
-
-  # See - https://www.cyberciti.biz/faq/howto-linux-renew-dhcp-client-ip-address/
-  # NOTE - Consider manually renewing the dhcp lease. However, if we
-  # want to do this, then we are banking on having the same ip address
-  # when we get a new lease. This either adds the external dependency of
-  # having network access to manually assign ip addresses via admin console, or
-  # forces us to build our ip addresses twice. The first time give us ths list
-  # that makes this section of the program possible because at this point we
-  # are ssh'ed in. But, then we have to rebuild a new list after each node has
-  # renewed its lease. This does raise the question, what does this do to our
-  # ssh connection. If we lose it, we get exit 1, and cannot continue. So we need
-  # to find a fancy way of waiting for the machine to come back on. Restarting
-  # still might be an option...The only real benefit of this is allowing us to
-  # ssh by hostname because the hostname will be addes to the DNS tables in router.
-  # However, this does not impact productivity from sysadmin side because we do
-  # everything by ip address, and it should stay that way.
-
   echo "Setting temporary hostname to: $hostname"
   hostnamectl set-hostname $hostname
+  echo "Succesfully set temporary hostname to: $hostname"
 }
 
 #----------------------------------------------------------------------------------------

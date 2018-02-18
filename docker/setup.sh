@@ -8,7 +8,6 @@ set -e
 # installed. If it is, then we
 # skip the installation process.
 install_docker() {
-
   echo "Installing docker locally"
 
   # Check that docker is installed
@@ -20,6 +19,12 @@ install_docker() {
     echo "Downloading install script from docker.com"
 
     # Download it and pipe in into /bin/sh (run it)
+    # NOTE - This script presents issues if the
+    # script cannot determine the host operating system.
+    # I think I ran into this issue with Raspbian Desktop.
+    # To expand to more linux distros, we would need to
+    # manually add the repo, etc.
+    # See - https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository
     curl -sSL https://get.docker.com | sh
 
     # Enable docker
@@ -50,7 +55,8 @@ uninstall_docker() {
   # Check if the machine recognizes
   # the docker command
   if docker ps; then
-    # Remove from apt-get
+
+    # Remove with package manager
     echo "Purging docker"
     sudo apt-get purge docker-ce -y
 
@@ -58,6 +64,11 @@ uninstall_docker() {
     # Containers, images, etc
     echo "Removing left over files"
     sudo rm -rf /var/lib/docker
+
+    # TODO - Remove /etc/docker
+    # the problem right now is the
+    # permission on that file is denied.
+    # It might not be a "docker" file.
 
   # No work to be done
   else
@@ -88,10 +99,6 @@ start_portainer() {
   echo "Pulling docker image portainer/portainer from docker registry"
   docker pull portainer/portainer
 
-  # Create necessary volume
-  echo "Creating persistant volume"
-  docker volume create portainer
-
   # Create admin password as a docker secret
   echo "Changing default admin password"
   echo -n $pass | docker secret create portainer-pass -
@@ -102,11 +109,11 @@ start_portainer() {
   --detach \
   --name portainer \
   --secret portainer-pass \
-  --mode global \
+  --mode replicated \
+  --replicas 1 \
   --constraint 'node.role == manager' \
-  --publish mode=host,target=9000,published=9000 \
+  --publish mode=ingress,target=9000,published=9000 \
   --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-  --mount type=volume,source=portainer,target=/data \
   portainer/portainer \
   --admin-password-file '/run/secrets/portainer-pass' \
   -H unix:///var/run/docker.sock
