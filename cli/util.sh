@@ -850,6 +850,8 @@ archive_old_logs() {
 sort_ips() {
   local order="ascending"
   local file="$@"
+
+  ./bin/sort_ips.o $(cat $file)
 }
 
 #-------------------------------------------------------------------------------
