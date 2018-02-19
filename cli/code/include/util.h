@@ -4,8 +4,8 @@
 //------------------------------------------------------------------------------
 
 #include <string.h>  // strlen()
-#include <stdio.h>  // printf()
-#include <stdlib.h> // atoi()
+#include <stdio.h>   // printf()
+#include <stdlib.h>  // atoi()
 
 //------------------------------------------------------------------------------
 

@@ -19,6 +19,10 @@ declare_variables() {
   export IPS="$ASSETS/ips"
   export LAST_DEPLOYMENT="$ASSETS/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
+
+  # TODO - Create some facility
+  # to be able to toggle this
+  # from api layer
   export SYNC_MODE="false"
   export UTIL="/bin/bash $ROOT_DIR/util.sh"
 
@@ -229,6 +233,14 @@ docker_cluster() {
   local portainer_url="http://$(cat docker/assets/leader):9000"
   $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
   $UTIL display_entry_point $portainer_url
+}
+
+#-------------------------------------------------------------------------------
+
+# Deploy Pi-Hole
+# to one node
+dhcp_server() {
+  :
 }
 
 #-------------------------------------------------------------------------------
