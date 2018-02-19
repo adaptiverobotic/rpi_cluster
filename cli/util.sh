@@ -980,6 +980,28 @@ valid_password() {
 
 #-------------------------------------------------------------------------------
 
+# Prints true if a list
+# contains a search element,
+# otherwise false. 0 is always
+# returned as exit status
+search_list() {
+  local element=$1; shift
+  local group=$@
+
+  # Linear search
+  for obj in $group;
+  do
+    if [[ $obj = $element ]]; then
+      echo "true"
+      return 0
+    fi
+  done
+
+  echo "false"
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
 

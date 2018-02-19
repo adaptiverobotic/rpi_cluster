@@ -47,6 +47,22 @@ read_in_common_credentials() {
 
 #-------------------------------------------------------------------------------
 
+# Generates a list of ip addresses
+# of all of the nodes that will
+# participate in the cluster. Currently
+# we are scanning the network and adding
+# ip adddresses that match a certain prefix.
+# Right now, we are using the Raspberry Pi
+# prefix, but it works for any.
+ip_list() {
+  echo "Generating list of ips"
+
+  # Build ip address list
+  ./ip/list.sh
+}
+
+#-------------------------------------------------------------------------------
+
 # Checks that everything is
 # in order before we run cli.
 # Example, if $IPS does not exist,
@@ -61,12 +77,16 @@ run_checks() {
   $UTIL valid_hostname $COMMON_HOST
   $UTIL valid_user $COMMON_USER
   $UTIL valid_password $COMMON_PASS
+
+
+  ip_list
+
+
   $UTIL valid_ip_list $IPS
   $UTIL print_success "SUCCESS: " "All common credentials are valid"
   echo "Sorting ips"
   $UTIL sort_ips $IPS
   $UTIL print_success "SUCCESS: " "Sorted ips"
-
 }
 
 #-------------------------------------------------------------------------------
@@ -118,22 +138,6 @@ ssh_keys() {
 # functoins that make the applicaiton work correctly. But, we do not want
 # these behaviors exosed.
 #===============================================================================
-
-# Generates a list of ip addresses
-# of all of the nodes that will
-# participate in the cluster. Currently
-# we are scanning the network and adding
-# ip adddresses that match a certain prefix.
-# Right now, we are using the Raspberry Pi
-# prefix, but it works for any.
-ip_list() {
-  echo "Generating list of ips"
-
-  # Build ip address list
-  ./ip/list.sh
-}
-
-#-------------------------------------------------------------------------------
 
 # Changes the hostname on all
 # nodes to match a specified pattern.
@@ -206,7 +210,6 @@ init() {
   provider=$1
   echo "Initializing cluster settings for: $provider"
 
-  # ip_list
   ssh_keys
   hostname $provider
   dependencies $provider

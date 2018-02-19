@@ -10,7 +10,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 declare_variables() {
   # NOTE - Placeholder for if
   # we need to declare globals
-  :
+  readonly whitelist=$(cat assets/whitelist)
 }
 
 #-------------------------------------------------------------------------------
@@ -154,10 +154,17 @@ generate_list() {
       fi
     done <$filters
 
+    # Don't add whitelisted ips
+    if [[ $($UTIL search_list $ip $whitelist) == "true" ]]; then
+      $UTIL print_error "FAILURE: " "ip address $ip is whitelisted, not adding"
+      valid=false
+    fi
+
     # If the current $mac is valid,
     # write its corresponding ip
     # out to the ip_address file
     if [[ $valid == true ]]; then
+      $UTIL print_success "SUCCESS: " "Adding ip address $ip to list"
       echo $ip >> $IPS
      fi
   done
@@ -185,7 +192,7 @@ verify_list() {
 # Print final list
 # to console
 display_list() {
-  $UTIL display_as_list "List of ips:" $(cat $IPS)
+  $UTIL print_as_list "List of ips:" $(cat $IPS)
 }
 
 #-------------------------------------------------------------------------------
