@@ -17,7 +17,6 @@ start_nextcloud() {
   docker volume create nextcloud
 
   echo "Starting container: nextcloud"
-
   docker run -d \
   -p 80:80 \
   --restart=always \
@@ -34,13 +33,21 @@ start_nextcloud() {
 # Deletes old instance
 remove_nextcloud() {
   echo "Stopping nextcloud"
-  docker stop nextcloud
+  if ! docker stop nextcloud; then
+    echo "Could not stop nextcloud or nothing to stop"
+  fi
 
   echo "Removing nextcloud container"
   docker rm nextcloud
 
+  if ! docker rm --force nextcloud; then
+    echo "Coult not remove container or nothing to remove"
+  fi
+
   echo "Removing old volume"
-  docker volume rm nextcloud
+  if ! docker volume rm --force nextcloud; then
+    echo "Could not remove volume or nothing to remove"
+  fi
 }
 
 #-------------------------------------------------------------------------------
