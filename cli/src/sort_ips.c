@@ -42,22 +42,6 @@ bool valid_ip_list(char* ips[], int len) {
 
 //------------------------------------------------------------------------------
 
-void swap() {
-  ;
-}
-
-//------------------------------------------------------------------------------
-
-/**
- * Sorts arrya in place
- */
-void sort(int* ip_ints, int len) {
-  ;
-}
-
-
-//------------------------------------------------------------------------------
-
 /**
  * Returns true if
  * and only if the string
@@ -168,6 +152,59 @@ char** get_args(int argc, char* argv[]) {
 //------------------------------------------------------------------------------
 
 /**
+ * Print list of ips
+ * as strings to console
+ */
+void display(char** strs, int len) {
+  int i;
+  for (i = 0; i < len; i++) {
+    printf("%s\n", strs[i]);
+  }
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * For index i and j, swap
+ * i and jth value in both arrays
+ * so they stay in sync.
+ */
+void swap(int* ips, char** strs, int i, int j) {
+  int temp_int;
+  char* temp_str;
+
+  temp_int = ips[i];
+  temp_str = strs[i];
+
+  ips[i]  = ips[j];
+  strs[i] = strs[j];
+
+  ips[j]  = temp_int;
+  strs[j] = temp_str;
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Bubble sort array in place
+ * TODO - Implement better sort,
+ * but works for now
+ */
+void sort(int* ips, char** strs, int len) {
+  int i;
+  int j;
+  for (i = 0; i < len; i++) {
+    for (j = 0; j < len -i -1; j++) {
+      if (ips[j] > ips[j+1]) {
+        swap(ips, strs, j, j+1);
+      }
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+/**
  * Sorts a list of ip
  * addresses in ascending order
  */
@@ -175,20 +212,14 @@ int main(int argc, char* argv[]) {
   bool  valid_list = valid_ip_list(argv, argc);
   int   len        = argc-1;
   int*  ips        = to_int_arr(argv, argc);
-  char** strs = get_args(argc, argv);
+  char** strs      = get_args(argc, argv);
 
-  int i;
-  for (i=0; i < argc-1; i++) {
-    printf("%d\n", ips[i]);
-    printf("%s\n", strs[i]);
-  }
-
-  // Get ips a int array
-  ips = to_int_arr(argv, argc);
-
+  sort(ips, strs, argc-1);
+  display(strs, argc-1);
 
   // Free back to OS
   free(ips);
+  free(strs);
 
   return 0;
 }
