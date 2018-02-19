@@ -2,7 +2,7 @@ version: '2'
 
 volumes:
   nextcloud:
-  postsgres:
+  postgres:
 
 services:
   db:
@@ -23,10 +23,13 @@ services:
 
   app:
     image: nextcloud
+    
     ports:
       - 80:80
+
     depends_on:
       - db
+
     volumes:
       - nextcloud:/var/www/html
 
@@ -35,7 +38,7 @@ services:
     environment:
       - NEXTCLOUD_ADMIN_USER=pi
       - NEXTCLOUD_ADMIN_PASSWORD=raspberry
-      - POSTGRES_HOST=127.0.0.1
+      - POSTGRES_HOST=db
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=pi
       - POSTGRES_PASSWORD=raspberry
