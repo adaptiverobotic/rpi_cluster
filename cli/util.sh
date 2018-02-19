@@ -16,6 +16,9 @@ declare_variables() {
   readonly general_ssh_args="$(cat assets/ssh_args_file)"
   readonly ssh_args="$general_ssh_args"
   readonly scp_args="$general_ssh_args -r"
+
+  # Default timeout 20 minutes
+  readonly timeout_limit=6000
 }
 
 #-------------------------------------------------------------------------------
@@ -207,24 +210,6 @@ print_as_list() {
 
 #-------------------------------------------------------------------------------
 
-# Returns 0 if and only if
-# the first argument is a valid
-# ip address
-is_ip_address() {
-  :
-}
-
-#-------------------------------------------------------------------------------
-
-# Returns 0 if and only if
-# the first argument points
-# to a file of valid ip addresses
-is_ip_list() {
-  :
-}
-
-#-------------------------------------------------------------------------------
-
 # SSH into a node and
 # execute a command
 my_ssh() {
@@ -334,6 +319,26 @@ num_lines() {
 
 #-------------------------------------------------------------------------------
 
+# Executes a give command. with
+# a given timelimit. If the command
+# takes too long, we will print a message
+# saying we timed out and kill
+# the process.
+my_timeout() {
+
+  # Don't let this loop for ever
+  if ! timeout $timeout_limit $UTIL "$@"; then
+
+    # If timeout was the issue
+    if [[ $? == 124 ]]; then
+      echo "ERROR: Time out after $timeout_limit second(s)"
+    fi
+    return $?
+  fi
+}
+
+#-------------------------------------------------------------------------------
+
 # This function is the core of this util
 # script that makes this application work.
 # Provided a list of ips, and a command,
@@ -418,7 +423,8 @@ loop_nodes() {
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
 
-      ( ( $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
+       ( ( my_timeout $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
+
 
       # Keep a list of process ids
       map_pid_ip[$!]=$ip
@@ -849,7 +855,7 @@ archive_old_logs() {
 # othe first argument.
 sort_ips() {
   local file="$@"
-  ./bin/sort_ips.o $(cat $file) 
+  ./bin/sort_ips.o $(cat $file)
 }
 
 #-------------------------------------------------------------------------------

@@ -63,7 +63,6 @@ run_checks() {
   echo "Sorting ips"
   $UTIL sort_ips $IPS
   $UTIL print_success "SUCCESS: " "Sorted ips"
-  exit 1
 }
 
 #-------------------------------------------------------------------------------

@@ -1,13 +1,17 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+//------------------------------------------------------------------------------
+
+#include <string.h>  // strlen()
+#include <stdio.h>  // printf()
+#include <stdlib.h> // atoi()
+
+//------------------------------------------------------------------------------
+
 typedef int bool;
 #define true 1
 #define false 0
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 //------------------------------------------------------------------------------
 
@@ -144,5 +148,7 @@ char** get_args(int argc, char* argv[]) {
 
   return new_argv;
 }
+
+//------------------------------------------------------------------------------
 
 #endif
