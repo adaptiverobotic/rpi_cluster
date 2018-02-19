@@ -13,7 +13,7 @@ declare_variables() {
   # Read general ssh flags in from a file because
   # there are a lot of them. We will use these for
   # both ssh and scp.
-  readonly general_ssh_args="$(cat assets/ssh_args_file)"
+  readonly general_ssh_args="$(cat assets/config/ssh_args_file)"
   readonly ssh_args="$general_ssh_args"
   readonly scp_args="$general_ssh_args -r"
 
@@ -87,7 +87,7 @@ print_in_color() {
   local color=$1; shift
   local c_message=$1; shift
   local nc_message=$1;
-  local colors_file=${ROOT_DIR}/assets/colors
+  local colors_file=${ROOT_DIR}/assets/config/colors
   local str=$(file_to_hashmap $colors_file)
 
   # Evaluate the declaration
@@ -622,12 +622,12 @@ sshpass_specific_nodes() {
 clean_workspace() {
   echo "Clearing remote working directory"
   local ip_list=$1
-  local clean_script="clean_workspace.sh"
+  local clean_script="${ASSETS}/temp/clean_workspace.sh"
 
   echo "rm -rfv ./*" > $clean_script
   chmod +x $clean_script
 
-  scp_ssh_specific_nodes "$ip_list" $clean_script ./$clean_script
+  scp_ssh_specific_nodes "$ip_list" $clean_script ./clean_workspace.sh
 
   rm -f $clean_script
 }

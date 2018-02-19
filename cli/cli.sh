@@ -16,8 +16,8 @@ declare_variables() {
   # Environment variables
   export ASSETS="$ROOT_DIR/assets"
   export DEV_MODE=false
-  export IPS="$ASSETS/ips"
-  export LAST_DEPLOYMENT="$ASSETS/last_deployment"
+  export IPS="$ASSETS/ips/ips"
+  export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
 
   # TODO - Create some facility
@@ -40,9 +40,9 @@ declare_variables() {
 # Reads in common credentials
 # such as user and password
 read_in_common_credentials() {
-  export COMMON_HOST="$(cat $ASSETS/hostname)"
-  export COMMON_PASS="$(cat $ASSETS/password)"
-  export COMMON_USER="$(cat $ASSETS/user)"
+  export COMMON_HOST="$(cat $ASSETS/credentials/hostname)"
+  export COMMON_PASS="$(cat $ASSETS/credentials/password)"
+  export COMMON_USER="$(cat $ASSETS/credentials/user)"
 }
 
 #-------------------------------------------------------------------------------
