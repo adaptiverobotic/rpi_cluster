@@ -2,34 +2,24 @@
 #include <stdio.h>
 #include <string.h>
 
-// Declare booleans
-// because C doesn't
-// have them
-typedef int bool;
-#define true 1
-#define false 0
+#include "../include/valid_ipv4.h"
+#include "../include/util.h"
 
-//------------------------------------------------------------------------------
-
-// Numbers as chars
-static const char numbers[] = {
-  '0', '1', '2', '3', '4',
-  '5', '6', '7', '8', '9'
-};
-
-//------------------------------------------------------------------------------
 
 // Validate the list
 bool valid_ip_list(char* ips[], int len) {
   int i;
+  bool tmp;
   bool valid = true;
 
   // Check each ip
-  for (i = 0; i < len; i++) {
+  for (i = 1; i < len; i++) {
 
     // Break on first
     // invalid ip
-    if (false) {
+    if (!validate_ip(ips[i])) {
+      printf("%s\n", ips[i]);
+      fprintf(stderr, "ERROR: Invalid list of ip addresses\n");
       valid = false;
       break;
     }
@@ -38,27 +28,6 @@ bool valid_ip_list(char* ips[], int len) {
   }
 
   return valid;
-}
-
-//------------------------------------------------------------------------------
-
-/**
- * Returns true if
- * and only if the string
- * passed represents an int
- */
-bool is_numeric(char c) {
-  int i;
-  bool is_num = false;
-
-  for (i = 0; i < 10; i++) {
-    if (c == numbers[i]) {
-      is_num = true;
-      break;
-    }
-  }
-
-  return is_num;
 }
 
 //------------------------------------------------------------------------------
@@ -105,7 +74,7 @@ int* to_int_arr(char* ip_char_arr[], int len) {
   int   ip;
   char* no_dots;
 
-  for (i = 1; i < len; i++) {
+  for (i = 0; i < len; i++) {
 
     // Get the string without dots
     no_dots = remove_dots(ip_char_arr[i]);
@@ -114,7 +83,7 @@ int* to_int_arr(char* ip_char_arr[], int len) {
     ip = atoi(no_dots);
 
     // Store in array
-    ip_int_arr[i-1] = ip;
+    ip_int_arr[i] = ip;
   }
 
   // Free back to OS
@@ -139,7 +108,7 @@ char** get_args(int argc, char* argv[]) {
   int i;
   int s;
 
-  // Allocate individual row
+  // Allocate individual rows
   for (i = 1; i < argc; i++) {
     s = sizeof(argv[i]);
     new_argv[i-1] = malloc(s * sizeof(char));
@@ -193,13 +162,46 @@ void swap(int* ips, char** strs, int i, int j) {
 void sort(int* ips, char** strs, int len) {
   int i;
   int j;
+
+  // Bubble sort
   for (i = 0; i < len; i++) {
     for (j = 0; j < len -i -1; j++) {
       if (ips[j] > ips[j+1]) {
+
+        // Swap both ips as ints
+        // and as strings so they
+        // stay in synch (poor man's)
+        // associative array
         swap(ips, strs, j, j+1);
       }
     }
   }
+}
+
+//------------------------------------------------------------------------------
+
+bool sort_ips(int argc, char* argv[]) {
+  int len = argc-1;
+
+  // Get only the command line
+  // args we need (everything but first)
+  char** strs = get_args(argc, argv);
+
+  // Convert ip strings to integers
+  int* ips = to_int_arr(strs, len);
+
+  // Sort them
+  sort(ips, strs, len);
+
+  // Print them
+  display(strs, len);
+
+  // Free memory
+  // back to OS
+  free(ips);
+  free(strs);
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
@@ -209,17 +211,7 @@ void sort(int* ips, char** strs, int len) {
  * addresses in ascending order
  */
 int main(int argc, char* argv[]) {
-  bool  valid_list = valid_ip_list(argv, argc);
-  int   len        = argc-1;
-  int*  ips        = to_int_arr(argv, argc);
-  char** strs      = get_args(argc, argv);
 
-  sort(ips, strs, argc-1);
-  display(strs, argc-1);
-
-  // Free back to OS
-  free(ips);
-  free(strs);
-
-  return 0;
+  // Validate list of ips, if it's good, sort and print them
+  return valid_ip_list(argv, argc) && sort_ips(argc, argv) ? 0 : 1;
 }

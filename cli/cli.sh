@@ -53,12 +53,12 @@ run_checks() {
   # that we can fall through and see
   # all credentials that fail
 
-  # echo "Validating common credentials"
-  # $UTIL valid_hostname $COMMON_HOST
-  # $UTIL valid_user $COMMON_USER
-  # $UTIL valid_password $COMMON_PASS
-  # $UTIL valid_ip_list $IPS
-  # $UTIL print_success "SUCCESS: " "All common credentials are valid"
+  echo "Validating common credentials"
+  $UTIL valid_hostname $COMMON_HOST
+  $UTIL valid_user $COMMON_USER
+  $UTIL valid_password $COMMON_PASS
+  $UTIL valid_ip_list $IPS
+  $UTIL print_success "SUCCESS: " "All common credentials are valid"
 
   echo "Sorting ips"
   $UTIL sort_ips $IPS

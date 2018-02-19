@@ -1,15 +1,14 @@
+#ifndef VALID_IPV4_H
+#define VALID_IPV4_H
+
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "util.h"
 
-// Declare booleans
-// because C doesn't
-// have them
-typedef int bool;
-#define true 1
-#define false 0
+//------------------------------------------------------------------------------
 
 // Forward declaration of our struct
 typedef struct octet_bound octet_bound;
@@ -50,12 +49,6 @@ static octet_bound class_D = {
   .upper = {239, 255, 255, 255}
 };
 
-// The numbers as characters
-static char numbers[] = {
-  '0', '1', '2', '3', '4',
-  '5', '6', '7', '8', '9'
-};
-
 // TODO - @ some later date
 // expand to add another arg, that
 // way, if the user wants to check
@@ -90,7 +83,7 @@ bool validate_args(int argc) {
  * if a string passed contains
  * only numeric values
  */
-bool is_numeric(char* ip) {
+bool is_numeric_str(char* ip) {
   int i    = 0;
   int j    = 0;
   int n    = strlen(ip);
@@ -180,7 +173,7 @@ bool has_leading_zeros(char* ip) {
  * the string passed is a valid
  * class A, B, C or D IPv4 address.
  */
-int validate_ip(char* ip_str) {
+bool validate_ip(char* ip_str) {
   bool  numeric   = true;
   bool  valid     = false;
   int   octet_cnt = 0;
@@ -206,7 +199,7 @@ int validate_ip(char* ip_str) {
 
     // Make sure we only have numbers in our octets.
     // A number with a leading zero does not count.
-    if (!is_numeric(octet_str) || has_leading_zeros(octet_str)) {
+    if (!is_numeric_str(octet_str) || has_leading_zeros(octet_str)) {
         numeric = false;
         break;
     }
@@ -246,30 +239,4 @@ int validate_ip(char* ip_str) {
   return valid;
 }
 
-//------------------------------------------------------------------------------
-
-/**
- * Small utility program that validates
- * whether or not an ip address is a valid
- * class A, B, C or D IPv4  address.
- * If the argument is a valid ip address, then
- * "true" is printed to the console along
- * with a zero exit status. If more than 1 argument
- * is passed then an error message is displayed
- * along with a non-zero exit status. If the argument
- * is not valid, "false" is printed to the console
- * with a zero exit status.
- * NOTE - LEADING ZEROS ARE NOT ALLOWED. THAT IS
- * BECAUSE WE ARE TAKING INTO ACCOUNT THE PURPOSE
- * OF THIS PROGRAM IN THE LARGER ECOSYSTEM. BUT,
- * IN PRACTICE, THEY ARE FINE (FOR MOST THINGS).
- * See - http://www.manpagez.com/man/3/strsep/
- */
-int main(int argc, char *argv[]) {
-
-  // Read in first arg
-  char* ip  = argv[1];
-
-  // Validate # of args, if valid, validate the ip address.
-  return validate_args(argc) && validate_ip(ip) ? 0 : 1;
-}
+#endif

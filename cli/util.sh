@@ -868,7 +868,7 @@ valid_ip_list() {
   while read ip; do
 
     # Run C program that returns 0 for valid ips
-    if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+    if ! ./bin/valid_ipv4.o "$ip"; then
       valid=1
       break
     fi
