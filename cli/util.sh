@@ -392,11 +392,10 @@ loop_nodes() {
     return 1
   fi
 
-  # If we only have 1 node, we
-  # might as well run in synchronous
-  # mode so that we can see what's
-  # happening. Good for debugging.
-  if [[ $lines_in_files -eq 1 ]]; then
+  # We will see everything that's
+  # happening 1 node at a time.
+  # slow but good for debugging.
+  if [[ $DEV_MODE = true ]]; then
     async=false
   fi
 
@@ -404,29 +403,26 @@ loop_nodes() {
   # and the list of affected ip addresses
   print_as_list "$action:" $(cat $file)
 
-  # TODO - Wrap asynchrounous function calls
-  # and or synchronous ones in a timeout call.
-  # this way, when strange things like network
-  # down issues occur, we don't hang endlessly.
-
   # Loop through each ip address
-  # listed in input file
+  # listed in input file and execute
+  # the specified action for that ip
   while read ip; do
 
     # Run in async mode. Essentially
     # kick off each subprocess and send
     # it to the background.
     if [[ "$async" = true ]]; then
+
       # 1. We are running an inner subprocess that will pipe stout
       # and stderr to a file by its associates ip address
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
-
        ( ( my_timeout $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
 
-
-      # Keep a list of process ids
+      # Keep an associative
+      # array of pids to ips
+      # for lookup later
       map_pid_ip[$!]=$ip
 
     # Run synchronously. Wait for
