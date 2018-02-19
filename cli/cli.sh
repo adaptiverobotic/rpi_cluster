@@ -59,10 +59,10 @@ run_checks() {
   $UTIL valid_password $COMMON_PASS
   $UTIL valid_ip_list $IPS
   $UTIL print_success "SUCCESS: " "All common credentials are valid"
-
   echo "Sorting ips"
   $UTIL sort_ips $IPS
   $UTIL print_success "SUCCESS: " "Sorted ips"
+
 }
 
 #-------------------------------------------------------------------------------

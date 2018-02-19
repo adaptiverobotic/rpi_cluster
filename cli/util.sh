@@ -18,7 +18,7 @@ declare_variables() {
   readonly scp_args="$general_ssh_args -r"
 
   # Default timeout 20 minutes
-  readonly timeout_limit=6000
+  readonly timeout_limit=9000
 }
 
 #-------------------------------------------------------------------------------
@@ -325,16 +325,23 @@ num_lines() {
 # saying we timed out and kill
 # the process.
 my_timeout() {
+  local limit=$1; shift
+  local exit_status=0
 
   # Don't let this loop for ever
-  if ! timeout $timeout_limit $UTIL "$@"; then
+  if ! timeout $limit $UTIL "$@"; then
 
+    # TODO - Figure out how to capture
+    # exit code from timeout
     # If timeout was the issue
     if [[ $? == 124 ]]; then
       echo "ERROR: Time out after $timeout_limit second(s)"
     fi
-    return $?
+
+    exit_status=1
   fi
+
+  return $exit_status
 }
 
 #-------------------------------------------------------------------------------
@@ -418,7 +425,7 @@ loop_nodes() {
       # 2. This is all encapsulated in another subprocess that we throw into
       # the background. The outer most process' pid will be captured
       # and stored into an array. We can then await these processes as a group
-       ( ( my_timeout $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
+       ( ( my_timeout $timeout_limit $action $COMMON_USER@$ip $args ) >> $LOG_DIR/$ip.log 2>&1 ) &
 
       # Keep an associative
       # array of pids to ips
@@ -856,6 +863,19 @@ sort_ips() {
 
 #-------------------------------------------------------------------------------
 
+# Returns true if an only
+# if we can ssh into the
+# provide ip address
+nodes_reachable() {
+  local file="$@"
+
+  echo "Checking that nodes are reachable"
+  sshpass_specific_nodes $file ssh echo "Checking if nodes are reachable"
+  print_success "SUCCESS: " "All nodes are reachable"
+}
+
+#-------------------------------------------------------------------------------
+
 # Provided a file of ips,
 # this function prints "true"
 # and returns 0 if and only if
@@ -865,17 +885,32 @@ valid_ip_list() {
   local file="$@"
   local valid=0
 
+  echo "Checking that all ips are valid IPv4 addresses"
+
   while read ip; do
 
     # Run C program that returns 0 for valid ips
     if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+      print_error "ERROR: " "Invalid ip $ip"
       valid=1
       break
     fi
   done <$file
 
-  # TODO - Check that they are pingable
-  # TODO - Check that they are ssh-able
+  # Make sure all nodes are
+  # reachable by ssh
+  if [[ valid -eq 0 ]]; then
+    print_success "SUCCESS: " "All ips are IPv4"
+    echo "Checking that we can ssh into each ip"
+    nodes_reachable $file
+
+  else
+    print_error "ERROR: " "All ips are not valid IPv4 addresses"
+  fi
+
+  if [[ valid -ne 0 ]]; then
+    print_error "ERROR: " "Not all nodes are reachable"
+  fi
 
   return $valid
 }
