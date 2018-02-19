@@ -59,7 +59,6 @@ run_checks() {
   $UTIL valid_password $COMMON_PASS
   $UTIL valid_ip_list $IPS
   $UTIL print_success "SUCCESS: " "All common credentials are valid"
-  # exit 1
 }
 
 #-------------------------------------------------------------------------------
