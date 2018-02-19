@@ -15,8 +15,9 @@ declare_variables() {
 
   # Environment variables
   export ASSETS="$ROOT_DIR/assets"
-  export DEV_MODE=false
+  export DEV_MODE=true
   export IPS="$ASSETS/ips/cluster"
+  export NAS="$ASSETS/ips/nas"
   export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
 
@@ -248,10 +249,16 @@ dhcp_server() {
 
 #-------------------------------------------------------------------------------
 
+nextcloud() {
+  ./nextcloud/install.sh start_nextcloud
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
   read_in_common_credentials
-  run_checks "$@"
+  # run_checks "$@"
   prepare_logs
   create_deployment_timestamp
   "$@"
