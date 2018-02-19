@@ -16,7 +16,7 @@ declare_variables() {
   # Environment variables
   export ASSETS="$ROOT_DIR/assets"
   export DEV_MODE=false
-  export IPS="$ASSETS/ips/ips"
+  export IPS="$ASSETS/ips/cluster"
   export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
 

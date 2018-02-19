@@ -887,15 +887,22 @@ valid_ip_list() {
 
   echo "Checking that all ips are valid IPv4 addresses"
 
-  while read ip; do
+  if [[ $(num_lines $file) < 1 ]]; then
+    print_error "FAILURE: " "No ips in file"
+    valid=1
 
-    # Run C program that returns 0 for valid ips
-    if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
-      print_error "ERROR: " "Invalid ip $ip"
-      valid=1
-      break
-    fi
-  done <$file
+  # Loop through each 1
+  else
+    while read ip; do
+
+      # Run C program that returns 0 for valid ips
+      if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+        print_error "ERROR: " "Invalid ip $ip"
+        valid=1
+        break
+      fi
+    done <$file
+  fi
 
   # Make sure all nodes are
   # reachable by ssh
