@@ -38,6 +38,18 @@ build_src() {
 
 #-------------------------------------------------------------------------------
 
+# TODO - Use Makefile, currently
+# just makes sure things are executable
+build_sh() {
+  # Make sure every script is
+  # runnable with ./script_name.sh syntax
+  # That way the appropriate shell
+  # (bash, sh, expect) is run for a given script
+  chmod +x **/*.sh
+}
+
+#-------------------------------------------------------------------------------
+
  main() {
    declare_variables "$@"
    "$@"

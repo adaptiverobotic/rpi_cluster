@@ -76,7 +76,7 @@ static int arg_limit = 2;
 bool validate_args(int argc) {
 
   if (argc != arg_limit) {
-    printf("ERROR: Up to %d argument(s) accepted\n", arg_limit - 1);
+    fprintf(stderr, "ERROR: Up to %d argument(s) accepted\n", arg_limit - 1);
     return false;
   }
 

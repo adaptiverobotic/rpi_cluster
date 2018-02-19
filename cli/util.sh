@@ -887,9 +887,14 @@ valid_hostname() {
   local hostname="$@"
   local valid=0
 
+  echo "Validating hostname: $hostname"
+
   # Run C program that returns 0 for valid hostnames
-  if ! ./bin/valid_hostname.o $hostname; then
+  if ! ./bin/valid_hostname.o $hostname > /dev/null; then
     valid=1
+    print_error "FAILURE: " "Invalid hostname: $hostname"
+  else
+    print_success "SUCCESS: " "Valid hostname: $hostname"
   fi
   return $valid
 }
@@ -898,14 +903,19 @@ valid_hostname() {
 
 # Returns 0 if and only
 # if user conforms to
-# TODO - pick a standard
+# standard
 valid_user() {
   local user="$@"
   local valid=0
 
+  echo "Validating user: $user"
+
   # Run C program that returns 0 for valid usernames
-  if ! ./bin/valid_user.o "$user" > /dev/null; then
+  if ! ./bin/valid_user.o $user; then
+    print_error "FAILURE: " "Invalid user: $user"
     valid=1
+  else
+    print_success "SUCCESS: " "Valid user: $user"
   fi
   return $valid
 }
@@ -914,13 +924,13 @@ valid_user() {
 
 # Returns 0 if and only
 # if password conforms to
-# TODO - pick a standard
+# standard
 valid_password() {
   local password="$@"
   local valid=0
 
   # Run C program that returns 0 for valid passwords
-  if ! ./bin/valid_hostname.o "$password" > /dev/null; then
+  if ! ./bin/valid_hostname.o $password > /dev/null; then
     valid=1
   fi
   return $valid

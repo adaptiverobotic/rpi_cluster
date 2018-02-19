@@ -34,7 +34,7 @@ char numbers[] = {
 bool valid_args(int argc) {
 
   if (argc != 2) {
-    printf("ERROR: Only 1 argumet permitted.\n");
+    fprintf(stderr, "ERROR: Only 1 argumet permitted.\n");
     return false;
   }
 

@@ -29,12 +29,6 @@ declare_variables() {
   # error out when we try to write
   # files to this directory
   mkdir -p $LOG_DIR
-
-  # Make sure every script is
-  # runnable with ./script_name.sh syntax
-  # That way the appropriate shell
-  # (bash, sh, expect) is run for a given script
-  chmod +x **/*.sh
 }
 
 #-------------------------------------------------------------------------------
@@ -54,15 +48,18 @@ read_in_common_credentials() {
 # Example, if $IPS does not exist,
 # then we should not keep runnning.
 run_checks() {
+  local valid=0
+  # TODO - Temporarily unset -e so
+  # that we can fall through and see
+  # all credentials that fail
 
-  # TODO - Validate user, password, and hostname
+  echo "Validating common credentials"
   $UTIL valid_hostname $COMMON_HOST
   $UTIL valid_user $COMMON_USER
   $UTIL valid_password $COMMON_PASS
   $UTIL valid_ip_list $IPS
-
-  echo "HERE"
-  exit 1
+  $UTIL print_success "SUCCESS: " "All common credentials are valid"
+  # exit 1
 }
 
 #-------------------------------------------------------------------------------
