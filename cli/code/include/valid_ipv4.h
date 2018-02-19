@@ -59,22 +59,6 @@ static octet_bound class_D = {
 // Number of required args
 static int arg_limit = 2;
 
-//------------------------------------------------------------------------------
-
-/**
- * Verifies that we were
- * passed exactly N
- * additional argument.
- */
-bool validate_args(int argc) {
-
-  if (argc != arg_limit) {
-    fprintf(stderr, "ERROR: Up to %d argument(s) accepted\n", arg_limit - 1);
-    return false;
-  }
-
-  return true;
-}
 
 //------------------------------------------------------------------------------
 
@@ -167,13 +151,12 @@ bool has_leading_zeros(char* ip) {
 }
 
 //------------------------------------------------------------------------------
-
 /**
  * Returns true if and only if
  * the string passed is a valid
  * class A, B, C or D IPv4 address.
  */
-bool validate_ip(char* ip_str) {
+bool validate_ip_silent(char* ip_str) {
   bool  numeric   = true;
   bool  valid     = false;
   int   octet_cnt = 0;
@@ -232,6 +215,12 @@ bool validate_ip(char* ip_str) {
     )) {
     valid = true;
   }
+
+  return valid;
+}
+
+bool validate_ip(char* ip_str) {
+  bool valid = validate_ip_silent(ip_str);
 
   // Print whether or not it's valid
   valid ? printf("true\n") : printf("false\n");

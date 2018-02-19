@@ -848,10 +848,8 @@ archive_old_logs() {
 # descending order based off
 # othe first argument.
 sort_ips() {
-  local order="ascending"
   local file="$@"
-
-  ./bin/sort_ips.o $(cat $file)
+  ./bin/sort_ips.o $(cat $file) 
 }
 
 #-------------------------------------------------------------------------------
@@ -868,7 +866,7 @@ valid_ip_list() {
   while read ip; do
 
     # Run C program that returns 0 for valid ips
-    if ! ./bin/valid_ipv4.o "$ip"; then
+    if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
       valid=1
       break
     fi

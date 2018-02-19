@@ -25,5 +25,5 @@ int main(int argc, char *argv[]) {
   char* ip  = argv[1];
 
   // Validate # of args, if valid, validate the ip address.
-  return validate_args(argc) && validate_ip(ip) ? 0 : 1;
+  return validate_args(argc, 2) && validate_ip(ip) ? 0 : 1;
 }
