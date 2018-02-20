@@ -69,7 +69,7 @@ read_in_common_credentials() {
 # prefix, but it works for any.
 ip_list() {
   echo "Generating list of ips"
-  ./ip/list.sh
+  ./ip/list.sh generate_list
   $UTIL print_success "SUCCESS: " "ip lists generated"
 }
 

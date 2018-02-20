@@ -11,9 +11,6 @@ declare_variables() {
   readonly mac_blacklist=$(cat assets/mac_blacklist)
   readonly mac_whitelist_file="$(pwd)/assets/mac_whitelist"
   readonly ip_whitelist_file="$(pwd)/assets/ip_whitelist"
-
-  # Delete and recreate them to get a fresh start
-  $UTIL recreate_files $mac_whitelist_file $ip_whitelist_file
 }
 
 #-------------------------------------------------------------------------------
@@ -159,9 +156,7 @@ pick_nas_servers() {
   echo $nas_1 > $NAS_IP_FILE
   echo $nas_2 >> $NAS_IP_FILE
 
-  # Whitelist them
-  whitelist $nas_1 $nas_2
-
+  # Print the rest
   for ip in $ips;
   do
     echo $ip
@@ -182,12 +177,11 @@ pick_sysadmin() {
   # Add it back to file
   echo $sysadmin_ip >> $SYSADMIN_IP_FILE
 
-  # Whitelist it
-  whitelist $sysadmin_ip
-
+  # Loop through all ips
+  # If they are not this ip
   for ip in $ips;
   do
-    if [[ $ip != $sysadmin_ip ]] && [[ $ip != "192.168.2.252" ]]; then
+    if [[ $ip != $sysadmin_ip ]]; then
       echo $ip
     fi
   done
@@ -225,76 +219,63 @@ filter_by_whitelist() {
 # Haha, see what I did there. Whitelist...
 # I'm black, q tu quieres q yo te diga...
 verify_list() {
+  declare -A map_pid_ip
   local ips=$@
-  local temp_ips_file="$TEMP_DIR/temp_ips"
 
-  # recreate
-  rm -f $temp_ips_file
-  touch $temp_ips_file
-
-  # Write out  to file
+  # Loop through each
+  # ip subnet
   for ip in $ips;
   do
-    echo $ip >> $temp_ips_file
+
+    # Give it 5 seconds to establish an ssh connection
+    (timeout 5 $UTIL my_sshpass $COMMON_USER@$ip ssh echo "Test" > /dev/null 2>&1 ) &
+
+    map_pid_ip[$!]=$ip
   done
 
-  # TODO - perhaps to try ssh in
-  # without erroring out, and only
-  # storing ips we succeeded with. We will manually
-  # do that with my_sshpass instead of using
-  # a function that calls our loop nodes function
+  # Await each pid to finish
+  for pid in "${!map_pid_ip[@]}";
+  do
 
-  echo "Checking that all resolved ips can be reached via ssh"
-  $UTIL valid_ip_list $temp_ips_file
-  $UTIL print_success "SUCCESS: " "All ips are reachable"
+    # Echo ips that we
+    # successfully connected to
+    if wait $pid; then
+      echo "${map_pid_ip[$pid]}"
+    fi
+  done
+
 }
 
 #-------------------------------------------------------------------------------
 
-# 1.  Figure out the subnet
-# 2.  Ping the whole subnet
-# 3.  Capture ips that responded
-# 4.  Get their mac addresses
-# 5.  Filter out ips with invalid macs
-# 6.  Sort the ips
-# 7.  Select DHCP server, whitelist it's ip
-# 8.  Select the NAS server, whitelist, it's ip
-# 9.  Whitelist this (sysadmin) device's ip
-# 10. Filter out all whitelisted ips
-# 11. Return remaining ips
-main() {
+generate_list() {
   local ips=""
   local subnet=""
 
-  declare_variables
-  subnet=$( $UTIL my_subnet         )
-  ips=$(    ping_subnet      $subnet)
-  ips=$(    pick_sysadmin       $ips)
-  ips=$(    filter_by_mac       $ips)
+  # Build the lists
+  subnet=$( $UTIL my_subnet         );  # Figure out what subnet we are on
+  ips=$(    ping_subnet      $subnet);  # Ping all ips on it, recording those that respond
+  ips=$(    filter_by_mac       $ips);  # Filter out ips whose macs do not match our filter
+  ips=$(    filter_by_whitelist $ips);  # Filter out any other ips that we have whitelisted
+  ips=$(    pick_sysadmin       $ips);  # Strip off the ip off of the device running this script
+  ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
+  ips=$(    $UTIL sort_ips      $ips);  # Sort in ascending order
+  ips=$(    pick_dhcp_server    $ips);  # Pick first ip in list as dhcp server
+  ips=$(    pick_nas_servers    $ips);  # Pick next N sevrers as network attached storages
+  echo "$ips" > $IPS                 ;  # The remaining ips will be considered servers
 
-  # This function builds whitelist
-  # of ips that matches by mac but
-  # we don't have access to
-  verify_list $ips
-
-  # Remove the bad ones
-  ips=$(    filter_by_whitelist $ips)
-
-  # From here on, we should have ssh
-  # access to all nodes that were listed
-  ips=$(    $UTIL sort_ips      $ips)
-  ips=$(    pick_dhcp_server    $ips)
-  ips=$(    pick_nas_servers    $ips)
-
-
-  # The rest are cluster workers
-  echo "$ips" > $IPS
-
-  # Display cluster info
+  # Display the lists
   $UTIL print_as_list "DHCP Server:" $(cat $DHCP_IP_FILE)
   $UTIL print_as_list "NAS Servers:" $(cat $NAS_IP_FILE)
   $UTIL print_as_list "Sysadmins:"   $(cat $SYSADMIN_IP_FILE)
   $UTIL print_as_list "Cluster:"     $(cat $IPS)
+}
+
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables
+
 
   "$@"
 }
