@@ -1026,6 +1026,25 @@ search_list() {
   echo "false"
 }
 
+# Checks if an element begins with
+# any of the elements in the list
+# that follows it
+search_list_by_prefix() {
+  local element=$1; shift
+  local group=$@
+
+  # Linear search
+  for obj in $group;
+  do
+    if [[ $element == $obj* ]]; then
+      echo "true"
+      return 0
+    fi
+  done
+
+  echo "false"
+}
+
 #-------------------------------------------------------------------------------
 
 main() {
