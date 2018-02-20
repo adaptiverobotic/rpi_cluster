@@ -14,11 +14,6 @@ declare_variables() {
   export ASSETS="$ROOT_DIR/assets"
   export UTIL="/bin/bash $ROOT_DIR/util.sh"
 
-  # Logging
-  export THIS_DEPLOYMENT="$ASSETS/temp/this_deployment"
-  export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
-  export LOG_DIR="${ROOT_DIR}/.logs"
-
   # Lists of ip addresses
   # for different servers
   export IPS="$ASSETS/ips/cluster"
@@ -29,6 +24,12 @@ declare_variables() {
   # Dev purporses
   export SYNC_MODE="false"
   export DEV_MODE=false
+  export TEMP_DIR="$ASSETS/temp"
+
+  # Logging
+  export THIS_DEPLOYMENT="$ASSETS/temp/this_deployment"
+  export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
+  export LOG_DIR="${ROOT_DIR}/.logs"
 }
 
 #-------------------------------------------------------------------------------
@@ -227,6 +228,7 @@ main() {
   prepare_logs
   read_in_common_credentials
   ip_list
+  ssh_keys
   "$@"
 }
 

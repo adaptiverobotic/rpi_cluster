@@ -1085,6 +1085,20 @@ search_list_by_prefix() {
 
 #-------------------------------------------------------------------------------
 
+# Deletes and recreates
+# a list of files
+recreate_files() {
+  local files=$@
+
+  for file in $files;
+  do
+    rm -f $file
+    touch $file
+  done
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
 

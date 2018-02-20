@@ -9,8 +9,11 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Global variables
 declare_variables() {
   readonly mac_blacklist=$(cat assets/mac_blacklist)
-  readonly mac_whitelist_file="assets/mac_whitelist"
-  readonly ip_whitelist_file="assets/ip_whitelist"
+  readonly mac_whitelist_file="$(pwd)/assets/mac_whitelist"
+  readonly ip_whitelist_file="$(pwd)/assets/ip_whitelist"
+
+  # Delete and recreate them to get a fresh start
+  $UTIL recreate_files $mac_whitelist_file $ip_whitelist_file
 }
 
 #-------------------------------------------------------------------------------
@@ -46,25 +49,6 @@ ping_subnet() {
       echo "${map_pid_ip[$pid]}"
     fi
   done
-}
-
-#-------------------------------------------------------------------------------
-
-# Verifies that we actually
-# have ssh access to the list
-# of ips that we constructed.
-# ips that reject the connection,
-# or the username doesn't work for, etc,
-# will be removed from the list.
-# We also have an optional whitelist
-# of ips that even if they meet
-# the criteria, they will be removed.
-# Haha, see what I did there. Whitelist...
-# I'm black, q tu quieres q yo te diga...
-verify_list() {
-  # TODO - Abstract this to list.sh
-  $UTIL valid_ip_list $IPS
-  $UTIL print_success "SUCCESS: " "All common credentials are valid"
 }
 
 #-------------------------------------------------------------------------------
@@ -203,7 +187,7 @@ pick_sysadmin() {
 
   for ip in $ips;
   do
-    if [[ $ip != $sysadmin_ip ]]; then
+    if [[ $ip != $sysadmin_ip ]] && [[ $ip != "192.168.2.252" ]]; then
       echo $ip
     fi
   done
@@ -229,6 +213,44 @@ filter_by_whitelist() {
 
 #-------------------------------------------------------------------------------
 
+# Verifies that we actually
+# have ssh access to the list
+# of ips that we constructed.
+# ips that reject the connection,
+# or the username doesn't work for, etc,
+# will be removed from the list.
+# We also have an optional whitelist
+# of ips that even if they meet
+# the criteria, they will be removed.
+# Haha, see what I did there. Whitelist...
+# I'm black, q tu quieres q yo te diga...
+verify_list() {
+  local ips=$@
+  local temp_ips_file="$TEMP_DIR/temp_ips"
+
+  # recreate
+  rm -f $temp_ips_file
+  touch $temp_ips_file
+
+  # Write out  to file
+  for ip in $ips;
+  do
+    echo $ip >> $temp_ips_file
+  done
+
+  # TODO - perhaps to try ssh in
+  # without erroring out, and only
+  # storing ips we succeeded with. We will manually
+  # do that with my_sshpass instead of using
+  # a function that calls our loop nodes function
+
+  echo "Checking that all resolved ips can be reached via ssh"
+  $UTIL valid_ip_list $temp_ips_file
+  $UTIL print_success "SUCCESS: " "All ips are reachable"
+}
+
+#-------------------------------------------------------------------------------
+
 # 1.  Figure out the subnet
 # 2.  Ping the whole subnet
 # 3.  Capture ips that responded
@@ -247,13 +269,25 @@ main() {
   declare_variables
   subnet=$( $UTIL my_subnet         )
   ips=$(    ping_subnet      $subnet)
+  ips=$(    pick_sysadmin       $ips)
   ips=$(    filter_by_mac       $ips)
+
+  # This function builds whitelist
+  # of ips that matches by mac but
+  # we don't have access to
+  verify_list $ips
+
+  # Remove the bad ones
+  ips=$(    filter_by_whitelist $ips)
+
+  # From here on, we should have ssh
+  # access to all nodes that were listed
   ips=$(    $UTIL sort_ips      $ips)
   ips=$(    pick_dhcp_server    $ips)
   ips=$(    pick_nas_servers    $ips)
-  ips=$(    pick_sysadmin       $ips)
-  ips=$(    filter_by_whitelist $ips)
 
+
+  # The rest are cluster workers
   echo "$ips" > $IPS
 
   # Display cluster info
@@ -262,10 +296,11 @@ main() {
   $UTIL print_as_list "Sysadmins:"   $(cat $SYSADMIN_IP_FILE)
   $UTIL print_as_list "Cluster:"     $(cat $IPS)
 
-  verify_list
-  # "$@"
+  "$@"
 }
 
 #-------------------------------------------------------------------------------
 
 main "$@"
+
+# exit 1
