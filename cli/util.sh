@@ -677,13 +677,51 @@ is_installed() {
 
 #-------------------------------------------------------------------------------
 
-# Print this device's ip
+# Given an ip
+# print is mac address
+get_mac_from_ip() {
+  local ip=$1;
+
+  # Get the mac address
+  mac=$(arp -an $ip \
+      | awk '{print $4}' \
+      | tr -d '()')
+
+  echo "$mac"
+}
+
+#-------------------------------------------------------------------------------
+
+# Print this
+# device's ip
 my_ip() {
 
   # TODO - Find platform independent way of
   # getting the ip address
   # ip route get 8.8.8.8 | awk '{ print $NF; exit }'
   echo $(hostname -I | awk '{print $1}')
+}
+
+#-------------------------------------------------------------------------------
+# Prints this
+# device MAC
+my_mac() {
+  local ip=$(my_ip)
+  local mac=$(get_mac_from_ip)
+
+  # TODO - Implement without
+  # going around the network
+
+  echo "$mac"
+}
+
+#-------------------------------------------------------------------------------
+
+# Print the subnet
+# this device is on
+my_subnet() {
+  local ip=$(my_ip)
+  echo ${ip%.*}
 }
 
 #-------------------------------------------------------------------------------

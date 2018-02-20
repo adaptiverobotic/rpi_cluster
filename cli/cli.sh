@@ -22,8 +22,9 @@ declare_variables() {
   # Lists of ip addresses
   # for different servers
   export IPS="$ASSETS/ips/cluster"
-  export DHCP_IP="$ASSETS/ips/dhcp"
-  export NAS_IP="$ASSETS/ips/nas"
+  export DHCP_IP_FILE="$ASSETS/ips/dhcp"
+  export NAS_IP_FILE="$ASSETS/ips/nas"
+  export SYSADMIN_IP_FILE="$ASSETS/ips/sysadmin"
 
   # Dev purporses
   export SYNC_MODE="false"
