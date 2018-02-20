@@ -10,12 +10,16 @@ declare_variables() {
 
 start_pihole() {
 
+  # Does not work MAC
   IP_LOOKUP="$(ip route get 8.8.8.8 | awk '{ print $NF; exit }')"
   IP="${IP:-$IP_LOOKUP}"
   IPv6="${IPv6:-$IPv6_LOOKUP}"
   DOCKER_CONFIGS="$(pwd)"
 
   docker volume create pihole
+
+
+  # TODO - Figure out why doesn't work
 
   docker run -d \
   --name pihole \

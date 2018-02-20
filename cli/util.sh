@@ -682,6 +682,7 @@ my_ip() {
 
   # TODO - Find platform independent way of
   # getting the ip address
+  # ip route get 8.8.8.8 | awk '{ print $NF; exit }'
   echo $(hostname -I | awk '{print $1}')
 }
 
@@ -835,6 +836,17 @@ archive_old_logs() {
   local old_log_dir="$ROOT_DIR/.logs.old"
 
   echo "Moving old logs from $LOG_DIR to $old_log_dir"
+
+  # Make if does
+  # not exist
+  mkdir -p $LOG_DIR
+
+  # If there are no old logs
+  # to move, then exit
+  if [[ ! -f "$LAST_DEPLOYMENT" ]]; then
+    echo "Nothing to archive"
+    return 0
+  fi
 
   # 1. Make appropriate folders
   for dir in $(ls "$LOG_DIR");

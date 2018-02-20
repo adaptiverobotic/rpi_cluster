@@ -1,7 +1,5 @@
 # To-do List
 
-* Implement timeout to kill jobs that are
-taking too long.
 
 * Perhaps when we are running in async mode,
 instead of erroring out if a single node fails. Let's take it off the list of $IPS

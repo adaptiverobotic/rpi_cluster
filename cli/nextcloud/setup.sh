@@ -38,8 +38,6 @@ remove_nextcloud() {
   fi
 
   echo "Removing nextcloud container"
-  docker rm nextcloud
-
   if ! docker rm --force nextcloud; then
     echo "Coult not remove container or nothing to remove"
   fi

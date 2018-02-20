@@ -6,34 +6,28 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 #-------------------------------------------------------------------------------
 
+# Globals
 declare_variables() {
-  # NOTE - run.sh is ALWAYS in the root
-  # directory of this project. If
-  # not, all environment variables
-  # will break in subprocesses.
-  export ROOT_DIR="$( pwd )"
 
-  # Environment variables
+  # Core globals
+  export ROOT_DIR="$( pwd )"
   export ASSETS="$ROOT_DIR/assets"
-  export DEV_MODE=true
-  export IPS="$ASSETS/ips/cluster"
-  export NAS="$ASSETS/ips/nas"
+  export UTIL="/bin/bash $ROOT_DIR/util.sh"
+
+  # Logging
+  export THIS_DEPLOYMENT="$ASSETS/temp/this_deployment"
   export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
   export LOG_DIR="${ROOT_DIR}/.logs"
 
-  # TODO - Create some facility
-  # to be able to toggle this
-  # from api layer
-  export SYNC_MODE="false"
-  export UTIL="/bin/bash $ROOT_DIR/util.sh"
+  # Lists of ip addresses
+  # for different servers
+  export IPS="$ASSETS/ips/cluster"
+  export DHCP_IP="$ASSETS/ips/dhcp"
+  export NAS_IP="$ASSETS/ips/nas"
 
-  # This is a hidden dir
-  # so it won't get pulled from
-  # github, so let's make sure
-  # that it is present so we don't
-  # error out when we try to write
-  # files to this directory
-  mkdir -p $LOG_DIR
+  # Dev purporses
+  export SYNC_MODE="false"
+  export DEV_MODE=false
 }
 
 #-------------------------------------------------------------------------------
@@ -41,9 +35,25 @@ declare_variables() {
 # Reads in common credentials
 # such as user and password
 read_in_common_credentials() {
-  export COMMON_HOST="$(cat $ASSETS/credentials/hostname)"
-  export COMMON_PASS="$(cat $ASSETS/credentials/password)"
-  export COMMON_USER="$(cat $ASSETS/credentials/user)"
+
+  # Read them in from the files
+  local cred="$ASSETS/credentials"
+  local host="$(cat $cred/hostname)"
+  local user="$(cat $cred/user)"
+  local pass="$(cat $cred/password)"
+
+  # Make sure they are all valid.
+  # If not, these function error out.
+  $UTIL valid_hostname $host
+  $UTIL valid_password $pass
+  $UTIL valid_user     $user
+
+  # If they are all valid
+  # export them as environment
+  # variables for global use
+  export COMMON_HOST=$host
+  export COMMON_USER=$user
+  export COMMON_PASS=$pass
 }
 
 #-------------------------------------------------------------------------------
@@ -57,37 +67,8 @@ read_in_common_credentials() {
 # prefix, but it works for any.
 ip_list() {
   echo "Generating list of ips"
-
-  # Build ip address list
   ./ip/list.sh
-}
-
-#-------------------------------------------------------------------------------
-
-# Checks that everything is
-# in order before we run cli.
-# Example, if $IPS does not exist,
-# then we should not keep runnning.
-run_checks() {
-  local valid=0
-  # TODO - Temporarily unset -e so
-  # that we can fall through and see
-  # all credentials that fail
-
-  echo "Validating common credentials"
-  $UTIL valid_hostname $COMMON_HOST
-  $UTIL valid_user $COMMON_USER
-  $UTIL valid_password $COMMON_PASS
-
-
-  ip_list
-
-
-  $UTIL valid_ip_list $IPS
-  $UTIL print_success "SUCCESS: " "All common credentials are valid"
-  echo "Sorting ips"
-  $UTIL sort_ips $IPS
-  $UTIL print_success "SUCCESS: " "Sorted ips"
+  $UTIL print_success "SUCCESS: " "ip lists generated"
 }
 
 #-------------------------------------------------------------------------------
@@ -96,17 +77,14 @@ run_checks() {
 # and clear the logs to make
 # space for new log files
 prepare_logs() {
+  local deployment=$(date '+%Y-%m-%d %H:%M:%S')
+
+  echo "Preparing logs for deployment"
   $UTIL archive_old_logs
   $UTIL clear_logs
-}
+  echo "$deployment" > "$LAST_DEPLOYMENT"
+  $UTIL print_success "SUCCESS: " "Logs are ready for deployment"
 
-#-------------------------------------------------------------------------------
-
-# Writes the date and time out to
-# a file that represents when this deployment
-# was kicked off. Used for management.
-create_deployment_timestamp() {
-  date '+%Y-%m-%d %H:%M:%S' > "$LAST_DEPLOYMENT"
 }
 
 #-------------------------------------------------------------------------------
@@ -119,6 +97,7 @@ firewall() {
 
   echo "Configuring each nodes' firewall for: $provider"
   ./ufw/install.sh $provider
+  $UTIL print_success "SUCCESS: " "Configured firewall for $provider"
 }
 
 #-------------------------------------------------------------------------------
@@ -133,6 +112,19 @@ firewall() {
 ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
   ./ssh/install.sh
+  $UTIL print_success "SUCCESS: " "Successfully administered new ssh keys"
+}
+
+#-------------------------------------------------------------------------------
+
+# Install dependencies on
+# all nodes in cluster
+dependencies() {
+  local provider=$1
+
+  echo "Installing dependencies on all nodes for: $docker"
+  ./dependencies/install.sh install $provider
+  $UTIL print_success "SUCCESS: " "Installed dependencies for: $provider"
 }
 
 # Everything above this line will not have an api binding. They are auxiliary
@@ -147,17 +139,7 @@ hostname() {
 
   echo "Changing each node's hostname"
   ./hostname/install.sh change_hostnames $provider
-}
-
-#-------------------------------------------------------------------------------
-
-# Install dependencies on
-# all nodes in cluster
-dependencies() {
-  local provider=$1
-
-  echo "Installing dependencies on all nodes"
-  ./dependencies/install.sh install $provider
+  $UTIL print_success "SUCCESS: " "All hostnames changed"
 }
 
 #-------------------------------------------------------------------------------
@@ -170,6 +152,7 @@ install() {
 
   echo "Installing "$@" on cluster"
   ./$provider/install.sh "$@"
+  $UTIL print_success "SUCCESS: " "Installed $provider on cluster"
 }
 
 #-------------------------------------------------------------------------------
@@ -182,24 +165,44 @@ uninstall() {
 
   echo "Uninstalling "$@" on cluster"
   ./$provider/install.sh "$@"
+  $UTIL print_success "SUCCESS: " "Removed $provider from cluster"
 }
 
 #-------------------------------------------------------------------------------
 
-# Reboot all nodes
-# in cluster
-reboot_cluster() {
-  echo "Rebooting the cluster"
-  $UTIL reboot_nodes
+# Just installs the
+# docker engine on
+# the cluster
+docker_engine() {
+  init docker
+  install docker docker_daemon
+  $UTIL print_success "SUCCESS: " "Docker engine installed"
 }
 
 #-------------------------------------------------------------------------------
 
-# Power off and power on
-# all nodes in cluster
-restart_cluster() {
-  echo "Restarting the cluster"
-  $UTIL restart_nodes
+# Sets up cluster as a docker
+# swarm cluster, and deploys
+# Portainer to the cluster for
+# easy docker swarm management
+docker_swarm() {
+  init docker
+  install docker swarm portainer
+
+  # Check that the cluster's portainer page is up is up
+  local portainer_url="http://$(cat docker/assets/leader):9000"
+  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
+}
+
+#-------------------------------------------------------------------------------
+
+nextcloud() {
+  ./nextcloud/install.sh start_nextcloud
+
+  # Check that the cluster's portainer page is up is up
+  local nextcloud_url="http://$(cat ${ASSETS}/ips/nas)"
+  $UTIL health_check 3 60 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
+  # $UTIL display_entry_point $nextcloud_url
 }
 
 # NOTE - Everything below this line will not have an api binding. That is, they are
@@ -210,57 +213,19 @@ restart_cluster() {
 init() {
   provider=$1
   echo "Initializing cluster settings for: $provider"
-
-  ssh_keys
   hostname $provider
   dependencies $provider
-
-  # TODO - Open ports depending on
-  # what we are deploying. Example, if
-  # we are only deploying SAMBA, then we
-  # do not need to open docker ports
-
   firewall $provider
-}
-
-#-------------------------------------------------------------------------------
-
-# Sets up cluster as a docker
-# swarm cluster, and deploys
-# Portainer to the cluster for
-# easy docker swarm management
-docker_cluster() {
-  init docker
-  install docker swarm portainer
-
-  # Check that the cluster's portainer page is up is up
-  local portainer_url="http://$(cat docker/assets/leader):9000"
-  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
-  $UTIL display_entry_point $portainer_url
-}
-
-#-------------------------------------------------------------------------------
-
-# Deploy Pi-Hole
-# to one node
-dhcp_server() {
-  :
-}
-
-#-------------------------------------------------------------------------------
-
-nextcloud() {
-  ./nextcloud/install.sh start_nextcloud
+  $UTIL print_success "SUCCESS: " "Cluster initialized"
 }
 
 #-------------------------------------------------------------------------------
 
 main() {
   declare_variables
-  read_in_common_credentials
-  # run_checks "$@"
   prepare_logs
-  create_deployment_timestamp
+  read_in_common_credentials
+  ip_list
   "$@"
 }
 

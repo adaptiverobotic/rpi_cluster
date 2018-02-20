@@ -184,7 +184,12 @@ generate_list() {
 # Haha, see what I did there. Whitelist...
 # I'm black, q tu quieres q yo te diga...
 verify_list() {
-  echo "Verifying list"
+  # TODO - Abstract this to list.sh
+  $UTIL valid_ip_list $IPS
+  $UTIL print_success "SUCCESS: " "All common credentials are valid"
+  echo "Sorting ips"
+  $UTIL sort_ips $IPS
+  $UTIL print_success "SUCCESS: " "Sorted ips"
 }
 
 #-------------------------------------------------------------------------------

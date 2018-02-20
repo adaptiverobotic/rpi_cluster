@@ -19,13 +19,13 @@ start_nextcloud() {
 
   # TODO - Perhaps, if ubuntu deploy
   # as services
-  # $UTIL scp_ssh_specific_nodes $NAS \
+  # $UTIL scp_ssh_specific_nodes $NAS_IP \
   #       $compose_file \
   #       docker-compose -f nextcloud-docker-compose.yml \
   #       up
 
   # If Rpi, deploy as container
-  $UTIL scp_ssh_specific_nodes $NAS \
+  $UTIL scp_ssh_specific_nodes $NAS_IP \
         $(pwd)/setup.sh \
         ./setup.sh $COMMON_USER $COMMON_PASS
 

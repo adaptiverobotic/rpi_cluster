@@ -219,6 +219,13 @@ bool validate_ip_silent(char* ip_str) {
   return valid;
 }
 
+//------------------------------------------------------------------------------
+
+/**
+ * Wrapper function around validate_ip_silent()
+ * that prints true to console if the ip address
+ * that is passed is valid IPv4 and false otherwise.
+ */
 bool validate_ip(char* ip_str) {
   bool valid = validate_ip_silent(ip_str);
 
