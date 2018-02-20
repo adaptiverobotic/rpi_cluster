@@ -25,6 +25,8 @@ struct octet_bound {
   int lower[4];
 };
 
+// TODO - MAKE CONSTANT
+
 // Bounds for class A addresses
 static octet_bound class_A = {
   .lower = {1, 0, 0, 1},
@@ -56,11 +58,15 @@ static octet_bound class_D = {
 // class, that's an option. Otherwise,
 // check all.
 
+// TODO - MAKE CONSTANT
+
 // Number of required args
 static int arg_limit = 2;
 
 
 //------------------------------------------------------------------------------
+
+// TODO - Abstract to util.h
 
 /*
  * Returns true if and only
@@ -202,7 +208,7 @@ bool validate_ip_silent(char* ip_str) {
   free(tofree);
 
   // Valid imples the string contains only
-  // numbers with exactly dots 4 separating
+  // numbers with exactly dots 3 separating 4
   // octets, and all octets conform to either
   // class A, B, C, or D standards
   if (

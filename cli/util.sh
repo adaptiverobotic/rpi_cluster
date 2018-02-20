@@ -869,8 +869,9 @@ archive_old_logs() {
 # descending order based off
 # othe first argument.
 sort_ips() {
-  local file="$@"
-  ./bin/sort_ips.o $(cat $file)
+  local ips="$@"
+
+  ./bin/sort_ips.o $ips
 }
 
 #-------------------------------------------------------------------------------
@@ -905,6 +906,12 @@ valid_ip_list() {
 
   # Loop through each 1
   else
+
+    # TODO - Duplicate code, this is implemented
+    # in C code. Create small file that calls this
+    # to keep shell scripts shorter. Let C do
+    # the heavy lifting
+
     while read ip; do
 
       # Run C program that returns 0 for valid ips

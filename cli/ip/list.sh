@@ -11,6 +11,8 @@ declare_variables() {
   # NOTE - Placeholder for if
   # we need to declare globals
   readonly whitelist=$(cat assets/whitelist)
+
+  # TODO - Perhaps read in files DHCP and NAS and sysadmin
 }
 
 #-------------------------------------------------------------------------------
@@ -18,16 +20,8 @@ declare_variables() {
 # NOTE - Figure out our subnet
 # dynamically
 echo_subnet() {
-  # Figure out how to only
-  # get first entry and strip off .xxx/24
-  local temp=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')
-  local subnet=($temp)
-  subnet=${subnet[0]}
-
-  # TODO - Temporary
-  subnet="192.168.2"
-
-  echo $subnet
+  local ip=$( $UTIL my_ip)
+  echo ${ip%.*}
 }
 
 #-------------------------------------------------------------------------------
@@ -36,13 +30,36 @@ echo_subnet() {
 # We use this as an auxiliary function
 # to enforce arp resolution
 ping_subnet() {
-  local subnet=$(echo_subnet)
+  declare -A map_pid_ip
+  local subnet=$1
+  local ip=""
 
-  echo "Pinging subnet $subnet.xxx"
-
+  # Ping entire subnet
   for i in {1..254};
   do
-    (ping $subnet.$i -c 1 -w 5  >/dev/null && echo "$subnet.$i" &)
+    ip=$subnet.$i
+    ping $ip -c 1 -w 5  >/dev/null &
+
+    # Grab the pids of
+    # each background
+    # process
+    map_pid_ip[$!]=$ip
+  done
+
+  # Await each pid to finish
+  for pid in "${!map_pid_ip[@]}";
+  do
+
+    # If an ip responded,
+    # exit status is 0
+    if wait $pid; then
+      echo "${map_pid_ip[$pid]}"
+
+    # Otherwise, it's
+    # not reachable
+    else
+      :
+    fi
   done
 }
 
@@ -187,9 +204,6 @@ verify_list() {
   # TODO - Abstract this to list.sh
   $UTIL valid_ip_list $IPS
   $UTIL print_success "SUCCESS: " "All common credentials are valid"
-  echo "Sorting ips"
-  $UTIL sort_ips $IPS
-  $UTIL print_success "SUCCESS: " "Sorted ips"
 }
 
 #-------------------------------------------------------------------------------
@@ -198,6 +212,17 @@ verify_list() {
 # to console
 display_list() {
   $UTIL print_as_list "List of ips:" $(cat $IPS)
+}
+
+#-------------------------------------------------------------------------------
+
+filter_by_mac() {
+  local ips=$@
+
+  for ip in $ips;
+  do
+    echo $ip
+  done
 }
 
 #-------------------------------------------------------------------------------
@@ -220,22 +245,32 @@ whitelist_self() {
 
 #-------------------------------------------------------------------------------
 
+# 1.  Figure out the subnet
+# 2.  Ping the whole subnet
+# 3.  Capture ips that responded
+# 4.  Get their mac addresses
+# 5.  Filter out ips with invalid macs
+# 6.  Sort the ips
+# 7.  Select DHCP server, whitelist it's ip
+# 8.  Select the NAS server, whitelist, it's ip
+# 9.  Whitelist this (sysadmin) device's ip
+# 10. Filter out all whitelisted ips
+# 11. Return remaining ips
 main() {
+  local ips=""
+  local subnet=""
+
   declare_variables
-  ping_subnet
+  subnet=$(echo_subnet)
+  ips=$(ping_subnet $subnet)
+  ips=$(filter_by_mac $ips)
+  ips=$( $UTIL sort_ips $ips )
+
+  echo "$ips"
+
   generate_list
   verify_list
   display_list
-
-  # TODO - de hecho, si queremos esto.
-  # porque q tal si ya tenemos una lista de
-  # nodos q no se quedan en la misma red. puede
-  # ser q son servidores digital ocean. lo unico
-  # q tenemos q hacer es verificar q el usuario
-  # y la clave funcionan bien. no nos vale nada
-  # escanear la red local. o tambien, la api
-  # deberia ofrecer la opcion de dar la lista.
-  # no la teneos q generar en todos casos. pilas.
 
   # Placeholder for if we
   # want to accept command
