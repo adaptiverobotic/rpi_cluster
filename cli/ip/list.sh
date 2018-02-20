@@ -211,6 +211,8 @@ pick_sysadmin() {
 
 #-------------------------------------------------------------------------------
 
+# Only prints ips that
+# are not whitelisted
 filter_by_whitelist() {
   local ips=$@
   local whitelist=$(cat $ip_whitelist_file)
@@ -254,13 +256,13 @@ main() {
 
   echo "$ips" > $IPS
 
-
+  # Display cluster info
   $UTIL print_as_list "DHCP Server:" $(cat $DHCP_IP_FILE)
   $UTIL print_as_list "NAS Servers:" $(cat $NAS_IP_FILE)
   $UTIL print_as_list "Sysadmins:"   $(cat $SYSADMIN_IP_FILE)
   $UTIL print_as_list "Cluster:"     $(cat $IPS)
 
-  # verify_list
+  verify_list
   # "$@"
 }
 
