@@ -19,7 +19,7 @@ declare_variables() {
 # docker on each nodes
 install_docker() {
   echo "Installing docker on each node"
-  $UTIL scp_ssh_nodes $(pwd)/setup.sh ./setup.sh install_docker
+  $UTIL scp_ssh_specific_nodes $ALL_IPS_FILE $(pwd)/setup.sh ./setup.sh reinstall_docker
   echo "Successfully installed docker on each node"
 }
 

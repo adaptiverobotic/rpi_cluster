@@ -17,7 +17,7 @@ declare_variables() {
   # Lists of ip addresses
   # for different
   export IP_DIR="$ASSETS/ips"
-  export ALL_IPS="$ASSETS/ips/all"
+  export ALL_IPS_FILE="$ASSETS/ips/all"
   export IPS="$ASSETS/ips/cluster"
   export DHCP_IP_FILE="$ASSETS/ips/dhcp"
   export NAS_IP_FILE="$ASSETS/ips/nas"
@@ -161,10 +161,9 @@ docker() {
 # Portainer to the cluster for
 # easy docker swarm management
 swarm() {
-  local url=""
+  local url="http://$(cat swarm/assets/leader):9000"
 
   ./swarm/install.sh install
-  url="http://$(cat swarm/assets/leader):9000"
   $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $url"
   $UTIL display_entry_point $url
 }
@@ -172,7 +171,7 @@ swarm() {
 #-------------------------------------------------------------------------------
 
 nextcloud() {
-  local nextcloud_url="http://$(cat ${ASSETS}/ips/nas)"
+  local nextcloud_url="http://192.168.2.46"
 
   ./nextcloud/install.sh start_nextcloud
   $UTIL health_check 3 30 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
@@ -195,9 +194,14 @@ main() {
   declare_variables
   prepare_logs
   read_in_common_credentials
-  ip_list
+  # ip_list
   # ssh_keys
-  "$@"
+
+  
+  pihole
+  nextcloud
+  swarm
+  # "$@"
 }
 
 #-------------------------------------------------------------------------------

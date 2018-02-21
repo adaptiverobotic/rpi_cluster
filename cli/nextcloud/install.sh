@@ -17,15 +17,7 @@ declare_variables() {
 start_nextcloud() {
   echo "Starting nextcloud"
 
-  # TODO - Perhaps, if ubuntu deploy
-  # as services
-  # $UTIL scp_ssh_specific_nodes $NAS_IP \
-  #       $compose_file \
-  #       docker-compose -f nextcloud-docker-compose.yml \
-  #       up
-
-  # If Rpi, deploy as container
-  $UTIL scp_ssh_specific_nodes $NAS_IP \
+  $UTIL scp_ssh_specific_nodes $NAS_IP_FILE \
         $(pwd)/setup.sh \
         ./setup.sh $COMMON_USER $COMMON_PASS
 
@@ -35,7 +27,7 @@ start_nextcloud() {
 #-------------------------------------------------------------------------------
 
 main() {
-  declare_variables "$@"
+  declare_variables
 
   "$@"
 }

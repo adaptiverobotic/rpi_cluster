@@ -32,7 +32,7 @@ generate_keys() {
 # this before we have ssg keys
 send_assets() {
   echo "Sending setup script to each node"
-  $UTIL sshpass_specific_nodes $ALL_IPS scp $(pwd)/setup.sh
+  $UTIL sshpass_specific_nodes $ALL_IPS_FILE scp $(pwd)/setup.sh
   echo "Successfully sent setup script to each node"
 }
 
@@ -43,7 +43,7 @@ send_assets() {
 # that are associated with this machine.
 delete_keys() {
   echo "Deleting old keys"
-  $UTIL sshpass_specific_nodes $ALL_IPS ssh ./setup.sh
+  $UTIL sshpass_specific_nodes $ALL_IPS_FILE ssh ./setup.sh
   echo "Successfully deleted old keys"
 }
 
@@ -54,7 +54,7 @@ delete_keys() {
 # of each node
 send_keys() {
   echo "Sending public key to each node"
-  $UTIL sshpass_specific_nodes $ALL_IPS ssh-copy-id -i $ssh_dir/id_rsa.pub
+  $UTIL sshpass_specific_nodes $ALL_IPS_FILE ssh-copy-id -i $ssh_dir/id_rsa.pub
   echo "Successfully sent public key to each node"
 }
 

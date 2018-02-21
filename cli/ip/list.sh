@@ -252,17 +252,17 @@ verify_list() {
 # them and removing white space
 # in case any of the files are empty
 create_full_list() {
-  $UTIL recreate_files $ALL_IPS
+  $UTIL recreate_files $ALL_IPS_FILE
 
   # Concat all server's ips
-  cat $DHCP_IP_FILE >> $ALL_IPS
-  cat $NAS_IP_FILE  >> $ALL_IPS
-  cat $IPS          >> $ALL_IPS
+  cat $DHCP_IP_FILE >> $ALL_IPS_FILE
+  cat $NAS_IP_FILE  >> $ALL_IPS_FILE
+  cat $IPS          >> $ALL_IPS_FILE
 
   # Remove whitespace if
   # if any was added from
   # cat empty files
-  sed -i '/^\s*$/d' $ALL_IPS
+  sed -i '/^\s*$/d' $ALL_IPS_FILE
 }
 
 #-------------------------------------------------------------------------------
