@@ -850,7 +850,7 @@ display_entry_point() {
 # Delete old log files
 # from log directory
 clear_logs() {
-  echo "Clearing logs from: $LOG_DIR"
+  print_as_list "Clearing logs from:" "$LOG_DIR"
   rm -f $LOG_DIR/*
 }
 
@@ -873,7 +873,7 @@ clear_logs() {
 archive_old_logs() {
   local old_log_dir="$ROOT_DIR/.logs.old"
 
-  echo "Moving old logs from $LOG_DIR to $old_log_dir"
+  print_as_list "Moving old logs:" "$LOG_DIR" "$old_log_dir"
 
   # Make if does
   # not exist

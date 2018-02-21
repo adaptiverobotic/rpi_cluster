@@ -87,7 +87,6 @@ prepare_logs() {
   $UTIL clear_logs
   echo "$deployment" > "$LAST_DEPLOYMENT"
   $UTIL print_success "SUCCESS: " "Logs are ready for deployment"
-
 }
 
 #-------------------------------------------------------------------------------
@@ -130,10 +129,7 @@ dependencies() {
   $UTIL print_success "SUCCESS: " "Installed dependencies for: $provider"
 }
 
-# Everything above this line will not have an api binding. They are auxiliary
-# functoins that make the applicaiton work correctly. But, we do not want
-# these behaviors exosed.
-#===============================================================================
+#-------------------------------------------------------------------------------
 
 # Changes the hostname on all
 # nodes to match a specified pattern.
@@ -147,53 +143,30 @@ hostname() {
 
 #-------------------------------------------------------------------------------
 
-# Install either docker,
-# kubernetes, or samba on
-# entire cluster
-install() {
-  local provider=$1; shift
-
-  echo "Installing "$@" on cluster"
-  ./$provider/install.sh "$@"
-  $UTIL print_success "SUCCESS: " "Installed $provider on cluster"
-}
-
-#-------------------------------------------------------------------------------
-
-# Uninstall either docker,
-# kubernetes, or samba on
-# entire cluster
-uninstall() {
-  local provider=$1; shift
-
-  echo "Uninstalling "$@" on cluster"
-  ./$provider/install.sh "$@"
-  $UTIL print_success "SUCCESS: " "Removed $provider from cluster"
-}
-
-#-------------------------------------------------------------------------------
-
 # Just installs the
 # docker engine on
 # the cluster
-docker_engine() {
-  init docker
-  install docker docker_daemon
+docker() {
+  ./docker/install.sh install_docker
   $UTIL print_success "SUCCESS: " "Docker engine installed"
 }
 
-#-------------------------------------------------------------------------------
+# Everything above this line will not have an api binding. They are auxiliary
+# functions that make the applicaiton work correctly. But, we do not want
+# these behaviors exosed.
+#===============================================================================
 
 # Sets up cluster as a docker
 # swarm cluster, and deploys
 # Portainer to the cluster for
 # easy docker swarm management
-docker_swarm() {
-  init docker
-  install docker swarm portainer
+swarm() {
+  local url=""
 
-  local portainer_url="http://$(cat docker/assets/leader):9000"
-  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
+  ./swarm/install.sh install
+  url="http://$(cat swarm/assets/leader):9000"
+  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $url"
+  $UTIL display_entry_point $url
 }
 
 #-------------------------------------------------------------------------------
@@ -216,20 +189,6 @@ pihole() {
   $UTIL display_entry_point $pihole_url
 }
 
-# NOTE - Everything below this line will not have an api binding. That is, they are
-# here for development purposes. But, they will be reimplemented on the api
-# side with better error handling between steps.
-#==============================================================================
-
-init() {
-  provider=$1
-  echo "Initializing cluster settings for: $provider"
-  hostname $provider
-  dependencies $provider
-  firewall $provider
-  $UTIL print_success "SUCCESS: " "Cluster initialized"
-}
-
 #-------------------------------------------------------------------------------
 
 main() {
@@ -237,7 +196,7 @@ main() {
   prepare_logs
   read_in_common_credentials
   ip_list
-  ssh_keys
+  # ssh_keys
   "$@"
 }
 

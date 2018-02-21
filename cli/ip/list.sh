@@ -41,7 +41,7 @@ ping_subnet() {
   for pid in "${!map_pid_ip[@]}";
   do
 
-    # Echo ips that responded
+    # Only echo ips that responded
     if wait $pid; then
       echo "${map_pid_ip[$pid]}"
     fi
@@ -118,7 +118,7 @@ filter_by_mac() {
 
     # TODO - Check for prexisting whitelisted ips
 
-    # Echo only ips that begin with one of the predefined prefixes
+    # Only echo ips that begin with one of the predefined prefixes
     if [[ $( $UTIL search_list_by_prefix $mac $mac_blacklist ) = true ]]; then
       echo $ip
     fi
@@ -136,6 +136,7 @@ pick_dhcp_server() {
 
   echo $dhcp_ip > $DHCP_IP_FILE
 
+  # Echo the rest
   for ip in $ips;
   do
     echo $ip
@@ -144,19 +145,25 @@ pick_dhcp_server() {
 
 #-------------------------------------------------------------------------------
 
-# Pop first 2 ips
+# Pop first N ips
 # and print the rest
 pick_nas_servers() {
+
+  # TODO - Allow to pick N
+  # NAS servers rather than
+  # just two
+
   local nas_1=$1; shift
   local nas_2=$1; shift
   local ips=$@
 
-  # Delete old file, write new one
-  # with new ip addresses
-  echo $nas_1 > $NAS_IP_FILE
+  # Delete old file, write new
+  # one with new ip addresses
+  $UTIL recreate_files $NAS_IP_FILE
+  echo $nas_1 >> $NAS_IP_FILE
   echo $nas_2 >> $NAS_IP_FILE
 
-  # Print the rest
+  # Echo the rest
   for ip in $ips;
   do
     echo $ip
@@ -169,7 +176,7 @@ pick_nas_servers() {
 # device does not end up on
 # the list of ip addresses
 pick_sysadmin() {
-  local sysadmin_ip=$( $UTIL my_ip)
+  local sysadmin_ip=$( $UTIL my_ip )
 
   # Delete the ip if it's present
   sed -i "/$sysadmin_ip/d" $SYSADMIN_IP_FILE
@@ -207,17 +214,9 @@ filter_by_whitelist() {
 
 #-------------------------------------------------------------------------------
 
-# Verifies that we actually
-# have ssh access to the list
-# of ips that we constructed.
-# ips that reject the connection,
-# or the username doesn't work for, etc,
-# will be removed from the list.
-# We also have an optional whitelist
-# of ips that even if they meet
-# the criteria, they will be removed.
-# Haha, see what I did there. Whitelist...
-# I'm black, q tu quieres q yo te diga...
+# Make sure we have ssh access
+# to all remaining ips. Filter
+# out those that we cannot access.
 verify_list() {
   declare -A map_pid_ip
   local ips=$@
@@ -227,7 +226,7 @@ verify_list() {
   for ip in $ips;
   do
 
-    # Give it 5 seconds to establish an ssh connection
+    # Give it 5 seconds to establish an ssh connection, otherwise error out
     (timeout 5 $UTIL my_sshpass $COMMON_USER@$ip ssh echo "Test" > /dev/null 2>&1 ) &
 
     map_pid_ip[$!]=$ip
@@ -237,7 +236,7 @@ verify_list() {
   for pid in "${!map_pid_ip[@]}";
   do
 
-    # Echo ips that we
+    # Only echo ips that we
     # successfully connected to
     if wait $pid; then
       echo "${map_pid_ip[$pid]}"
@@ -255,47 +254,59 @@ verify_list() {
 create_full_list() {
   $UTIL recreate_files $ALL_IPS
 
-  # Concat all sevrers ips
+  # Concat all server's ips
   cat $DHCP_IP_FILE >> $ALL_IPS
   cat $NAS_IP_FILE  >> $ALL_IPS
   cat $IPS          >> $ALL_IPS
 
   # Remove whitespace if
-  # if any was added for empty files
+  # if any was added from
+  # cat empty files
   sed -i '/^\s*$/d' $ALL_IPS
 }
 
 #-------------------------------------------------------------------------------
 
+# Create the lists of ip
+# addresses applying the
+# right filters to only get
+# the right ip addresses
 generate_list() {
   local ips=""
   local subnet=""
 
   # Build the lists
   subnet=$( $UTIL my_subnet         );  # Figure out what subnet we are on
-  ips=$(    ping_subnet      $subnet);  # Ping all ips on it, recording those that respond
-  ips=$(    filter_by_mac       $ips);  # Filter out ips whose macs do not match our filter
+  ips=$(    ping_subnet      $subnet);  # Ping all ips on subnet, recording those that respond
+  ips=$(    filter_by_mac       $ips);  # Filter out ips whose mac don't match our filter
   ips=$(    filter_by_whitelist $ips);  # Filter out any other ips that we have whitelisted
   ips=$(    pick_sysadmin       $ips);  # Strip off the ip off of the device running this script
+
+  # Make sure we have
+  # at least 1 ip left
+  if [[ $ips = "" ]]; then
+    $UTIL print_error "ERROR: " "No valid ip(s) resolved, at least 1 required"
+    return 1
+  fi
+
   ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
   ips=$(    $UTIL sort_ips      $ips);  # Sort in ascending order
   ips=$(    pick_dhcp_server    $ips);  # Pick first ip in list as dhcp server
-  ips=$(    pick_nas_servers    $ips);  # Pick next N sevrers as network attached storages
-  echo "$ips" > $IPS                 ;  # The remaining ips will be considered servers
-  create_full_list                   ;  # Create a globla list of ip addresses for all servers on network
+  ips=$(    pick_nas_servers    $ips);  # Pick next N servers as network attached storages
+  echo "$ips" > $IPS                 ;  # The remaining ip(s) will be considered general purpose servers
+  create_full_list                   ;  # Create a global list of ip addresses for all servers on network
 
-  # Display the lists
-  $UTIL print_as_list "DHCP Server:" $(cat $DHCP_IP_FILE)
-  $UTIL print_as_list "NAS Servers:" $(cat $NAS_IP_FILE)
-  $UTIL print_as_list "Sysadmins:"   $(cat $SYSADMIN_IP_FILE)
-  $UTIL print_as_list "Cluster:"     $(cat $IPS)
+  # Display the lists by category
+  $UTIL print_as_list "DHCP Server:"       $(cat $DHCP_IP_FILE)
+  $UTIL print_as_list "NAS Server(s):"     $(cat $NAS_IP_FILE)
+  $UTIL print_as_list "System Admin(s):"   $(cat $SYSADMIN_IP_FILE)
+  $UTIL print_as_list "Cluster Server(s):" $(cat $IPS)
 }
 
 #-------------------------------------------------------------------------------
 
 main() {
   declare_variables
-
 
   "$@"
 }
