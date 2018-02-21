@@ -2,50 +2,91 @@ set -e
 
 #-------------------------------------------------------------------------------
 
-declare_variables() {
-  :
+# Depending on the os architecture
+# print the respective image name
+determine_img_by_os() {
+  echo "pi-hole-multiarch"
 }
 
 #-------------------------------------------------------------------------------
 
-start_pihole() {
+# Depending on image,
+# print appropriate tag
+determine_tag_by_img() {
+  echo "debian_armhf"
+}
 
-  # Does not work MAC
+#-------------------------------------------------------------------------------
+
+# Globals
+declare_variables() {
+  readonly img=$(determine_img_by_os)
+  readonly tag=$(determine_tag_by_img $img)
+  readonly password=$2
+}
+
+#-------------------------------------------------------------------------------
+
+# Start pihole as container
+install_pihole() {
   IP_LOOKUP="$(ip route get 8.8.8.8 | awk '{ print $NF; exit }')"
   IP="${IP:-$IP_LOOKUP}"
   IPv6="${IPv6:-$IPv6_LOOKUP}"
   DOCKER_CONFIGS="$(pwd)"
 
+  # Volume for storage
   docker volume create pihole
 
+  # TODO - Mount the volume
 
-  # TODO - Figure out why doesn't work
+  # -v "pihole:/etc/pihole/" \
 
+  # Run the service
   docker run -d \
   --name pihole \
   -p 53:53/tcp -p 53:53/udp -p 80:80 \
-  -v "pihole:/etc/pihole/" \
-  -v "${DOCKER_CONFIGS}/dnsmasq.d/:/etc/dnsmasq.d/" \
-  -e ServerIP="192.168.2.100" \
-  -e WEBPASSWORD=raspberry \
+  --mount source=pihole,target=/etc/pihole \
+  -v "${DOCKER_CONFIGS}/.pihole/dnsmasq.d/:/etc/dnsmasq.d/" \
+  -e ServerIP="$IP" \
+  -e WEBPASSWORD=$password \
   --restart=unless-stopped \
-  diginc/pi-hole:arm_v3.1
+  diginc/$img:$tag
 }
 
 #-------------------------------------------------------------------------------
 
-remove_pihole() {
-  docker volume --force rm pihole
+# Remove the pihole container
+uninstall_pihole() {
 
-  docker stop pihole
+  if ! docker stop pihole; then
+    echo "Could not stop container pihole or did not exist"
+  fi
 
-  docker rm --force pihole
+  if ! docker rm --force pihole; then
+    echo "Could not remove container pihole or did not exist"
+  fi
+
+  if ! docker volume --force rm pihole; then
+    echo "Could not remove volume pihole or doesn't exist"
+  fi
+
+  # TODO - Remove all images associate with pihole
+}
+
+#-------------------------------------------------------------------------------
+
+# Remove and reinstall
+reinstall_pihole() {
+  uninstall_pihole
+  install_pihole
 }
 
 #-------------------------------------------------------------------------------
 
 main() {
   declare_variables "$@"
+
+  "$@"
 }
 
 #-------------------------------------------------------------------------------

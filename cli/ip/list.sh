@@ -248,6 +248,25 @@ verify_list() {
 
 #-------------------------------------------------------------------------------
 
+# Create a global list
+# by concatenating all of
+# them and removing white space
+# in case any of the files are empty
+create_full_list() {
+  $UTIL recreate_files $ALL_IPS
+
+  # Concat all sevrers ips
+  cat $DHCP_IP_FILE >> $ALL_IPS
+  cat $NAS_IP_FILE  >> $ALL_IPS
+  cat $IPS          >> $ALL_IPS
+
+  # Remove whitespace if
+  # if any was added for empty files
+  sed -i '/^\s*$/d' $ALL_IPS
+}
+
+#-------------------------------------------------------------------------------
+
 generate_list() {
   local ips=""
   local subnet=""
@@ -263,6 +282,7 @@ generate_list() {
   ips=$(    pick_dhcp_server    $ips);  # Pick first ip in list as dhcp server
   ips=$(    pick_nas_servers    $ips);  # Pick next N sevrers as network attached storages
   echo "$ips" > $IPS                 ;  # The remaining ips will be considered servers
+  create_full_list                   ;  # Create a globla list of ip addresses for all servers on network
 
   # Display the lists
   $UTIL print_as_list "DHCP Server:" $(cat $DHCP_IP_FILE)
@@ -283,5 +303,3 @@ main() {
 #-------------------------------------------------------------------------------
 
 main "$@"
-
-# exit 1

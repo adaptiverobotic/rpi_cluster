@@ -15,14 +15,15 @@ declare_variables() {
   export UTIL="/bin/bash $ROOT_DIR/util.sh"
 
   # Lists of ip addresses
-  # for different servers
+  # for different
+  export IP_DIR="$ASSETS/ips"
+  export ALL_IPS="$ASSETS/ips/all"
   export IPS="$ASSETS/ips/cluster"
   export DHCP_IP_FILE="$ASSETS/ips/dhcp"
   export NAS_IP_FILE="$ASSETS/ips/nas"
   export SYSADMIN_IP_FILE="$ASSETS/ips/sysadmin"
 
   # Dev purporses
-  export SYNC_MODE="false"
   export DEV_MODE=false
   export TEMP_DIR="$ASSETS/temp"
 
@@ -205,6 +206,17 @@ nextcloud() {
   local nextcloud_url="http://$(cat ${ASSETS}/ips/nas)"
   $UTIL health_check 3 60 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
   # $UTIL display_entry_point $nextcloud_url
+}
+
+#-------------------------------------------------------------------------------
+
+pihole() {
+  ./pihole/install.sh install_pihole
+
+  # Check that the cluster's portainer page is up is up
+  local pihole_url="http://$(cat ${ASSETS}/ips/dhcp)/admin"
+  $UTIL health_check 3 60 "Health_Check" "curl --silent --output /dev/null $pihole_url"
+  $UTIL display_entry_point $pihole_url
 }
 
 # NOTE - Everything below this line will not have an api binding. That is, they are

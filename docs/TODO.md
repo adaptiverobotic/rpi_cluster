@@ -1,6 +1,21 @@
 # To-do List
 
 
+* Figure out how to see the specs of a machine, and perhaps
+do not assign lower end specs, specific tasks. We will handle this
+in the list.sh script when we are assigning ips given tasks.
+
+The following command gets the amount of ram in kbs
+
+cat /proc/meminfo | grep  MemTotal | awk '{print $2}'
+
+This gets processor info, we get an entry
+for each core, so we should count how many times
+we get an entry to figure out the number of cores
+that the machine has
+
+cat /proc/cpuinfo
+
 * Perhaps when we are running in async mode,
 instead of erroring out if a single node fails. Let's take it off the list of $IPS
 and continue with working nodes. And as long
