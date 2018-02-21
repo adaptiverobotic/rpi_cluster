@@ -171,7 +171,7 @@ swarm() {
 #-------------------------------------------------------------------------------
 
 nextcloud() {
-  local nextcloud_url="http://192.168.2.46"
+  local nextcloud_url="http://192.168.20.46"
 
   ./nextcloud/install.sh start_nextcloud
   $UTIL health_check 3 30 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
@@ -194,13 +194,13 @@ main() {
   declare_variables
   prepare_logs
   read_in_common_credentials
-  # ip_list
+  ip_list
   # ssh_keys
 
-  
-  pihole
-  nextcloud
-  swarm
+  # docker
+  # pihole
+  # nextcloud
+  # swarm
   # "$@"
 }
 
