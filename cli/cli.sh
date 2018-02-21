@@ -192,7 +192,6 @@ docker_swarm() {
   init docker
   install docker swarm portainer
 
-  # Check that the cluster's portainer page is up is up
   local portainer_url="http://$(cat docker/assets/leader):9000"
   $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $portainer_url"
 }
@@ -200,22 +199,20 @@ docker_swarm() {
 #-------------------------------------------------------------------------------
 
 nextcloud() {
-  ./nextcloud/install.sh start_nextcloud
-
-  # Check that the cluster's portainer page is up is up
   local nextcloud_url="http://$(cat ${ASSETS}/ips/nas)"
-  $UTIL health_check 3 60 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
-  # $UTIL display_entry_point $nextcloud_url
+
+  ./nextcloud/install.sh start_nextcloud
+  $UTIL health_check 3 30 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
+  $UTIL display_entry_point $nextcloud_url
 }
 
 #-------------------------------------------------------------------------------
 
 pihole() {
-  ./pihole/install.sh install_pihole
+  local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
 
-  # Check that the cluster's portainer page is up is up
-  local pihole_url="http://$(cat ${ASSETS}/ips/dhcp)/admin"
-  $UTIL health_check 3 60 "Health_Check" "curl --silent --output /dev/null $pihole_url"
+  ./pihole/install.sh install_pihole
+  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $pihole_url"
   $UTIL display_entry_point $pihole_url
 }
 

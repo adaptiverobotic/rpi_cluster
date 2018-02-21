@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# NOTE - This file helped me keep track of containers, volumes
+# images, networks, etc so that I would not have dangling docker objects.
+# It proved to be more work that what it was worth. Let That's just the
+# limitation of using the bare docker enginer or even docker swarm. For now,
+# we will use docker swarm as proof of concept, and then one day perhaps
+# migrate to a more mature product such as kubernetes, mesos, or rancherOS.
+# These however require much more horsepower, and right now we are using
+# raspberry pis and the pis can handle swarm.
+
 #-------------------------------------------------------------------------------
 
 build() {
