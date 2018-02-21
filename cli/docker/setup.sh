@@ -78,14 +78,6 @@ uninstall_docker() {
 
 #-------------------------------------------------------------------------------
 
-# Wrapper to list
-# running docker services
-list_services() {
-  docker service ls
-}
-
-#-------------------------------------------------------------------------------
-
 # Run portainer service
 # on swarm so we manage
 # through web console.
