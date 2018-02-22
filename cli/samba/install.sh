@@ -1,26 +1,61 @@
 #!/bin/bash
 set -e
 
-echo "Configuring Samba"
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# Get absolute path of this script
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+#-------------------------------------------------------------------------------
 
-# Get list of dependencies
-conf="${DIR}/assets/smb.conf"
+# Globals
+declare_variables() {
+  :
+}
 
-user=$(cat ${DIR}/../assets/user)
-password=$(cat ${DIR}/../assets/password)
+#-------------------------------------------------------------------------------
 
-# Alias to import util script
-util="/bin/bash ${DIR}/../util/util.sh"
+# samba.sh. setup.sh
+send_assets() {
+  echo "Sending samba setup script to each NAS server"
+  $UTIL scp_specific_nodes $NAS_IP_FILE $(pwd)/samba.sh $(pwd)/setup.sh
+  $UTIL print_success "SUCCESS: " "Sent setup scripts to NAS servers"
+}
 
-# Alias to functions in util script
-scp_nodes="${util} scp_nodes"
-ssh_nodes="${util} ssh_nodes"
+#-------------------------------------------------------------------------------
 
-# SCP setup and config file script to each node
-$scp_nodes ${DIR}/setup.sh $conf
+# Installs samba
+install_samba() {
+  echo "Installing samba"
+  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
+  $UTIL print_success "SUCCESS: " "Installed samba"
+}
 
-# Run setup script as sudo on each node
-$ssh_nodes sudo /bin/bash setup.sh $user $password
+#-------------------------------------------------------------------------------
+
+# Uninstalls samba
+uninstall_samba() {
+  echo "Uninstalling samba"
+  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh uninstall_samba
+  $UTIL print_success "SUCCESS: " "Uninstalled samba"
+}
+
+#-------------------------------------------------------------------------------
+
+# Uninstalls and
+# reinstalls samba
+reinstall_samba() {
+  echo "reinstalling samba"
+  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
+  $UTIL print_success "SUCCESS: " "Reinstalled samba"
+}
+
+#-------------------------------------------------------------------------------
+
+main() {
+  declare_variables
+  send_assets
+  "$@"
+}
+
+#-------------------------------------------------------------------------------
+
+main "$@"

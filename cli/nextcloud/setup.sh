@@ -12,9 +12,12 @@ declare_variables() {
 
 # Start app
 install_nextcloud() {
+
   echo "Installing nextcloud"
   echo "Creating volume for storage: nextcloud"
   docker volume create nextcloud
+
+  # TODO - MOUNT THE VOLUME
 
   echo "Starting container: nextcloud"
   docker run -d \

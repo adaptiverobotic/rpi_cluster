@@ -219,6 +219,15 @@ pihole() {
 
 #-------------------------------------------------------------------------------
 
+samba() {
+  local method=$1
+
+  validate_arg $method
+  ./samba/install.sh $method
+}
+
+#-------------------------------------------------------------------------------
+
 # Install, uninstall
 # or reinstalls network
 # address transation for
@@ -254,6 +263,7 @@ nat() {
 # environment
 magic() {
   # install_docker install
+  samba          install_samba
   pihole         install_pihole
   nextcloud      install_nextcloud
   swarm          install_swarm
