@@ -52,7 +52,7 @@ install_pihole() {
   -e DNS=127.0.0.1 \
   -e TZ=America/New_York \
   -e VIRTUAL_HOST=pihole \
-  --restart=unless-stopped \
+  --restart=always \
   diginc/$img:$tag
 }
 

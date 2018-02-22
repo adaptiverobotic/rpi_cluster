@@ -168,6 +168,12 @@ validate_arg() {
   fi
 }
 
+#-------------------------------------------------------------------------------
+
+reboot_all() {
+  $UTIL reboot_nodes
+}
+
 
 # Everything above this line will not have an api binding. They are auxiliary
 # functions that make the applicaiton work correctly. But, we do not want

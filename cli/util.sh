@@ -648,7 +648,7 @@ reboot_nodes() {
   # Power off and reboot
   # each node in cluster
   # TODO - Need to ignore error when ssh is closed
-  ssh_nodes echo "Rebooting nodes"; (sleep 1 && sudo reboot &) && exit
+  ssh_specific_nodes $ALL_IPS_FILE echo "Rebooting nodes"; (sleep 1 && sudo reboot &) && exit
 }
 
 #-------------------------------------------------------------------------------

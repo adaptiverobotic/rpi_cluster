@@ -99,7 +99,7 @@ install_samba() {
   -p 445:445   \
   -e COMMON_USER=$user     \
   -e COMMON_PASS=$pass     \
-  --restart=unless-stopped \
+  --restart=always         \
   --mount source=samba,target=/home/$user \
   samba:latest
 
