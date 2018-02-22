@@ -26,10 +26,8 @@ start_portainer() {
   --detach \
   --name portainer \
   --secret portainer-pass \
-  --mode replicated \
-  --replicas 1 \
-  --constraint 'node.role == manager' \
-  --publish mode=ingress,target=9000,published=9000 \
+  --mode global \
+  --publish mode=host,target=9000,published=9000 \
   --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
   portainer/portainer \
   --admin-password-file '/run/secrets/portainer-pass' \

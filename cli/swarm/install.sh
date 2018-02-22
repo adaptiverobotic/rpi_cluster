@@ -15,12 +15,13 @@ declare_variables() {
   readonly manager_file="$assets/manager"
   readonly worker_file="$assets/worker"
   readonly temp_ips_file="$assets/temp_ips"
+  readonly ip_file=$2
 
   # Create temporary files
   touch $temp_ips_file
   touch $manager_file
   touch $worker_file
-  cat $IPS > $temp_ips_file
+  cat $ip_file > $temp_ips_file
 }
 
 #-------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ declare_variables() {
 # to each node in the cluster
 send_assets() {
   echo "Sending assets to each node"
-  $UTIL scp_nodes $(pwd)/setup.sh $assets/
+  $UTIL scp_specific_nodes $ip_file $(pwd)/setup.sh $assets/
   echo "Succesfuly sent assets to each node"
 }
 
@@ -113,7 +114,7 @@ download_tokens() {
 # an existing swarm.
 disband_swarm() {
   echo "Removing all nodes from existing swarm"
-  $UTIL ssh_nodes ./setup.sh leave_swarm
+  $UTIL ssh_specific_nodes $ip_file ./setup.sh leave_swarm
   echo "Successfully removed all nodes from existing swarm"
 }
 
@@ -190,8 +191,6 @@ start_service() {
 # that are required to start up
 # a new docker swarm.
 install_swarm() {
-  local services="$@"
-
   echo "Creating docker swarm"
   select_leader
   select_managers
@@ -208,7 +207,7 @@ install_swarm() {
 
 # Kick off the script.
 main() {
-  declare_variables
+  declare_variables "$@"
   send_assets
   "$@"
 }

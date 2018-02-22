@@ -170,32 +170,18 @@ validate_arg() {
 
 #-------------------------------------------------------------------------------
 
-reboot_all() {
-  $UTIL reboot_nodes
-}
+swarms() {
+  local method=$1
 
+  ./swarm/install.sh $method $DHCP_IP_FILE
+  ./swarm/install.sh $method $NAS_IP_FILE
+  ./swarm/install.sh $method $IPS
+}
 
 # Everything above this line will not have an api binding. They are auxiliary
 # functions that make the applicaiton work correctly. But, we do not want
 # these behaviors exosed.
 #===============================================================================
-
-# Sets up cluster as a docker
-# swarm cluster, and deploys
-# Portainer to the cluster for
-# easy docker swarm management
-swarm() {
-  local method=$1
-
-  validate_arg $method
-
-  ./swarm/install.sh $method
-  local url="http://$(cat swarm/assets/leader):9000"
-  $UTIL health_check 3 10 $url
-  $UTIL display_entry_point $url "admin"
-}
-
-#-------------------------------------------------------------------------------
 
 # Install, uninstall
 # or reinstall nextcloud
@@ -268,12 +254,13 @@ nat() {
 # Stands up entire
 # environment
 magic() {
-  # install_docker install
+  ip_list
+  ssh_keys
+  install_docker install
+  swarms         install_swarm
   samba          install_samba
   pihole         install_pihole
   nextcloud      install_nextcloud
-  swarm          install_swarm
-  # nat            install_nat
 }
 
 #-------------------------------------------------------------------------------
