@@ -46,6 +46,8 @@ remove_nextcloud() {
   if ! docker volume rm --force nextcloud; then
     echo "Could not remove volume or nothing to remove"
   fi
+
+  # TODO - Remove associated images
 }
 
 #-------------------------------------------------------------------------------

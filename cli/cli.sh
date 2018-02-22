@@ -161,9 +161,8 @@ docker() {
 # Portainer to the cluster for
 # easy docker swarm management
 swarm() {
-  local url="http://$(cat swarm/assets/leader):9000"
-
   ./swarm/install.sh install
+  local url="http://$(cat swarm/assets/leader):9000"
   $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $url"
   $UTIL display_entry_point $url
 }
@@ -190,18 +189,22 @@ pihole() {
 
 #-------------------------------------------------------------------------------
 
+# Stands up entire
+# environment
+magic() {
+  docker
+  pihole
+  nextcloud
+  swarm
+}
+
+#-------------------------------------------------------------------------------
+
 main() {
   declare_variables
   prepare_logs
   read_in_common_credentials
-  ip_list
-  # ssh_keys
-
-  # docker
-  # pihole
-  # nextcloud
-  # swarm
-  # "$@"
+  "$@"
 }
 
 #-------------------------------------------------------------------------------

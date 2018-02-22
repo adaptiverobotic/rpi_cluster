@@ -37,11 +37,7 @@ install_pihole() {
   # Volume for storage
   docker volume create pihole
 
-  # TODO - Mount the volume
-
-  # -v "pihole:/etc/pihole/" \
-
-  # Run the service
+  # Run the container
   docker run -d \
   --name pihole \
   -p 53:53/tcp -p 53:53/udp -p 80:80 \
