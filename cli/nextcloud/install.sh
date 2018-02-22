@@ -14,14 +14,11 @@ declare_variables() {
 
 # Send the docker-compose.yml
 # file over and start the services
-start_nextcloud() {
+install_nextcloud() {
   echo "Starting nextcloud"
 
-  $UTIL scp_ssh_specific_nodes $NAS_IP_FILE \
-        $(pwd)/setup.sh \
-        ./setup.sh $COMMON_USER $COMMON_PASS
-
-  echo "Successully started nextcloud"
+  $UTIL scp_ssh_specific_nodes $NAS_IP_FILE $(pwd)/setup.sh ./setup.sh $COMMON_USER $COMMON_PASS
+  $UTIL print_success "SUCCESS: " "Installed nextcloud"
 }
 
 #-------------------------------------------------------------------------------
@@ -31,5 +28,7 @@ main() {
 
   "$@"
 }
+
+#-------------------------------------------------------------------------------
 
 main "$@"

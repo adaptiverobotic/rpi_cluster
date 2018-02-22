@@ -89,6 +89,7 @@ reinstall_docker() {
   echo "Reinstalling docker"
   uninstall_docker
   install_docker
+  echo "Successfully reinstalled docker"
 }
 
 #-------------------------------------------------------------------------------

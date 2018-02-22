@@ -189,7 +189,7 @@ start_service() {
 # Executes all of the steps
 # that are required to start up
 # a new docker swarm.
-install() {
+install_swarm() {
   local services="$@"
 
   echo "Creating docker swarm"

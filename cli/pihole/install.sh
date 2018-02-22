@@ -16,7 +16,7 @@ declare_variables() {
 # Install pi-hole
 install_pihole() {
   echo "Installing pi-hole on dhcp server"
-  $UTIL scp_ssh_specific_nodes $DHCP_IP_FILE $(pwd)/setup.sh ./setup.sh install_pihole $COMMON_PASS
+  $UTIL scp_ssh_specific_nodes $DHCP_IP_FILE $(pwd)/setup.sh ./setup.sh reinstall_pihole $COMMON_PASS
   $UTIL print_success "SUCCESS: " "Installed pi-hole on dhcp server"
 }
 

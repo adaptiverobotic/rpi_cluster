@@ -698,6 +698,7 @@ my_ip() {
 
   # TODO - Find platform independent way of
   # getting the ip address
+
   # ip route get 8.8.8.8 | awk '{ print $NF; exit }'
   echo $(hostname -I | awk '{print $1}')
 }
@@ -772,13 +773,15 @@ timed_action() {
 # considering it a failure, as well
 # as the delay between each attempt.
 health_check() {
-  local attempts=$(($1)); shift
-  local action="$@"
+  local attempts=$1; shift
+  local delay=$1;    shift
+  local url=$1;
   local counter=1
 
   while [ $counter -le $attempts ]; do
 
-    if delayed_action $action; then
+    # Give it 30 seconds to attempt to curl a site N times with M second between each attempt
+    if delayed_action $delay "Health_check" curl --max-time 30 --silent --output /dev/null $url; then
       print_success "SUCCESS: " "Health check passed"
       return 0
     else
@@ -830,14 +833,15 @@ ignore_exit_status() {
 # Displays the login url
 # and credentials of the swarm
 display_entry_point() {
-  local url="$@"
+  local url=$1; shift
+  local user=$1
 
   echo ""
-  echo "You can access the swarm at: $url"
+  echo "You can access the server at: $url"
   echo ""
   echo "Credentials:"
   echo "-------------"
-  echo "User: admin"
+  echo "User: $user"
   echo "Password: $COMMON_PASS"
   echo "-------------"
   echo ""

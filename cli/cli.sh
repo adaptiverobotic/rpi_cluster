@@ -30,7 +30,7 @@ declare_variables() {
   # Logging
   export THIS_DEPLOYMENT="$ASSETS/temp/this_deployment"
   export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
-  export LOG_DIR="${ROOT_DIR}/.logs"
+  export LOG_DIR="$ROOT_DIR/.logs"
 }
 
 #-------------------------------------------------------------------------------
@@ -147,9 +147,27 @@ hostname() {
 # docker engine on
 # the cluster
 docker() {
-  ./docker/install.sh install_docker
+  ./docker/install.sh reinstall_docker
   $UTIL print_success "SUCCESS: " "Docker engine installed"
 }
+
+#-------------------------------------------------------------------------------
+
+# Only allow install,
+# reinstall and uninstall
+validate_arg() {
+  local method=$1
+
+  # Only accept the following methods
+  if [[ $method != install_* ]]   && \
+     [[ $method != reinstall_* ]] && \
+     [[ $method != uninstall_* ]]; then
+
+       $UTIL print_error "ERROR: " "Only methods 'install', 'uninstall' , 'reinstall' supported"
+       return 1
+  fi
+}
+
 
 # Everything above this line will not have an api binding. They are auxiliary
 # functions that make the applicaiton work correctly. But, we do not want
@@ -161,29 +179,39 @@ docker() {
 # Portainer to the cluster for
 # easy docker swarm management
 swarm() {
-  ./swarm/install.sh install
+  local method=$1
+
+  validate_arg $method
+
+  ./swarm/install.sh $method
   local url="http://$(cat swarm/assets/leader):9000"
-  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $url"
-  $UTIL display_entry_point $url
+  $UTIL health_check 3 10 $url
+  $UTIL display_entry_point $url "admin"
 }
 
 #-------------------------------------------------------------------------------
 
 nextcloud() {
+  local method=$1
+
+  # TODO - Read in first line
   local nextcloud_url="http://192.168.20.46"
 
-  ./nextcloud/install.sh start_nextcloud
-  $UTIL health_check 3 30 "Health_Check" "curl --silent --output /dev/null $nextcloud_url"
-  $UTIL display_entry_point $nextcloud_url
+  ./nextcloud/install.sh $method
+  $UTIL health_check 3 30 $nextcloud_url
+  $UTIL display_entry_point $nextcloud_url $COMMON_USER
 }
 
 #-------------------------------------------------------------------------------
 
 pihole() {
+  local method=$1
   local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
 
-  ./pihole/install.sh install_pihole
-  $UTIL health_check 3 10 "Health_Check" "curl --silent --output /dev/null $pihole_url"
+  validate_arg $method
+
+  ./pihole/install.sh $method
+  $UTIL health_check 3 10 $pihole_url
   $UTIL display_entry_point $pihole_url
 }
 
@@ -192,10 +220,10 @@ pihole() {
 # Stands up entire
 # environment
 magic() {
-  docker
-  pihole
-  nextcloud
-  swarm
+  # docker install
+  pihole install_pihole
+  nextcloud install_nextcloud
+  swarm install_swarm
 }
 
 #-------------------------------------------------------------------------------
