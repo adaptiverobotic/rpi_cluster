@@ -254,8 +254,8 @@ nat() {
 # Stands up entire
 # environment
 magic() {
-  ip_list
-  ssh_keys
+  # ip_list
+  # ssh_keys
   install_docker install
   swarms         install_swarm
   samba          install_samba

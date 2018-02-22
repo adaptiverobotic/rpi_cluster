@@ -17,20 +17,21 @@ install_nextcloud() {
   echo "Creating volume for storage: nextcloud"
   docker volume create nextcloud
 
-  # TODO - MOUNT THE VOLUME
+  echo "Starting service: nextcloud"
 
-  echo "Starting container: nextcloud"
-  docker run -d \
-  -p 80:80 \
-  --restart=always \
+  docker service create \
+  --detach \
   --name nextcloud \
-  --mount source=nextcloud,target=/var/www/html \
+  --mode replicated \
+  --replicas 1 \
+  --publish mode=ingress,target=80,published=80 \
+  --mount type=volume,src=nextcloud,dst=/var/www/html \
   -e NEXTCLOUD_ADMIN_USER=$user \
   -e NEXTCLOUD_ADMIN_PASSWORD=$pass \
   -e SQLITE_DATABASE=nextcloud \
   nextcloud
 
-  echo "Successfully starting nextcloud"
+  echo "Successfully started service: nextcloud"
 }
 
 #-------------------------------------------------------------------------------
@@ -38,6 +39,10 @@ install_nextcloud() {
 # Deletes old instance
 uninstall_nextcloud() {
   echo "Uninstalling nextcloud"
+
+  if ! docker service rm nextcloud; then
+    echo "Could not stop service nextcloud"
+  fi
 
   if ! docker stop nextcloud; then
     echo "Could not stop nextcloud or nothing to stop"

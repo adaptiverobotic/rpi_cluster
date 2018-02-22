@@ -103,6 +103,27 @@ install_samba() {
   --mount source=samba,target=/home/$user \
   samba:latest
 
+
+  # TODO - May not work because
+  # nodes may be of mixed architecture.
+  # Since we are building our own image,
+  # we must make sure each image builds
+  # its own image.
+
+  # docker service create \
+  # --detach \
+  # --name samba \
+  # --mode replicated \
+  # --replicas 1 \
+  # --publish mode=ingress,target=137,published=137 \
+  # --publish mode=ingress,target=138,published=138 \
+  # --publish mode=ingress,target=139,published=139 \
+  # --publish mode=ingress,target=445,published=445 \
+  # --mount type=volume,src=samba,dst=/home/$user   \
+  # -env COMMON_USER=$user     \
+  # -env COMMON_PASS=$pass     \
+  # nextcloud
+
   echo "Successfully start container: samba"
 }
 
@@ -111,6 +132,10 @@ install_samba() {
 # Uninstalls samba
 uninstall_samba() {
   echo "Uninstalling samba"
+
+  if ! docker service rm samba; then
+    echo "No service samba, or could not remove"
+  fi
 
   if ! docker stop samba; then
     echo "No container samba, or could not stop"
