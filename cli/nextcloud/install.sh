@@ -15,10 +15,28 @@ declare_variables() {
 # Send the docker-compose.yml
 # file over and start the services
 install_nextcloud() {
-  echo "Starting nextcloud"
+  echo "Installing nextcloud"
 
-  $UTIL scp_ssh_specific_nodes $NAS_IP_FILE $(pwd)/setup.sh ./setup.sh $COMMON_USER $COMMON_PASS
+  # Send the script, run it
+  $UTIL scp_ssh_specific_nodes \
+        $NAS_IP_FILE $(pwd)/setup.sh \
+        ./setup.sh reinstall_nextcloud \
+        $COMMON_USER $COMMON_PASS
+
   $UTIL print_success "SUCCESS: " "Installed nextcloud"
+}
+
+#-------------------------------------------------------------------------------
+
+uninstall_nextcloud() {
+  echo "Uninstalling nextcloud"
+
+  # Send the script, run it
+  $UTIL scp_ssh_specific_nodes \
+        $NAS_IP_FILE $(pwd)/setup.sh \
+        ./setup.sh uninstall_nextcloud
+
+  $UTIL print_success "SUCCESS: " "Uninstalled nextcloud"
 }
 
 #-------------------------------------------------------------------------------

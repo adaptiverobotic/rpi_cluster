@@ -58,11 +58,11 @@ uninstall_pihole() {
     echo "Could not stop container pihole or did not exist"
   fi
 
-  if ! docker rm --force pihole; then
+  if ! docker rm pihole --force; then
     echo "Could not remove container pihole or did not exist"
   fi
 
-  if ! docker volume --force rm pihole; then
+  if ! docker volume rm pihole --force; then
     echo "Could not remove volume pihole or doesn't exist"
   fi
 

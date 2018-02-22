@@ -12,7 +12,8 @@ declare_variables() {
 #-------------------------------------------------------------------------------
 
 # Start app
-start_nextcloud() {
+install_nextcloud() {
+  echo "Installing nextcloud"
   echo "Creating volume for storage: nextcloud"
   docker volume create nextcloud
 
@@ -26,36 +27,49 @@ start_nextcloud() {
   -e NEXTCLOUD_ADMIN_PASSWORD=$pass \
   -e SQLITE_DATABASE=nextcloud \
   nextcloud
+
+  echo "Successfully starting nextcloud"
 }
 
 #-------------------------------------------------------------------------------
 
 # Deletes old instance
-remove_nextcloud() {
-  echo "Stopping nextcloud"
+uninstall_nextcloud() {
+  echo "Uninstalling nextcloud"
+
   if ! docker stop nextcloud; then
     echo "Could not stop nextcloud or nothing to stop"
   fi
 
   echo "Removing nextcloud container"
-  if ! docker rm --force nextcloud; then
+  if ! docker rm nextcloud --force; then
     echo "Coult not remove container or nothing to remove"
   fi
 
   echo "Removing old volume"
-  if ! docker volume rm --force nextcloud; then
+  if ! docker volume rm nextcloud --force; then
     echo "Could not remove volume or nothing to remove"
   fi
 
   # TODO - Remove associated images
+
+  echo "Successfully uninstalled nextcloud"
+}
+
+#-------------------------------------------------------------------------------
+
+# Removes and reinstalls
+# nextcloud
+reinstall_nextcloud() {
+  uninstall_nextcloud
+  install_nextcloud
 }
 
 #-------------------------------------------------------------------------------
 
 main() {
   declare_variables "$@"
-  remove_nextcloud
-  start_nextcloud
+  "$@"
 }
 
 main "$@"

@@ -146,7 +146,7 @@ hostname() {
 # Just installs the
 # docker engine on
 # the cluster
-docker() {
+install_docker() {
   ./docker/install.sh reinstall_docker
   $UTIL print_success "SUCCESS: " "Docker engine installed"
 }
@@ -163,7 +163,7 @@ validate_arg() {
      [[ $method != reinstall_* ]] && \
      [[ $method != uninstall_* ]]; then
 
-       $UTIL print_error "ERROR: " "Only methods 'install', 'uninstall' , 'reinstall' supported"
+       $UTIL print_error "ERROR: " "Only methods 'install_*', 'uninstall_*' , 'reinstall_*' supported"
        return 1
   fi
 }
@@ -191,6 +191,8 @@ swarm() {
 
 #-------------------------------------------------------------------------------
 
+# Install, uninstall
+# or reinstall nextcloud
 nextcloud() {
   local method=$1
 
@@ -204,11 +206,11 @@ nextcloud() {
 
 #-------------------------------------------------------------------------------
 
+# Install, uninstall
+# or reinstall pihole
 pihole() {
   local method=$1
   local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
-
-  validate_arg $method
 
   ./pihole/install.sh $method
   $UTIL health_check 3 10 $pihole_url
@@ -217,13 +219,45 @@ pihole() {
 
 #-------------------------------------------------------------------------------
 
+# Install, uninstall
+# or reinstalls network
+# address transation for
+# the entire environment
+nat() {
+  local method=$1
+
+  ./nat/install.sh $method
+
+  # If we just installed or reinstalled,
+  # Check that all 3 servers can be
+  # reach from a single hostname
+  if [[ $method == install_* ]]    ||
+     [[ $method == reinstall_* ]]; then
+
+    local ip=$($UTIL my_ip)
+    local $swarm_url="$ip:9000"
+    local $pihole_url="$ip:8081/admin"
+    local $nextcloud_url="$ip:8000"
+
+    # Health check on entire system
+    $UTIL health_check 3 10 $swarm_url
+    $UTIL health_check 3 10 $pihole_url
+    $UTIL health_check 3 10 $nextcloud_url
+
+    $UTIL print_success "SUCCESS: " "System up and healthy"
+  fi
+}
+
+#-------------------------------------------------------------------------------
+
 # Stands up entire
 # environment
 magic() {
-  # docker install
-  pihole install_pihole
-  nextcloud install_nextcloud
-  swarm install_swarm
+  # install_docker install
+  pihole         install_pihole
+  nextcloud      install_nextcloud
+  swarm          install_swarm
+  # nat            install_nat
 }
 
 #-------------------------------------------------------------------------------
