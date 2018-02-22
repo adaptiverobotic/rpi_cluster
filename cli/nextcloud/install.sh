@@ -20,8 +20,7 @@ install_nextcloud() {
   # Send the script, run it
   $UTIL scp_ssh_specific_nodes \
         $NAS_IP_FILE $(pwd)/setup.sh \
-        ./setup.sh reinstall_nextcloud \
-        $COMMON_USER $COMMON_PASS
+        ./setup.sh reinstall_nextcloud $COMMON_USER $COMMON_PASS
 
   $UTIL print_success "SUCCESS: " "Installed nextcloud"
 }

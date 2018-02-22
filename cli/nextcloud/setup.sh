@@ -4,9 +4,8 @@ set -e
 
 # Globals
 declare_variables() {
-  readonly db_name="nextcloud"
-  readonly user=$1; shift
-  readonly pass=$1
+  readonly user=$2; shift
+  readonly pass=$2
 }
 
 #-------------------------------------------------------------------------------
@@ -71,5 +70,7 @@ main() {
   declare_variables "$@"
   "$@"
 }
+
+#-------------------------------------------------------------------------------
 
 main "$@"
