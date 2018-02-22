@@ -24,7 +24,7 @@ install_nextcloud() {
   -p 80:80 \
   --restart=unless-stopped \
   --name nextcloud \
-  -v nextcloud:/var/www/html \
+  --mount source=nextcloud,target=/var/www/html \
   -e NEXTCLOUD_ADMIN_USER=$user \
   -e NEXTCLOUD_ADMIN_PASSWORD=$pass \
   -e SQLITE_DATABASE=nextcloud \

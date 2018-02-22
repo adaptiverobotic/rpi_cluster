@@ -846,7 +846,8 @@ display_entry_point() {
   echo "-------------"
   echo ""
 
-  ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $url
+  # NOTE - That gets annoying haha
+  # ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $url
 }
 
 #-------------------------------------------------------------------------------

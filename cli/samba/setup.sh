@@ -46,9 +46,9 @@ make_dockerfile() {
   local img=""
 
   # Pick image based off of OS type
-  if [[ "$os" = "ubuntu" ]]; then
+  if [ "$os" = "ubuntu" ]; then
     img="ubuntu"
-  elif [[ "$os" = "raspbian" ]]; then
+  elif [ "$os" = "raspbian" ]; then
     img="resin/rpi-raspbian"
   else
     echo "ERROR: OS '$os' not supported"
