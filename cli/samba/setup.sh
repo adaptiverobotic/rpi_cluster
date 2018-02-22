@@ -2,8 +2,19 @@ set -e
 
 #-------------------------------------------------------------------------------
 
+# Displays the OS in lower case
+determine_os() {
+  lsb_release -i \
+  | grep "Distributor ID:" \
+  | awk '{print $3}' \
+  | tr '[A-Z]' '[a-z]'
+}
+
+#-------------------------------------------------------------------------------
+
 # Globals
 declare_variables() {
+  readonly os=$(determine_os)
   readonly user=$2; shift
   readonly pass=$2;
 }
@@ -30,31 +41,24 @@ EOF
 
 #-------------------------------------------------------------------------------
 
-# x86 or armv7 image
-get_img_by_os() {
-  echo "rpi-raspbian"
-}
-
-#-------------------------------------------------------------------------------
-
-# x86 or armv7 image
-get_tag_by_img() {
-  echo "latest"
-}
-
-#-------------------------------------------------------------------------------
-
 # Make the Dockerfile
 make_dockerfile() {
-  local img="rpi-raspbian"
-  local tag="latest"
-  local repo="resin"
+  local img=""
+
+  # Pick image based off of OS type
+  if [[ "$os" = "ubuntu" ]]; then
+    img="ubuntu"
+  elif [[ "$os" = "raspbian" ]]; then
+    img="resin/rpi-raspbian"
+  else
+    echo "ERROR: OS '$os' not supported"
+    return 1
+  fi
 
   echo "Generating Dockerfile"
 
   cat > $(pwd)/Dockerfile << EOF
-  #FROM $repo/$img:$tag
-  FROM ubuntu
+  FROM $img
 
   COPY smb.conf /smb.conf
   COPY samba.sh /samba.sh
