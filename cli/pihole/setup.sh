@@ -39,12 +39,19 @@ install_pihole() {
 
   # Run the container
   docker run -d \
+  --dns=127.0.0.1 \
+  --dns=8.8.8.8 \
   --name pihole \
   -p 53:53/tcp -p 53:53/udp -p 80:80 \
   --mount source=pihole,target=/etc/pihole \
   -v "${DOCKER_CONFIGS}/.pihole/dnsmasq.d/:/etc/dnsmasq.d/" \
   -e ServerIP="$IP" \
   -e WEBPASSWORD=$password \
+  -e DNS1=8.8.8.8 \
+  -e DNS2=8.8.4.4 \
+  -e DNS=127.0.0.1 \
+  -e TZ=America/New_York \
+  -e VIRTUAL_HOST=pihole \
   --restart=unless-stopped \
   diginc/$img:$tag
 }

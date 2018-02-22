@@ -8,6 +8,15 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Globals
 declare_variables() {
+  local src=$( $UTIL my_ip )
+  local dhcp_leader=$(head -n 1 $DHCP_IP_FILE)
+  local swarm_leader=$(head -n 1 $IPS)
+  local nas_leader=$(head -n 1 $NAS_IP_FILE)
+}
+
+#-------------------------------------------------------------------------------
+
+enable_forwarding() {
   :
 }
 
@@ -51,11 +60,10 @@ setup_port_forward() {
 #-------------------------------------------------------------------------------
 
 main() {
-  declare_variables "$@"
+  declare_variables
+  enable_forwarding
 
   "$@"
 }
 
 #-------------------------------------------------------------------------------
-
-main "$@"

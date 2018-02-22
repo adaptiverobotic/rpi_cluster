@@ -19,7 +19,7 @@ install_nextcloud() {
   echo "Starting container: nextcloud"
   docker run -d \
   -p 80:80 \
-  --restart=always \
+  --restart=unless-stopped \
   --name nextcloud \
   -v nextcloud:/var/www/html \
   -e NEXTCLOUD_ADMIN_USER=$user \
