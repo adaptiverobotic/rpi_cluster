@@ -459,7 +459,7 @@ loop_nodes() {
 
     # Show PID on console just incase we have
     # some orphan processes, we can easily cleanup.
-    echo "Waiting for ${#map_pid_ip[@]} processe(s) to finish..."
+    echo "Waiting for ${#map_pid_ip[@]} process(es) to finish..."
 
     # Loop through pids and wait
     # for them to complete.

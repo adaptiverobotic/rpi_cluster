@@ -22,6 +22,20 @@ send_assets() {
 
 #-------------------------------------------------------------------------------
 
+# Depending on the architecture,
+# we must build from a different
+# base image. To make sure x86 builds
+# and x86 image and armv7 build an
+# armv7 image, we will loop through
+# each one and build.
+build_samba() {
+  echo "Building samba from Dockerfile on each node"
+  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh build_samba $COMMON_USER
+  $UTIL print_success "SUCCESS: " "Built samba image on each node"
+}
+
+#-------------------------------------------------------------------------------
+
 # Installs samba
 install_samba() {
   echo "Installing samba"

@@ -252,12 +252,22 @@ verify_list() {
 # them and removing white space
 # in case any of the files are empty
 create_full_list() {
+  local min=4
+
+  echo "Creating full index of all servers"
+
   $UTIL recreate_files $ALL_IPS_FILE
 
   # Concat all server's ips
   cat $DHCP_IP_FILE >> $ALL_IPS_FILE
   cat $NAS_IP_FILE  >> $ALL_IPS_FILE
   cat $IPS          >> $ALL_IPS_FILE
+
+  # Make sure we have at least 4!
+  if [[ $( $UTIL num_lines $ALL_IPS_FILE ) < $min ]]; then
+    $UTIL print_error "ERROR: " "At least $min server(s) required"
+    return 1
+  fi
 
   # Remove whitespace if
   # if any was added from

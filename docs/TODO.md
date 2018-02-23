@@ -1,6 +1,13 @@
 # To-do List
 
 
+* Need to create local docker registry if i want to build locally
+so that non-managers can get the images or nodes can push to it. This
+way I can build img:x86, and img:armv7 and the appropriate machine
+knows who to pull from. This is some extra work, so I think we are just going
+to have to live with machines not restarting containers after power outage.
+Too much work.
+
 * Figure out how to see the specs of a machine, and perhaps
 do not assign lower end specs, specific tasks. We will handle this
 in the list.sh script when we are assigning ips given tasks.
@@ -36,15 +43,6 @@ it. but once the list.sh script is done. it will change the permissions on $IPS.
 In fact, $ASSETS and all of its files should become read only once we have started
 the script. If we put an API in front if this, the API will be responsible for
 generating these files.
-
-
-* Maybe we shouldn't deploy samba to container because that is platform specific.
-That is, it requires an images such as ubuntu, or debian. Which is fine if we can guarantee
-that the architecture of our nodes is x86, and the kernel is the same as that of the image.
-Recall, docker images are just mock file systems, but the processes run natively on the host machine.
-We want this application to be as platform independent as possible. So we will not deploy anything
-that is kernel or distro specific. Everything should be both arm and x86 compatible, for whatever kernel.
-As long as the nodes have apt-get, bash v4+, and an internet connection, we should be good.
 
 * Changing user name may be a challenge in that by default pi's the root account is
 locked. We don't know which other distros is true for. Let's ommit that for the sake of platform independence.

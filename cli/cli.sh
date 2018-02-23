@@ -187,9 +187,7 @@ swarms() {
 # or reinstall nextcloud
 nextcloud() {
   local method=$1
-
-  # TODO - Read in first line
-  local nextcloud_url="http://192.168.20.46"
+  local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
 
   ./nextcloud/install.sh $method
   $UTIL health_check 3 30 $nextcloud_url
@@ -254,8 +252,8 @@ nat() {
 # Stands up entire
 # environment
 magic() {
-  # ip_list
-  # ssh_keys
+  ip_list
+  ssh_keys
   install_docker install
   swarms         install_swarm
   samba          install_samba

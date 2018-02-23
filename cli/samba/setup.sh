@@ -4,9 +4,9 @@ set -e
 
 # Displays the OS in lower case
 determine_os() {
-  lsb_release -i \
+  lsb_release -i           \
   | grep "Distributor ID:" \
-  | awk '{print $3}' \
+  | awk '{print $3}'       \
   | tr '[A-Z]' '[a-z]'
 }
 
@@ -75,9 +75,9 @@ EOF
 
 #-------------------------------------------------------------------------------
 
-# Installs samba
-install_samba() {
-
+# Build the samba image
+# from our Dockerfile
+build_samba() {
   # Make required files
   make_samba_conf
   make_dockerfile
@@ -88,6 +88,14 @@ install_samba() {
 
   echo "Create volume: samba"
   docker volume create samba
+}
+
+#-------------------------------------------------------------------------------
+
+# Installs samba
+install_samba() {
+
+  build_samba
 
   echo "Runnning container: samba"
   docker run   \
@@ -168,7 +176,7 @@ reinstall_samba() {
   echo "Reinstalling samba"
   uninstall_samba
   install_samba
-  echo "Successfully resinstalled samba"
+  echo "Successfully reinstalled samba"
 }
 
 #-------------------------------------------------------------------------------
