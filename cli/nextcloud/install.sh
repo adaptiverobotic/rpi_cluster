@@ -22,7 +22,7 @@ install_nextcloud() {
   echo "Installing nextcloud"
 
   # Send the script, run it
-  $UTIL scp_ssh_specific_nodes \
+  $UTIL scp_ssh_specific_nodes          \
         $leader_ip_file $(pwd)/setup.sh \
         ./setup.sh reinstall_nextcloud $COMMON_USER $COMMON_PASS
 
@@ -35,7 +35,7 @@ uninstall_nextcloud() {
   echo "Uninstalling nextcloud"
 
   # Send the script, run it
-  $UTIL scp_ssh_specific_nodes \
+  $UTIL scp_ssh_specific_nodes          \
         $leader_ip_file $(pwd)/setup.sh \
         ./setup.sh uninstall_nextcloud
 

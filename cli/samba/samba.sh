@@ -60,4 +60,8 @@ main
 # Hang so the container
 # does not close automatically
 # TODO - Find a better way
+
+# TODO - Perhaps write a small logging app
+# that prints to console when a file is added,
+# edited, or removed from the mounted samba directory
 tail -f /dev/null

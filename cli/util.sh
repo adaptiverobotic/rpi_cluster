@@ -487,7 +487,7 @@ loop_nodes() {
       # TODO - Figure out how to get
       # a list of just of ips and send
       # that to the print_as_list() function
-      print_error "FAILURE: " "$( length $failed_pids) process(s) exited with a non-zero status"
+      print_error "FAILURE: " "$( length $failed_pids) process(es) exited with a non-zero status"
       echo "Please see the following log file(s):"
       echo "-------------------------------------"
 
@@ -501,7 +501,7 @@ loop_nodes() {
       echo "-------------------------------------"
 
     else
-      print_success "SUCCESS: " "All ${#map_pid_ip[@]} processe(s) completed successfully"
+      print_success "SUCCESS: " "All ${#map_pid_ip[@]} process(es) completed successfully"
       echo ""
     fi
   fi

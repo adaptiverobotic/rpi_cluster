@@ -6,7 +6,9 @@ set -e
 # Echos the last 3 digits
 # of this device's IPv4 ip address
 echo_my_ip() {
+  
   # Is there a cleaner way?
+  # TODO - Pipe to awk '{print $1}'
   local tmp0=$(hostname -I)
   local tmp1=($tmp0)
   local ip=${tmp1[0]}

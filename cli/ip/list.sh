@@ -264,10 +264,10 @@ create_full_list() {
   cat $IPS          >> $ALL_IPS_FILE
 
   # Make sure we have at least 4!
-  if [[ $( $UTIL num_lines $ALL_IPS_FILE ) < $min ]]; then
-    $UTIL print_error "ERROR: " "At least $min server(s) required"
-    return 1
-  fi
+  # if [[ $( $UTIL num_lines $ALL_IPS_FILE ) < $min ]]; then
+  #   $UTIL print_error "ERROR: " "At least $min server(s) required"
+  #   return 1
+  # fi
 
   # Remove whitespace if
   # if any was added from

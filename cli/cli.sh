@@ -15,7 +15,7 @@ declare_variables() {
   export UTIL="/bin/bash $ROOT_DIR/util.sh"
 
   # Lists of ip addresses
-  # for different
+  # for different clusters
   export IP_DIR="$ASSETS/ips"
   export ALL_IPS_FILE="$ASSETS/ips/all"
   export IPS="$ASSETS/ips/cluster"
@@ -48,8 +48,8 @@ read_in_common_credentials() {
   # Make sure they are all valid.
   # If not, these function error out.
   $UTIL valid_hostname $host
-  $UTIL valid_password $pass
   $UTIL valid_user     $user
+  $UTIL valid_password $pass
 
   # If they are all valid
   # export them as environment
@@ -176,6 +176,8 @@ swarms() {
   ./swarm/install.sh $method $DHCP_IP_FILE
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
+
+  # TODO - Change hostnames here
 }
 
 # Everything above this line will not have an api binding. They are auxiliary

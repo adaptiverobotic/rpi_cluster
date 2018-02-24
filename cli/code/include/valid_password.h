@@ -7,7 +7,6 @@
 static const int MIN_LEN = 8;
 static const int MAX_LEN = 26;
 
-
 /**
  * Makes sure the password is
  * one of the printable characters

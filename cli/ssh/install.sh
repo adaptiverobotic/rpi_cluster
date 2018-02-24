@@ -19,6 +19,13 @@ declare_variables() {
 # Generate id_rsa and id_rsa.pub
 # and store it in ~/.ssh locally
 generate_keys() {
+
+  # TODO - Maybe only generate a key if
+  # one does not exist already. That way,
+  # if a node goes down and we do a deployment
+  # without it, when it comes back on it will
+  # still have the same public key
+
   echo "Generating public and private key pair"
   echo "y" | ssh-keygen -f $ssh_dir/id_rsa -t rsa -N ''
   echo "Successfully generated public and private key pair"

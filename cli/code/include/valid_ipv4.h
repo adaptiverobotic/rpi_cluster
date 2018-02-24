@@ -25,28 +25,26 @@ struct octet_bound {
   int lower[4];
 };
 
-// TODO - MAKE CONSTANT
-
 // Bounds for class A addresses
-static octet_bound class_A = {
+static const octet_bound class_A = {
   .lower = {1, 0, 0, 1},
   .upper = {126, 255, 255, 254}
 };
 
 // Bounds for class B addresses
-static octet_bound class_B = {
+static const octet_bound class_B = {
   .lower = {128, 1, 0, 1},
   .upper = {191, 255, 255, 254}
 };
 
 // Bounds for class C addresses
-static octet_bound class_C = {
+static const octet_bound class_C = {
   .lower = {192, 0, 1, 1},
   .upper = {223, 255, 254, 254}
 };
 
 // Bounds for class D addresses
-static octet_bound class_D = {
+static const octet_bound class_D = {
   .lower = {224, 0, 0, 0},
   .upper = {239, 255, 255, 255}
 };
@@ -58,11 +56,9 @@ static octet_bound class_D = {
 // class, that's an option. Otherwise,
 // check all.
 
-// TODO - MAKE CONSTANT
 
 // Number of required args
-static int arg_limit = 2;
-
+static const int arg_limit = 2;
 
 //------------------------------------------------------------------------------
 

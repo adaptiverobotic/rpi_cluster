@@ -67,7 +67,7 @@ uninstall_docker() {
       :
     fi
 
-    sudo rm -rf /var/lib/docker
+    # sudo rm -rf /var/lib/docker
 
     # TODO - Remove /etc/docker
     # the problem right now is the

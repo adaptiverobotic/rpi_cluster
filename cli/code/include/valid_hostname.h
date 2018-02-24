@@ -57,6 +57,4 @@ bool valid_hostname(char* hostname) {
   return valid;
 }
 
-
-
 #endif
