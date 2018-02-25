@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=038e74eed31dc2f14fc71862c87a34a1c3565bcb">
+    <link rel="stylesheet" href="/assets/css/style.css?v=ac41d31db3387e9cb9d2007753e2553e56005aa4">
   </head>
   <body>
     <section class="page-header">
@@ -56,6 +56,10 @@ codebase small and robust, I only focused on the core parts:</p>
   <li>General purpose cluster</li>
 </ul>
 
+<p>Each of the above is deployed as a <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a> cluster, containing at least 1 node.
+Deploying them as clusters allows for easily expansion and redundancy. Each server runs a an
+instance of <a href="https://portainer.io/">Portainer</a> for container management from a web interace.</p>
+
 <h2 id="auxiliary-functionality">Auxiliary Functionality</h2>
 <p>To accomplish the core functionality, the following must be in place:</p>
 
@@ -65,27 +69,27 @@ codebase small and robust, I only focused on the core parts:</p>
   <li>Hostname modification for labelling nodes based on their use</li>
 </ul>
 
-<h2 id="network-attached-storage-nas-servers">Network Attached Storage (NAS) servers</h2>
-<p>I accomplished NAS in two ways. First, I use Samba to create network drives that can
+<h2 id="network-attached-storage-nas">Network Attached Storage (NAS)</h2>
+<p>I accomplished NAS in two ways. First, I use <a href="https://www.samba.org/">Samba</a> to create network drives that can
 be mounted as drives and used natively in any mainstream operating system. The second
-approach was to expose a Nextcloud server for cloud storage. This provides a web
+approach was to expose a <a href="https://nextcloud.com/">Nextcloud</a> server for cloud storage. This provides a web
 interface similar to Dropbox or Google Drive for content management. This also allows
 several other devices on the network to connect with the desktop or mobile client app.</p>
 
-<h2 id="domain-name-system-dns-server">Domain Name System (DNS) Server</h2>
-<p>I use Pi-hole for DNS. This allows me to block unwanted ads at the network level. I can
+<h2 id="domain-name-system-dns">Domain Name System (DNS)</h2>
+<p>I use <a href="https://pi-hole.net/">Pi-hole</a> for DNS. This allows me to block unwanted ads at the network level. I can
 also use Pi-hole to block traffic from specific sites and implement a DHCP server
 for managing the DHCP leases of the other servers. Currently it is only being use for
 it’s DNS functionality.</p>
 
-<h2 id="network-address-translation-nat-server--firewall">Network Address Translation (NAT) server / firewall</h2>
-<p>I use iptables and Uncomplicated Firewall (UFW) for NAT. This allows me to expose
+<h2 id="network-address-translation-nat">Network Address Translation (NAT)</h2>
+<p>I use iptables and <a href="https://wiki.ubuntu.com/UncomplicatedFirewall">Uncomplicated Firewall (UFW)</a> for NAT. This allows me to expose
 only one host (the firewall) that will forward traffic to the appropriate server
 depending on port of the incoming connection. For example, port 80 might send traffic
 to one of the general purpose servers, but port 53 goes to the DNS server.</p>
 
 <h2 id="general-purpose-cluster">General purpose cluster</h2>
-<p>The remaining servers are used as a general purpose Docker Swarm cluster for deploying
+<p>The remaining servers are used as a general purpose cluster for deploying
 web apps such as Wordpress or MySQL.</p>
 
 <h2 id="other-links">Other links</h2>
@@ -100,7 +104,7 @@ web apps such as Wordpress or MySQL.</p>
 </ul>
 
 <h2 id="note">Note</h2>
-<p>All major components of the network (NAT, NAS, DNS, General purpose) are docker swarm
+<p>All major components of the network (NAT, NAS, DNS, General purpose) are <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a>
 clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
 container. Although there is a slight overhead associated with running everything inside of
 a container, I made this decision because it provides a layer of abstraction between the host OS

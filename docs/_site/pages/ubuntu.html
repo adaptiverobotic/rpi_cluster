@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>Virtual servers | rpi_cluster</title>
+<meta property="og:title" content="Virtual servers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Cluster deployment the easy way" />
+<meta property="og:description" content="Cluster deployment the easy way" />
+<link rel="canonical" href="http://localhost:4000/pages/ubuntu.html" />
+<meta property="og:url" content="http://localhost:4000/pages/ubuntu.html" />
+<meta property="og:site_name" content="rpi_cluster" />
+<script type="application/ld+json">
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/pages/ubuntu.html","publisher":null,"image":null,"headline":"Virtual servers","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="description" content="Cluster deployment the easy way"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=ac41d31db3387e9cb9d2007753e2553e56005aa4">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">rpi_cluster</h1>
+      <h2 class="project-tagline">Cluster deployment the easy way</h2>
+      
+        <a href="http://github.com/N02870941/rpi_cluster" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <a href="/">Back home</a>
+
+<h3 id="virtual-servers">Virtual servers</h3>
+<p>I will detail how to run virtual ubuntu servers. But, in theory you could virtualize
+Raspberry Pis.</p>
+
+<h3 id="requirements">Requirements</h3>
+<p>We do not need any physical devices other than the host machine.</p>
+
+<ul>
+  <li>An internet-connected host machine running Windows, Mac OS X, or Linux with at least 6GB of RAM
+and a dual core processor</li>
+</ul>
+
+<h3 id="setting-up-virtualbox">Setting up VirtualBox</h3>
+<p>First we need to set up our virtual machine environment. You can use any virtual
+machine software such as VirtualBox or VMWare. For this project, I found VirtualBox
+to be most suitable.</p>
+
+<ol>
+  <li>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+  <li>Download <a href="https://www.ubuntu.com/download/server">Ubuntu Server 16.04</a></li>
+  <li>Open VirtualBox and create a new virtual machine</li>
+</ol>
+
+<p>Once you have VirtualBox running, take the following steps:</p>
+
+<ol>
+  <li>
+    <p>Give it any name, Type: Linux, Version: Ubuntu (64-bit). About 512MB of RAM should be fine, and check “Create a virtual hard disk now”
+<img src="/assets/img/install/virtual/virtual_step_01.png" alt="step 1" /></p>
+  </li>
+  <li>
+    <p>A window will pop up, give the VM 16GB-20GB of storage. Click create, then create again to complete the virtual machine creation
+<img src="/assets/img/install/virtual/virtual_step_02.png" alt="step 2" /></p>
+  </li>
+  <li>
+    <p>Right-click on the newly created machine, go to settings, then navigate to the “Network” tab. Make sure that the network adapter is enabled and is in “Bridged Adapter” mode. This will allow thee virtual machines to be discoverable on our local network as if they were physically connected devices.
+<img src="/assets/img/install/virtual/virtual_step_03.png" alt="step 3" /></p>
+  </li>
+  <li>
+    <p>Start the virtual machine by double-clicking it. A one-time prompt will ask you to select a disk image to start the VM from. Click the small arrow, which will open a Finder (or Explorer) window. Navigate to the Ubuntu Server ISO image you downloaded, and select it. Your window should then look as follows:
+<img src="/assets/img/install/virtual/virtual_step_04.png" alt="step 4" /></p>
+  </li>
+  <li>
+    <p>Start the machine. Select your language, keyboard settings, etc. You may use whatever settings you want util you reach account setup. If you plan to use Raspberry Pis along side your VMs, make the user “pi.” All VMs and physical servers must have the same user and password.
+<img src="/assets/img/install/virtual/virtual_step_05.png" alt="step 5" /></p>
+  </li>
+  <li>
+    <p>As mentioned, pick the same password as the default Raspberry Pi password or whatever password all servers will use.
+<img src="/assets/img/install/virtual/virtual_step_06.png" alt="step 6" /></p>
+  </li>
+  <li>
+    <p>Continue using any settings you would like (for hard drive setup, and timezone) util you reach the “Software Selection” prompt. Here we need to make sure that we have “OpenSSH” along with “standard system utilities” and “manual package selection.”
+<img src="/assets/img/install/virtual/virtual_step_07.png" alt="step 7" /></p>
+  </li>
+  <li>
+    <p>Continue using any other desired settings util we are prompted to install the GRUB bootloader. Select “Yes.”
+<img src="/assets/img/install/virtual/virtual_step_08.png" alt="step 8" /></p>
+  </li>
+  <li>The bootloader prompt will be the last prompt before the installation is finalized. After completing the setup, login using your specified credentials and run the following command:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo visudo
+</code></pre></div>    </div>
+    <p>Add the following line to the bottom of the file:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pi ALL=(ALL) NOPASSWD: ALL
+</code></pre></div>    </div>
+    <p>The file should look as follows:
+<img src="/assets/img/install/virtual/virtual_step_09.png" alt="step 9" />
+You can test that the changes took effect by running the command:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo ls
+</code></pre></div>    </div>
+    <p>You should not be prompted to type in your password. If that worked, you can proceed to shutdown the VM by typing</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo shutdown now
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Now, we have an appropriately setup Ubuntu VM. We will use this for our template for the rest of our VMs.  Right-click the VM, and click “Clone.”
+<img src="/assets/img/install/virtual/virtual_step_10.png" alt="step 10" /></p>
+  </li>
+  <li>
+    <p>Click “Continue” and check “Full Clone” and then “Clone.” Repeat this step 5 times, giving each clone a new name.
+<img src="/assets/img/install/virtual/virtual_step_11.png" alt="step 11" /></p>
+  </li>
+  <li>
+    <p>Select all the clones (excluding the original VM), right-click, then click “Group.” You may optionally change the name of the group by right-clicking the group and clicking “Rename Group…”
+<img src="/assets/img/install/virtual/virtual_step_12.png" alt="step 12" /></p>
+  </li>
+  <li>
+    <p>Click the group (name) or select all machines in the group, click the arrow below the green start arrow, and click “Headless Start.”
+<img src="/assets/img/install/virtual/virtual_step_13.png" alt="step 13" /></p>
+  </li>
+  <li>Your group should look as follows:
+<img src="/assets/img/install/virtual/virtual_step_14.png" alt="step 14" /></li>
+</ol>
+
+<p>The VMs are now ready for deployment.</p>
+
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="http://github.com/N02870941/rpi_cluster">rpi_cluster</a> is maintained by <a href="http://github.com/N02870941">N02870941</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

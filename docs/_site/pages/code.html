@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=038e74eed31dc2f14fc71862c87a34a1c3565bcb">
+    <link rel="stylesheet" href="/assets/css/style.css?v=ac41d31db3387e9cb9d2007753e2553e56005aa4">
   </head>
   <body>
     <section class="page-header">
@@ -36,13 +36,11 @@
       <a href="/">Back home</a>
 
 <h2 id="the-code">The code</h2>
-<p>The application is composed of three layers - a CLI, an API, and a GUI.
-I aimed to write this code to be as platform independent as possible. However,
-this does not run on Windows. Currently the code must be developed on a Debian
-based version of linux. The code can be expanded to run on Mac OS X if the
-mac is upgraded to run bash version 4 or greater. The code base also requires
-small changes to detec whether or not use <code class="highlighter-rouge">brew</code> or <code class="highlighter-rouge">apt-get</code> to install packages
-locally. I currently do not have plans to implement this feature.</p>
+<p>Here I will describe the layout of the code from a high level perspective.</p>
+
+<p><img src="/assets/img/code_structure_diagram.png" alt="code structure diagram" /></p>
+
+<p>The application is composed of three layers.</p>
 
 <h3 id="cli">CLI</h3>
 <p>A Shell (bash v4+) based application that does all of the heavy lifting. <a href="/pages/cli.html">Learn more…</a></p>
@@ -52,6 +50,15 @@ locally. I currently do not have plans to implement this feature.</p>
 
 <h3 id="gui">GUI</h3>
 <p>A ReactJS (ECMAScript 6+) based app that drives the API from the browser. <a href="/pages/gui.html">Learn more…</a></p>
+
+<h3 id="compatibility">Compatibility</h3>
+<p>I aimed to write this code to be as platform independent as possible. However,
+this does not run on Windows. Currently the code must be developed on a Debian
+based version of linux. The code can be expanded to run on Mac OS X if the
+mac is upgraded to run bash version 4 or greater. The code base also requires
+small changes to detect whether or not use <code class="highlighter-rouge">brew</code> or <code class="highlighter-rouge">apt-get</code> to install packages
+locally. I currently do not have plans to implement this feature as it will not
+provide much benefit.</p>
 
 
 

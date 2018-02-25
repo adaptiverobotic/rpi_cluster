@@ -17,6 +17,10 @@ codebase small and robust, I only focused on the core parts:
 * Network Address Translation (NAT)
 * General purpose cluster
 
+Each of the above is deployed as a [Docker Swarm][swarm] cluster, containing at least 1 node.
+Deploying them as clusters allows for easily expansion and redundancy. Each server runs a an
+instance of [Portainer][portainer] for container management from a web interace.
+
 ## Auxiliary Functionality
 To accomplish the core functionality, the following must be in place:
 
@@ -24,27 +28,27 @@ To accomplish the core functionality, the following must be in place:
 * IP address list generation to automatically discover nodes on the network.
 * Hostname modification for labelling nodes based on their use
 
-## Network Attached Storage (NAS) servers
-I accomplished NAS in two ways. First, I use Samba to create network drives that can
+## Network Attached Storage (NAS)
+I accomplished NAS in two ways. First, I use [Samba][samba] to create network drives that can
 be mounted as drives and used natively in any mainstream operating system. The second
-approach was to expose a Nextcloud server for cloud storage. This provides a web
+approach was to expose a [Nextcloud][nextcloud] server for cloud storage. This provides a web
 interface similar to Dropbox or Google Drive for content management. This also allows
 several other devices on the network to connect with the desktop or mobile client app.
 
-## Domain Name System (DNS) Server
-I use Pi-hole for DNS. This allows me to block unwanted ads at the network level. I can
+## Domain Name System (DNS)
+I use [Pi-hole][pihole] for DNS. This allows me to block unwanted ads at the network level. I can
 also use Pi-hole to block traffic from specific sites and implement a DHCP server
 for managing the DHCP leases of the other servers. Currently it is only being use for
 it's DNS functionality.
 
-## Network Address Translation (NAT) server / firewall
-I use iptables and Uncomplicated Firewall (UFW) for NAT. This allows me to expose
+## Network Address Translation (NAT)
+I use iptables and [Uncomplicated Firewall (UFW)][ufw] for NAT. This allows me to expose
 only one host (the firewall) that will forward traffic to the appropriate server
 depending on port of the incoming connection. For example, port 80 might send traffic
 to one of the general purpose servers, but port 53 goes to the DNS server.
 
 ## General purpose cluster
-The remaining servers are used as a general purpose Docker Swarm cluster for deploying
+The remaining servers are used as a general purpose cluster for deploying
 web apps such as Wordpress or MySQL.
 
 ## Other links
@@ -57,7 +61,7 @@ Check out the rest of the documentation.
 * [To-do list](pages/todo.md)
 
 ## Note
-All major components of the network (NAT, NAS, DNS, General purpose) are docker swarm
+All major components of the network (NAT, NAS, DNS, General purpose) are [Docker Swarm][swarm]
 clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
 container. Although there is a slight overhead associated with running everything inside of
 a container, I made this decision because it provides a layer of abstraction between the host OS
@@ -68,4 +72,10 @@ service as easy as `docker stop <container> && docker rm <container>` rather tha
 to manage packages with `sudo apt-get --purge autoremove <package>` and cleaning up old config files
 that `apt-get` did not account for.
 
+[portainer]: https://portainer.io/
+[pihole]: https://pi-hole.net/
+[nextcloud]: https://nextcloud.com/
+[samba]: https://www.samba.org/
+[ufw]: https://wiki.ubuntu.com/UncomplicatedFirewall
+[swarm]: https://docs.docker.com/engine/swarm/
 [cluster_diagram]: assets/img/cluster_diagram.png
