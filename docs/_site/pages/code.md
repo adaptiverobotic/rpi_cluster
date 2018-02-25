@@ -1,11 +1,7 @@
 ## The code
 Here I will describe the layout of the code from a high level perspective.
 
-<div>
-<!-- ![code structure diagram][diagram] -->
-
-<img class="center" src="/assets/img/code_structure_diagram.png">
-</div>
+![code structure diagram][diagram]
 
 The application is composed of three layers.
 

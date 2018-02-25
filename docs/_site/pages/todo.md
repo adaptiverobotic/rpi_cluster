@@ -45,12 +45,7 @@ In fact, `$ASSETS` and all of its files should become read only once we have sta
 the script. If we put an API in front if this, the API will be responsible for
 generating these files.
 
-* Changing user name may be a challenge in that by default pi's the root account is
-locked. We don't know which other distros is true for. Let's ommit that for the sake of platform independence.
-
 * Fix SQLite3 syntax issues / corruption in test_app's client application
-
-* Create simple flow chart / one page index.html to host on github pages that documents the project
 
 * At some point scan code base for platform specific commands. We are already tied to debian and bash
 ideally, that should b it.
