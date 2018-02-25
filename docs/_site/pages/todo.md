@@ -1,4 +1,5 @@
 # To-do List
+Things I still need to implement / fix
 
 
 * Need to create local docker registry if i want to build locally
@@ -14,14 +15,14 @@ in the list.sh script when we are assigning ips given tasks.
 
 The following command gets the amount of ram in kbs
 
-cat /proc/meminfo | grep  MemTotal | awk '{print $2}'
+`cat /proc/meminfo | grep  MemTotal | awk '{print $2}'`
 
 This gets processor info, we get an entry
 for each core, so we should count how many times
 we get an entry to figure out the number of cores
 that the machine has
 
-cat /proc/cpuinfo
+`cat /proc/cpuinfo`
 
 * Perhaps when we are running in async mode,
 instead of erroring out if a single node fails. Let's take it off the list of $IPS
@@ -39,8 +40,8 @@ less of an expensive operation in sync mode than file transfer.
 
 * Let's explore making $IPS read only. We can either read the file or delete it
 and make a new one. Obviously it will have write privileges when we are constructing
-it. but once the list.sh script is done. it will change the permissions on $IPS.
-In fact, $ASSETS and all of its files should become read only once we have started
+it. but once the list.sh script is done. it will change the permissions on `$IPS`.
+In fact, `$ASSETS` and all of its files should become read only once we have started
 the script. If we put an API in front if this, the API will be responsible for
 generating these files.
 

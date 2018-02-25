@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=79b87edaea698a375d9224eb210734145c26dda1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=038e74eed31dc2f14fc71862c87a34a1c3565bcb">
   </head>
   <body>
     <section class="page-header">
@@ -37,14 +37,27 @@
 
 <h1 id="the-command-line-interface">The Command Line Interface</h1>
 <p>This is the core part of the application. It is a shell (bashv4+) library that
-carries out the deployment of each server. The code within the directory <code class="highlighter-rouge">/cli</code>
-is structured as follows:</p>
+facilitates deployment to each server. The <code class="highlighter-rouge">/cli</code> directory contains that code
+and is structured as follows:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/cli
-|
 ├── /assets
+|   ├── asset_1
+|   ├── asset_2
+|   .
+|   .
+|   .
+|   └── asset_n
 ├── /bin
+|   ├── program_1.o
+|   └── program_2.o
 ├── /code
+|   ├── /include
+|   |   ├── program_1.h
+|   |   └── program_1.h
+|   ├── /src
+|   |   ├── program_1.c
+|   |   └── program_1.c
 ├── /app_1
 |   ├── /assets
 |   ├── install.sh
@@ -69,9 +82,9 @@ is structured as follows:</p>
 
 <ul>
   <li>
-    <p><code class="highlighter-rouge">/assets</code> contains all files that are written / read in more than one place
-throughout the application. It contains our global list of ip addresses, common
-usernames, passwords, hostnames, etc.</p>
+    <p><code class="highlighter-rouge">/assets</code> (at the root level) contains all files that are written and read in
+more than one place throughout the application. It contains our global list
+of ip addresses, common usernames, passwords, hostnames, etc.</p>
   </li>
   <li>
     <p><code class="highlighter-rouge">/bin</code> Contains all “binaries.” Small parts of the CLI are written in C, and thus
@@ -83,8 +96,11 @@ compiled into platform specific binaries in the <code class="highlighter-rouge">
   <li>
     <p><code class="highlighter-rouge">/app_x</code> All other folders are considered apps. They contain a <code class="highlighter-rouge">install.sh</code> script
 that is run from the system administrator node. The <code class="highlighter-rouge">install.sh</code> script facilitates
-installing a given software (typically the name of the folder) on each node. <code class="highlighter-rouge">install.sh</code>
-does this by sending <code class="highlighter-rouge">setup.sh</code> to each server, and executing it via <code class="highlighter-rouge">ssh</code>.</p>
+installing a given software (typically indicated by the name of the folder) on each node.
+<code class="highlighter-rouge">install.sh</code> does this by sending <code class="highlighter-rouge">setup.sh</code> to each server, and executing it via <code class="highlighter-rouge">ssh</code>. They each
+contain their own <code class="highlighter-rouge">/assets</code> directory that contains any files such as config files that
+need to be sent to a node when setting it up. These asset files are only accessed within
+that given app’s directory.</p>
   </li>
   <li>
     <p><code class="highlighter-rouge">cli.sh</code> Is the only script that is actually exposed. It contains all high level
@@ -102,13 +118,45 @@ responsible for compiling C files into <code class="highlighter-rouge">/bin</cod
 </ul>
 
 <h2 id="functions">Functions</h2>
-<p>These are the functions that <code class="highlighter-rouge">cli.sh</code> exposes for use from the command line or api.</p>
+<p>These are the functions that <code class="highlighter-rouge">cli.sh</code> exposes for use from the command line or api.
+Each function takes 1 of the following arguments. <code class="highlighter-rouge">install</code>, <code class="highlighter-rouge">uninstall</code> or <code class="highlighter-rouge">reinstall</code>.</p>
 
-<ul>
-  <li><code class="highlighter-rouge">func1()</code></li>
-  <li><code class="highlighter-rouge">func2()</code></li>
-  <li><code class="highlighter-rouge">func3()</code></li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Function</th>
+      <th style="text-align: center">Program</th>
+      <th style="text-align: center">Destination server(s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">pihole()</code></td>
+      <td style="text-align: center">pi-hole</td>
+      <td style="text-align: center">DNS</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">nextcloud()</code></td>
+      <td style="text-align: center">nextcloud</td>
+      <td style="text-align: center">NAS</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">samba()</code></td>
+      <td style="text-align: center">samba</td>
+      <td style="text-align: center">NAS</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">nat()</code></td>
+      <td style="text-align: center">ufw</td>
+      <td style="text-align: center">NAT</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">magic()</code></td>
+      <td style="text-align: center">All of the above</td>
+      <td style="text-align: center">All of the above</td>
+    </tr>
+  </tbody>
+</table>
 
 
 

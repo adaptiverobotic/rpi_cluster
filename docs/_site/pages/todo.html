@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Cluster deployment the easy way" />
 <meta property="og:description" content="Cluster deployment the easy way" />
-<link rel="canonical" href="http://localhost:4000/TODO.html" />
-<meta property="og:url" content="http://localhost:4000/TODO.html" />
+<link rel="canonical" href="http://localhost:4000/pages/todo.html" />
+<meta property="og:url" content="http://localhost:4000/pages/todo.html" />
 <meta property="og:site_name" content="rpi_cluster" />
 <script type="application/ld+json">
-{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/TODO.html","publisher":null,"image":null,"headline":"To-do List","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/pages/todo.html","publisher":null,"image":null,"headline":"To-do List","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="description" content="Cluster deployment the easy way"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=79b87edaea698a375d9224eb210734145c26dda1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=038e74eed31dc2f14fc71862c87a34a1c3565bcb">
   </head>
   <body>
     <section class="page-header">
@@ -36,6 +36,7 @@
       <a href="/">Back home</a>
 
 <h1 id="to-do-list">To-do List</h1>
+<p>Things I still need to implement / fix</p>
 
 <ul>
   <li>
@@ -55,22 +56,14 @@ in the list.sh script when we are assigning ips given tasks.</p>
 
 <p>The following command gets the amount of ram in kbs</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>cat /proc/meminfo</td>
-      <td>grep  MemTotal</td>
-      <td>awk ‘{print $2}’</td>
-    </tr>
-  </tbody>
-</table>
+<p><code class="highlighter-rouge">cat /proc/meminfo | grep  MemTotal | awk '{print $2}'</code></p>
 
 <p>This gets processor info, we get an entry
 for each core, so we should count how many times
 we get an entry to figure out the number of cores
 that the machine has</p>
 
-<p>cat /proc/cpuinfo</p>
+<p><code class="highlighter-rouge">cat /proc/cpuinfo</code></p>
 
 <ul>
   <li>
@@ -92,8 +85,8 @@ less of an expensive operation in sync mode than file transfer.</p>
   <li>
     <p>Let’s explore making $IPS read only. We can either read the file or delete it
 and make a new one. Obviously it will have write privileges when we are constructing
-it. but once the list.sh script is done. it will change the permissions on $IPS.
-In fact, $ASSETS and all of its files should become read only once we have started
+it. but once the list.sh script is done. it will change the permissions on <code class="highlighter-rouge">$IPS</code>.
+In fact, <code class="highlighter-rouge">$ASSETS</code> and all of its files should become read only once we have started
 the script. If we put an API in front if this, the API will be responsible for
 generating these files.</p>
   </li>

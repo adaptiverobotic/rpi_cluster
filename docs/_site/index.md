@@ -51,7 +51,10 @@ web apps such as Wordpress or MySQL.
 Check out the rest of the documentation.
 
 * [How the code works](pages/code.md)
-* [System Requirements](pages/requirements.md)
+* [Installation steps](pages/install.md)
+* [System requirements](pages/reqs.md)
+* [Application limitations](pages/limits.md)
+* [To-do list](pages/todo.md)
 
 ## Note
 All major components of the network (NAT, NAS, DNS, General purpose) are docker swarm
