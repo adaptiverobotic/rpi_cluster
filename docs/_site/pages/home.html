@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>RPI Cluster | rpi_cluster</title>
+<meta property="og:title" content="RPI Cluster" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Cluster deployment the easy way" />
+<meta property="og:description" content="Cluster deployment the easy way" />
+<link rel="canonical" href="http://localhost:4000/pages/home.html" />
+<meta property="og:url" content="http://localhost:4000/pages/home.html" />
+<meta property="og:site_name" content="rpi_cluster" />
+<script type="application/ld+json">
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/pages/home.html","publisher":null,"image":null,"headline":"RPI Cluster","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="description" content="Cluster deployment the easy way"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=bd8d30f1292bae63db5b3582aa827d847ce331ec">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">rpi_cluster</h1>
+      <h2 class="project-tagline">Cluster deployment the easy way</h2>
+      
+        <a href="http://github.com/N02870941/rpi_cluster" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <a href="/index.html">Back home</a>
+
+<h1 id="rpi-cluster">RPI Cluster</h1>
+<p>This is the documentation for the code I wrote to provision my
+Raspberry Pi / Ubuntu cluster. This project is a proof of concept / peek
+into the technical challenges of a system administrator. I wrote it because
+I was interested in automating the process of provisioning different types
+of servers and having them work together to as a functioning environment
+for development and personal use. A diagram of my network architecture follows:</p>
+
+<p><img src="assets/img/cluster_diagram.png" alt="project architecture" /></p>
+
+<h2 id="core-functionality">Core Functionality</h2>
+<p>Provisioning a production quality network of servers is no trivial task. To keep the
+codebase small and robust, I only focused on the core parts:</p>
+
+<ul>
+  <li>Network Attached Storage (NAS)</li>
+  <li>Domain Name System (DNS)</li>
+  <li>Network Address Translation (NAT)</li>
+  <li>General purpose cluster</li>
+</ul>
+
+<h2 id="auxiliary-functionality">Auxiliary Functionality</h2>
+<p>To accomplish the core functionality, the following must be in place:</p>
+
+<ul>
+  <li>The ability to administer SSH keys for password-less SSH access</li>
+  <li>IP address list generation to automatically discover nodes on the network.</li>
+  <li>Hostname modification for labelling nodes based on their use</li>
+</ul>
+
+<h2 id="network-attached-storage-nas-servers">Network Attached Storage (NAS) servers</h2>
+<p>I accomplished NAS in two ways. First, I use Samba to create network drives that can
+be mounted as drives and used natively in any mainstream operating system. The second
+approach was to expose a Nextcloud server for cloud storage. This provides a web
+interface similar to Dropbox or Google Drive for content management. This also allows
+several other devices on the network to connect with the desktop or mobile client app.</p>
+
+<h2 id="domain-name-system-dns-server">Domain Name System (DNS) Server</h2>
+<p>I use Pi-hole for DNS. This allows me to block unwanted ads at the network level. I can
+also use Pi-hole to block traffic from specific sites and implement a DHCP server
+for managing the DHCP leases of the other servers. Currently it is only being use for
+it’s DNS functionality.</p>
+
+<h2 id="network-address-translation-nat-server--firewall">Network Address Translation (NAT) server / firewall</h2>
+<p>I use iptables and Uncomplicated Firewall (UFW) for NAT. This allows me to expose
+only one host (the firewall) that will forward traffic to the appropriate server
+depending on port of the incoming connection. For example, port 80 might send traffic
+to one of the general purpose servers, but port 53 goes to the DNS server.</p>
+
+<h2 id="general-purpose-cluster">General purpose cluster</h2>
+<p>The remaining servers are used as a general purpose Docker Swarm cluster for deploying
+web apps such as Wordpress or MySQL.</p>
+
+<h2 id="other-links">Other links</h2>
+<p>Check out the rest of the documentation.</p>
+
+<ul>
+  <li><a href="pages/code.md">How the code works</a></li>
+  <li><a href="pages/requirements.md">System Requirements</a></li>
+</ul>
+
+<h2 id="note">Note</h2>
+<p>All major components of the network (NAT, NAS, DNS, General purpose) are docker swarm
+clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
+container. Although there is a slight overhead associated with running everything inside of
+a container, I made this decision because it provides a layer of abstraction between the host OS
+and the service. So, platform specific settings (x86 vs arm) can be changed in the Dockerfile
+or <code class="highlighter-rouge">docker run</code> command rather than the codebase itself. That allows my code to focus solely
+on orchestration, and not on platform specific idiosyncrasies. It also makes uninstalling a
+service as easy as <code class="highlighter-rouge">docker stop &lt;container&gt; &amp;&amp; docker rm &lt;container&gt;</code> rather than trying
+to manage packages with <code class="highlighter-rouge">sudo apt-get --purge autoremove &lt;package&gt;</code> and cleaning up old config files
+that <code class="highlighter-rouge">apt-get</code> did not account for.</p>
+
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="http://github.com/N02870941/rpi_cluster">rpi_cluster</a> is maintained by <a href="http://github.com/N02870941">N02870941</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

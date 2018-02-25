@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>The Command Line Interface | rpi_cluster</title>
+<meta property="og:title" content="The Command Line Interface" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Cluster deployment the easy way" />
+<meta property="og:description" content="Cluster deployment the easy way" />
+<link rel="canonical" href="http://localhost:4000/pages/cli.html" />
+<meta property="og:url" content="http://localhost:4000/pages/cli.html" />
+<meta property="og:site_name" content="rpi_cluster" />
+<script type="application/ld+json">
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/pages/cli.html","publisher":null,"image":null,"headline":"The Command Line Interface","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="description" content="Cluster deployment the easy way"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=bd8d30f1292bae63db5b3582aa827d847ce331ec">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">rpi_cluster</h1>
+      <h2 class="project-tagline">Cluster deployment the easy way</h2>
+      
+        <a href="http://github.com/N02870941/rpi_cluster" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <a href="/index.html">Back home</a>
+
+<h1 id="the-command-line-interface">The Command Line Interface</h1>
+<p>This is the core part of the application. It is a shell (bashv4+) library that
+carries out the deployment of each server. The code within the directory <code class="highlighter-rouge">/cli</code>
+is structured as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/cli
+|
+├── /assets
+├── /bin
+├── /code
+├── /app_1
+|   ├── /assets
+|   ├── install.sh
+|   └── setup.sh
+├── /app_2
+|   ├── /assets
+|   ├── install.sh
+|   └── setup.sh
+.
+.
+.
+├── /app_n
+|   ├── /assets
+|   ├── install.sh
+|   └── setup.sh
+├── cli.sh
+├── setup.sh
+└── util.sh
+</code></pre></div></div>
+
+<p>Starting from the top down:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">/assets</code> contains all files that are written / read in more than one place
+throughout the application. It contains our global list of ip addresses, common
+usernames, passwords, hostnames, etc.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/bin</code> Contains all “binaries.” Small parts of the CLI are written in C, and thus
+compiled into platform specific binaries in the <code class="highlighter-rouge">/bin</code> directory.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/code</code> Is where all of the C code that gets compiled into <code class="highlighter-rouge">/bin</code> lives.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/app_x</code> All other folders are considered apps. They contain a <code class="highlighter-rouge">install.sh</code> script
+that is run from the system administrator node. The <code class="highlighter-rouge">install.sh</code> script facilitates
+installing a given software (typically the name of the folder) on each node. <code class="highlighter-rouge">install.sh</code>
+does this by sending <code class="highlighter-rouge">setup.sh</code> to each server, and executing it via <code class="highlighter-rouge">ssh</code>.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cli.sh</code> Is the only script that is actually exposed. It contains all high level
+functions such as installing a DNS server or Samba server. <code class="highlighter-rouge">cli.sh</code> is the only script
+that the API has access to.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">util.sh</code> Contains all reusable code throughout the project. All other code is
+private to it’s respective directory.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">setup.sh</code> Is a script that is run once on the system administrator server. It is
+responsible for compiling C files into <code class="highlighter-rouge">/bin</code> and doing any other initial setup.</p>
+  </li>
+</ul>
+
+<h2 id="functions">Functions</h2>
+<p>These are the functions that <code class="highlighter-rouge">cli.sh</code> exposes for use from the command line or api.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">func1()</code></li>
+  <li><code class="highlighter-rouge">func2()</code></li>
+  <li><code class="highlighter-rouge">func3()</code></li>
+</ul>
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="http://github.com/N02870941/rpi_cluster">rpi_cluster</a> is maintained by <a href="http://github.com/N02870941">N02870941</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
