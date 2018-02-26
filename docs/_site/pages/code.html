@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
 
-<!-- Begin Jekyll SEO tag v2.3.0 -->
+    <!-- Search Engine Optimization -->
+    <!-- Begin Jekyll SEO tag v2.3.0 -->
 <title>The code | rpi_cluster</title>
 <meta property="og:title" content="The code" />
 <meta property="og:locale" content="en_US" />
@@ -16,122 +17,76 @@
 {"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/pages/code.html","publisher":null,"image":null,"headline":"The code","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <meta name="description" content="Cluster deployment the easy way"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=f7d6b07b13223a013803652aa1fab16094d154ba">
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=ed515423f68a4abdfb272e0bd7795a4a54955902">
+
+    <!-- Custom CSS and main stylesheet -->
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css">
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/main.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+
   <body>
+
+    <!-- Page header -->
     <section class="page-header">
+
+      <!-- Headings -->
       <h1 class="project-name">rpi_cluster</h1>
       <h2 class="project-tagline">Cluster deployment the easy way</h2>
       
         <a href="http://github.com/N02870941/rpi_cluster" class="btn">View on GitHub</a>
       
+
+      <!-- Download buttons -->
+      
+        <a href="https://github.com/N02870941/rpi_cluster/archive/master.zip" class="btn">Download .zip</a>
+        <a href="https://github.com/N02870941/rpi_cluster/archive/master.tar.gz" class="btn">Download .tar.gz</a>
       
     </section>
 
+    <!-- Main page content -->
     <section class="main-content">
-      <!-- https://codepen.io/marclloyd77/pen/gtypB -->
-<style>
-nav{
-    position:fixed;
-    top:0;
-    left:0;
-    width:250px;
-    height:100%;
-    margin:0 0 0 -250px;
-    -moz-transition:all 200ms ease-in;
-    -webkit-transition:all 200ms ease-in;
-    -o-transition:all 200ms ease-in;
-    transition:all 200ms ease-in;
-}
-nav ul{
-    width:250px;
-    height:100%;
-    padding:0;
-    margin:0;
-    list-style:none;
-    background:#222;
-    overflow:hidden;
-}
-nav li{
-    margin:0;
-}
-nav a{
-    color:#fff;
-    font-size:1em;
-    font-family:'helvetica neue', helvetica, arial, sans-serif;
-    text-decoration:none;
-    display:block;
-    padding:12px 15px;
-    font-weight:300;
-    letter-spacing:2px;
-    border-bottom:1px solid #333;
-}
-nav a:hover{
-    background:#111;
-}
-label{
-    display:block;
-    font-family:'helvetica neue', helvetica, arial, sans-serif;
-    font-weight:700;
-    background:#1ea1b8;
-    width:42px;
-    height:42px;
-    line-height:42px;
-    color:#fff;
-    text-align:center;
-    font-size:2em;
-    line-height:1.1em;
-    position:fixed;
-    top:10px;
-    left:10px;
-    -moz-transition:all 200ms ease-in;
-    -webkit-transition:all 200ms ease-in;
-    -o-transition:all 200ms ease-in;
-    transition:all 200ms ease-in;
-    z-index:500;
-}
-input[type="checkbox"]{
-    display:none;
-}
-input[type="checkbox"]:checked ~ nav{
-    margin:0;
-}
-input[type="checkbox"]:checked ~ label{
-    left:260px;
-}
-input[type="checkbox"]:checked ~ section{
-    -webkit-transform:translate3d(260px, 0, 0);
-    -moz-transform:translate3d(260px, 0, 0);
-    -o-transform:translate3d(260px, 0, 0);
-    transform:translate3d(260px, 0, 0);
-}
-</style>
-
-<input type="checkbox" id="navigation" />
-    <label for="navigation">
-        +
-    </label>
-
-    <nav>
-      <ul>
-        <li><a href="/rpi_cluster/">Home</a></li>
-        <li><a href="/rpi_cluster/pages/code.html">How the code works</a></li>
-        <li><a href="/rpi_cluster/pages/install.html">Installation guide</a></li>
-        <li><a href="/rpi_cluster/pages/reqs.html">System requirements</a></li>
-        <li><a href="/rpi_cluster/pages/limits.html">Application limitations</a></li>
-      </ul>
-    </nav>
-
-<h2 id="the-code">The code</h2>
-<p>Here I will describe the layout of the code from a high level perspective.</p>
+      <h2 id="the-code">The code</h2>
+<p>Here I will describe the layout of the code from a high level perspective. The application is composed of three layers:</p>
 
 <p><img src="/rpi_cluster/assets/img/code_structure_diagram.png" alt="code structure diagram" /></p>
 
-<p>The application is composed of three layers.</p>
+<p>The directory hierarchy appears as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/rpi_cluster
+├── /cli
+|   └── cli.sh
+├── /api
+|   ├── cli.py
+|   └── api.py
+├── /gui
+|   ├── api.js
+|   └── gui.js
+└── setup.sh
+</code></pre></div></div>
+
+<p>Starting from the top down:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">/rpi_cluster</code> is the root directory, that contains the three main directories <code class="highlighter-rouge">/cli</code>, <code class="highlighter-rouge">/api</code>, and <code class="highlighter-rouge">/gui</code>, along with a <code class="highlighter-rouge">setup.sh</code> script at the highest level to facilitate the installation process of the entire application.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/cli</code> contains all of the scripts the do the actual deploying. But, from outside of the <code class="highlighter-rouge">/cli</code> directory, the only accessible script is <code class="highlighter-rouge">cli.sh</code>. It is the entry point for using the application from the terminal or from the API.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/api</code> is where the REST application lives that calls the CLI. <code class="highlighter-rouge">/api</code> has two main components. <code class="highlighter-rouge">cli.py</code>, which acts as a controller with 1:1
+python:bash function bindings with <code class="highlighter-rouge">cli.sh</code> - it acts as a liaison. The other component is <code class="highlighter-rouge">api.py</code>, which exposes REST endpoints on a specified port for use with HTTP methods. It is the entry point for consuming the API from the GUI.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/gui</code> is the top layer and the most abstract. It also has two major components. <code class="highlighter-rouge">api.js</code>, which provides 1:1 js:python function bindings with the API. It also has <code class="highlighter-rouge">gui.js</code>, which is the main JavaScript file that will server an <code class="highlighter-rouge">index.html</code> for access in the browser.</p>
+  </li>
+</ul>
 
 <h3 id="cli">CLI</h3>
 <p>A library of shell (bash v4+) scripts that do all of the heavy lifting. This application can be used directly from the command line without the API or GUI. However, the API provides better error handling and filters out potentially bad data. <a href="/rpi_cluster/pages/cli.html">Learn more…</a></p>
@@ -153,7 +108,7 @@ provide much benefit nor functionality to the end product.</p>
 
 
 
-
+      <!-- Site footer -->
       <footer class="site-footer">
         
           <span class="site-footer-owner"><a href="http://github.com/N02870941/rpi_cluster">rpi_cluster</a> is maintained by <a href="http://github.com/N02870941">N02870941</a>.</span>
@@ -162,6 +117,52 @@ provide much benefit nor functionality to the end product.</p>
       </footer>
     </section>
 
+    <!-- Google Analytics -->
     
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Side navbar -->
+    <input type="checkbox" id="navigation" />
+<label for="navigation">
+    	&#9776;
+</label>
+
+<nav>
+  <ul>
+    <li><a href="/rpi_cluster/">Home</a></li>
+    <li><a href="/rpi_cluster/pages/code.html">Project Structure</a></li>
+    <li><a href="/rpi_cluster/pages/install.html">Installation Guide</a></li>
+    <li><a href="/rpi_cluster/pages/reqs.html">System Requirements</a></li>
+    <li><a href="/rpi_cluster/pages/limits.html">Application Limitations</a></li>
+  </ul>
+</nav>
+
+
+    <!-- Back to top button -->
+    <div class='scrolltop'>
+  <div class='scroll icon'>
+    <i class='fa fa-4x fa-angle-up'></i>
+  </div>
+</div>
+
+<script>
+(function() {
+    $(window).scroll(function() {
+      if ($(this).scrollTop() > 50) {
+          $('.scrolltop:hidden').stop(true, true).fadeIn();
+      } else {
+          $('.scrolltop').stop(true, true).fadeOut();
+      }
+    });
+    $('.scroll').click(function() {
+  		$('html, body').animate({
+        scrollTop : 0},800);
+  		return false;
+  	});
+})();
+</script>
+
   </body>
 </html>

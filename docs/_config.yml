@@ -2,3 +2,15 @@ theme: jekyll-theme-cayman
 
 baseurl: "/rpi_cluster"
 url: "https://n02870941.github.io"
+
+sass:
+  sass_dir: _sass
+
+show_downloads: true
+
+github:
+  zip_url: "https://github.com/N02870941/rpi_cluster/archive/master.zip"
+  tar_url: "https://github.com/N02870941/rpi_cluster/archive/master.tar.gz"
+
+
+google_analytics: true

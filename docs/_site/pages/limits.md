@@ -16,3 +16,15 @@ I designed this project initially solely for the Raspberry Pi. However, there ar
 
 ## Non-functional DHCP server
 I am using Pi-hole as a DNS server. Pi-hole also has the ability to act as a DHCP server. I initially wanted to use this functionality. But, it does not seem to function. The router that connects all of the servers is connected to another router as it's source of internet. This router is provided by the Internet Service Provider (ISP). Even if I turn off the DHCP server in the second router, disabling DHCP in the ISP router is not an option. So, there may be conflict with Pi-hole advertising itself as a DHCP and the DHCP server running in the house router. In addition, even if I could turn off the DHCP in the ISP router, then everyone else on my house router would be depending on my servers to get an IP address - I'd be disrupting the rest of the network.
+
+## Containers vs. Native installation
+All major components of the network (NAT, NAS, DNS, General purpose) are Docker Swarm
+clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
+container. Although there is a slight overhead associated with running everything inside of
+a container, I made this decision because it provides a layer of abstraction between the host OS
+and the service. So, platform specific settings (x86 vs arm) can be changed in the Dockerfile
+or `docker run` command rather than the codebase itself. That allows my code to focus solely
+on orchestration, and not on platform specific idiosyncrasies. It also makes uninstalling a
+service as easy as `docker stop <container> && docker rm <container>` rather than trying
+to manage packages with `sudo apt-get --purge autoremove <package>` and cleaning up old config files
+that `apt-get` did not account for.

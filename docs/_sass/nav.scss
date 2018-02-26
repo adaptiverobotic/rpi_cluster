@@ -1,9 +1,6 @@
----
-layout: default
----
+// https://codepen.io/marclloyd77/pen/gtypB
 
-<!-- https://codepen.io/marclloyd77/pen/gtypB -->
-<style>
+
 nav{
     position:fixed;
     top:0;
@@ -78,21 +75,3 @@ input[type="checkbox"]:checked ~ section{
     -o-transform:translate3d(260px, 0, 0);
     transform:translate3d(260px, 0, 0);
 }
-</style>
-
-<input type="checkbox" id="navigation" />
-    <label for="navigation">
-        +
-    </label>
-
-    <nav>
-      <ul>
-        <li><a href="/rpi_cluster/">Home</a></li>
-        <li><a href="/rpi_cluster/pages/code.html">How the code works</a></li>
-        <li><a href="/rpi_cluster/pages/install.html">Installation guide</a></li>
-        <li><a href="/rpi_cluster/pages/reqs.html">System requirements</a></li>
-        <li><a href="/rpi_cluster/pages/limits.html">Application limitations</a></li>
-      </ul>
-    </nav>
-
-{{ content }}

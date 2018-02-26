@@ -55,22 +55,9 @@ web apps such as Wordpress or MySQL.
 Check out the rest of the documentation.
 
 * [How the code works](pages/code.md)
-* [Installation steps](pages/install.md)
+* [Installation guide](pages/install.md)
 * [System requirements](pages/reqs.md)
 * [Application limitations](pages/limits.md)
-* [To-do list](pages/todo.md)
-
-## Note
-All major components of the network (NAT, NAS, DNS, General purpose) are [Docker Swarm][swarm]
-clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
-container. Although there is a slight overhead associated with running everything inside of
-a container, I made this decision because it provides a layer of abstraction between the host OS
-and the service. So, platform specific settings (x86 vs arm) can be changed in the Dockerfile
-or `docker run` command rather than the codebase itself. That allows my code to focus solely
-on orchestration, and not on platform specific idiosyncrasies. It also makes uninstalling a
-service as easy as `docker stop <container> && docker rm <container>` rather than trying
-to manage packages with `sudo apt-get --purge autoremove <package>` and cleaning up old config files
-that `apt-get` did not account for.
 
 [portainer]: https://portainer.io/
 [pihole]: https://pi-hole.net/

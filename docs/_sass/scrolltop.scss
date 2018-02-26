@@ -1,0 +1,47 @@
+@mixin transition($transitions) {
+	transform: $transitions;
+  -moz-transition: $transitions;
+  -o-transition: $transitions;
+	-webkit-transition: $transitions;
+  -ms-transform: $transitions;
+}
+
+.scrolltop {
+	display:none;
+	width:100%;
+	margin:0 auto;
+	position:fixed;
+	bottom:20px;
+	right:10px;
+	z-index:999;
+}
+
+.scroll {
+	position:absolute;
+	right:20px;
+	bottom:20px;
+	background:#b2b2b2;
+	background:rgba(178,178,178,0.7);
+	padding:20px;
+	text-align: center;
+	margin: 0 0 0 0;
+	cursor:pointer;
+	@include transition(0.5s);
+
+	.fa {
+		font-size:30px;
+		margin-top:-5px;
+		margin-left:1px;
+
+		@include transition(0.5s);
+	}
+}
+
+.scroll:hover {
+	background:rgba(178,178,178,1.0);
+	@include transition(0.5s);
+
+	.fa {
+		padding-top:-10px;
+	}
+}
