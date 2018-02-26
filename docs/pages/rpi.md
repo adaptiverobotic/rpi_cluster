@@ -16,34 +16,34 @@ For each server we require the following:
 We must prepare the operating system for the server's first boot.
 
 1. Download the [Raspbian Stretch Lite Image][raspbian_download]
-![step 1](/assets/img/install/physical/physical_step_01.png)
+![step 1](../assets/img/install/physical/physical_step_01.png)
 
 2. Download, install, and run [Etcher][etcher_download]
-![step 2](/assets/img/install/physical/physical_step_02.png)
+![step 2](../assets/img/install/physical/physical_step_02.png)
 
 3. Click "Select Image," select the downloaded Raspbian Image and if Etcher does not automatically detect your SD card, click "Select Drive" and select your SD card. Then click "Flash". This will burn the Raspbian Image to the SD card.
-![step 3](/assets/img/install/physical/physical_step_03.png)
+![step 3](../assets/img/install/physical/physical_step_03.png)
 
 #### Enable SSH
 By default SSH is not enabled in Raspbian. We must manually enable it.
 
 1. Eject, remove, and reinsert the SD card. The "boot" partition should appear in Finder, or Explorer in Windows
-![step 4](/assets/img/install/physical/physical_step_04.png)
+![step 4](../assets/img/install/physical/physical_step_04.png)
 
 2. Create an empty file on your Desktop named "ssh". Drag it to the "boot" partition of the SD card
-![step 5](/assets/img/install/physical/physical_step_05.png)
+![step 5](../assets/img/install/physical/physical_step_05.png)
 
 #### Connecting the hardware
 Now, we need to prepare the physical device.
 
 1. Insert the SD card into the Raspberry Pi
-![step 6](/assets/img/install/physical/physical_step_06.png)
+![step 6](../assets/img/install/physical/physical_step_06.png)
 
 2. Connect the Raspberry Pi to the router via ethernet
-![step 7](/assets/img/install/physical/physical_step_07.png)
+![step 7](../assets/img/install/physical/physical_step_07.png)
 
 3. Connect the Micro USB to the Raspberry Pi, and a power source
-![step 8](/assets/img/install/physical/physical_step_08.png)
+![step 8](../assets/img/install/physical/physical_step_08.png)
 
 The Raspberry Pi should come on. We do not need to connect a keyboard or monitor
 to it because we have enabled SSH access and connected it to our network. We repeat

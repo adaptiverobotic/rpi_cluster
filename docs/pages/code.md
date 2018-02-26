@@ -23,7 +23,7 @@ small changes to detect whether or not use `brew` or `apt-get` to install packag
 locally. However, I do not have plans to implement this feature as it will not
 provide much benefit nor functionality to the end product.
 
-[diagram]: /assets/img/code_structure_diagram.png
+[diagram]: ../assets/img/code_structure_diagram.png
 [cli]: cli.md
 [api]: api.md
 [gui]: gui.md
