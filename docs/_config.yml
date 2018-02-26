@@ -1,5 +1,7 @@
 theme: jekyll-theme-cayman
 
+index_page: README.md
+
 baseurl: "/rpi_cluster"
 url: "https://n02870941.github.io"
 
