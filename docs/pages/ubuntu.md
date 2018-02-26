@@ -8,6 +8,11 @@ We do not need any physical devices other than the host machine.
 * An internet-connected host machine running Windows, Mac OS X, or Linux with at least 6GB of RAM
 and a dual core processor
 
+### Video tutorial
+You can watch the video tutorial or follow the screenshots.
+
+<iframe class="video" src="https://www.youtube.com/embed/-c7jp62t8Ik" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 ### Setting up VirtualBox
 First we need to set up our virtual machine environment. You can use any virtual
 machine software such as VirtualBox or VMWare. For this project, I found VirtualBox

@@ -6,5 +6,5 @@ A video of the project in action.
 
 <iframe class="video" src="https://www.youtube.com/embed/ghVK01eUZNU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-# Slideshow
+# Photos
 A couple of photos of the equipment I used to accomplish the project.

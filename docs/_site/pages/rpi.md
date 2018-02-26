@@ -6,9 +6,11 @@ ethernet cable will suffice.
 #### Requirements
 For each server we require the following:
 
+![materials](../assets/img/install/physical/materials.png)
+
 * Raspberry Pi
 * Micro USB cable
-* Power adapter
+* Power adapter (Approx. 2 Amps)
 * Ethernet cable
 * SD card with capacity 16GB or greater
 
@@ -42,12 +44,11 @@ Now, we need to prepare the physical device.
 2. Connect the Raspberry Pi to the router via ethernet
 ![step 7](../assets/img/install/physical/physical_step_07.png)
 
-3. Connect the Micro USB to the Raspberry Pi, and a power source
+3. Connect the Micro USB to the Raspberry Pi, and a power source. The Raspberry Pi should come on. We do not need to connect a keyboard or monitor
+to it because we have enabled SSH access and connected it to our network.
 ![step 8](../assets/img/install/physical/physical_step_08.png)
 
-The Raspberry Pi should come on. We do not need to connect a keyboard or monitor
-to it because we have enabled SSH access and connected it to our network. We repeat
-these steps for each physical server we would like to add to our network.
+We repeat these steps for each physical server we would like to add to our network.
 
 [raspbian_download]: https://www.raspberrypi.org/downloads/raspbian/
 [etcher_download]: https://etcher.io/
