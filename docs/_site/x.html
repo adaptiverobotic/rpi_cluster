@@ -5,16 +5,16 @@
 
     <!-- Search Engine Optimization -->
     <!-- Begin Jekyll SEO tag v2.3.0 -->
-<title>System Requirements | rpi_cluster</title>
-<meta property="og:title" content="System Requirements" />
+<title>Docker Swarm with Raspberry Pi + NAS | rpi_cluster</title>
+<meta property="og:title" content="Docker Swarm with Raspberry Pi + NAS" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Cluster deployment the easy way" />
 <meta property="og:description" content="Cluster deployment the easy way" />
-<link rel="canonical" href="http://localhost:4000/rpi_cluster/pages/reqs.html" />
-<meta property="og:url" content="http://localhost:4000/rpi_cluster/pages/reqs.html" />
+<link rel="canonical" href="http://localhost:4000/rpi_cluster/x.html" />
+<meta property="og:url" content="http://localhost:4000/rpi_cluster/x.html" />
 <meta property="og:site_name" content="rpi_cluster" />
 <script type="application/ld+json">
-{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/pages/reqs.html","publisher":null,"image":null,"headline":"System Requirements","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/x.html","publisher":null,"image":null,"headline":"Docker Swarm with Raspberry Pi + NAS","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,28 +67,45 @@
 
 
       <!-- Main content -->
-      <h2 id="system-requirements">System Requirements</h2>
-<p>This application implements a multi-node architecture. The requirements follow:</p>
+      <h1 id="docker-swarm-with-raspberry-pi--nas">Docker Swarm with Raspberry Pi + NAS</h1>
 
-<h3 id="supported-cpu-architectures">Supported CPU Architectures</h3>
-<p>This application was built with the Raspberry Pi (1-3) in mind. So, it’s first priority
-is to support Armv7 architectures. However, it also supports both 32-bit and 64-bit x86
-based Ubuntu installations.</p>
+<p>This repository contains the scripts and files that I use to stand up a <a href="https://docs.docker.com/engine/swarm/">Docker Swarm</a> cluster
+using <a href="https://en.wikipedia.org/wiki/Raspberry_Pi">Raspberry Pi</a> Single Board Computers (SBC) as nodes.</p>
 
-<h3 id="minimum-requirements">Minimum Requirements</h3>
+<h2 id="compose-files">Compose files</h2>
+
+<p>I have included commonly used <code class="highlighter-rouge">docker-compose.yml</code> files for easy deployments of services such as:</p>
+
 <ul>
-  <li>5 physical or virtual internet-connected servers running Raspbian or Ubuntu with at least 16GB of storage each</li>
-  <li>A keyboard and monitor set for command line access to at least 1 server</li>
-  <li>Either each server has a public IP or is discoverable on a private network</li>
+  <li><a href="../docker/compose/mysql.yml">MySQL</a></li>
+  <li><a href="../docker/compose/postgres.yml">PostgreSQL</a></li>
+  <li><a href="../docker/compose/wordpress.yml">Wordpress</a></li>
+  <li><a href="../docker/compose/jenkins">Jenkins</a></li>
+  <li><a href="../docker/compose/drone.yml">Drone CI</a></li>
+  <li><a href="../docker/compose/mongo.yml">MongoDB</a></li>
+  <li><a href="../docker/stack/portainer.yml">Portainer</a></li>
 </ul>
 
-<h3 id="recommended-requirements">Recommended Requirements</h3>
+<h2 id="test-application">Test Application</h2>
+
+<p>I have written a <a href="../docker/test_app">test application</a> that is composed of several services (client, server, and database). It is a proof-of-concept application that demonstrates the pros, cons, and overall process of deploying a scalable applications to a Docker Swarm based infrastructure.</p>
+
+<h2 id="deploy-scripts">Deploy Scripts</h2>
+
+<p>Deploying docker containers from the command line includes a lot of repetitive work - especially when cleaning up dangling containers and volumes. I have written a few bash functions to address these drawbacks.</p>
+
 <ul>
-  <li>5+ physical or virtual internet-connected servers running Ubuntu with at least 16GB of storage each</li>
-  <li>A router that connects all devices on a separate subnet</li>
-  <li>5+ ethernet cables that connect each physical server to the router</li>
-  <li>A separate laptop for SSH access to at least 1 server</li>
+  <li><a href="../docker/deploy/deploy.sh">Deployment</a></li>
+  <li><a href="../docker/deploy/deploy.sh">Docker CLI</a></li>
 </ul>
+
+<h2 id="network-attached-storage">Network Attached Storage</h2>
+
+<p>The repo also includes the scripts that allow me to mount directories in the  local file systems of the nodes as a <a href="https://en.wikipedia.org/wiki/Network-attached_storage">Network Attached Storage</a> (NAS).</p>
+
+<p><strong>NOTE:</strong> This is a simple NAS based on <a href="https://www.samba.org/">Samba</a> without RAID or scheduled backup.
+This implementation is not meant to be a network drive solution. It is for easily sharing data across network.</p>
+
 
 
       <!-- Site footer -->
