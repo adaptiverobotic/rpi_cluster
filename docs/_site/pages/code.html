@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Cluster deployment the easy way" />
 <meta property="og:description" content="Cluster deployment the easy way" />
-<link rel="canonical" href="http://localhost:4000/pages/code.html" />
-<meta property="og:url" content="http://localhost:4000/pages/code.html" />
+<link rel="canonical" href="http://localhost:4000/rpi_cluster/pages/code.html" />
+<meta property="og:url" content="http://localhost:4000/rpi_cluster/pages/code.html" />
 <meta property="og:site_name" content="rpi_cluster" />
 <script type="application/ld+json">
-{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/pages/code.html","publisher":null,"image":null,"headline":"The code","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/pages/code.html","publisher":null,"image":null,"headline":"The code","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="description" content="Cluster deployment the easy way"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=1ce76275dca730e50aa8baf363c0e9a1383574ea">
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=82771bcc24f21f6314379afdefcbe300f1671e69">
   </head>
   <body>
     <section class="page-header">
@@ -33,23 +33,23 @@
     </section>
 
     <section class="main-content">
-      <a href="/">Back home</a>
+      <a href="/rpi_cluster/">Back home</a>
 
 <h2 id="the-code">The code</h2>
 <p>Here I will describe the layout of the code from a high level perspective.</p>
 
-<p><img src="/assets/img/code_structure_diagram.png" alt="code structure diagram" /></p>
+<p><img src="/rpi_cluster/assets/img/code_structure_diagram.png" alt="code structure diagram" /></p>
 
 <p>The application is composed of three layers.</p>
 
 <h3 id="cli">CLI</h3>
-<p>A library of shell (bash v4+) scripts that do all of the heavy lifting. This application can be used directly from the command line without the API or GUI. However, the API provides better error handling and filters out potentially bad data. <a href="/pages/cli.html">Learn more…</a></p>
+<p>A library of shell (bash v4+) scripts that do all of the heavy lifting. This application can be used directly from the command line without the API or GUI. However, the API provides better error handling and filters out potentially bad data. <a href="/rpi_cluster/pages/cli.html">Learn more…</a></p>
 
 <h3 id="api">API</h3>
-<p>A Flask (python 3.6+) REST API wrapper for easier interaction with the CLI. This layer abstracts bash function calls and script executions to HTTP methods such as POST and GET. It also provides an added layer of defense again bad data such as invalid usernames, passwords, and hostnames when establishing common credentials for our servers. <a href="/pages/api.html">Learn more…</a></p>
+<p>A Flask (python 3.6+) REST API wrapper for easier interaction with the CLI. This layer abstracts bash function calls and script executions to HTTP methods such as POST and GET. It also provides an added layer of defense again bad data such as invalid usernames, passwords, and hostnames when establishing common credentials for our servers. <a href="/rpi_cluster/pages/api.html">Learn more…</a></p>
 
 <h3 id="gui">GUI</h3>
-<p>A ReactJS (ECMAScript 6+) based app that drives the API from the browser. The GUI is simply for convenience. It is a wrapper around the API that allows us to interact with the software from an easy to use and intuitive interface. <a href="/pages/gui.html">Learn more…</a></p>
+<p>A ReactJS (ECMAScript 6+) based app that drives the API from the browser. The GUI is simply for convenience. It is a wrapper around the API that allows us to interact with the software from an easy to use and intuitive interface. <a href="/rpi_cluster/pages/gui.html">Learn more…</a></p>
 
 <h3 id="compatibility">Compatibility</h3>
 <p>I aimed to write this code to be as platform independent as possible. However,

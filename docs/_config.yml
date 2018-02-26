@@ -1,3 +1,4 @@
 theme: jekyll-theme-cayman
 
-url: "https://n02870941.github.io/rpi_cluster"
+baseurl: "/rpi_cluster"
+url: "https://n02870941.github.io"
