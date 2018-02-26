@@ -58,6 +58,7 @@ Check out the rest of the documentation.
 * [Installation guide](pages/install.md)
 * [System requirements](pages/reqs.md)
 * [Application limitations](pages/limits.md)
+* [Project demo](pages/demo.md)
 
 [portainer]: https://portainer.io/
 [pihole]: https://pi-hole.net/

@@ -5,16 +5,16 @@
 
     <!-- Search Engine Optimization -->
     <!-- Begin Jekyll SEO tag v2.3.0 -->
-<title>Installation | rpi_cluster</title>
-<meta property="og:title" content="Installation" />
+<title>Demo | rpi_cluster</title>
+<meta property="og:title" content="Demo" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Cluster deployment the easy way" />
 <meta property="og:description" content="Cluster deployment the easy way" />
-<link rel="canonical" href="http://localhost:4000/rpi_cluster/pages/install.html" />
-<meta property="og:url" content="http://localhost:4000/rpi_cluster/pages/install.html" />
+<link rel="canonical" href="http://localhost:4000/rpi_cluster/pages/demo.html" />
+<meta property="og:url" content="http://localhost:4000/rpi_cluster/pages/demo.html" />
 <meta property="og:site_name" content="rpi_cluster" />
 <script type="application/ld+json">
-{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/pages/install.html","publisher":null,"image":null,"headline":"Installation","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+{"name":null,"description":"Cluster deployment the easy way","author":null,"@type":"WebPage","url":"http://localhost:4000/rpi_cluster/pages/demo.html","publisher":null,"image":null,"headline":"Demo","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,56 +67,15 @@
 
 
       <!-- Main content -->
-      <h1 id="installation">Installation</h1>
-<p>The application can run on a variety of setups. We can use virtual machines,
-physical machines, or a mixture of both - as long as we have at least 5 in total.</p>
+      <h1 id="demo">Demo</h1>
+<p>Here you can find a video along with some photos to see the project in action.</p>
 
-<h2 id="setting-up-the-cluster">Setting up the cluster</h2>
-<p>Follow either (or both) of the two setup guides to setup the servers.</p>
+<h1 id="video">Video</h1>
+<p>A video of the project in action.</p>
+<iframe class="video" src="http://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen=""></iframe>
 
-<ul>
-  <li><a href="/rpi_cluster/pages/rpi.html">Physical server setup</a></li>
-  <li><a href="/rpi_cluster/pages/ubuntu.html">Virtual server setup</a></li>
-</ul>
-
-<h2 id="downloading-and-compiling-the-code">Downloading and compiling the code</h2>
-<p>Once we have the servers set up, we must download and build the code.</p>
-
-<h3 id="requirements">Requirements</h3>
-<p>We can use our laptop as one of the nodes in the network, but I will assume that
-we are not. So, from our laptop, we must SSH into any one of the servers. This server
-will be our system administrator and firewall. Let’s assume it has IP address <code class="highlighter-rouge">192.168.20.100</code>.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh pi@192.168.20.100
-</code></pre></div></div>
-
-<h3 id="code-setup">Code setup</h3>
-<p>Once we are logged into our sysadmin node, we take the following steps:</p>
-
-<ol>
-  <li>Download the source.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/N02870941/rpi_cluster.git
-</code></pre></div>    </div>
-  </li>
-  <li>Change directories into the newly downloaded folder.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd rpi_cluster
-</code></pre></div>    </div>
-  </li>
-  <li>Run the <code class="highlighter-rouge">setup.sh</code> script. This step will install all requirements
-such as the commands <code class="highlighter-rouge">node</code>, <code class="highlighter-rouge">python3</code>, and build all source code so that
-all three layers (<code class="highlighter-rouge">cli.sh</code>, <code class="highlighter-rouge">api.py</code>, and <code class="highlighter-rouge">gui.js</code>) can run correctly.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./setup.sh
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<h3 id="verify-installation-success">Verify installation success</h3>
-<p>We can verify that the app is up and running with the following command:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:1030
-</code></pre></div></div>
-
-<p>Or, we can visit <code class="highlighter-rouge">http://192.168.20.100:1030</code> in the browser.</p>
+<h1 id="slideshow">Slideshow</h1>
+<p>A couple of photos of the equipment I used to accomplish the project.</p>
 
 
       <!-- Site footer -->

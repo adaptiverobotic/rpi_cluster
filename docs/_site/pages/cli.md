@@ -75,6 +75,7 @@ responsible for compiling C files into `/bin` and doing any other initial setup.
 These are the functions that `cli.sh` exposes for use from the command line or api.
 Each function takes 1 of the following arguments. `install`, `uninstall` or `reinstall`.
 
+
 | Function      | Program            | Destination server(s) |
 | :-------:     | :----------------: | :--------------------:|
 | `pihole()`    | pi-hole            | DNS                   |

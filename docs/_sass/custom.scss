@@ -1,5 +1,18 @@
-img {
+img, .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.video {
+
+   width: 100%;
+   height:400px;
+}
+
+table {
+
+  // Override automatic CSS rules
+  display: table !important;
+  width: 100%;
 }
