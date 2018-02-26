@@ -1,3 +1,5 @@
+img { display: block; margin-left: auto; margin-right: auto; }
+
 nav { position: fixed; top: 0; left: 0; width: 250px; height: 100%; margin: 0 0 0 -250px; -moz-transition: all 200ms ease-in; -webkit-transition: all 200ms ease-in; -o-transition: all 200ms ease-in; transition: all 200ms ease-in; }
 
 nav ul { width: 250px; height: 100%; padding: 0; margin: 0; list-style: none; background: #222; overflow: hidden; }

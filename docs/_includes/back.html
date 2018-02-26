@@ -1,0 +1,12 @@
+<!-- Back button (Don't show on homepage) -->
+{% if page.url != "/" %}
+  <button onclick="goBack()">
+    <i class='fa fa-arrow-left'></i> Back
+  </button>
+
+  <script>
+  function goBack() {
+      window.history.back();
+  }
+  </script>
+{% endif %}
