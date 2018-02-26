@@ -10,8 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
-    <!-- Custom CSS and main stylesheet -->
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
 
     <!-- Font Awesome -->
@@ -27,7 +26,7 @@
       <h1 class="project-name">{{ site.title | default: site.github.repository_name }}</h1>
       <h2 class="project-tagline">{{ site.description | default: site.github.project_tagline }}</h2>
       {% if site.github.is_project_page %}
-        <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
+        <a href="{{ site.github.repository_url }}" class="btn" target="_blank">View on GitHub</a>
       {% endif %}
 
       <!-- Download buttons -->
@@ -68,6 +67,9 @@
 
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Fade in / out -->
+    {% include fade.html %}
 
     <!-- Side navbar -->
     {% include nav.html %}

@@ -20,10 +20,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=c1158db19f74afd1a79e186d3a4f6f39fdedb747">
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=709e0efd1c6667a65db67b5ad6355ee2b793fc5e">
 
-    <!-- Custom CSS and main stylesheet -->
-    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/rpi_cluster/assets/css/main.css">
 
     <!-- Font Awesome -->
@@ -39,7 +38,7 @@
       <h1 class="project-name">rpi_cluster</h1>
       <h2 class="project-tagline">Cluster deployment the easy way</h2>
       
-        <a href="http://github.com/N02870941/rpi_cluster" class="btn">View on GitHub</a>
+        <a href="http://github.com/N02870941/rpi_cluster" class="btn" target="_blank">View on GitHub</a>
       
 
       <!-- Download buttons -->
@@ -156,21 +155,92 @@ ideally, that should b it.</p>
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- Side navbar -->
-    <input type="checkbox" id="navigation" />
-<label for="navigation">
-      <i class='fa fa-bars'></i>
-</label>
+    <!-- Fade in / out -->
+    
+<!-- TODO - Implement fade out -->
+<script>
 
-<nav>
-  <ul>
-    <li><a href="/rpi_cluster/">Home</a></li>
-    <li><a href="/rpi_cluster/pages/code.html">Project Structure</a></li>
-    <li><a href="/rpi_cluster/pages/install.html">Installation Guide</a></li>
-    <li><a href="/rpi_cluster/pages/reqs.html">System Requirements</a></li>
-    <li><a href="/rpi_cluster/pages/limits.html">Application Limitations</a></li>
-  </ul>
-</nav>
+
+</script>
+
+
+    <!-- Side navbar -->
+    
+<!--
+  By default sidebar is hidden, that way,
+  when we navigate to a page by the "Back()"
+  event, the menu is not by default open.
+ -->
+<div id="sidebar" style="display:none;">
+
+  <!--
+    Invisiable checkbox, when checked,
+    menu shows. This is accomplished at
+    the CSS level using selectors
+  -->
+  <input type="checkbox" id="navigation" />
+  <label for="navigation">
+        <i class='fa fa-bars'></i>
+  </label>
+
+  <!-- List of options -->
+  <nav id="menu">
+    <ul>
+      <li><a name="/rpi_cluster/" onclick="navigate_to_page(this.name)">Home</a></li>
+      <li><a name="/rpi_cluster/pages/code.html" onclick="navigate_to_page(this.name)">Project Structure</a></li>
+      <li><a name="/rpi_cluster/pages/install.html" onclick="navigate_to_page(this.name)">Installation Guide</a></li>
+      <li><a name="/rpi_cluster/pages/reqs.html" onclick="navigate_to_page(this.name)">System Requirements</a></li>
+      <li><a name="/rpi_cluster/pages/limits.html" onclick="navigate_to_page(this.name)">Application Limitations</a></li>
+    </ul>
+  </nav>
+</div>
+
+<script>
+
+  // Hides the navbar menu
+  let closeMenu = function() {
+    $('#navigation').prop('checked', false);
+
+    // Resolve promise after 250ms, gives
+    // enough time for close animation to complete
+    return new Promise(resolve => setTimeout(resolve, 250));
+  }
+
+  // By default the sidebare is hidden.
+  // Make sure we uncheck the nav checkbox
+  // so the menu is not out, then we can
+  // show the sidebar (make it clickable)
+  $(document).ready(function() {
+      closeMenu();
+      $('#sidebar').show();
+  });
+
+  // Close menu on Escape press
+  $(document).keyup(function(e) {
+     if (e.keyCode == 27) {
+        closeMenu();
+    }
+  });
+
+  // Close menu if click happens
+  // outside of the sidebar
+  $(document).mouseup(function(e) {
+    let sidebar = $("#sidebar");
+
+    // if the target of the click isn't the container
+    // nor a descendant of the container, close the menue
+    if (!sidebar.is(e.target) && sidebar.has(e.target).length === 0) {
+        closeMenu();
+    }
+  });
+
+  // Closes menu, then navigates to the href
+  let navigate_to_page = async function(href) {
+    await closeMenu();
+
+    document.location.href = href;
+  }
+</script>
 
 
     <!-- Back to top button -->
