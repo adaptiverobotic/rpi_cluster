@@ -5,14 +5,13 @@ img, .center {
 }
 
 .video {
-
    width: 100%;
    height:400px;
 }
 
 table {
 
-  // Override automatic CSS rules
+  // Override CSS rules from theme
   display: table !important;
   width: 100%;
 }

@@ -14,29 +14,23 @@ img, .center { display: block; margin-left: auto; margin-right: auto; }
 
 table { display: table !important; width: 100%; }
 
-nav { position: fixed; top: 0; left: 0; width: 250px; height: 100%; margin: 0 0 0 -250px; -moz-transition: all 200ms ease-in; -webkit-transition: all 200ms ease-in; -o-transition: all 200ms ease-in; transition: all 200ms ease-in; }
-
-nav ul { width: 250px; height: 100%; padding: 0; margin: 0; list-style: none; background: #222; overflow: hidden; }
-
+nav { position: fixed; top: 0; left: 0; width: 250px; height: 100%; margin: 0 0 0 -250px; -moz-transition: all 200ms ease-in; -ms-transform: all 200ms ease-in; -webkit-transition: all 200ms ease-in; -o-transition: all 200ms ease-in; transition: all 200ms ease-in; }
+nav ul { width: 250px; height: 100%; padding: 0; margin: 0; background-color: rgba(2, 2, 2, 0.5); overflow: hidden; }
 nav li { margin: 0; }
-
 nav a { color: #fff; font-size: 1em; text-decoration: none; display: block; padding: 12px 15px; font-weight: 300; letter-spacing: 2px; border-bottom: 1px solid #333; }
-
 nav a:hover { background: #111; }
 
-label { display: block; font-weight: 700; background: #1ea1b8; width: 42px; height: 42px; line-height: 42px; color: #fff; text-align: center; font-size: 2em; line-height: 1.1em; position: fixed; top: 10px; left: 10px; -moz-transition: all 200ms ease-in; -webkit-transition: all 200ms ease-in; -o-transition: all 200ms ease-in; transition: all 200ms ease-in; z-index: 500; }
+label { padding: 1%; background-color: rgba(2, 2, 2, 0.5); color: white; text-align: center; position: fixed; top: 10px; left: 10px; -moz-transition: all 200ms ease-in; -ms-transform: all 200ms ease-in; -webkit-transition: all 200ms ease-in; -o-transition: all 200ms ease-in; transition: all 200ms ease-in; z-index: 500; }
 
 input[type="checkbox"] { display: none; }
 
 input[type="checkbox"]:checked ~ nav { margin: 0; }
 
-input[type="checkbox"]:checked ~ label { left: 260px; }
-
-input[type="checkbox"]:checked ~ section { -webkit-transform: translate3d(260px, 0, 0); -moz-transform: translate3d(260px, 0, 0); -o-transform: translate3d(260px, 0, 0); transform: translate3d(260px, 0, 0); }
+input[type="checkbox"]:checked ~ label { left: -240px; }
 
 .scrolltop { display: none; width: 100%; margin: 0 auto; position: fixed; bottom: 20px; right: 10px; z-index: 999; }
 
-.scroll { position: absolute; right: 20px; bottom: 20px; background: #b2b2b2; background: rgba(178, 178, 178, 0.7); padding: 20px; text-align: center; margin: 0 0 0 0; cursor: pointer; transform: 0.5s; -moz-transition: 0.5s; -o-transition: 0.5s; -webkit-transition: 0.5s; -ms-transform: 0.5s; }
+.scroll { position: absolute; right: 20px; bottom: 20px; color: white; background-color: rgba(2, 2, 2, 0.5); padding: 20px; text-align: center; margin: 0 0 0 0; cursor: pointer; transform: 0.5s; -moz-transition: 0.5s; -o-transition: 0.5s; -webkit-transition: 0.5s; -ms-transform: 0.5s; }
 .scroll .fa { font-size: 30px; margin-top: -5px; margin-left: 1px; transform: 0.5s; -moz-transition: 0.5s; -o-transition: 0.5s; -webkit-transition: 0.5s; -ms-transform: 0.5s; }
 
 .scroll:hover { background: #b2b2b2; transform: 0.5s; -moz-transition: 0.5s; -o-transition: 0.5s; -webkit-transition: 0.5s; -ms-transform: 0.5s; }

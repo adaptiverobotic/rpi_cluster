@@ -1,18 +1,19 @@
 theme: jekyll-theme-cayman
 
+# Avoid duplicate information
 index_page: README.md
 
+# Base URL so relative paths work
 baseurl: "/rpi_cluster"
 url: "https://n02870941.github.io"
 
-sass:
-  sass_dir: _sass
-
+# Show "Download .zip", etc
 show_downloads: true
 
+# Links were broken, overriden
 github:
   zip_url: "https://github.com/N02870941/rpi_cluster/archive/master.zip"
   tar_url: "https://github.com/N02870941/rpi_cluster/archive/master.tar.gz"
 
-
+# Just because
 google_analytics: true

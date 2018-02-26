@@ -1,77 +1,92 @@
+@import "variables";
+
 // https://codepen.io/marclloyd77/pen/gtypB
+@mixin transition{
+  -moz-transition:all $transition-speed ease-in;
+  -ms-transform:all $transition-speed ease-in;
+  -webkit-transition:all $transition-speed ease-in;
+  -o-transition:all $transition-speed ease-in;
+  transition:all $transition-speed ease-in;
+}
 
+$nav-width: 250px;
 
-nav{
+nav {
     position:fixed;
     top:0;
     left:0;
-    width:250px;
+    width: $nav-width;
     height:100%;
-    margin:0 0 0 -250px;
-    -moz-transition:all 200ms ease-in;
-    -webkit-transition:all 200ms ease-in;
-    -o-transition:all 200ms ease-in;
-    transition:all 200ms ease-in;
+    margin:0 0 0 -1 * $nav-width;
+    @include transition;
+
+    ul {
+        width:$nav-width;
+
+        height:100%;
+        padding:0;
+        margin:0;
+
+        // Dark background, half opacity
+        background-color:rgba(2, 2, 2, 0.5);
+        overflow:hidden;
+    }
+
+    li {
+        margin:0;
+    }
+
+    a {
+        color:#fff;
+        font-size:1em;
+        text-decoration:none;
+        display:block;
+        padding:12px 15px;
+        font-weight:300;
+        letter-spacing:2px;
+        border-bottom:1px solid #333;
+    }
+
+    a:hover {
+        background:#111;
+    }
 }
-nav ul{
-    width:250px;
-    height:100%;
-    padding:0;
-    margin:0;
-    list-style:none;
-    background:#222;
-    overflow:hidden;
-}
-nav li{
-    margin:0;
-}
-nav a{
-    color:#fff;
-    font-size:1em;
-    // font-family:'helvetica neue', helvetica, arial, sans-serif;
-    text-decoration:none;
-    display:block;
-    padding:12px 15px;
-    font-weight:300;
-    letter-spacing:2px;
-    border-bottom:1px solid #333;
-}
-nav a:hover{
-    background:#111;
-}
-label{
-    display:block;
-    // font-family:'helvetica neue', helvetica, arial, sans-serif;
-    font-weight:700;
-    background:#1ea1b8;
-    width:42px;
-    height:42px;
-    line-height:42px;
-    color:#fff;
+
+label {
+
+    // So the background
+    // fully surrounds icon
+    padding: 1%;
+
+    // display:block;
+    background-color:rgba(2, 2, 2, 0.5);
+
+    // Center white text
+    color: white;
     text-align:center;
-    font-size:2em;
-    line-height:1.1em;
+
+    // Top left
     position:fixed;
     top:10px;
     left:10px;
-    -moz-transition:all 200ms ease-in;
-    -webkit-transition:all 200ms ease-in;
-    -o-transition:all 200ms ease-in;
-    transition:all 200ms ease-in;
+
+    // Animation
+    @include transition;
+
+    // On top of everything
     z-index:500;
 }
-input[type="checkbox"]{
+
+// Hide the checkbox by default
+input[type="checkbox"] {
     display:none;
 }
-input[type="checkbox"]:checked ~ nav{
+
+input[type="checkbox"]:checked ~ nav {
     margin:0;
 }
-input[type="checkbox"]:checked ~ label{
-    left:260px;
-}
-input[type="checkbox"]:checked ~ section{
-    -webkit-transform:translate3d(260px, 0, 0);
-    -moz-transform:translate3d(260px, 0, 0);
-    -o-transform:translate3d(260px, 0, 0);
-    transform:translate3d(260px, 0, 0);
+
+// When checked, move it off the scroll
+input[type="checkbox"]:checked ~ label {
+    left:10 - $nav-width;
 }
