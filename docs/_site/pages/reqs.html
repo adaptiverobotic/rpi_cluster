@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=82771bcc24f21f6314379afdefcbe300f1671e69">
+    <link rel="stylesheet" href="/rpi_cluster/assets/css/style.css?v=f7d6b07b13223a013803652aa1fab16094d154ba">
   </head>
   <body>
     <section class="page-header">
@@ -33,7 +33,98 @@
     </section>
 
     <section class="main-content">
-      <a href="/rpi_cluster/">Back home</a>
+      <!-- https://codepen.io/marclloyd77/pen/gtypB -->
+<style>
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:250px;
+    height:100%;
+    margin:0 0 0 -250px;
+    -moz-transition:all 200ms ease-in;
+    -webkit-transition:all 200ms ease-in;
+    -o-transition:all 200ms ease-in;
+    transition:all 200ms ease-in;
+}
+nav ul{
+    width:250px;
+    height:100%;
+    padding:0;
+    margin:0;
+    list-style:none;
+    background:#222;
+    overflow:hidden;
+}
+nav li{
+    margin:0;
+}
+nav a{
+    color:#fff;
+    font-size:1em;
+    font-family:'helvetica neue', helvetica, arial, sans-serif;
+    text-decoration:none;
+    display:block;
+    padding:12px 15px;
+    font-weight:300;
+    letter-spacing:2px;
+    border-bottom:1px solid #333;
+}
+nav a:hover{
+    background:#111;
+}
+label{
+    display:block;
+    font-family:'helvetica neue', helvetica, arial, sans-serif;
+    font-weight:700;
+    background:#1ea1b8;
+    width:42px;
+    height:42px;
+    line-height:42px;
+    color:#fff;
+    text-align:center;
+    font-size:2em;
+    line-height:1.1em;
+    position:fixed;
+    top:10px;
+    left:10px;
+    -moz-transition:all 200ms ease-in;
+    -webkit-transition:all 200ms ease-in;
+    -o-transition:all 200ms ease-in;
+    transition:all 200ms ease-in;
+    z-index:500;
+}
+input[type="checkbox"]{
+    display:none;
+}
+input[type="checkbox"]:checked ~ nav{
+    margin:0;
+}
+input[type="checkbox"]:checked ~ label{
+    left:260px;
+}
+input[type="checkbox"]:checked ~ section{
+    -webkit-transform:translate3d(260px, 0, 0);
+    -moz-transform:translate3d(260px, 0, 0);
+    -o-transform:translate3d(260px, 0, 0);
+    transform:translate3d(260px, 0, 0);
+}
+</style>
+
+<input type="checkbox" id="navigation" />
+    <label for="navigation">
+        +
+    </label>
+
+    <nav>
+      <ul>
+        <li><a href="/rpi_cluster/">Home</a></li>
+        <li><a href="/rpi_cluster/pages/code.html">How the code works</a></li>
+        <li><a href="/rpi_cluster/pages/install.html">Installation guide</a></li>
+        <li><a href="/rpi_cluster/pages/reqs.html">System requirements</a></li>
+        <li><a href="/rpi_cluster/pages/limits.html">Application limitations</a></li>
+      </ul>
+    </nav>
 
 <h2 id="system-requirements">System Requirements</h2>
 <p>This application implements a multi-node architecture. The requirements follow:</p>
