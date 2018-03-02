@@ -71,6 +71,9 @@
 <p>The application can run on a variety of setups. We can use virtual machines,
 physical machines, or a mixture of both - as long as we have at least 5 in total.</p>
 
+<h2 id="setting-up-the-router">Setting up the router</h2>
+<p>All of the servers need to have internet access. If you have enough ethernet ports available on your router, you can skip to the next step and setup the servers. If not, you may need to connect a switch the your router to give you more ethernet jacks. You can additionally get an entirely separate router. The last option is ideal. If you are going to be using VMs, just make sure that the host machine is internet connected, and all the VMs with inherit that connection.</p>
+
 <h2 id="setting-up-the-cluster">Setting up the cluster</h2>
 <p>Follow either (or both) of the two setup guides to setup the servers.</p>
 
@@ -110,7 +113,7 @@ all three layers (<code class="highlighter-rouge">cli.sh</code>, <code class="hi
   </li>
 </ol>
 
-<h3 id="verify-installation-success">Verify installation success</h3>
+<h2 id="verify-installation-success">Verify installation success</h2>
 <p>We can verify that the app is up and running with the following command:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:1030

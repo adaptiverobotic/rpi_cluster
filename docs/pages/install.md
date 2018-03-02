@@ -2,6 +2,9 @@
 The application can run on a variety of setups. We can use virtual machines,
 physical machines, or a mixture of both - as long as we have at least 5 in total.
 
+## Setting up the router
+All of the servers need to have internet access. If you have enough ethernet ports available on your router, you can skip to the next step and setup the servers. If not, you may need to connect a switch the your router to give you more ethernet jacks. You can additionally get an entirely separate router. The last option is ideal. If you are going to be using VMs, just make sure that the host machine is internet connected, and all the VMs with inherit that connection.
+
 ## Setting up the cluster
 Follow either (or both) of the two setup guides to setup the servers.
 
@@ -40,7 +43,7 @@ all three layers (`cli.sh`, `api.py`, and `gui.js`) can run correctly.
 ./setup.sh
 ```
 
-### Verify installation success
+## Verify installation success
 We can verify that the app is up and running with the following command:
 
 ```

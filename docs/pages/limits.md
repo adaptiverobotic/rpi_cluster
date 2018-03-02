@@ -20,7 +20,11 @@ I am using Pi-hole as a DNS server. Pi-hole also has the ability to act as a DHC
 ## Containers vs. Native installation
 All major components of the network (NAT, NAS, DNS, General purpose) are Docker Swarm
 clusters. Each service (Samba, Nextcloud, Pi-hole, etc) is run as a docker service or
-container. Although there is a slight overhead associated with running everything inside of
+container.
+
+![container vs native](../assets/img/limits/container_vs_native.png)
+
+Although there is a slight overhead associated with running everything inside of
 a container, I made this decision because it provides a layer of abstraction between the host OS
 and the service. So, platform specific settings (x86 vs arm) can be changed in the Dockerfile
 or `docker run` command rather than the codebase itself. That allows my code to focus solely
