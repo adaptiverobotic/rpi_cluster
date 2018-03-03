@@ -34,19 +34,26 @@ declare_variables() {
   export LAST_DEPLOYMENT="$TEMP_DIR/last_deployment"
   export LOG_DIR="$ROOT_DIR/.logs"
 
-  readonly src_dir="$ROOT_DIR/code/src"
+  # Setting and validating global credentials
+  readonly credentials_dir="$ASSETS/credentials"
+  readonly hostname_file="$credentials_dir/hostname"
+  readonly user_file="$credentials_dir/user"
+  readonly password_file="$credentials_dir/password"
 }
 
 #-------------------------------------------------------------------------------
 
-# Builds all c files
+# Builds all C files
 # in src directory.
 # NOTE - This is a temporary
 # function until we implement
 # some sort of Makefile
 build_src() {
+  # Directory to C code
+  local src_dir="$ROOT_DIR/code/src"
   local to_build=$(ls $src_dir)
 
+  # For the binaries
   mkdir -p bin
 
   # Compile each file individually
@@ -55,7 +62,7 @@ build_src() {
     echo "Compiling: $filename"
 
     # If one file fails, delete all of them. The build is a fail
-    if ! gcc -o bin/"${filename%.*}.o" $src_dir/"$filename" -lm; then
+    if ! gcc -o $BIN/"${filename%.*}.o" $src_dir/"$filename" -lm; then
       echo "Failed to compile $filename"
       echo "Deleting all src"
       rm -f bin/*
@@ -76,7 +83,7 @@ build_sh() {
 
   # TODO - Make sure curl is installed
   # TODO - Make sure sshpass is installed
-  # TODO - Might be work packaging the cli.sh
+  # TODO - Might be worth packaging the cli.sh
   # with dpkg so we can allow apt-get to
   # manage dependency managment
 
@@ -87,23 +94,14 @@ build_sh() {
 
 #-------------------------------------------------------------------------------
 
-# Builds C and Shell
-build() {
-  build_src
-  build_sh
-}
-
-#-------------------------------------------------------------------------------
-
 # Reads in common credentials
 # such as user and password
 read_in_common_credentials() {
 
   # Read them in from the files
-  local cred="$ASSETS/credentials"
-  local host="$(cat $cred/hostname)"
-  local user="$(cat $cred/user)"
-  local pass="$(cat $cred/password)"
+  local host="$(cat $hostname_file)"
+  local user="$(cat $user_file)"
+  local pass="$(cat $password_file)"
 
   # Make sure they are all valid.
   # If not, these function error out.
@@ -176,20 +174,6 @@ install_docker() {
 
 #-------------------------------------------------------------------------------
 
-# Read in the common credentials
-# generate the ip list, send the ssh
-# keys and install docker on all nodes.
-# That way, we are prepared to create the
-# docker swarms and install software to them
-setup() {
-  read_in_common_credentials
-  ip_list
-  ssh_keys
-  install_docker install
-}
-
-#-------------------------------------------------------------------------------
-
 # Configure firewall for a
 # given provider such as docker
 # swarm, kubernetes.
@@ -237,11 +221,11 @@ validate_arg() {
   local method=$1
 
   # Only accept the following methods
-  if [[ $method != install_* ]]   && \
-     [[ $method != reinstall_* ]] && \
-     [[ $method != uninstall_* ]]; then
+  if [[ $method != install* ]]   && \
+     [[ $method != reinstall* ]] && \
+     [[ $method != uninstall* ]]; then
 
-       $UTIL print_error "ERROR: " "Only methods 'install_*', 'uninstall_*' , 'reinstall_*' supported"
+       $UTIL print_error "ERROR: " "Only methods 'install*', 'uninstall*' , 'reinstall*' supported"
        return 1
   fi
 }
@@ -251,7 +235,9 @@ validate_arg() {
 swarms() {
   local method=$1
 
-  validate_arg $method
+  # TODO - if uninstall, disband swarm
+
+  validate_arg       $method
   ./swarm/install.sh $method $DHCP_IP_FILE
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
@@ -303,7 +289,25 @@ health_check() {
 # before any of the install functions
 # other than magic is called
 check_assets() {
-  echo "Checking assets"
+  local assets="
+  $hostname_file
+  $user_file
+  $password_file
+  $ALL_IPS_FILE
+  $DHCP_IP_FILE
+  $NAS_IP_FILE
+  $IPS
+  $SYSADMIN_IP_FILE
+  "
+
+  echo "Checking that all assets exists"
+
+  if ! $UTIL files_exist $assets; then
+    $UTIL print_error "FAILURE: " "All assets do not exist"
+    return 1
+  fi
+
+  $UTIL print_success "SUCCESS: " "All assets exists"
 }
 
 
@@ -312,12 +316,64 @@ check_assets() {
 # these behaviors exosed.
 #===============================================================================
 
+
+# Read in the common credentials
+# generate the ip list, send the ssh
+# keys and install docker on all nodes.
+# That way, we are prepared to create the
+# docker swarms and install software to them
+setup() {
+  read_in_common_credentials
+  ip_list
+  ssh_keys
+  install_docker install
+}
+
+#-------------------------------------------------------------------------------
+
+# Builds C and Shell
+build() {
+  build_src
+  build_sh
+}
+
+#-------------------------------------------------------------------------------
+
+# Set the global hostname prefix
+set_hostname() {
+  local hostname="$1"
+
+  $UTIL valid_hostname $hostname
+  echo $hostname > $hostname_file
+}
+
+#-------------------------------------------------------------------------------
+
+# Set the global username
+set_user() {
+  local user="$1"
+
+  $UTIL valid_user $user
+  echo $hostname > $user_file
+}
+
+#-------------------------------------------------------------------------------
+
+# Set the global password
+set_password() {
+  local password="$1"
+
+  $UTIL valid_password $password
+  echo $hostname > $password_file
+}
+
+#-------------------------------------------------------------------------------
+
 # Install, uninstall
 # or reinstall nextcloud
 nextcloud() {
   local method=$1
 
-  validate_arg $method
   ./nextcloud/install.sh $method
 }
 
@@ -328,7 +384,6 @@ nextcloud() {
 pihole() {
   local method=$1
 
-  validate_arg $method
   ./pihole/install.sh $method
 }
 
@@ -337,7 +392,6 @@ pihole() {
 samba() {
   local method=$1
 
-  validate_arg $method
   ./samba/install.sh $method
 }
 
@@ -350,7 +404,6 @@ samba() {
 nat() {
   local method=$1
 
-  validate_arg $method
   ./nat/install.sh $method
 }
 
@@ -371,44 +424,75 @@ magic() {
 #-------------------------------------------------------------------------------
 
 main() {
+  local function=$1; shift
+  local arg=$1
+
+  # Declare all
+  # environment variables
   declare_variables
 
   # Only accept the
   # following functions
   # as the first argument
-  case "$1" in
+  case "$function" in
+
+    # Build all src code
     build)
-      build
       ;;
 
+    # Run all setup functions
     setup)
       ;;
 
+    # Set the global password
+    set_password)
+      ;;
+
+    # Set the global username
+    set_user)
+      ;;
+
+    # Set the global hostname
+    set_hostname)
+      ;;
+
+    # Setup and install everything
     magic)
       ;&
 
-    install_docker)
-      ;&
-
+    # Install nextcloud on NAS server(s)
     nextcloud)
       ;&
 
-    pihole)
-      ;&
-
+    # Install samba on NAS server(s)
     samba)
       ;&
 
+    # Install pi-hile on DNS server(s)
+    pihole)
+      ;&
+
+    # Setup port forwring on sysadmin server
     nat)
+
+      # Make sure all assets
+      # and logs are in place
+      # for the next deployment
       check_assets
       prepare_logs
-      "$@"
+      validate_arg $arg
       ;;
 
+    # Anything else,
+    # is not accepted
     *)
       $UTIL print_error "FAILURE: " $"Usage: $0 {ip_list|install_docker|nextcloud|pihole|samba|nat}"
       return 1
   esac
+
+  # Execute the function
+  # with it's argument
+  $function $arg
 }
 
 #-------------------------------------------------------------------------------

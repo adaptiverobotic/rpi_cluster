@@ -27,6 +27,7 @@ manager_join_token.sh
 worker_join_token.sh
 
 # Asset files
+.temp/
 last_deployment
 
 # Executables

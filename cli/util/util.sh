@@ -1137,15 +1137,22 @@ math() {
 # list does not exist
 files_exist() {
   local file_list="$@"
+  local exit_status=0
 
   # Loop through each file
   for file in $file_list;
   do
     # Return 1 if doesn't exist
     if [ ! -f $file ]; then
-      return 1
+      print_error "FAILURE: " "Missing file: $file"
+      exit_status=1
+
+    else
+      print_success "SUCCESS: " "File exists: $file"
     fi
   done
+
+  return $exit_status
 }
 
 #-------------------------------------------------------------------------------
