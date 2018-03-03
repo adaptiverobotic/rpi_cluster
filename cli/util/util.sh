@@ -13,7 +13,7 @@ declare_variables() {
   # Read general ssh flags in from a file because
   # there are a lot of them. We will use these for
   # both ssh and scp.
-  readonly general_ssh_args="$(cat assets/config/ssh_args_file)"
+  readonly general_ssh_args="$(cat $ASSETS/config/ssh_args_file)"
   readonly ssh_args="$general_ssh_args"
   readonly scp_args="$general_ssh_args -r"
 
@@ -382,7 +382,7 @@ valid_ip_list() {
     while read ip; do
 
       # Run C program that returns 0 for valid ips
-      if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+      if ! $BIN/valid_ipv4.o "$ip" > /dev/null; then
         print_error "ERROR: " "Invalid ip $ip"
         valid=1
         break
@@ -696,7 +696,7 @@ sshpass_specific_nodes() {
 clean_workspace() {
   echo "Clearing remote working directory"
   local ip_list=$1
-  local clean_script="${ASSETS}/temp/clean_workspace.sh"
+  local clean_script="$TEMP_DIR/clean_workspace.sh"
 
   echo "rm -rfv ./*" > $clean_script
   chmod +x $clean_script
@@ -885,7 +885,7 @@ launch_browser() {
   # the browser is installed, or open
   # default web browser
   if which $browser; then
-    $browser $url
+    ($browser $url > /dev/null 2>&1) &
   else
     echo "Could not open browser, try opening it manually"
     return 1
@@ -987,7 +987,7 @@ archive_old_logs() {
 sort_ips() {
   local ips="$@"
 
-  ./bin/sort_ips.o $ips
+  $BIN/sort_ips.o $ips
 }
 
 #-------------------------------------------------------------------------------
@@ -1002,7 +1002,7 @@ valid_hostname() {
   echo "Validating hostname: $hostname"
 
   # Run C program that returns 0 for valid hostnames
-  if ! ./bin/valid_hostname.o $hostname > /dev/null; then
+  if ! $BIN/valid_hostname.o $hostname > /dev/null; then
     valid=1
     print_error "FAILURE: " "Unacceptable hostname: $hostname"
   else
@@ -1023,7 +1023,7 @@ valid_user() {
   echo "Validating user: $user"
 
   # Run C program that returns 0 for valid usernames
-  if ! ./bin/valid_user.o $user > /dev/null; then
+  if ! $BIN/valid_user.o $user > /dev/null; then
     print_error "FAILURE: " "Unacceptable user: $user"
     valid=1
   else
@@ -1044,7 +1044,7 @@ valid_password() {
   echo "Validating password"
 
   # Run C program that returns 0 for valid passwords
-  if ! ./bin/valid_password.o $password > /dev/null; then
+  if ! $BIN/valid_password.o $password > /dev/null; then
     print_error "FAILURE: " "Unacceptable password"
     valid=1
   else
@@ -1112,14 +1112,14 @@ recreate_files() {
 
 # Rounds a number up
 ceil() {
-  ./bin/my_math.o ceil $1
+  $BIN/my_math.o ceil $1
 }
 
 #-------------------------------------------------------------------------------
 
 # Rounds a number down
 floor() {
-  ./bin/my_math.o floor $1
+  $BIN/my_math.o floor $1
 }
 
 #-------------------------------------------------------------------------------
@@ -1132,7 +1132,25 @@ math() {
 
 #-------------------------------------------------------------------------------
 
-main() {  
+# Returns 1 if at least
+# one of the files in the
+# list does not exist
+files_exist() {
+  local file_list="$@"
+
+  # Loop through each file
+  for file in $file_list;
+  do
+    # Return 1 if doesn't exist
+    if [ ! -f $file ]; then
+      return 1
+    fi
+  done
+}
+
+#-------------------------------------------------------------------------------
+
+main() {
   declare_variables
 
   "$@"

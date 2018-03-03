@@ -7,7 +7,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Globals
 declare_variables() {
-  readonly leader_ip_file=$TEMP_DIR/nextcloud_leader
+  readonly leader_ip_file="$TEMP_DIR/nextcloud_leader"
   readonly compose_file="$(pwd)/assets/nextcloud-docker-compose.yml"
 
   $UTIL recreate_files $leader_ip_file

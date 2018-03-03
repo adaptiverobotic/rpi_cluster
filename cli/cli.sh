@@ -12,25 +12,85 @@ declare_variables() {
   # Core globals
   export ROOT_DIR="$( pwd )"
   export ASSETS="$ROOT_DIR/assets"
-  export UTIL="/bin/bash $ROOT_DIR/util.sh"
+  export BIN="$ROOT_DIR/bin"
+  export UTIL="$ROOT_DIR/util/util.sh"
 
   # Lists of ip addresses
   # for different clusters
   export IP_DIR="$ASSETS/ips"
-  export ALL_IPS_FILE="$ASSETS/ips/all"
-  export IPS="$ASSETS/ips/cluster"
-  export DHCP_IP_FILE="$ASSETS/ips/dhcp"
-  export NAS_IP_FILE="$ASSETS/ips/nas"
-  export SYSADMIN_IP_FILE="$ASSETS/ips/sysadmin"
+  export ALL_IPS_FILE="$IP_DIR/all"
+  export IPS="$IP_DIR/cluster"
+  export DHCP_IP_FILE="$IP_DIR/dhcp"
+  export NAS_IP_FILE="$IP_DIR/nas"
+  export SYSADMIN_IP_FILE="$IP_DIR/sysadmin"
 
   # Dev purporses
   export DEV_MODE=false
-  export TEMP_DIR="$ASSETS/temp"
+  export TEMP_DIR="$ROOT_DIR/.temp"
+  mkdir -p $TEMP_DIR
 
   # Logging
-  export THIS_DEPLOYMENT="$ASSETS/temp/this_deployment"
-  export LAST_DEPLOYMENT="$ASSETS/temp/last_deployment"
+  export THIS_DEPLOYMENT="$TEMP_DIR/this_deployment"
+  export LAST_DEPLOYMENT="$TEMP_DIR/last_deployment"
   export LOG_DIR="$ROOT_DIR/.logs"
+
+  readonly src_dir="$ROOT_DIR/code/src"
+}
+
+#-------------------------------------------------------------------------------
+
+# Builds all c files
+# in src directory.
+# NOTE - This is a temporary
+# function until we implement
+# some sort of Makefile
+build_src() {
+  local to_build=$(ls $src_dir)
+
+  mkdir -p bin
+
+  # Compile each file individually
+  for filename in $to_build;
+  do
+    echo "Compiling: $filename"
+
+    # If one file fails, delete all of them. The build is a fail
+    if ! gcc -o bin/"${filename%.*}.o" $src_dir/"$filename" -lm; then
+      echo "Failed to compile $filename"
+      echo "Deleting all src"
+      rm -f bin/*
+    fi
+    echo ""
+  done
+}
+
+#-------------------------------------------------------------------------------
+
+# TODO - Use Makefile, currently
+# just makes sure things are executable
+build_sh() {
+  # Make sure every script is
+  # runnable with ./script_name.sh syntax
+  # That way the appropriate shell
+  # (bash, sh, expect) is run for a given script
+
+  # TODO - Make sure curl is installed
+  # TODO - Make sure sshpass is installed
+  # TODO - Might be work packaging the cli.sh
+  # with dpkg so we can allow apt-get to
+  # manage dependency managment
+
+  sudo apt-get install net-tools gcc curl sshpass -y
+
+  chmod +x **/*.sh
+}
+
+#-------------------------------------------------------------------------------
+
+# Builds C and Shell
+build() {
+  build_src
+  build_sh
 }
 
 #-------------------------------------------------------------------------------
@@ -116,7 +176,13 @@ install_docker() {
 
 #-------------------------------------------------------------------------------
 
+# Read in the common credentials
+# generate the ip list, send the ssh
+# keys and install docker on all nodes.
+# That way, we are prepared to create the
+# docker swarms and install software to them
 setup() {
+  read_in_common_credentials
   ip_list
   ssh_keys
   install_docker install
@@ -311,6 +377,10 @@ main() {
   # following functions
   # as the first argument
   case "$1" in
+    build)
+      build
+      ;;
+
     setup)
       ;;
 
@@ -332,7 +402,6 @@ main() {
     nat)
       check_assets
       prepare_logs
-      read_in_common_credentials
       "$@"
       ;;
 
