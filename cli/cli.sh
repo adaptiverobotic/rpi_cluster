@@ -133,12 +133,15 @@ dependencies() {
 
 # Changes the hostname on all
 # nodes to match a specified pattern.
-hostname() {
-  local ip_file=$1; shift
-  local provider=$1
+hostnames() {
+
+  # TODO - Add revert funcionality
+  # to revert to original hostname
 
   echo "Changing each node's hostname"
-  ./hostname/install.sh change_hostnames $ip_file $provider
+  ./hostname/install.sh change_hostnames $DHCP_IP_FILE "dns"
+  ./hostname/install.sh change_hostnames $NAS_IP_FILE  "nas"
+  ./hostname/install.sh change_hostnames $IPS          "gen"
   $UTIL print_success "SUCCESS: " "All hostnames changed"
 }
 
@@ -174,14 +177,10 @@ validate_arg() {
 swarms() {
   local method=$1
 
+  validate_arg $method
   ./swarm/install.sh $method $DHCP_IP_FILE
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
-
-  # Chane hostnames
-  hostname $DHCP_IP_FILE "dns"
-  hostname $NAS_IP_FILE  "nas"
-  hostname $IPS          "gen"
 }
 
 # Everything above this line will not have an api binding. They are auxiliary
@@ -193,11 +192,9 @@ swarms() {
 # or reinstall nextcloud
 nextcloud() {
   local method=$1
-  local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
 
+  validate_arg $method
   ./nextcloud/install.sh $method
-  $UTIL health_check 3 30 $nextcloud_url
-  $UTIL display_entry_point $nextcloud_url $COMMON_USER
 }
 
 #-------------------------------------------------------------------------------
@@ -206,11 +203,9 @@ nextcloud() {
 # or reinstall pihole
 pihole() {
   local method=$1
-  local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
 
+  validate_arg $method
   ./pihole/install.sh $method
-  $UTIL health_check 3 10 $pihole_url
-  $UTIL display_entry_point $pihole_url
 }
 
 #-------------------------------------------------------------------------------
@@ -231,26 +226,46 @@ samba() {
 nat() {
   local method=$1
 
+  validate_arg $method
   ./nat/install.sh $method
+}
 
-  # If we just installed or reinstalled,
-  # Check that all 3 servers can be
-  # reach from a single hostname
-  if [[ $method == install_* ]]    ||
-     [[ $method == reinstall_* ]]; then
+#-------------------------------------------------------------------------------
 
-    local ip=$($UTIL my_ip)
-    local $swarm_url="$ip:9000"
-    local $pihole_url="$ip:8081/admin"
-    local $nextcloud_url="$ip:8000"
+# Open entry point
+# pages in the browser
+launch_browser() {
+  local urls="$@"
 
-    # Health check on entire system
-    $UTIL health_check 3 10 $swarm_url
-    $UTIL health_check 3 10 $pihole_url
-    $UTIL health_check 3 10 $nextcloud_url
+  # Open all the links
+  $UTIL ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $urls
+}
 
-    $UTIL print_success "SUCCESS: " "System up and healthy"
-  fi
+#-------------------------------------------------------------------------------
+
+# Check that all clusters
+# are up and running
+health_check() {
+  local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
+  local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
+  local cluster_url="http://$(head -n 1 $IPS):9000"
+
+  # Health check on entire system
+  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS NAS
+  $UTIL health_check "DNS" 3 15 $pihole_url
+  $UTIL health_check "NAS" 3 30 $nextcloud_url
+  $UTIL health_check "GEN" 3 10 $cluster_url
+
+  # We are good to go
+  $UTIL print_success "SUCCESS: " "System up and healthy"
+
+  # Show login credentials
+  $UTIL display_entry_point "DNS" $pihole_url
+  $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
+  $UTIL display_entry_point "GEN" $cluster_url   "admin"
+
+  # Open all the tabs
+  launch_browser $pihole_url $nextcloud_url $cluster_url
 }
 
 #-------------------------------------------------------------------------------
@@ -262,9 +277,11 @@ magic() {
   ssh_keys
   install_docker install
   swarms         install_swarm
+  hostnames
+  nextcloud      install_nextcloud
   samba          install_samba
   pihole         install_pihole
-  nextcloud      install_nextcloud
+  health_check
 }
 
 #-------------------------------------------------------------------------------

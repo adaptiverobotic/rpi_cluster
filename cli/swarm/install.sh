@@ -31,7 +31,7 @@ declare_variables() {
 send_assets() {
   echo "Sending assets to each node"
   $UTIL scp_specific_nodes $ip_file $(pwd)/setup.sh $assets/
-  echo "Succesfuly sent assets to each node"
+  $UTIL print_success "SUCCESS: " "Sent assets to each node"
 }
 
 #-------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ download_tokens() {
 
   echo "Downloading join-token scripts from leader: $leader_ip"
   $UTIL my_scp_get $leader_ip $(pwd)/assets/ manager_join_token.sh worker_join_token.sh
-  echo "Successfully downloaed join-token scripts from leader"
+  $UTIL print_success "SUCCESS: " "Downloaed join-token scripts from leader"
 }
 
 #-------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ download_tokens() {
 disband_swarm() {
   echo "Removing all nodes from existing swarm"
   $UTIL ssh_specific_nodes $ip_file ./setup.sh leave_swarm
-  echo "Successfully removed all nodes from existing swarm"
+  $UTIL print_success "SUCCESS: " "Removed all nodes from existing swarm"
 }
 
 #-------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ init_swarm() {
 
   echo "Initializing new swarm on: $leader_ip"
   $UTIL ssh_specific_nodes $leader_file ./setup.sh init_swarm
-  echo "Successfully initialized new swarm"
+  $UTIL print_success "SUCCESS: " "Initialized new swarm"
 }
 
 #-------------------------------------------------------------------------------
@@ -138,6 +138,7 @@ init_swarm() {
 # Adds either a list of workers
 # or a list of managers to swarm.
 join_swarm() {
+  local message=""
   local node_type=$1; shift
   local node_file=$1
   local num_nodes=$( $UTIL num_lines $node_file )
@@ -151,9 +152,13 @@ join_swarm() {
           $(pwd)/assets/${node_type}_join_token.sh \
           ./${node_type}_join_token.sh
 
+
+    message="Ran join-token script on all ${node_type}(s)"
   else
-    echo "No ${node_type}(s) to add to swarm"
+    message="No ${node_type}(s) to add to swarm"
   fi
+
+  $UTIL print_as_list "$( $UTIL print_success "SUCCESS: " "$message" ):" "$(cat $node_file)"
 }
 
 #-------------------------------------------------------------------------------
@@ -166,7 +171,7 @@ assemble_swarm() {
   echo "Assembling nodes to swarm"
   join_swarm "worker" $worker_file
   join_swarm "manager" $manager_file
-  echo "Succesfully assembled swarm"
+  $UTIL print_success "SUCCESS: " "Assembled swarm"
 }
 
 #-------------------------------------------------------------------------------
@@ -182,7 +187,7 @@ start_service() {
 
   echo "Starting docker service: $service"
   $UTIL ssh_specific_nodes $leader_file ./setup.sh start_$service $COMMON_USER $COMMON_PASS
-  echo "Successfully started docker service: $service"
+  $UTIL print_success "SUCCESS: " "Started docker service: $service"
 }
 
 #-------------------------------------------------------------------------------
@@ -200,7 +205,7 @@ install_swarm() {
   download_tokens
   assemble_swarm
   start_service portainer
-  echo "Successfully created docker swarm"
+  $UTIL print_success "SUCCESS: " "Created docker swarm"
 }
 
 #-------------------------------------------------------------------------------

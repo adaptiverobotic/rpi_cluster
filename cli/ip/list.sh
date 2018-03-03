@@ -105,6 +105,9 @@ filter_by_mac() {
   local ip=""
   local mac=""
 
+  # TODO - Throw error if at least
+  # 1 filter is not present
+
   # Loop through all nodes
   for ip in $ips;
   do

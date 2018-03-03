@@ -133,10 +133,7 @@ print_warn() {
 # leader and managers having a
 # fixed ip addres.
 warn_static_ip() {
-  echo ""
-  print_warn "Make sure that the ip address(es) do(es) not change"
-  print_warn "Either assign static ip(s) or reserve the dhcp lease(es)"
-  echo ""
+  print_warn "WARNING: " "Make sure that the ip address(es) do(es) not change. Either assign static ip(s) or reserve the dhcp lease(es)"
 }
 
 #-------------------------------------------------------------------------------
@@ -773,6 +770,7 @@ timed_action() {
 # considering it a failure, as well
 # as the delay between each attempt.
 health_check() {
+  local msg=$1;      shift
   local attempts=$1; shift
   local delay=$1;    shift
   local url=$1;
@@ -781,11 +779,11 @@ health_check() {
   while [ $counter -le $attempts ]; do
 
     # Give it 30 seconds to attempt to curl a site N times with M second between each attempt
-    if delayed_action $delay "Health_check" curl --max-time 30 --silent --output /dev/null $url; then
-      print_success "SUCCESS: " "Health check passed"
+    if delayed_action $delay "Health_check_$msg" curl --max-time 30 --silent --output /dev/null $url; then
+      print_success "SUCCESS: " "Health check passed for $msg"
       return 0
     else
-      print_error "FAILURE: " "$(( $attempts - $counter )) attempt(s) remaining"
+      print_error "FAILURE: " "$msg did not respond. $(( $attempts - $counter )) attempt(s) remaining"
     fi
 
     ((counter++))
@@ -833,11 +831,12 @@ ignore_exit_status() {
 # Displays the login url
 # and credentials of the swarm
 display_entry_point() {
+  local msg=$1; shift
   local url=$1; shift
   local user=$1
 
   echo ""
-  echo "You can access the server at: $url"
+  echo "You can access the $msg server at: $url"
   echo ""
   echo "Credentials:"
   echo "-------------"
@@ -845,9 +844,6 @@ display_entry_point() {
   echo "Password: $COMMON_PASS"
   echo "-------------"
   echo ""
-
-  # NOTE - That gets annoying haha
-  # ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $url
 }
 
 #-------------------------------------------------------------------------------
