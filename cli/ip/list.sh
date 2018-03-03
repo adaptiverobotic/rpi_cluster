@@ -11,6 +11,7 @@ declare_variables() {
   readonly mac_blacklist=$(cat assets/mac_blacklist)
   readonly mac_whitelist_file="$(pwd)/assets/mac_whitelist"
   readonly ip_whitelist_file="$(pwd)/assets/ip_whitelist"
+  readonly min_ips=3
 }
 
 #-------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ ping_subnet() {
   local ip=""
 
   # Loop through each
-  # ip subnet
+  # ip in the subnet
   for i in {1..254};
   do
     # Build ip string
@@ -131,10 +132,25 @@ filter_by_mac() {
 # Pop the first ip
 # and print the rest
 pick_dhcp_server() {
-  local dhcp_ip=$1; shift
-  local ips=$@
+  local num_dns=$1; shift
+  local dhcp_ip=""
+  local ips=""
 
-  echo $dhcp_ip > $DHCP_IP_FILE
+  # Recrete ip file list
+  $UTIL recreate_files $DHCP_IP_FILE
+
+  # Pop N ips off the list
+  # and store them in $DHCP_IP_FILE
+  for i in {1..$num_dns};
+  do
+    dhcp_ip=$1; shift
+    echo $dhcp_ip >> $DHCP_IP_FILE
+  done
+
+  # Let the remaining
+  # ips be released back
+  # and up for grabs
+  ips=$@
 
   # Echo the rest
   for ip in $ips;
@@ -148,20 +164,59 @@ pick_dhcp_server() {
 # Pop first N ips
 # and print the rest
 pick_nas_servers() {
-
-  # TODO - Allow to pick N
-  # NAS servers rather than
-  # just two
-
-  local nas_1=$1; shift
-  local nas_2=$1; shift
-  local ips=$@
+  local num_nas=$1; shift
+  local nas_ip=""
+  local ips=""
 
   # Delete old file, write new
   # one with new ip addresses
   $UTIL recreate_files $NAS_IP_FILE
-  echo $nas_1 >> $NAS_IP_FILE
-  echo $nas_2 >> $NAS_IP_FILE
+
+  # Pop N ips off the list
+  # and store them in $NAS_IP_FILE
+  for (( i=0; i<$num_nas; i++ ))
+  do
+    nas_ip=$1; shift
+    echo $nas_ip >> $NAS_IP_FILE
+  done
+
+  # Let the remaining
+  # ips be released back
+  # and up for grabs
+  ips=$@
+
+  # Echo the rest
+  for ip in $ips;
+  do
+    echo $ip
+  done
+}
+
+#-------------------------------------------------------------------------------
+
+# Pop first N ips
+# and print the rest
+pick_gen_servers() {
+  local num_gen=$1; shift
+  local gen_ip=""
+  local ips=""
+
+  # Delete old file, write new
+  # one with new ip addresses
+  $UTIL recreate_files $IPS
+
+  # Pop N ips off the list
+  # and store them in $NAS_IP_FILE
+  for (( i=0; i<$num_gen; i++ ))
+  do
+    gen_ip=$1; shift
+    echo $gen_ip >> $IPS
+  done
+
+  # Let the remaining
+  # ips be released back
+  # and up for grabs
+  ips=$@
 
   # Echo the rest
   for ip in $ips;
@@ -263,12 +318,6 @@ create_full_list() {
   cat $NAS_IP_FILE  >> $ALL_IPS_FILE
   cat $IPS          >> $ALL_IPS_FILE
 
-  # Make sure we have at least 4!
-  # if [[ $( $UTIL num_lines $ALL_IPS_FILE ) < $min ]]; then
-  #   $UTIL print_error "ERROR: " "At least $min server(s) required"
-  #   return 1
-  # fi
-
   # Remove whitespace if
   # if any was added from
   # cat empty files
@@ -282,35 +331,57 @@ create_full_list() {
 # right filters to only get
 # the right ip addresses
 generate_list() {
+  local arr=""
   local ips=""
   local subnet=""
+  local length=0
+  local num_dns=0
+  local num_nas=0
+  local num_gen=0
 
   # Build the lists
   subnet=$( $UTIL my_subnet         );  # Figure out what subnet we are on
-  ips=$(    ping_subnet      $subnet);  # Ping all ips on subnet, recording those that respond
+  ips=$(    ping_subnet      $subnet);  # Ping all ips on subnet, recording ips that respond
   ips=$(    filter_by_mac       $ips);  # Filter out ips whose mac don't match our filter
   ips=$(    filter_by_whitelist $ips);  # Filter out any other ips that we have whitelisted
-  ips=$(    pick_sysadmin       $ips);  # Strip off the ip off of the device running this script
+  ips=$(    pick_sysadmin       $ips);  # Strip off the ip of this device to avoid ssh into self
+  ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
 
-  # Make sure we have
-  # at least 1 ip left
-  if [[ $ips = "" ]]; then
-    $UTIL print_error "ERROR: " "No valid ip(s) resolved, at least 1 required"
+  # Convert $ips (space
+  # delimited list) to
+  # array so we can
+  # get the length easily
+  arr=($ips)
+  length=${#arr[@]}
+
+  # Make sure we have at least
+  # 3 valid ip addresses
+  if [[ $length < $min_ips ]]; then
+    $UTIL print_error "FAILURE: " "Not enough valid ips. Required: $min_ips, Found: $length, Missing: $(($min_ips - $length))"
+    $UTIL print_as_list "ip(s) found:" $ips
     return 1
   fi
 
-  ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
-  ips=$(    $UTIL sort_ips      $ips);  # Sort in ascending order
-  ips=$(    pick_dhcp_server    $ips);  # Pick first ip in list as dhcp server
-  ips=$(    pick_nas_servers    $ips);  # Pick next N servers as network attached storages
-  echo "$ips" > $IPS                 ;  # The remaining ip(s) will be considered general purpose servers
-  create_full_list                   ;  # Create a global list of ip addresses for all servers on network
+  # Pick number of DNS, NAS
+  # and general purpose servers
+  # dynamically
+  num_dns=1
+  num_nas=$( $UTIL floor $($UTIL math $(($length-$num_dns)) / 2) )
+  num_gen=$( $UTIL ceil $($UTIL math $(($length-$num_dns)) / 2) )
+
+  # Break up the list by category
+  ips=$(    $UTIL sort_ips            $ips);  # Sort in ascending order
+  ips=$(    pick_dhcp_server $num_dns $ips);  # Pick first ip in list as dhcp server
+  ips=$(    pick_nas_servers $num_nas $ips);  # Pick next N servers as network attached storages
+  ips=$(    pick_gen_servers $num_gen $ips);  # Pick next M servers as general purpose servers
+  create_full_list                         ;  # Create a global list of ip addresses for all servers on network
 
   # Display the lists by category
+  $UTIL print_as_list "System Admin(s):"   $(cat $SYSADMIN_IP_FILE)
   $UTIL print_as_list "DHCP Server:"       $(cat $DHCP_IP_FILE)
   $UTIL print_as_list "NAS Server(s):"     $(cat $NAS_IP_FILE)
-  $UTIL print_as_list "System Admin(s):"   $(cat $SYSADMIN_IP_FILE)
   $UTIL print_as_list "Cluster Server(s):" $(cat $IPS)
+  $UTIL print_as_list "Unused Server(s):"  "$ips"
 }
 
 #-------------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 
 //------------------------------------------------------------------------------
 
+#include <math.h>    // ceil(), floor()
 #include <string.h>  // strlen()
 #include <stdio.h>   // printf()
 #include <stdlib.h>  // atoi()
