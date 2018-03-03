@@ -56,6 +56,12 @@ uninstall_docker() {
   # the docker command
   if docker ps; then
 
+    # Delete everything
+    docker system prune \
+    --all               \
+    --volumes           \
+    --force             
+
     # Remove with package manager
     echo "Purging docker"
     sudo apt-get purge docker-ce -y

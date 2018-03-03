@@ -8,7 +8,10 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 # Globals
 declare_variables() {
-  :
+  readonly nas_leader_ip_file="$TEMP_DIR/nas_leader_ip"
+
+  # Copy the first line to the leader file
+  head -n 1 $NAS_IP_FILE > $nas_leader_ip_file
 }
 
 #-------------------------------------------------------------------------------
@@ -16,7 +19,7 @@ declare_variables() {
 # samba.sh. setup.sh
 send_assets() {
   echo "Sending samba setup script to each NAS server"
-  $UTIL scp_specific_nodes $NAS_IP_FILE $(pwd)/samba.sh $(pwd)/setup.sh
+  $UTIL scp_specific_nodes $nas_leader_ip_file $(pwd)/samba.sh $(pwd)/setup.sh
   $UTIL print_success "SUCCESS: " "Sent setup scripts to NAS servers"
 }
 
@@ -39,7 +42,7 @@ build_samba() {
 # Installs samba
 install_samba() {
   echo "Installing samba"
-  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
+  $UTIL ssh_specific_nodes $nas_leader_ip_file sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
   $UTIL print_success "SUCCESS: " "Installed samba"
 }
 
@@ -48,7 +51,7 @@ install_samba() {
 # Uninstalls samba
 uninstall_samba() {
   echo "Uninstalling samba"
-  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh uninstall_samba
+  $UTIL ssh_specific_nodes $nas_leader_ip_file sudo ./setup.sh uninstall_samba
   $UTIL print_success "SUCCESS: " "Uninstalled samba"
 }
 
@@ -58,7 +61,7 @@ uninstall_samba() {
 # reinstalls samba
 reinstall_samba() {
   echo "reinstalling samba"
-  $UTIL ssh_specific_nodes $NAS_IP_FILE sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
+  $UTIL ssh_specific_nodes $nas_leader_ip_file sudo ./setup.sh reinstall_samba $COMMON_USER $COMMON_PASS
   $UTIL print_success "SUCCESS: " "Reinstalled samba"
 }
 

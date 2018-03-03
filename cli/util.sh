@@ -343,6 +343,80 @@ my_timeout() {
 
 #-------------------------------------------------------------------------------
 
+# Returns true if an only
+# if we can ssh into the
+# provide ip address
+nodes_reachable() {
+  local file="$@"
+
+  echo "Checking that nodes are reachable"
+  sshpass_specific_nodes $file ssh echo "Checking if nodes are reachable"
+  print_success "SUCCESS: " "All nodes are reachable"
+}
+
+#-------------------------------------------------------------------------------
+
+# Provided a file of ips,
+# this function prints "true"
+# and returns 0 if and only if
+# each line in the file is a valid
+# IPv4 address.
+valid_ip_list() {
+  local file="$@"
+  local valid=0
+
+  echo "Checking that all ips are valid IPv4 addresses"
+
+  if [[ $(num_lines $file) < 1 ]]; then
+    print_error "FAILURE: " "No ips in file"
+    valid=1
+
+  # Loop through each 1
+  else
+
+    # TODO - Duplicate code, this is implemented
+    # in C code. Create small file that calls this
+    # to keep shell scripts shorter. Let C do
+    # the heavy lifting
+
+    while read ip; do
+
+      # Run C program that returns 0 for valid ips
+      if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
+        print_error "ERROR: " "Invalid ip $ip"
+        valid=1
+        break
+      fi
+    done <$file
+  fi
+
+  # Make sure all nodes are
+  # reachable by ssh
+  if [[ valid -eq 0 ]]; then
+    print_success "SUCCESS: " "All ips are IPv4"
+    echo "Checking that we can ssh into each ip"
+    nodes_reachable $file
+
+  else
+    print_error "ERROR: " "All ips are not valid IPv4 addresses"
+  fi
+
+  if [[ valid -ne 0 ]]; then
+    print_error "ERROR: " "Not all nodes are reachable"
+  fi
+
+  return $valid
+}
+
+#-------------------------------------------------------------------------------
+
+valid_ip() {
+  :
+}
+
+
+#-------------------------------------------------------------------------------
+
 # This function is the core of this util
 # script that makes this application work.
 # Provided a list of ips, and a command,
@@ -395,6 +469,9 @@ loop_nodes() {
     echo "Empty file: $file"
     return 1
   fi
+
+  # TODO - Check this is a valid
+  # list of ip addresses. If not, error
 
   # We will see everything that's
   # happening 1 node at a time.
@@ -915,79 +992,6 @@ sort_ips() {
 
 #-------------------------------------------------------------------------------
 
-# Returns true if an only
-# if we can ssh into the
-# provide ip address
-nodes_reachable() {
-  local file="$@"
-
-  echo "Checking that nodes are reachable"
-  sshpass_specific_nodes $file ssh echo "Checking if nodes are reachable"
-  print_success "SUCCESS: " "All nodes are reachable"
-}
-
-#-------------------------------------------------------------------------------
-
-# Provided a file of ips,
-# this function prints "true"
-# and returns 0 if and only if
-# each line in the file is a valid
-# IPv4 address.
-valid_ip_list() {
-  local file="$@"
-  local valid=0
-
-  echo "Checking that all ips are valid IPv4 addresses"
-
-  if [[ $(num_lines $file) < 1 ]]; then
-    print_error "FAILURE: " "No ips in file"
-    valid=1
-
-  # Loop through each 1
-  else
-
-    # TODO - Duplicate code, this is implemented
-    # in C code. Create small file that calls this
-    # to keep shell scripts shorter. Let C do
-    # the heavy lifting
-
-    while read ip; do
-
-      # Run C program that returns 0 for valid ips
-      if ! ./bin/valid_ipv4.o "$ip" > /dev/null; then
-        print_error "ERROR: " "Invalid ip $ip"
-        valid=1
-        break
-      fi
-    done <$file
-  fi
-
-  # Make sure all nodes are
-  # reachable by ssh
-  if [[ valid -eq 0 ]]; then
-    print_success "SUCCESS: " "All ips are IPv4"
-    echo "Checking that we can ssh into each ip"
-    nodes_reachable $file
-
-  else
-    print_error "ERROR: " "All ips are not valid IPv4 addresses"
-  fi
-
-  if [[ valid -ne 0 ]]; then
-    print_error "ERROR: " "Not all nodes are reachable"
-  fi
-
-  return $valid
-}
-
-#-------------------------------------------------------------------------------
-
-valid_ip() {
-  :
-}
-
-#-------------------------------------------------------------------------------
-
 # Returns 0 if and only
 # if the hostname conforms
 # to linux standards
@@ -1128,7 +1132,7 @@ math() {
 
 #-------------------------------------------------------------------------------
 
-main() {
+main() {  
   declare_variables
 
   "$@"

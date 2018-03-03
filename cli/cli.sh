@@ -91,19 +91,6 @@ prepare_logs() {
 
 #-------------------------------------------------------------------------------
 
-# Configure firewall for a
-# given provider such as docker
-# swarm, kubernetes.
-firewall() {
-  local provider=$1
-
-  echo "Configuring each nodes' firewall for: $provider"
-  ./ufw/install.sh $provider
-  $UTIL print_success "SUCCESS: " "Configured firewall for $provider"
-}
-
-#-------------------------------------------------------------------------------
-
 # Generates ssh keys and ships
 # them to all nodes to that we
 # do not have to type in our password
@@ -115,6 +102,37 @@ ssh_keys() {
   echo "Generating ssh keys and copying to all nodes"
   ./ssh/install.sh
   $UTIL print_success "SUCCESS: " "Successfully administered new ssh keys"
+}
+
+#-------------------------------------------------------------------------------
+
+# Just installs the
+# docker engine on
+# the cluster
+install_docker() {
+  ./docker/install.sh reinstall_docker
+  $UTIL print_success "SUCCESS: " "Docker engine installed"
+}
+
+#-------------------------------------------------------------------------------
+
+setup() {
+  ip_list
+  ssh_keys
+  install_docker install
+}
+
+#-------------------------------------------------------------------------------
+
+# Configure firewall for a
+# given provider such as docker
+# swarm, kubernetes.
+firewall() {
+  local provider=$1
+
+  echo "Configuring each nodes' firewall for: $provider"
+  ./ufw/install.sh $provider
+  $UTIL print_success "SUCCESS: " "Configured firewall for $provider"
 }
 
 #-------------------------------------------------------------------------------
@@ -147,16 +165,6 @@ hostnames() {
 
 #-------------------------------------------------------------------------------
 
-# Just installs the
-# docker engine on
-# the cluster
-install_docker() {
-  ./docker/install.sh reinstall_docker
-  $UTIL print_success "SUCCESS: " "Docker engine installed"
-}
-
-#-------------------------------------------------------------------------------
-
 # Only allow install,
 # reinstall and uninstall
 validate_arg() {
@@ -182,6 +190,56 @@ swarms() {
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
 }
+
+#-------------------------------------------------------------------------------
+
+# Open entry point
+# pages in the browser
+launch_browser() {
+  local urls="$@"
+
+  # Open all the links
+  $UTIL ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $urls
+}
+
+#-------------------------------------------------------------------------------
+
+# Check that all clusters
+# are up and running
+health_check() {
+  local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
+  local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
+  local cluster_url="http://$(head -n 1 $IPS):9000/#/auth"
+
+  # Health check on entire system
+  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS NAS
+  $UTIL health_check "DNS" 3 15 $pihole_url
+  $UTIL health_check "NAS" 3 30 $nextcloud_url
+  $UTIL health_check "GEN" 3 10 $cluster_url
+
+  # We are good to go
+  $UTIL print_success "SUCCESS: " "System up and healthy"
+
+  # Show login credentials
+  $UTIL display_entry_point "DNS" $pihole_url
+  $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
+  $UTIL display_entry_point "GEN" $cluster_url   "admin"
+
+  # Open all the tabs
+  launch_browser $pihole_url $nextcloud_url $cluster_url
+}
+
+#-------------------------------------------------------------------------------
+
+# Make sure all assets
+# such as $IPS, $DHCP_IP_FILE,
+# are initiaized. We call this
+# before any of the install functions
+# other than magic is called
+check_assets() {
+  echo "Checking assets"
+}
+
 
 # Everything above this line will not have an api binding. They are auxiliary
 # functions that make the applicaiton work correctly. But, we do not want
@@ -232,50 +290,10 @@ nat() {
 
 #-------------------------------------------------------------------------------
 
-# Open entry point
-# pages in the browser
-launch_browser() {
-  local urls="$@"
-
-  # Open all the links
-  $UTIL ignore_exit_status delayed_action 10 "Open_Chrome" launch_browser google-chrome $urls
-}
-
-#-------------------------------------------------------------------------------
-
-# Check that all clusters
-# are up and running
-health_check() {
-  local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
-  local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
-  local cluster_url="http://$(head -n 1 $IPS):9000"
-
-  # Health check on entire system
-  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS NAS
-  $UTIL health_check "DNS" 3 15 $pihole_url
-  $UTIL health_check "NAS" 3 30 $nextcloud_url
-  $UTIL health_check "GEN" 3 10 $cluster_url
-
-  # We are good to go
-  $UTIL print_success "SUCCESS: " "System up and healthy"
-
-  # Show login credentials
-  $UTIL display_entry_point "DNS" $pihole_url
-  $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
-  $UTIL display_entry_point "GEN" $cluster_url   "admin"
-
-  # Open all the tabs
-  launch_browser $pihole_url $nextcloud_url $cluster_url
-}
-
-#-------------------------------------------------------------------------------
-
 # Stands up entire
 # environment
 magic() {
-  ip_list
-  ssh_keys
-  install_docker install
+  setup
   swarms         install_swarm
   hostnames
   nextcloud      install_nextcloud
@@ -288,9 +306,40 @@ magic() {
 
 main() {
   declare_variables
-  prepare_logs
-  read_in_common_credentials
-  "$@"
+
+  # Only accept the
+  # following functions
+  # as the first argument
+  case "$1" in
+    setup)
+      ;;
+
+    magic)
+      ;&
+
+    install_docker)
+      ;&
+
+    nextcloud)
+      ;&
+
+    pihole)
+      ;&
+
+    samba)
+      ;&
+
+    nat)
+      check_assets
+      prepare_logs
+      read_in_common_credentials
+      "$@"
+      ;;
+
+    *)
+      $UTIL print_error "FAILURE: " $"Usage: $0 {ip_list|install_docker|nextcloud|pihole|samba|nat}"
+      return 1
+  esac
 }
 
 #-------------------------------------------------------------------------------

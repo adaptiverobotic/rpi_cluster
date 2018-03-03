@@ -359,7 +359,7 @@ generate_list() {
 
   # Make sure we have at least
   # 3 valid ip addresses
-  if [[ $length < $min_ips ]]; then
+  if [ $length < $min_ips ]; then
     $UTIL print_error "FAILURE: " "Not enough valid ips. Required: $min_ips, Found: $length, Missing: $(($min_ips - $length))"
     $UTIL print_as_list "ip(s) found:" $ips
     return 1
@@ -369,8 +369,8 @@ generate_list() {
   # and general purpose servers
   # dynamically
   num_dns=1
-  num_nas=$( $UTIL floor $($UTIL math $(($length-$num_dns)) / 2) )
-  num_gen=$( $UTIL ceil $($UTIL math $(($length-$num_dns)) / 2) )
+  num_nas=$( $UTIL ceil $($UTIL math $(($length-$num_dns)) / 3) )
+  num_gen=$(( $length - $num_dns - $num_nas ))
 
   # Break up the list by category
   ips=$(    $UTIL sort_ips            $ips);  # Sort in ascending order

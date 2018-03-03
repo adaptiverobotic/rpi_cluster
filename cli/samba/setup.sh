@@ -85,9 +85,6 @@ build_samba() {
   echo "Installing samba"
   echo "Building image: samba"
   docker build -t samba .
-
-  echo "Create volume: samba"
-  docker volume create samba
 }
 
 #-------------------------------------------------------------------------------
@@ -97,40 +94,37 @@ install_samba() {
 
   build_samba
 
+  echo "Create volume: samba"
+  docker volume create samba
+
   echo "Runnning container: samba"
-  docker run   \
-  -d           \
-  --name=samba \
-  -p 137:137   \
-  -p 138:138   \
-  -p 139:139   \
-  -p 445:445   \
-  -e COMMON_USER=$user     \
-  -e COMMON_PASS=$pass     \
-  --restart=always         \
-  --mount source=samba,target=/home/$user \
-  samba:latest
+  # docker run                              \
+  # -d                                      \
+  # --name=samba                            \
+  # -p 137:137                              \
+  # -p 138:138                              \
+  # -p 139:139                              \
+  # -p 445:445                              \
+  # -e COMMON_USER=$user                    \
+  # -e COMMON_PASS=$pass                    \
+  # --restart=always                        \
+  # --mount source=samba,target=/home/$user \
+  # samba:latest
 
-
-  # TODO - May not work because
-  # nodes may be of mixed architecture.
-  # Since we are building our own image,
-  # we must make sure each image builds
-  # its own image.
-
-  # docker service create \
-  # --detach \
-  # --name samba \
-  # --mode replicated \
-  # --replicas 1 \
-  # --publish mode=ingress,target=137,published=137 \
-  # --publish mode=ingress,target=138,published=138 \
-  # --publish mode=ingress,target=139,published=139 \
-  # --publish mode=ingress,target=445,published=445 \
-  # --mount type=volume,src=samba,dst=/home/$user   \
-  # -env COMMON_USER=$user     \
-  # -env COMMON_PASS=$pass     \
-  # nextcloud
+  # TODO - Test this woring woth RPi, works on Ubuntu
+  docker service create                           \
+  --detach                                        \
+  --name samba                                    \
+  --mode replicated                               \
+  --replicas 1                                    \
+  --publish mode=ingress,target=137,published=137 \
+  --publish mode=ingress,target=138,published=138 \
+  --publish mode=ingress,target=139,published=139 \
+  --publish mode=ingress,target=445,published=445 \
+  --mount type=volume,src=samba,dst=/home/$user   \
+  --env COMMON_USER=$user                         \
+  --env COMMON_PASS=$pass                         \
+  samba
 
   echo "Successfully start container: samba"
 }

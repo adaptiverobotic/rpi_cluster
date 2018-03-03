@@ -237,4 +237,28 @@ bool validate_ip(char* ip_str) {
   return valid;
 }
 
+//------------------------------------------------------------------------------
+
+// Validate the list
+bool valid_ip_list(char* ips[], int len) {
+  int i;
+  bool tmp;
+  bool valid = true;
+
+  // Check each ip
+  for (i = 1; i < len; i++) {
+
+    // Break on first
+    // invalid ip
+    if (!validate_ip_silent(ips[i])) {
+      printf("%s\n", ips[i]);
+      fprintf(stderr, "ERROR: Invalid list of ip addresses\n");
+      valid = false;
+      break;
+    }
+  }
+
+  return valid;
+}
+
 #endif
