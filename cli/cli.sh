@@ -134,10 +134,11 @@ dependencies() {
 # Changes the hostname on all
 # nodes to match a specified pattern.
 hostname() {
+  local ip_file=$1; shift
   local provider=$1
 
   echo "Changing each node's hostname"
-  ./hostname/install.sh change_hostnames $provider
+  ./hostname/install.sh change_hostnames $ip_file $provider
   $UTIL print_success "SUCCESS: " "All hostnames changed"
 }
 
@@ -177,7 +178,10 @@ swarms() {
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
 
-  # TODO - Change hostnames here
+  # Chane hostnames
+  hostname $DHCP_IP_FILE "dns"
+  hostname $NAS_IP_FILE  "nas"
+  hostname $IPS          "gen"
 }
 
 # Everything above this line will not have an api binding. They are auxiliary

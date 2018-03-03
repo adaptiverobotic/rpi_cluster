@@ -9,7 +9,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Placehold function for
 # declaring global variables
 declare_variables() {
-  readonly id_file=""
+  readonly ip_file=$2; shift
   readonly provider=$2
   readonly hostname_pattern="$COMMON_HOST-$provider"
 }
@@ -20,7 +20,7 @@ declare_variables() {
 # script on each node
 change_hostnames() {
   echo "Changing hostname of each node to take the pattern: $hostname_pattern-xxx"
-  $UTIL scp_ssh_nodes $(pwd)/setup.sh sudo ./setup.sh $hostname_pattern
+  $UTIL scp_ssh_specific_nodes $ip_file $(pwd)/setup.sh sudo ./setup.sh $hostname_pattern
   echo "Successfully changed hostname of each node to take the pattern: $hostname_pattern-xxx"
 }
 
