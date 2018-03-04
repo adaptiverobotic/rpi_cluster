@@ -1,9 +1,0 @@
-__pycache__
-*.log
-*.db*
-address
-
-*.db
-temperature.db
-
-*DS_Store*
