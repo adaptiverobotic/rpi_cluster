@@ -1,3 +1,11 @@
+import time
+import subprocess
+
+# import subprocess
+import shlex
+
+from shelljob import proc
+
 # Build src
 def build():
     return 1
@@ -12,7 +20,7 @@ def setup():
 
 # Set global hostname
 def set_hostname():
-    return 1
+    return "HOSTNAME"
 
 #-------------------------------------------------------------------------------
 
@@ -54,4 +62,14 @@ def pihole():
 
 # Install firewall on sysadmin server
 def nat():
-    return 1
+    cmd=['/bin/bash', '../cli/cli.sh', '192.168.1']
+
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, shell=False)
+
+    list = result.stdout.decode('utf-8').split('\n')
+
+    for i in list:
+        yield i + "<br>"
+        time.sleep(0.05)
+
+

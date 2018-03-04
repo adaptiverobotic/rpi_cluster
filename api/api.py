@@ -1,26 +1,11 @@
-# Task scheduling
-from apscheduler.schedulers.background import BackgroundScheduler
-
-# Exception handling
-import sys
-
 # REST API and serving files / webpage to browser
-from flask import Flask, jsonify, request
+from flask import Flask, Response
 import redis
-
-# Logging
-import logging
-from logging.handlers import RotatingFileHandler
 
 # Interfacing with  cli
 import cli
 
-# Reading in the config file
-# and command line arguments
-import json
-import os
-
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 # Initialize the Flask application
 # This is the main app that will be
@@ -29,62 +14,76 @@ import os
 app   = Flask('api')
 cache = redis.Redis(host='redis', port=6379)
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/build')
 def build():
-    return 1
+    return Response(cli.build())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/setup')
 def setup():
-    return 1
+    return Response(cli.setup())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/hostname')
 def hostname():
-    return 1
+    return Response(cli.hostname())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/user')
 def user():
-    return 1
+    return Response(cli.user())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/password')
 def password():
-    return 1
+    return Response(cli.password())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/magic')
 def magic():
-    return 1
+    return Response(cli.magic())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/nextcloud')
 def nextcloud():
-    return 1
+    return Response(cli.nextcloud())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/samba')
 def samba():
-    return 1
+    return Response(cli.samba())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 @app.route('/pihole')
 def pihole():
-    return 1
+    return Response(cli.pihole())
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 @app.route('/nat')
 def nat():
-    return 1
+    return Response(cli.nat())
+
+# -------------------------------------------------------------------------------
+
+
+def main():
+    app.run(host="0.0.0.0", debug=True, use_reloader=False)
+
+# -------------------------------------------------------------------------------
+
+
+if __name__ == "__main__":
+    main()
+
