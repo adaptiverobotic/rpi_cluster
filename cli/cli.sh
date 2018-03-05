@@ -404,7 +404,7 @@ samba() {
 nat() {
   local method=$1
 
-  ./nat/install.sh $method
+  # ./nat/install.sh $method
 }
 
 #-------------------------------------------------------------------------------

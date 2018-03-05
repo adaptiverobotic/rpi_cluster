@@ -2,3 +2,4 @@ flask
 redis
 apscheduler
 requests
+shelljob

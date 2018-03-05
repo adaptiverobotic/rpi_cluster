@@ -357,9 +357,10 @@ generate_list() {
   arr=($ips)
   length=${#arr[@]}
 
+
   # Make sure we have at least
   # 3 valid ip addresses
-  if [ $length < $min_ips ]; then
+  if [ "$length" -lt "$min_ips" ]; then
     $UTIL print_error "FAILURE: " "Not enough valid ips. Required: $min_ips, Found: $length, Missing: $(($min_ips - $length))"
     $UTIL print_as_list "ip(s) found:" $ips
     return 1

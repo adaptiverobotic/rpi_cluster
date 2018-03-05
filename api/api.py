@@ -1,8 +1,5 @@
-# REST API and serving files / webpage to browser
 from flask import Flask, Response
 import redis
-
-# Interfacing with  cli
 import cli
 
 # -------------------------------------------------------------------------------
@@ -18,66 +15,65 @@ cache = redis.Redis(host='redis', port=6379)
 
 @app.route('/build')
 def build():
-    return Response(cli.build())
+    return Response(cli.command('build', ''))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/setup')
 def setup():
-    return Response(cli.setup())
+    return Response(cli.command('setup', ''))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/hostname')
 def hostname():
-    return Response(cli.hostname())
+    return Response(cli.hostname('set_hostname', 'rpi'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/user')
 def user():
-    return Response(cli.user())
+    return Response(cli.command('set_user', 'pi'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/password')
 def password():
-    return Response(cli.password())
+    return Response(cli.command('set_password', 'raspberry'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/magic')
 def magic():
-    return Response(cli.magic())
+    return Response(cli.command('magic', 'install'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/nextcloud')
 def nextcloud():
-    return Response(cli.nextcloud())
+    return Response(cli.command('nextcloud', 'install_nextcloud'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/samba')
 def samba():
-    return Response(cli.samba())
+    return Response(cli.command('samba', 'install_samba'))
 
 # -------------------------------------------------------------------------------
 
 @app.route('/pihole')
 def pihole():
-    return Response(cli.pihole())
+    return Response(cli.command('pihole', 'install_pihole'))
 
 # -------------------------------------------------------------------------------
-
 
 @app.route('/nat')
 def nat():
-    return Response(cli.nat())
+    return Response(cli.command('nat', 'install_nat'))
 
 # -------------------------------------------------------------------------------
 
-
+# Run the Flask app
 def main():
     app.run(host="0.0.0.0", debug=True, use_reloader=False)
 
@@ -86,4 +82,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

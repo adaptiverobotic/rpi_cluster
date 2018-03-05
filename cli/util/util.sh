@@ -18,7 +18,7 @@ declare_variables() {
   readonly scp_args="$general_ssh_args -r"
 
   # Default timeout 20 minutes
-  readonly timeout_limit=9000
+  readonly timeout_limit=5m
 }
 
 #-------------------------------------------------------------------------------
