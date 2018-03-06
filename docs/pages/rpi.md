@@ -14,6 +14,11 @@ For each server we require the following:
 * Ethernet cable
 * SD card with capacity 16GB or greater
 
+## Video tutorial
+You can watch the video tutorial or follow the screenshots.
+
+<iframe class="video" src="https://www.youtube.com/embed/wa5ze_dImBY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 ## Setting up the Operating System
 We must prepare the operating system for the server's first boot.
 
