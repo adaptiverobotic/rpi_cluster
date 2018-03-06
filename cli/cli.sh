@@ -323,6 +323,7 @@ check_assets() {
 # That way, we are prepared to create the
 # docker swarms and install software to them
 setup() {
+  prepare_logs
   read_in_common_credentials
   ip_list
   ssh_keys

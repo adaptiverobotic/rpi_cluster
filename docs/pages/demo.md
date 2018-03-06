@@ -4,7 +4,7 @@ Here you can find a video along with a photo of my setup.
 ## Video
 A video of the project in action.
 
-<iframe class="video" src="https://www.youtube.com/embed/ghVK01eUZNU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe class="video" src="https://www.youtube.com/embed/wa5ze_dImBY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 ## My setup
 This is the apparatus that I put together to contain my servers.
