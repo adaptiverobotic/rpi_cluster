@@ -152,6 +152,9 @@ bool sort_ips(int argc, char* argv[]) {
   // Free memory
   // back to OS
   free(ips);
+
+  // TODO - Must free all strings
+  // via loop
   free(strs);
 
   return true;

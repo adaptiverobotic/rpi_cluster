@@ -14,6 +14,12 @@ install_docker() {
   if docker ps; then
     echo "Docker is already installed"
 
+    # Delete everything
+    docker system prune \
+    --all               \
+    --volumes           \
+    --force
+
   # We need to install it
   else
     echo "Downloading install script from docker.com"
@@ -60,7 +66,7 @@ uninstall_docker() {
     docker system prune \
     --all               \
     --volumes           \
-    --force             
+    --force
 
     # Remove with package manager
     echo "Purging docker"

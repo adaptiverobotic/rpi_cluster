@@ -343,12 +343,22 @@ generate_list() {
   local num_gen=0
 
   # Build the lists
-  subnet=$( $UTIL my_subnet         );  # Figure out what subnet we are on
-  ips=$(    ping_subnet      $subnet);  # Ping all ips on subnet, recording ips that respond
-  ips=$(    filter_by_mac       $ips);  # Filter out ips whose mac don't match our filter
-  ips=$(    filter_by_whitelist $ips);  # Filter out any other ips that we have whitelisted
-  ips=$(    pick_sysadmin       $ips);  # Strip off the ip of this device to avoid ssh into self
-  ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
+  # Figure out what subnet we are on
+  # Ping all ips on subnet, recording ips that respond
+  subnet=$($UTIL my_subnet);
+  ips=$(ping_subnet $subnet);
+
+  # Filter out ips whose mac don't match our filter
+  if [[ $FILTER_IP_BY_MAC = "true" ]]; then
+    ips=$(filter_by_mac $ips);
+  fi
+
+  # Filter out any other ips that we have whitelisted
+  # Strip off the ip of this device to avoid ssh into self
+  # Ensure we have ssh access to all other devices
+  ips=$(filter_by_whitelist $ips);
+  ips=$(pick_sysadmin       $ips);
+  ips=$(verify_list         $ips);
 
   # Convert $ips (space
   # delimited list) to
@@ -356,7 +366,6 @@ generate_list() {
   # get the length easily
   arr=($ips)
   length=${#arr[@]}
-
 
   # Make sure we have at least
   # 3 valid ip addresses
@@ -374,16 +383,40 @@ generate_list() {
   num_gen=$(( $length - $num_dns - $num_nas ))
 
   # Break up the list by category
-  ips=$(    $UTIL sort_ips            $ips);  # Sort in ascending order
-  ips=$(    pick_dhcp_server $num_dns $ips);  # Pick first ip in list as dhcp server
-  ips=$(    pick_nas_servers $num_nas $ips);  # Pick next N servers as network attached storages
-  ips=$(    pick_gen_servers $num_gen $ips);  # Pick next M servers as general purpose servers
-  create_full_list                         ;  # Create a global list of ip addresses for all servers on network
+  # Sort in ascending order
+  # if [[ $SORT_IPS = "true" ]]; then
+  #   ips=$($UTIL sort_ips $ips);
+  # fi
+
+  # Pick first ip in list as dns / dhcp server
+  if [[ $DEPLOY_DNS = "true" ]]; then
+    ips=$(pick_dhcp_server $num_dns $ips);
+  fi
+
+  # Pick next N servers as network attached storages
+  if [[ $DEPLOY_NAS = "true" ]]; then
+    ips=$(pick_nas_servers $num_nas $ips);
+  fi
+
+  # Pick next M servers as general purpose servers
+  # Create a global list of ip addresses for all servers on network
+  ips=$(pick_gen_servers $num_gen $ips);
+  create_full_list;
 
   # Display the lists by category
-  $UTIL print_as_list "System Admin(s):"   $(cat $SYSADMIN_IP_FILE)
-  $UTIL print_as_list "DHCP Server:"       $(cat $DHCP_IP_FILE)
-  $UTIL print_as_list "NAS Server(s):"     $(cat $NAS_IP_FILE)
+  $UTIL print_as_list "System Admin(s):" $(cat $SYSADMIN_IP_FILE)
+
+  # List DNS server(s)
+  if [[ $DEPLOY_DNS = "true" ]]; then
+    $UTIL print_as_list "DNS Server:" $(cat $DHCP_IP_FILE)
+  fi
+
+  # List NAS server(s)
+  if [[ $DEPLOY_NAS = "true" ]]; then
+    $UTIL print_as_list "NAS Server(s):" $(cat $NAS_IP_FILE)
+  fi
+
+  # List remaining servers
   $UTIL print_as_list "Cluster Server(s):" $(cat $IPS)
   $UTIL print_as_list "Unused Server(s):"  "$ips"
 }

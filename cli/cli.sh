@@ -34,6 +34,13 @@ declare_variables() {
   export LAST_DEPLOYMENT="$TEMP_DIR/last_deployment"
   export LOG_DIR="$ROOT_DIR/.logs"
 
+  # Deployment flags for ip
+   # list generation
+  export DEPLOY_DNS="true"
+  export DEPLOY_NAS="true"
+  export FILTER_IP_BY_MAC="false"
+  export SORT_IPS="true"
+
   # Setting and validating global credentials
   readonly credentials_dir="$ASSETS/credentials"
   readonly hostname_file="$credentials_dir/hostname"
@@ -168,7 +175,7 @@ ssh_keys() {
 # docker engine on
 # the cluster
 install_docker() {
-  ./docker/install.sh reinstall_docker
+  ./docker/install.sh install_docker
   $UTIL print_success "SUCCESS: " "Docker engine installed"
 }
 
@@ -316,7 +323,6 @@ check_assets() {
 # these behaviors exosed.
 #===============================================================================
 
-
 # Read in the common credentials
 # generate the ip list, send the ssh
 # keys and install docker on all nodes.
@@ -334,8 +340,8 @@ setup() {
 
 # Builds C and Shell
 build() {
-  build_src
   build_sh
+  build_src
 }
 
 #-------------------------------------------------------------------------------
@@ -375,7 +381,10 @@ set_password() {
 nextcloud() {
   local method=$1
 
-  ./nextcloud/install.sh $method
+  # If the flag is set
+  if [[ $DEPLOY_NAS = "true" ]]; then
+    ./nextcloud/install.sh $method
+  fi
 }
 
 #-------------------------------------------------------------------------------
@@ -385,7 +394,10 @@ nextcloud() {
 pihole() {
   local method=$1
 
-  ./pihole/install.sh $method
+  # If the flag is set
+  if [[ $DEPLOY_DNS = "true" ]]; then
+    ./pihole/install.sh $method
+  fi
 }
 
 #-------------------------------------------------------------------------------
@@ -393,7 +405,10 @@ pihole() {
 samba() {
   local method=$1
 
-  ./samba/install.sh $method
+  # If the flag is set
+  if [[ $DEPLOY_NAS = "true" ]]; then
+    ./samba/install.sh $method
+  fi
 }
 
 #-------------------------------------------------------------------------------
