@@ -258,6 +258,8 @@ swarms() {
 
   validate_arg       $method
   ./swarm/install.sh $method $DHCP_IP_FILE
+  ./swarm/install.sh $method $PXE_IP_FILE
+  ./swarm/install.sh $method $SSH_IP_FILE
   ./swarm/install.sh $method $NAS_IP_FILE
   ./swarm/install.sh $method $IPS
 }
@@ -280,11 +282,15 @@ launch_browser() {
 health_check() {
   local pihole_url="http://$(cat $DHCP_IP_FILE)/admin"
   local nextcloud_url="http://$(head -n 1 $NAS_IP_FILE)"
+  local pxe_url="http://$(head -n 1 $PXE_IP_FILE):9000/#/auth"
+  local ssh_url="http://$(head -n 1 $SSH_IP_FILE):9000/#/auth"
   local cluster_url="http://$(head -n 1 $IPS):9000/#/auth"
 
   # Health check on entire system
-  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS NAS
+  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS PXE SSH NAS
   $UTIL health_check "DNS" 3 15 $pihole_url
+  $UTIL health_check "PXE" 3 30 $pxe_url
+  $UTIL health_check "SSH" 3 30 $ssh_url
   $UTIL health_check "NAS" 3 30 $nextcloud_url
   $UTIL health_check "GEN" 3 10 $cluster_url
 
@@ -294,10 +300,17 @@ health_check() {
   # Show login credentials
   $UTIL display_entry_point "DNS" $pihole_url
   $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
+  $UTIL display_entry_point "PXE" $pxe_url       "admin"
+  $UTIL display_entry_point "SSH" $ssh_url       "admin"
   $UTIL display_entry_point "GEN" $cluster_url   "admin"
 
   # Open all the tabs
-  launch_browser $pihole_url $nextcloud_url $cluster_url
+  launch_browser   \
+    $pihole_url    \
+    $pxe_url       \
+    $ssh_url       \
+    $nextcloud_url \
+    $cluster_url
 }
 
 #-------------------------------------------------------------------------------
@@ -314,6 +327,8 @@ check_assets() {
   $password_file
   $ALL_IPS_FILE
   $DHCP_IP_FILE
+  $PXE_IP_FILE
+  $SSH_IP_FILE
   $NAS_IP_FILE
   $IPS
   $SYSADMIN_IP_FILE
@@ -332,7 +347,7 @@ check_assets() {
 
 # Everything above this line will not have an api binding. They are auxiliary
 # functions that make the applicaiton work correctly. But, we do not want
-# these behaviors exosed.
+# these behaviors exposed.
 #===============================================================================
 
 
