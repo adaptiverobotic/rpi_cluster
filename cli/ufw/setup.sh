@@ -10,6 +10,8 @@ set -e
 echo "y" | sudo ufw reset
 echo "y" | sudo ufw enable
 
+# TODO - Verify that port 22 is on the list
+
 # Open all ports
 for port in $@
 do
@@ -23,3 +25,6 @@ do
     break
   fi
 done
+
+# TODO - Verify that port 22 is open,
+# otherwise rever all changes to default

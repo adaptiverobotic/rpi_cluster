@@ -1,5 +1,7 @@
 set -e
 
+# TODO - Install NFS, HTTP, FTP along with SMB
+
 #-------------------------------------------------------------------------------
 
 # Install samba
@@ -12,6 +14,18 @@ install_samba() {
   echo "Installing samba"
   apt-get install samba -y
   echo "Successfully installed samba"
+}
+
+install_apache() {
+  :
+}
+
+install_nfs() {
+  :
+}
+
+install_ftp() {
+  :
 }
 
 #-------------------------------------------------------------------------------

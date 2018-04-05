@@ -22,6 +22,8 @@ declare_variables() {
   export IPS="$IP_DIR/cluster"
   export DHCP_IP_FILE="$IP_DIR/dhcp"
   export NAS_IP_FILE="$IP_DIR/nas"
+  export PXE_IP_FILE="$IP_DIR/pxe"
+  export SSH_IP_FILE="$IP_DIR/ssh"
   export SYSADMIN_IP_FILE="$IP_DIR/sysadmin"
 
   # Dev purporses
@@ -34,12 +36,13 @@ declare_variables() {
   export LAST_DEPLOYMENT="$TEMP_DIR/last_deployment"
   export LOG_DIR="$ROOT_DIR/.logs"
 
-  # Deployment flags for ip
-   # list generation
-  export DEPLOY_DNS="true"
-  export DEPLOY_NAS="true"
-  export FILTER_IP_BY_MAC="false"
-  export SORT_IPS="true"
+  # Utility environment variables
+  export DEFAULT_COMMAND_TIMEOUT="5m"
+
+  # Environment variables for detecting
+  # all the VMs that should be part of cluster
+  export MINIMUM_NUM_IPS=5
+  export EXPECTED_NUM_IPS=6
 
   # Setting and validating global credentials
   readonly credentials_dir="$ASSETS/credentials"
@@ -134,6 +137,13 @@ read_in_common_credentials() {
 # Right now, we are using the Raspberry Pi
 # prefix, but it works for any.
 ip_list() {
+
+
+  # TODO - Perhaps check a flag for if we want to generate
+  # the list or if we want to read in a preexisting list.
+  # If we read in a list, then we still need to verify the
+  # integrity (validity of ips) of the list
+
   echo "Generating list of ips"
   ./ip/list.sh generate_list
   $UTIL print_success "SUCCESS: " "ip lists generated"
@@ -215,6 +225,8 @@ hostnames() {
 
   echo "Changing each node's hostname"
   ./hostname/install.sh change_hostnames $DHCP_IP_FILE "dns"
+  ./hostname/install.sh change_hostnames $SSH_IP_FILE  "ssh"
+  ./hostname/install.sh change_hostnames $PXE_IP_FILE  "pxe"
   ./hostname/install.sh change_hostnames $NAS_IP_FILE  "nas"
   ./hostname/install.sh change_hostnames $IPS          "gen"
   $UTIL print_success "SUCCESS: " "All hostnames changed"
@@ -323,6 +335,7 @@ check_assets() {
 # these behaviors exosed.
 #===============================================================================
 
+
 # Read in the common credentials
 # generate the ip list, send the ssh
 # keys and install docker on all nodes.
@@ -334,6 +347,17 @@ setup() {
   ip_list
   ssh_keys
   install_docker install
+
+  # TODO - Write out to some file
+  # that the setup was run. This was
+  # other functions that depend on this
+  # will only run once they confirm that
+  # setup() was already run
+
+  # TODO - Perhaps, also write a function that
+  # just SSH into each node to check that docker
+  # is installed before any installation functions
+  # are run
 }
 
 #-------------------------------------------------------------------------------
@@ -381,10 +405,7 @@ set_password() {
 nextcloud() {
   local method=$1
 
-  # If the flag is set
-  if [[ $DEPLOY_NAS = "true" ]]; then
-    ./nextcloud/install.sh $method
-  fi
+  ./nextcloud/install.sh $method
 }
 
 #-------------------------------------------------------------------------------
@@ -394,10 +415,7 @@ nextcloud() {
 pihole() {
   local method=$1
 
-  # If the flag is set
-  if [[ $DEPLOY_DNS = "true" ]]; then
-    ./pihole/install.sh $method
-  fi
+  ./pihole/install.sh $method
 }
 
 #-------------------------------------------------------------------------------
@@ -405,10 +423,7 @@ pihole() {
 samba() {
   local method=$1
 
-  # If the flag is set
-  if [[ $DEPLOY_NAS = "true" ]]; then
-    ./samba/install.sh $method
-  fi
+  ./samba/install.sh $method
 }
 
 #-------------------------------------------------------------------------------
@@ -428,6 +443,13 @@ nat() {
 # Stands up entire
 # environment
 magic() {
+
+  # TODO - Perhaps check that setup() was run
+  # instead of running it in the magic function?
+
+  # TODO - Install a PXE server
+  # TODO - Install Open SSH server
+
   setup
   swarms         install_swarm
   hostnames
@@ -474,22 +496,6 @@ main() {
 
     # Setup and install everything
     magic)
-      ;&
-
-    # Install nextcloud on NAS server(s)
-    nextcloud)
-      ;&
-
-    # Install samba on NAS server(s)
-    samba)
-      ;&
-
-    # Install pi-hile on DNS server(s)
-    pihole)
-      ;&
-
-    # Setup port forwring on sysadmin server
-    nat)
 
       # Make sure all assets
       # and logs are in place
@@ -499,10 +505,10 @@ main() {
       validate_arg $arg
       ;;
 
-    # Anything else,
+    # Anything else
     # is not accepted
     *)
-      $UTIL print_error "FAILURE: " $"Usage: $0 {ip_list|install_docker|nextcloud|pihole|samba|nat}"
+      $UTIL print_error "FAILURE: " $"Usage: $0 build | setup | magic"
       return 1
   esac
 

@@ -11,7 +11,14 @@ declare_variables() {
   readonly mac_blacklist=$(cat assets/mac_blacklist)
   readonly mac_whitelist_file="$(pwd)/assets/mac_whitelist"
   readonly ip_whitelist_file="$(pwd)/assets/ip_whitelist"
-  readonly min_ips=3
+  readonly min_ips=$MINIMUM_NUM_IPS
+  readonly expected_num_ips=$EXPECTED_NUM_IPS
+
+  # Verify the expect number of ips is great enough
+  if [ $expected_num_ips -lt $min_ips ]; then
+    $UTIL print_error "FAILURE: " "Cannot generate IP list. Expected number of ips ($expected_num_ips) does not exceed minimum number of ips ($min_ips)."
+    return 1
+  fi
 }
 
 #-------------------------------------------------------------------------------
@@ -24,6 +31,9 @@ ping_subnet() {
   local subnet=$1
   local ip=""
 
+  # NOTE - This code ASSUMES a
+  # subnet mask: 255.255.255.0
+
   # Loop through each
   # ip in the subnet
   for i in {1..254};
@@ -31,7 +41,7 @@ ping_subnet() {
     # Build ip string
     ip=$subnet.$i
 
-    # Ping ips asynchronously
+    # Ping all ips in subnet asynchronously
     ping $ip -c 1 -w 5  >/dev/null &
 
     # Grab the pids
@@ -106,7 +116,9 @@ filter_by_mac() {
   local mac=""
 
   # TODO - Throw error if at least
-  # 1 filter is not present
+  # 1 filter is not present? Otherwise,
+  # we would never get any ips back, and we
+  # won't know why.
 
   # Loop through all nodes
   for ip in $ips;
@@ -132,88 +144,24 @@ filter_by_mac() {
 
 #-------------------------------------------------------------------------------
 
-# Pop the first ip
-# and print the rest
-pick_dhcp_server() {
-  local num_dns=$1; shift
-  local dhcp_ip=""
-  local ips=""
-
-  # Recrete ip file list
-  $UTIL recreate_files $DHCP_IP_FILE
-
-  # Pop N ips off the list
-  # and store them in $DHCP_IP_FILE
-  for i in {1..$num_dns};
-  do
-    dhcp_ip=$1; shift
-    echo $dhcp_ip >> $DHCP_IP_FILE
-  done
-
-  # Let the remaining
-  # ips be released back
-  # and up for grabs
-  ips=$@
-
-  # Echo the rest
-  for ip in $ips;
-  do
-    echo $ip
-  done
-}
-
-#-------------------------------------------------------------------------------
-
 # Pop first N ips
 # and print the rest
-pick_nas_servers() {
-  local num_nas=$1; shift
-  local nas_ip=""
-  local ips=""
-
-  # Delete old file, write new
-  # one with new ip addresses
-  $UTIL recreate_files $NAS_IP_FILE
-
-  # Pop N ips off the list
-  # and store them in $NAS_IP_FILE
-  for (( i=0; i<$num_nas; i++ ))
-  do
-    nas_ip=$1; shift
-    echo $nas_ip >> $NAS_IP_FILE
-  done
-
-  # Let the remaining
-  # ips be released back
-  # and up for grabs
-  ips=$@
-
-  # Echo the rest
-  for ip in $ips;
-  do
-    echo $ip
-  done
-}
-
-#-------------------------------------------------------------------------------
-
-# Pop first N ips
-# and print the rest
-pick_gen_servers() {
+pick_servers() {
   local num_gen=$1; shift
+  local ip_file=$1; shift
   local gen_ip=""
   local ips=""
 
   # Delete old file, write new
   # one with new ip addresses
-  $UTIL recreate_files $IPS
+  $UTIL recreate_files $ip_file
 
   # Pop N ips off the list
   # and store them in $NAS_IP_FILE
   for (( i=0; i<$num_gen; i++ ))
   do
     gen_ip=$1; shift
-    echo $gen_ip >> $IPS
+    echo $gen_ip >> $ip_file
   done
 
   # Let the remaining
@@ -237,10 +185,13 @@ pick_sysadmin() {
   local sysadmin_ip=$( $UTIL my_ip )
 
   # Delete the ip if it's present
-  sed -i "/$sysadmin_ip/d" $SYSADMIN_IP_FILE
+  #sed -i "/$sysadmin_ip/d" $SYSADMIN_IP_FILE
 
   # Add it back to file
-  echo $sysadmin_ip >> $SYSADMIN_IP_FILE
+  #echo $sysadmin_ip >> $SYSADMIN_IP_FILE
+
+  # Only keep track of last sysadmin ip
+  echo $sysadmin_ip > $SYSADMIN_IP_FILE
 
   # Loop through all ips
   # If they are not this ip
@@ -313,11 +264,12 @@ create_full_list() {
   local min=4
 
   echo "Creating full index of all servers"
-
   $UTIL recreate_files $ALL_IPS_FILE
 
   # Concat all server's ips
   cat $DHCP_IP_FILE >> $ALL_IPS_FILE
+  cat $SSH_IP_FILE  >> $ALL_IPS_FILE
+  cat $PXE_IP_FILE  >> $ALL_IPS_FILE
   cat $NAS_IP_FILE  >> $ALL_IPS_FILE
   cat $IPS          >> $ALL_IPS_FILE
 
@@ -338,27 +290,35 @@ generate_list() {
   local ips=""
   local subnet=""
   local length=0
-  local num_dns=0
-  local num_nas=0
+
+  # TODO - Maybe read these in as environment
+  # variables. That way we can perhaps have some
+  # sense of redundancy? Or maybe implement redundancy
+  # at the VM level across hosts? Just a thought. If we
+  # implement at the host level then we are relying
+  # on the Proxmox API and thus bounded to the KVM hypervisor.
+  # If we are redundant at this level, then the hypervisor
+  # is irrelevant, and the code is simpler.
+  local num_dns=1
+  local num_nas=1
+  local num_pxe=1
+  local num_ssh=1
   local num_gen=0
 
+  # TODO - Implement flag for MAC filtering
+
+  # TODO - Potentially supply the subnet as an argument. Example, if
+  # this box is on a different subnet, it will never detect the other
+  # devices on other subnet. That way we could just separate all the VMs
+  # onto a separate subnet
+
   # Build the lists
-  # Figure out what subnet we are on
-  # Ping all ips on subnet, recording ips that respond
-  subnet=$($UTIL my_subnet);
-  ips=$(ping_subnet $subnet);
-
-  # Filter out ips whose mac don't match our filter
-  if [[ $FILTER_IP_BY_MAC = "true" ]]; then
-    ips=$(filter_by_mac $ips);
-  fi
-
-  # Filter out any other ips that we have whitelisted
-  # Strip off the ip of this device to avoid ssh into self
-  # Ensure we have ssh access to all other devices
-  ips=$(filter_by_whitelist $ips);
-  ips=$(pick_sysadmin       $ips);
-  ips=$(verify_list         $ips);
+  subnet=$( $UTIL my_subnet         );  # Figure out what subnet we are on
+  ips=$(    ping_subnet      $subnet);  # Ping all ips on subnet, recording ips that respond
+  # ips=$(    filter_by_mac       $ips);  # Filter out ips whose mac don't match our filter
+  ips=$(    filter_by_whitelist $ips);  # Filter out any other ips that we have whitelisted
+  ips=$(    pick_sysadmin       $ips);  # Strip off the ip of this device to avoid ssh into self
+  ips=$(    verify_list         $ips);  # Ensure we have ssh access to all other devices
 
   # Convert $ips (space
   # delimited list) to
@@ -370,53 +330,62 @@ generate_list() {
   # Make sure we have at least
   # 3 valid ip addresses
   if [ "$length" -lt "$min_ips" ]; then
-    $UTIL print_error "FAILURE: " "Not enough valid ips. Required: $min_ips, Found: $length, Missing: $(($min_ips - $length))"
+    $UTIL print_error "FAILURE: " "Not enough valid ips found. Required: $min_ips, Found: $length, Missing: $(($min_ips - $length))"
     $UTIL print_as_list "ip(s) found:" $ips
+    echo "Please make sure that ALL expected servers are discoverable"
     return 1
   fi
 
-  # Pick number of DNS, NAS
-  # and general purpose servers
-  # dynamically
-  num_dns=1
-  num_nas=$( $UTIL ceil $($UTIL math $(($length-$num_dns)) / 3) )
-  num_gen=$(( $length - $num_dns - $num_nas ))
+  # If the number of found servers does not match
+  # what we expected, then abort
+  if [ "$length" -ne "$expected_num_ips" ]; then
+    $UTIL print_error "FAILURE: " "Not all valid ips found. Expected $expected_num_ips, Found: $length, Missing: $(($expected_num_ips - $length))"
+    $UTIL print_as_list "ip(s) found:" $ips
+    echo "Please make sure that ALL expected servers are discoverable"
+    return 1
+  fi
+
+  # TODO - Do we really want to dynamically compute
+  # the number of NAS servers? Or should we simply
+  # have one? It's good for demonstration purposes, but
+  # not quite practical. In terms od deploying an environment
+  # We shouldn't deploy duplicated unless the replication
+  # is going to be utilized.
+
+  # Calculate how many NAS servers (Currently not used)
+  # num_nas=$( $UTIL ceil $($UTIL math $(($length-$num_dns)) / 3) )
+
+  # Pick number of general purpose servers dynamically
+  num_gen=$(( $length  \
+            - $num_dns \
+            - $num_nas \
+            - $num_pxe \
+            - $num_ssh))
+
+  # Check that $num_gen is still >= 0
+  if [ ! $num_gen -gt 0 ]; then
+    $UTIL print_error "FAILURE: " "Not enough remaining ips for general purpose. At least 1 required."
+    return 1
+  fi
+
+  # TODO - Find a different way to build the list. This way we still
+  # get output and can better troubleshoot in the event something goes wrong
 
   # Break up the list by category
-  # Sort in ascending order
-  # if [[ $SORT_IPS = "true" ]]; then
-  #   ips=$($UTIL sort_ips $ips);
-  # fi
-
-  # Pick first ip in list as dns / dhcp server
-  if [[ $DEPLOY_DNS = "true" ]]; then
-    ips=$(pick_dhcp_server $num_dns $ips);
-  fi
-
-  # Pick next N servers as network attached storages
-  if [[ $DEPLOY_NAS = "true" ]]; then
-    ips=$(pick_nas_servers $num_nas $ips);
-  fi
-
-  # Pick next M servers as general purpose servers
-  # Create a global list of ip addresses for all servers on network
-  ips=$(pick_gen_servers $num_gen $ips);
-  create_full_list;
+  ips=$( $UTIL sort_ips $ips);                      # Sort in ascending order
+  ips=$( pick_servers $num_dns $DHCP_IP_FILE $ips); # Pick first ip in list as dhcp server
+  ips=$( pick_servers $num_ssh $SSH_IP_FILE $ips);  # Pick next N servers as network attached storages
+  ips=$( pick_servers $num_pxe $PXE_IP_FILE $ips);  # Pick next N servers as network attached storages
+  ips=$( pick_servers $num_nas $NAS_IP_FILE $ips);  # Pick next N servers as network attached storages
+  ips=$( pick_servers $num_gen $IPS $ips);          # Pick next M servers as general purpose servers
+  create_full_list;                                 # Create a global list of ip addresses for all servers on network
 
   # Display the lists by category
-  $UTIL print_as_list "System Admin(s):" $(cat $SYSADMIN_IP_FILE)
-
-  # List DNS server(s)
-  if [[ $DEPLOY_DNS = "true" ]]; then
-    $UTIL print_as_list "DNS Server:" $(cat $DHCP_IP_FILE)
-  fi
-
-  # List NAS server(s)
-  if [[ $DEPLOY_NAS = "true" ]]; then
-    $UTIL print_as_list "NAS Server(s):" $(cat $NAS_IP_FILE)
-  fi
-
-  # List remaining servers
+  $UTIL print_as_list "System Admin:"   $(cat $SYSADMIN_IP_FILE)
+  $UTIL print_as_list "DNS Server:"       $(cat $DHCP_IP_FILE)
+  $UTIL print_as_list "SSH Server:"       $(cat $SSH_IP_FILE)
+  $UTIL print_as_list "PXE Server:"       $(cat $PXE_IP_FILE)
+  $UTIL print_as_list "NAS Server:"     $(cat $NAS_IP_FILE)
   $UTIL print_as_list "Cluster Server(s):" $(cat $IPS)
   $UTIL print_as_list "Unused Server(s):"  "$ips"
 }

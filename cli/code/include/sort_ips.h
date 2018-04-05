@@ -132,7 +132,8 @@ void sort(int* ips, char** strs, int len) {
 //------------------------------------------------------------------------------
 
 // TODO - Make it so we do not have
-// to truncate.
+// to truncate. Run this separately to
+// see the results
 bool sort_ips(int argc, char* argv[]) {
   int len = argc-1;
 
@@ -152,9 +153,6 @@ bool sort_ips(int argc, char* argv[]) {
   // Free memory
   // back to OS
   free(ips);
-
-  // TODO - Must free all strings
-  // via loop
   free(strs);
 
   return true;

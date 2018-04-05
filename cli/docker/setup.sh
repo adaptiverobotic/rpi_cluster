@@ -13,16 +13,22 @@ install_docker() {
   # Check that docker is installed
   if docker ps; then
     echo "Docker is already installed"
+    echo "Pruning system (Deleting all old docker objects)"
 
     # Delete everything
     docker system prune \
-    --all               \
-    --volumes           \
+    --all              \
+    --volumes          \
     --force
+
+    echo "Successfully deleted all old docker objects"
 
   # We need to install it
   else
     echo "Downloading install script from docker.com"
+
+    # TODO - Manually install Docker, they say this script
+    # will stop supporting Ubuntu 16.04
 
     # Download it and pipe in into /bin/sh (run it)
     # NOTE - This script presents issues if the

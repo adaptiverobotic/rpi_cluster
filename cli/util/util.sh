@@ -17,8 +17,8 @@ declare_variables() {
   readonly ssh_args="$general_ssh_args"
   readonly scp_args="$general_ssh_args -r"
 
-  # Default timeout 20 minutes
-  readonly timeout_limit=5m
+  # Default timeout 5 minutes
+  readonly timeout_limit=$DEFAULT_COMMAND_TIMEOUT
 }
 
 #-------------------------------------------------------------------------------
@@ -515,7 +515,7 @@ loop_nodes() {
       # still making it visible on the console.
       # NOTE - Careful using tee, if we want to capture exit status
       # we need set -o pipefail, otherwise we get exit 0 for everything
-      # which will effectively negate the ffects of our global set -e
+      # which will effectively negate the effects of our global set -e
       (
         # TODO - Figure out how to add some prefix
         # to line that indicate that these logs are
@@ -546,6 +546,7 @@ loop_nodes() {
       # to check later
       if ! wait $pid; then
 
+        # TODO - Put check and X in variables, or perhaps a file
         print_error "\xE2\x9D\x8C " "${map_pid_ip[$pid]}"
 
         # Push onto list of failed pids
@@ -1062,6 +1063,14 @@ valid_password() {
 search_list() {
   local element=$1; shift
   local group=$@
+
+  # TODO - Could write use sort.c and create
+  # search.c that implements binary search.
+  # But, this may be overkill, as it won't
+  # give much performance benefits because
+  # we are using small lists. Too much overhead.
+  # But, it is worth pointing out if we are
+  # aiming for "perfection"
 
   # Linear search
   for obj in $group;
