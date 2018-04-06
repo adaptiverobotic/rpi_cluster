@@ -291,7 +291,15 @@ health_check() {
   local cluster_url="http://$(head -n 1 $IPS):9000/#/auth"
 
   # Health check on entire system
-  $UTIL print_as_list "Performing health check on following servers(s):"  General_Purpose DNS PXE SSH NAS
+  $UTIL print_as_list "Performing health check on following servers(s):"  \
+                       DNS \
+                       PXE \
+                       SSH \
+                       NAS \
+                       General_Purpose
+
+  # TODO - Check ssh, smb, nfs some other way
+  # Curl each cluster's page
   $UTIL health_check "DNS" 3 15 $pihole_url
   $UTIL health_check "PXE" 3 30 $pxe_url
   $UTIL health_check "SSH" 3 30 $ssh_url

@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+# TODO - Perhaps instead of installing on this
+# machine (sysadmin), maybe we should install
+# network address translation to the SSH server,
+# and just let that server act as out "gateway-ish"
+# server from and to the outside world. Ultimately,
+# it will just be managing network traffic.
+
 # Change working directory to that of this script
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
