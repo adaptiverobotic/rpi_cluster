@@ -457,7 +457,7 @@ nat() {
 
 openssh() {
   local method=$1
-  
+
   ./openssh/install.sh $method
 }
 
@@ -474,15 +474,31 @@ magic() {
   # TODO - Install Open SSH server
 
   setup
-  # swarms         install_swarm
-  # hostnames
+  swarms         install_swarm
+  hostnames
+
+  # NOTE - These tasks can be performs asynchronously.
+  # As long as they do not install anything on
+  # the same server. This could drastically decrease
+  # the amount of time of the installation process.
+  # However, logging may be a challenge, and we would
+  # not be able to to print all of that data to stdout.
+  # If we improve out logging mechanism, then it may be
+  # worth our time to asynchronously install by cluster.
+
+  # NOTE - We do not want to call docker system prune
+  # in any of these functions because we may be installing
+  # many things to the same VM (docker enginer). We should
+  # have a function that cleans off each cluster before
+  # each installation. Otherwise, we end up having residual
+  # containers from previous installs.
 
   openssh        install_openssh
-  return 1
-
   nextcloud      install_nextcloud
   samba          install_samba
   pihole         install_pihole
+
+
   health_check
 }
 

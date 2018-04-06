@@ -94,6 +94,13 @@ finalize() {
 
 #-------------------------------------------------------------------------------
 
+# TODO - Perhaps delete ~/.ssh/known_hosts
+# This will cause that warning about malicious
+# attempts to go away. We get this especially
+# when we install Open SSH to a new container
+# after each installation. This may have to be done
+# after Open SSH is installed, but just a thought.
+
 # NOTE - Main purposely does not
 # accept parameters. Every
 # time you call this script
