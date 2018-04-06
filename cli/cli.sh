@@ -97,7 +97,11 @@ build_sh() {
   # with dpkg so we can allow apt-get to
   # manage dependency managment
 
-  sudo apt-get install net-tools gcc curl sshpass -y
+  sudo apt-get install -y        \
+                       net-tools \
+                       gcc       \
+                       curl      \
+                       sshpass
 
   chmod +x **/*.sh
 }
@@ -471,7 +475,6 @@ magic() {
   # instead of running it in the magic function?
 
   # TODO - Install a PXE server
-  # TODO - Install Open SSH server
 
   setup
   swarms         install_swarm

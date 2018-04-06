@@ -1,5 +1,8 @@
 set -e
 
+# Change working directory to that of this script
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
 #-------------------------------------------------------------------------------
 
 # Displays the OS in lower case
@@ -26,14 +29,14 @@ make_samba_conf() {
   echo "Generating samba config file"
 
   cat > $(pwd)/smb.conf << EOF
+  [global]
+    workgroup = HOME
+
   [home]
     comment   = home
     path      = /home/$user
     read only = no
     guest ok  = no
-
-  [global]
-    workgroup = SIMPLE
 EOF
 
   echo "Successfully generating config file"
@@ -60,14 +63,28 @@ make_dockerfile() {
   cat > $(pwd)/Dockerfile << EOF
   FROM $img
 
+  # Copy config files
+  # and entrypoint script
+  # into the docker container
   COPY smb.conf /smb.conf
-  COPY samba.sh /samba.sh
+  COPY entrypoint.sh /entrypoint.sh
 
+  # Create non-root user
   RUN useradd -ms /bin/bash $user
 
+  # SMB ports
   EXPOSE 137/udp 138/udp 139/tcp 445/tcp
 
-  CMD ./samba.sh
+  # HTTP / HTTPS ports
+  EXPOSE 80 443
+
+  # FTP port
+  EXPOSE 21
+
+  # NFS ports
+  EXPOSE 111 2049
+
+  CMD ./entrypoint.sh
 EOF
 
   echo "Successfully generated Dockerfile"
@@ -93,6 +110,11 @@ build_samba() {
 install_samba() {
 
   build_samba
+
+  # TODO - Consider Flocker for volume
+  # propogation across nodes. Not a priority,
+  # but that would make this a lot more of a
+  # functional product
 
   echo "Create volume: samba"
   docker volume create samba

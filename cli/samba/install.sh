@@ -19,7 +19,7 @@ declare_variables() {
 # samba.sh. setup.sh
 send_assets() {
   echo "Sending samba setup script to each NAS server"
-  $UTIL scp_specific_nodes $nas_leader_ip_file $(pwd)/samba.sh $(pwd)/setup.sh
+  $UTIL scp_specific_nodes $nas_leader_ip_file $(pwd)/entrypoint.sh $(pwd)/setup.sh
   $UTIL print_success "SUCCESS: " "Sent setup scripts to NAS servers"
 }
 
