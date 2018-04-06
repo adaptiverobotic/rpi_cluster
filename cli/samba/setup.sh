@@ -151,6 +151,10 @@ uninstall_samba() {
     echo "No container samba, or could not remove"
   fi
 
+  # NOTE - This may present problems if we are
+  # installing other containers such as apache, etc
+  # before we install samba. Find a better way.
+
   if ! docker system prune --force; then
     echo "Could not prune system"
   fi

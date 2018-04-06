@@ -18,7 +18,6 @@ install_nextcloud() {
   docker volume create nextcloud
 
   echo "Starting service: nextcloud"
-
   docker service create \
   --detach \
   --name nextcloud \

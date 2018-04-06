@@ -42,6 +42,8 @@ install_pihole() {
   # Volume for storage
   docker volume create pihole
 
+  # TODO - Get this to work as a service
+
   # Run the container
   docker run -d \
   --dns=127.0.0.1 \

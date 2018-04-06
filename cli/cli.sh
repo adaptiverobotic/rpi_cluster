@@ -244,7 +244,7 @@ validate_arg() {
      [[ $method != reinstall* ]] && \
      [[ $method != uninstall* ]]; then
 
-       $UTIL print_error "ERROR: " "Only methods 'install*', 'uninstall*' , 'reinstall*' supported"
+       $UTIL print_error "FAILURE: " "Only methods 'install*', 'uninstall*' , 'reinstall*' supported"
        return 1
   fi
 }
@@ -455,6 +455,14 @@ nat() {
 
 #-------------------------------------------------------------------------------
 
+openssh() {
+  local method=$1
+  
+  ./openssh/install.sh $method
+}
+
+#-------------------------------------------------------------------------------
+
 # Stands up entire
 # environment
 magic() {
@@ -466,8 +474,12 @@ magic() {
   # TODO - Install Open SSH server
 
   setup
-  swarms         install_swarm
-  hostnames
+  # swarms         install_swarm
+  # hostnames
+
+  openssh        install_openssh
+  return 1
+
   nextcloud      install_nextcloud
   samba          install_samba
   pihole         install_pihole

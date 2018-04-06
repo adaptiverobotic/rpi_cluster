@@ -7,7 +7,8 @@ so that non-managers can get the images or nodes can push to it. This
 way I can build img:x86, and img:armv7 and the appropriate machine
 knows who to pull from. This is some extra work, so I think we are just going
 to have to live with machines not restarting containers after power outage.
-Too much work.
+Too much work. Perhaps, I can run the docker-registry container in each swarm.
+Or perhaps dedicate an entire server to that.
 
 * Figure out how to see the specs of a machine, and perhaps
 do not assign lower end specs, specific tasks. We will handle this
