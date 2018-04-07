@@ -46,6 +46,7 @@ declare_variables() {
 
   # Setting and validating global credentials
   readonly credentials_dir="$ASSETS/credentials"
+  readonly report_file="$credentials_dir/report.txt"
   readonly hostname_file="$credentials_dir/hostname"
   readonly user_file="$credentials_dir/user"
   readonly password_file="$credentials_dir/password"
@@ -86,16 +87,11 @@ build_src() {
 # TODO - Use Makefile, currently
 # just makes sure things are executable
 build_sh() {
-  # Make sure every script is
-  # runnable with ./script_name.sh syntax
-  # That way the appropriate shell
-  # (bash, sh, expect) is run for a given script
-
   # TODO - Make sure curl is installed
   # TODO - Make sure sshpass is installed
   # TODO - Might be worth packaging the cli.sh
   # with dpkg so we can allow apt-get to
-  # manage dependency managment
+  # do dependency managment
 
   sudo apt-get install -y        \
                        net-tools \
@@ -103,6 +99,10 @@ build_sh() {
                        curl      \
                        sshpass
 
+  # Make sure every script is
+  # runnable with ./script_name.sh syntax
+  # That way the appropriate shell
+  # (bash, sh, expect) is run for a given script
   chmod +x **/*.sh
 }
 
@@ -291,7 +291,7 @@ health_check() {
   local cluster_url="http://$(head -n 1 $IPS):9000/#/auth"
 
   # Health check on entire system
-  $UTIL print_as_list "Performing health check on following servers(s):"  \
+  $UTIL print_as_list "Performing health check on following servers(s): "  \
                        DNS \
                        PXE \
                        SSH \
@@ -300,6 +300,12 @@ health_check() {
 
   # TODO - Check ssh, smb, nfs some other way
   # Curl each cluster's page
+
+  # TODO - Perhaps, temporarily disable "set -e" for
+  # this. We can simply say which ones passed and
+  # which ones didn't. Sometime more time is just needed
+  # and we may not want to exit execution because of a
+  # false negative.
   $UTIL health_check "DNS" 3 15 $pihole_url
   $UTIL health_check "PXE" 3 30 $pxe_url
   $UTIL health_check "SSH" 3 30 $ssh_url
@@ -309,12 +315,21 @@ health_check() {
   # We are good to go
   $UTIL print_success "SUCCESS: " "System up and healthy"
 
+  echo "Writing report"
+
   # Show login credentials
-  $UTIL display_entry_point "DNS" $pihole_url
-  $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
-  $UTIL display_entry_point "PXE" $pxe_url       "admin"
-  $UTIL display_entry_point "SSH" $ssh_url       "admin"
-  $UTIL display_entry_point "GEN" $cluster_url   "admin"
+  (
+    $UTIL display_entry_point "DNS" $pihole_url
+    $UTIL display_entry_point "NAS" $nextcloud_url $COMMON_USER
+    $UTIL display_entry_point "PXE" $pxe_url       "admin"
+    $UTIL display_entry_point "SSH" $ssh_url       "admin"
+    $UTIL display_entry_point "GEN" $cluster_url   "admin"
+  ) > $report_file
+
+  echo "The login credentials can be found at: $report_file"
+
+  # TODO - Prompt the user if they want to open the
+  # browser, count down. If no input, default to "No"
 
   # Open all the tabs
   launch_browser   \
@@ -481,6 +496,13 @@ magic() {
 
   # TODO - Perhaps check that setup() was run
   # instead of running it in the magic function?
+  # Wecan SSH into each server in our list and
+  # quickly check that the "docker" command is installed.
+  # And just to be fancy, perhaps we can check that the
+  # correct version of the OS and visudo is properly
+  # handled. That way we won't get those random hanging
+  # issues if some script uses "sudo", but we have not
+  # enabled passwordless sudo.
 
   # TODO - Install a PXE server
 
@@ -562,7 +584,7 @@ main() {
     # Anything else
     # is not accepted
     *)
-      $UTIL print_error "FAILURE: " $"Usage: $0 build | setup | magic"
+      $UTIL print_error "FAILURE: " $"Usage: $0 build | setup | magic install"
       return 1
   esac
 
